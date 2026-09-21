@@ -1,0 +1,10 @@
+# OSRSheim elite unique - Morgen (1/256 OSRS, elite class) - authored 2026-09-21
+# Base MaceEldner; relative twist only (no base dump).
+name: OSRS_AbyssalBludgeon
+clonePrefabName: MaceEldner
+m_name: Morgen's cudgel
+m_description: A morgen's heart bound into a club. It beats when swung, and swings quicker for it.
+Primary_Attack:
+  Custom_AttackSpeed: 1.1
+Secondary_Attack:
+  Custom_AttackSpeed: 1.1

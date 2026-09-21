@@ -1,0 +1,13 @@
+# OSRSheim p9-9 boss unique — Dragon (Moder) — authored 2026-09-19
+# Base ShieldSilver (dump: weight 5, blockPower 60 (+6/lvl), deflectionForce 40).
+# NOTE: the dump also reports Armor.armor=200 on this shield - that is vanilla's
+# own value, left untouched.
+name: OSRS_DragonfireShield
+clonePrefabName: ShieldSilver
+m_name: Drakeskull shield
+m_description: Forged around a drake's skull. Turns a heavy blow into a shrug.
+m_weight: 5.75
+ShieldStats:
+  m_blockPower: 69
+  m_blockPowerPerLevel: 6
+  m_deflectionForce: 46

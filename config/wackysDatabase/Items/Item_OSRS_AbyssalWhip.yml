@@ -1,0 +1,28 @@
+# OSRSheim p9-9 boss unique — SeekerQueen — authored 2026-09-19
+# Base SwordMistwalker (dump: weight 0.8, Frost 40 + Slash 75, stamina 16,
+#   Damage_Per_Level = Frost 6 + SPIRIT 5).
+# Doug's call: strip the frost burst -> Frost zeroed in BOTH Damage and
+#   Damage_Per_Level. Slash 75 -> 64 (-15%). Stamina 16 -> 14.
+# FLAGGED FOR DOUG: the per-level Spirit 5 was not visible before the dump - it
+#   is Mistwalker's anti-undead scaling, not frost, so "pure slash" arguably
+#   wants it gone too. Left AT BASE pending his call; zero it here if he agrees.
+name: OSRS_AbyssalWhip
+clonePrefabName: SwordMistwalker
+m_name: Queen's lash
+m_description: Torn from something with no bottom to it. Lashes faster than a blade.
+m_weight: 0.8
+Damage:
+  Frost: 0
+  Slash: 64
+Damage_Per_Level:
+  Frost: 0
+  Spirit: 5
+Primary_Attack:
+  Custom_AttackSpeed: 1.2
+  m_attackStamina: 14
+Secondary_Attack:
+  Custom_AttackSpeed: 1.2
+# VERIFY-BY-FEEL: Custom_AttackSpeed cannot be confirmed by dumping this item
+# back out - wackydb normalizes it to 1 on save (README FAQ line 135), and a
+# wackydb_save_item on THIS file would silently reset the value below to 1.
+# Never re-save over this file; every other twist here is dump-confirmed.

@@ -1,0 +1,9 @@
+# OSRSheim p9-11 skillcape — authored 2026-09-19
+# Clone of CapeLinen (prefab name verified in EpicLoot 1.0 iteminfo.json).
+# Cosmetic trophy: no stat twist beyond weight. Gated at level 100 in
+# WackyMole.ItemRequiresSkillLevel.yml; no recipe (sold by a KG NPC).
+name: OSRS_CapeSpears
+clonePrefabName: CapeLinen
+m_name: Spears cape
+m_description: Thrown or held, it finds the gap.
+m_weight: 1

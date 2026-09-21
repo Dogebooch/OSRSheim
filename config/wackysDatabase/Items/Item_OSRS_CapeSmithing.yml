@@ -1,0 +1,9 @@
+# OSRSheim p9-11 skillcape — authored 2026-09-19
+# Clone of CapeLinen (prefab name verified in EpicLoot 1.0 iteminfo.json).
+# Cosmetic trophy: no stat twist beyond weight. Gated at level 100 in
+# WackyMole.ItemRequiresSkillLevel.yml; no recipe (sold by a KG NPC).
+name: OSRS_CapeSmithing
+clonePrefabName: CapeLinen
+m_name: Blacksmithing cape
+m_description: Ore goes in. Perfection comes out.
+m_weight: 1

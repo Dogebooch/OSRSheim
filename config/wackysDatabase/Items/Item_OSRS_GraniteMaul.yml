@@ -1,0 +1,12 @@
+# OSRSheim elite unique - StoneGolem (1/256 OSRS, elite class) - authored 2026-09-21
+# Base SledgeIron; relative twists only (no base dump).
+name: OSRS_GraniteMaul
+clonePrefabName: SledgeIron
+m_name: Golemheart hammer
+m_description: A golem's core set in iron. Everything it lands on is thrown back.
+Primary_Attack:
+  StaggerMultiplier: 1.5
+  ForceMultiplier: 1.5
+Secondary_Attack:
+  StaggerMultiplier: 1.5
+  ForceMultiplier: 1.5

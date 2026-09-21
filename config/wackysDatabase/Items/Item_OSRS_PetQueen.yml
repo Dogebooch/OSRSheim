@@ -1,0 +1,8 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — SeekerQueen — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_PetQueen
+clonePrefabName: TrophySeekerQueen
+m_name: Mist broodling
+m_description: Chitters at the mist. You have stopped asking what it eats.
+m_weight: 0.1

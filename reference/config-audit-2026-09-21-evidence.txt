@@ -1,0 +1,213 @@
+Installed kg.Marketplace.dll SHA256: a8f3ce445bc1e629c3b8764a4143b185aee44596a6c7d8e142011f745fcf2e62
+
+kg-quest-parser.cs:214-244
+214: 	private static void ParseCooldown(string value, out int cooldownDays, out int cooldownSeconds, out int timeLimit)
+215: 	{
+216: 		cooldownDays = 0;
+217: 		cooldownSeconds = 0;
+218: 		timeLimit = 0;
+219: 		if (string.IsNullOrWhiteSpace(value))
+220: 		{
+221: 			return;
+222: 		}
+223: 		string[] array = value.Replace(" ", "").Split(new char[1] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+224: 		if (array.Length != 0)
+225: 		{
+226: 			string text = array[0].ToLowerInvariant();
+227: 			if (text.EndsWith("s"))
+228: 			{
+229: 				string s = text.TrimEnd('s');
+230: 				int.TryParse(s, out cooldownSeconds);
+231: 			}
+232: 			else if (text.EndsWith("d"))
+233: 			{
+234: 				string s2 = text.TrimEnd('d');
+235: 				int.TryParse(s2, out cooldownDays);
+236: 			}
+237: 			else
+238: 			{
+239: 				int.TryParse(text, out cooldownDays);
+240: 			}
+241: 		}
+242: 		if (array.Length > 1)
+243: 		{
+244: 			int.TryParse(array[1], out timeLimit);
+
+kg-quest-parser.cs:299-366
+299: 	private static void ParseTargets(Quests_DataTypes.QuestType type, string value, out string[] prefabs, out int[] counts, out int[] levels, out List<string> additionalData)
+300: 	{
+301: 		if (type != Quests_DataTypes.QuestType.Talk && type != Quests_DataTypes.QuestType.Move)
+302: 		{
+303: 			value = value.ReplaceSpacesOutsideQuotes();
+304: 		}
+305: 		string[] array = value.Split('|');
+306: 		int num = Mathf.Max(1, array.Length);
+307: 		prefabs = new string[(type == Quests_DataTypes.QuestType.KillAndCollect) ? (num * 2) : num];
+308: 		counts = new int[num];
+309: 		levels = new int[num];
+310: 		additionalData = new List<string>();
+311: 		for (int i = 0; i < num; i++)
+312: 		{
+313: 			string[] array2 = array[i].Split(',');
+314: 			prefabs[i] = array2[0];
+315: 			counts[i] = 1;
+316: 			levels[i] = 1;
+317: 			switch (type)
+318: 			{
+319: 			case Quests_DataTypes.QuestType.Kill:
+320: 				levels[i] = ((array2.Length < 3) ? 1 : Mathf.Max(1, Convert.ToInt32(array2[2]) + 1));
+321: 				counts[i] = Mathf.Max(1, int.Parse(array2[1]));
+322: 				break;
+323: 			case Quests_DataTypes.QuestType.Collect:
+324: 			case Quests_DataTypes.QuestType.Craft:
+325: 				if (array2.Length >= 3)
+326: 				{
+327: 					levels[i] = Mathf.Max(1, Convert.ToInt32(array2[2]));
+328: 				}
+329: 				counts[i] = Mathf.Max(1, int.Parse(array2[1]));
+330: 				break;
+331: 			case Quests_DataTypes.QuestType.Use:
+332: 				if (array2.Length >= 3)
+333: 				{
+334: 					levels[i] = ((!int.TryParse(array2[2], out var result)) ? 1 : Mathf.Max(1, result));
+335: 					additionalData.Add(array2[2]);
+336: 				}
+337: 				counts[i] = Mathf.Max(1, int.Parse(array2[1]));
+338: 				break;
+339: 			case Quests_DataTypes.QuestType.Harvest:
+340: 			case Quests_DataTypes.QuestType.Build:
+341: 				counts[i] = Mathf.Max(1, int.Parse(array2[1]));
+342: 				break;
+343: 			case Quests_DataTypes.QuestType.Move:
+344: 				prefabs[i] = array[i].ReplaceSpacesOutsideQuotes();
+345: 				if (array2.Length >= 5)
+346: 				{
+347: 					levels[i] = (bool.Parse(array2[4]) ? 1 : 0);
+348: 				}
+349: 				break;
+350: 			case Quests_DataTypes.QuestType.Activate:
+351: 			{
+352: 				for (int j = 1; j < array2.Length; j++)
+353: 				{
+354: 					additionalData.Add(array2[j]);
+355: 				}
+356: 				break;
+357: 			}
+358: 			case Quests_DataTypes.QuestType.Talk:
+359: 				prefabs[i] = array[i].Trim();
+360: 				break;
+361: 			case Quests_DataTypes.QuestType.KillAndCollect:
+362: 				ParseKillAndCollectTarget(i, array2, prefabs, counts, levels, additionalData);
+363: 				break;
+364: 			}
+365: 		}
+366: 	}
+
+kg-quest-data.cs:270-270
+270: 
+
+kg-quest-data.cs:1528-1546
+1528: 		public static bool TryAddRewardTalk(string name)
+1529: 		{
+1530: 			foreach (KeyValuePair<int, Quest> item in AcceptedQuests.Where<KeyValuePair<int, Quest>>((KeyValuePair<int, Quest> q) => q.Value.Type == QuestType.Talk && !q.Value.IsComplete()))
+1531: 			{
+1532: 				for (int num = 0; num < item.Value.TargetAmount; num++)
+1533: 				{
+1534: 					if (!item.Value.IsComplete(num) && item.Value.TargetPrefab[num] == name)
+1535: 					{
+1536: 						item.Value.ScoreArray[num] = 1;
+1537: 						if (item.Value.IsComplete())
+1538: 						{
+1539: 							RemoveQuestComplete(item.Key);
+1540: 						}
+1541: 						return true;
+1542: 					}
+1543: 				}
+1544: 			}
+1545: 			return false;
+1546: 		}
+
+kg-buffer-data.cs:270-288
+270: 		public override void ModifyAttack(SkillType skill, ref HitData hitData)
+271: 		{
+272: 			hitData.ApplyModifier(Data.ModifyList[WhatToModify.ModifyAttack]);
+273: 		}
+274: 
+275: 		public override void ModifyHealthRegen(ref float regenMultiplier)
+276: 		{
+277: 			regenMultiplier *= Data.ModifyList[WhatToModify.ModifyHealthRegen];
+278: 		}
+279: 
+280: 		public override void ModifyStaminaRegen(ref float staminaRegen)
+281: 		{
+282: 			staminaRegen *= Data.ModifyList[WhatToModify.ModifyStaminaRegen];
+283: 		}
+284: 
+285: 		public override void ModifyRaiseSkill(SkillType skill, ref float value)
+286: 		{
+287: 			value *= Data.ModifyList[WhatToModify.ModifyRaiseSkills];
+288: 		}
+
+kg-buffer-data.cs:318-326
+318: 		}
+319: 
+320: 		public override void OnDamaged(HitData hit, Character attacker)
+321: 		{
+322: 			float num = Mathf.Clamp01(1f - Data.ModifyList[WhatToModify.DamageReduction]);
+323: 			hit.ApplyModifier(num);
+324: 		}
+325: 	}
+326: 
+
+kg-buffer-parser.cs:115-137
+115: 				bufferBuffData.NeededPrefabCount = int.Parse(array[1]);
+116: 				Buffer_DataTypes.WhatToModify whatToModify = Buffer_DataTypes.WhatToModify.None;
+117: 				string[] array2 = profiles[i + 4].Replace(" ", "").Split(',');
+118: 				string[] array3 = array2;
+119: 				foreach (string text2 in array3)
+120: 				{
+121: 					string[] array4 = text2.Split('=');
+122: 					if (array4.Length == 2)
+123: 					{
+124: 						string value = array4[0];
+125: 						float value2 = float.Parse(array4[1], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+126: 						if (Enum.TryParse<Buffer_DataTypes.WhatToModify>(value, ignoreCase: true, out var result))
+127: 						{
+128: 							whatToModify |= result;
+129: 							bufferBuffData.ModifyList[result] = value2;
+130: 						}
+131: 					}
+132: 				}
+133: 				bufferBuffData.Flags = whatToModify;
+134: 				bufferBuffData.StartEffectPrefab = profiles[i + 5].Replace(" ", "");
+135: 				bufferBuffData.BuffGroup = profiles[i + 6].Trim(' ');
+136: 				newBuffs.Add(bufferBuffData);
+137: 				text = null;
+
+kg-npc.cs:1251-1254
+1251: 		public string GetClearNPCName()
+1252: 		{
+1253: 			return Regex.Replace(GetNPCName(), "</?(?!color\\b)\\w+[^>]*>", "");
+1254: 		}
+
+kg-npc.cs:1353-1357
+1353: 			if (Quests_DataTypes.Quest.TryAddRewardTalk(GetClearNPCName()))
+1354: 			{
+1355: 				Quests_UIs.AcceptedQuestsUI.CheckQuests();
+1356: 				return true;
+1357: 			}
+
+kg-dialogue-ui.cs:284-296
+284: 		if (Global_Configs.SyncedGlobalOptions.Value._autoAddCloseDialogueButton)
+285: 		{
+286: 			GameObject val2 = Object.Instantiate<GameObject>(Dialogue_Element, Content);
+287: 			Elements.Add(val2);
+288: 			((Component)val2.transform.Find("Text")).GetComponent<Text>().text = Localization.instance.Localize("$mpasn_close");
+289: 			((Component)val2.transform.Find("Indexer/Text")).GetComponent<Text>().text = $"{++num}";
+290: 			((Graphic)((Component)val2.transform.Find("line")).GetComponent<Image>()).color = Color.white;
+291: 			((Graphic)((Component)val2.transform.Find("Indexer/bg")).GetComponent<Image>()).color = Color.white;
+292: 			HotbarActions[num] = OnClickClose;
+293: 			((UnityEvent)val2.GetComponent<Button>().onClick).AddListener(new UnityAction(OnClickClose));
+294: 		}
+295: 		ResetFitters();
+296: 		static void OnClickClose()

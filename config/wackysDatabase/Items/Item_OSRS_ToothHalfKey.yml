@@ -1,0 +1,7 @@
+# OSRSheim crystal chest - tooth half of a key (Gem T2-T4 1/1024, Rare T2-T5 1/256) - authored 2026-09-21
+# Needle clone: material only, no stat block.
+name: OSRS_ToothHalfKey
+clonePrefabName: Needle
+m_name: Tooth half of a crystal key
+m_description: The bit of a crystal key. Useless without its loop.
+m_weight: 0.1

@@ -1,0 +1,3408 @@
+{
+  "review_date": "2026-09-21",
+  "profile_config_root": "C:\\Users\\drumm\\AppData\\Roaming\\com.kesomannen.gale\\valheim\\profiles\\OSRSheim\\BepInEx\\config",
+  "scope": {
+    "files": 337,
+    "current_profile_files": 146,
+    "inactive_almanac_files": 191,
+    "cfg": 58,
+    "yaml": 264,
+    "json": 15,
+    "checks": [
+      "Each YAML/JSON parsed with duplicate-key rejection",
+      "CFG sections/keys, assignment syntax, generated type/range/enum metadata",
+      "Drop That and Spawn That custom field names against current author schema tables",
+      "303 WIRSL entries with documented schema and scalar types",
+      "56 wackydb item files against current source field names",
+      "Marketplace positional block sizes, numeric formats, profiles and references; targeted installed-DLL parser review",
+      "MWL trader records and Fishing bait matrix types",
+      "273 recipe strings checked for prefab:integer amount form",
+      "Existing project validator: 0 errors and 0 warnings"
+    ],
+    "limits": [
+      "No game launch or runtime behavior testing",
+      "Backup-suffix files, caches, saves, plugin asset data and staged quest-pass changes excluded",
+      "Latest public descriptions are not complete schemas for every mod; generated installed-version metadata used for CFG types/ranges",
+      "No current documentation review for disabled Almanac; syntax-only scan of its leftovers"
+    ]
+  },
+  "findings": [
+    {
+      "id": "KG-1",
+      "severity": "error",
+      "file": "Marketplace\\Configs\\Quests\\osrsheim_collection_log.cfg",
+      "line": 8,
+      "also_file": "Marketplace\\Configs\\Quests\\osrsheim_quests_free.cfg",
+      "also_line": 64,
+      "affected_entries": 138,
+      "problem": "Talk targets retain literal double quotes in installed 10.0.1-beta.1, preventing exact match to unquoted NPC names.",
+      "correction": "Remove surrounding quotes only from Talk target lines; preserve spaces. Fix gen-collection-log.py as source of generated quests before regeneration.",
+      "evidence": "Quests_Main_Server.ParseTargets Talk case uses array[i].Trim(); Quest.TryAddRewardTalk compares TargetPrefab[num] == name; NPCcomponent.Interact passes GetClearNPCName().",
+      "documentation_conflict": "Current quests docs recommend quotes, but installed parser retains them."
+    },
+    {
+      "id": "KG-2",
+      "severity": "error",
+      "file": "Marketplace\\Configs\\Buffers\\osrsheim_prayers.cfg",
+      "lines": [
+        25,
+        34,
+        43,
+        52,
+        62
+      ],
+      "problem": "Five intended bonuses use sub-1 direct multipliers, reducing damage/regeneration/XP.",
+      "corrections": {
+        "piety ModifyAttack": "0.1 -> 1.1",
+        "rapid_heal ModifyHealthRegen": "0.5 -> 1.5",
+        "rapid_restore ModifyStaminaRegen": "0.3 -> 1.3",
+        "wisdom ModifyRaiseSkills": "0.1 -> 1.1",
+        "allfather_wrath ModifyAttack": "0.2 -> 1.2"
+      },
+      "evidence": "Buffer_Main_Server assigns parsed float directly; BufferMain.ModifyAttack passes value to ApplyModifier; health/stamina/skill methods multiply by value. DamageReduction separately applies 1 - value and is correct."
+    },
+    {
+      "id": "UI-1",
+      "severity": "compatibility warning",
+      "file": "MK_BetterUI.cfg",
+      "line": 92,
+      "problem": "showCustomTooltips=true conflicts with EpicLoot tooltip properties per both mods documentation.",
+      "correction": "showCustomTooltips = false",
+      "source": "https://thunderstore.io/c/valheim/p/RandyKnapp/EpicLoot/"
+    }
+  ],
+  "ruled_out": [
+    "Wizardry UsageTagFlags = 0 is a numeric enum value also present in generated config",
+    "DropTable parent sections omitted: existing loaded dump confirms entries are accepted",
+    "Nine reply-less goodbye nodes: AutoAddCloseDialogueButton=true and installed UI inserts Close",
+    "Quest cooldown 36500 is days and 60s is seconds in installed parser, despite conflicting website prose"
+  ],
+  "mods": [
+    {
+      "mod": "Drop_That",
+      "installed": "3.1.5",
+      "documentation_version": "3.1.5",
+      "source": "https://thunderstore.io/c/valheim/p/ASharpPen/Drop_That/",
+      "result": "No configuration format errors found",
+      "files": [
+        "drop_that.cfg",
+        "drop_that.character_drop.cfg",
+        "drop_that.character_drop.osrsheim_superiors.cfg",
+        "drop_that.character_drop_list.shared_tables.cfg",
+        "drop_that.drop_table.cfg"
+      ]
+    },
+    {
+      "mod": "Spawn_That",
+      "installed": "1.2.19",
+      "documentation_version": "1.2.19",
+      "source": "https://thunderstore.io/c/valheim/p/ASharpPen/Spawn_That/",
+      "result": "No configuration format errors found",
+      "files": [
+        "spawn_that.cfg",
+        "spawn_that.local_spawners_advanced.cfg",
+        "spawn_that.simple.cfg",
+        "spawn_that.spawnarea_spawners.cfg",
+        "spawn_that.world_spawners_advanced.cfg"
+      ]
+    },
+    {
+      "mod": "AzuExtendedPlayerInventory",
+      "installed": "2.5.1",
+      "documentation_version": "2.5.1",
+      "source": "https://valheim.hexium.gg/mods/Azumatt/AzuExtendedPlayerInventory",
+      "result": "No configuration format errors found",
+      "files": [
+        "Azumatt.AzuExtendedPlayerInventory.cfg"
+      ]
+    },
+    {
+      "mod": "BetterUI_ForeverMaintained",
+      "installed": "2.5.12",
+      "documentation_version": "2.5.12",
+      "source": "https://valheim.hexium.gg/mods/BetterUI_ForeverMaintained/BetterUI_ForeverMaintained",
+      "result": "Format checks pass; tooltip compatibility warning UI-1",
+      "files": [
+        "MK_BetterUI.cfg"
+      ]
+    },
+    {
+      "mod": "SkillGainModifier",
+      "installed": "0.1.1",
+      "documentation_version": "0.1.1",
+      "source": "https://thunderstore.io/c/valheim/p/JuJuz1/SkillGainModifier/",
+      "result": "No configuration format errors found",
+      "files": [
+        "jujuz1.mods.skillgainmodifier.cfg"
+      ]
+    },
+    {
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "installed": "10.0.1-beta.1",
+      "documentation_version": "10.0.1-beta.1",
+      "source": "https://kg-marketplace.pages.dev/",
+      "result": "Two semantic configuration errors KG-1 and KG-2; syntax/layout checks pass",
+      "files": [
+        "Marketplace\\Configs\\Bankers\\osrsheim_bank.cfg",
+        "Marketplace\\Configs\\BufferProfiles\\osrsheim_chapel.cfg",
+        "Marketplace\\Configs\\Buffers\\osrsheim_prayers.cfg",
+        "Marketplace\\Configs\\Dialogues\\osrsheim_collection_log.cfg",
+        "Marketplace\\Configs\\Dialogues\\osrsheim_dialogues.cfg",
+        "Marketplace\\Configs\\Factions.yml",
+        "Marketplace\\Configs\\Gamblers\\osrsheim_gamblers.cfg",
+        "Marketplace\\Configs\\LeaderboardAchievements\\osrsheim_hiscores.cfg",
+        "Marketplace\\Configs\\QuestEvents\\osrsheim_slayer_skip.cfg",
+        "Marketplace\\Configs\\QuestProfiles\\osrsheim_collection_log.cfg",
+        "Marketplace\\Configs\\QuestProfiles\\osrsheim_quest_profiles.cfg",
+        "Marketplace\\Configs\\Quests\\osrsheim_collection_log.cfg",
+        "Marketplace\\Configs\\Quests\\osrsheim_quests_free.cfg",
+        "Marketplace\\Configs\\Quests\\osrsheim_quests_slayer.cfg",
+        "Marketplace\\Configs\\RandomNpcSpeech.yml",
+        "Marketplace\\Configs\\ServerInfos\\osrsheim_guide.cfg",
+        "Marketplace\\Configs\\Teleporters\\osrsheim_teleports.cfg",
+        "Marketplace\\Configs\\Territories\\README-osrsheim.cfg",
+        "Marketplace\\Configs\\Traders\\osrsheim_traders.cfg",
+        "Marketplace\\DiscordWebhooks\\DiscordSettings.cfg",
+        "Marketplace\\DistancedUI\\DistancedUI.cfg",
+        "Marketplace\\MarketPlace.cfg",
+        "Marketplace\\PlayerTags\\PlayerTags.cfg",
+        "MarketplaceAndServerNPCs.cfg"
+      ]
+    },
+    {
+      "mod": "OdinShipPlus",
+      "installed": "0.8.3",
+      "documentation_version": "0.8.3",
+      "source": "https://valheim.hexium.gg/mods/Marlthon/OdinShipPlus",
+      "result": "No configuration format errors found",
+      "files": [
+        "marlthon.OdinShipPlus.cfg"
+      ]
+    },
+    {
+      "mod": "PotionPlus",
+      "installed": "4.3.4",
+      "documentation_version": "4.3.4",
+      "source": "https://valheim.hexium.gg/mods/OdinPlus/PotionPlus",
+      "result": "No configuration format errors found",
+      "files": [
+        "com.odinplus.potionsplus.cfg"
+      ]
+    },
+    {
+      "mod": "EpicLoot",
+      "installed": "0.14.11",
+      "documentation_version": "0.14.11",
+      "source": "https://thunderstore.io/c/valheim/p/RandyKnapp/EpicLoot/",
+      "result": "Format checks pass; tooltip compatibility warning UI-1",
+      "files": [
+        "EpicLoot\\baseconfig\\abilities.json",
+        "EpicLoot\\baseconfig\\adventuredata.json",
+        "EpicLoot\\baseconfig\\biomedata.json",
+        "EpicLoot\\baseconfig\\enchantcosts.json",
+        "EpicLoot\\baseconfig\\enchantingupgrades.json",
+        "EpicLoot\\baseconfig\\iteminfo.json",
+        "EpicLoot\\baseconfig\\itemnames.json",
+        "EpicLoot\\baseconfig\\itemsorter.json",
+        "EpicLoot\\baseconfig\\legendaries.json",
+        "EpicLoot\\baseconfig\\loottables.json",
+        "EpicLoot\\baseconfig\\magiceffects.json",
+        "EpicLoot\\baseconfig\\materialconversions.json",
+        "EpicLoot\\baseconfig\\shardstoneconversions.json",
+        "EpicLoot\\baseconfig\\shardstones.json",
+        "EpicLoot\\configstate.json",
+        "randyknapp.mods.epicloot.cfg"
+      ]
+    },
+    {
+      "mod": "Trolling_Fishing",
+      "installed": "1.1.3",
+      "documentation_version": "1.1.3",
+      "source": "https://valheim.hexium.gg/mods/sighsorry/Trolling_Fishing",
+      "result": "No configuration format errors found",
+      "files": [
+        "sighsorry.TrollingFishing.cfg",
+        "TrollingFishing.yml"
+      ]
+    },
+    {
+      "mod": "Blacksmithing",
+      "installed": "1.3.6",
+      "documentation_version": "1.3.6",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Blacksmithing",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.blacksmithing.cfg"
+      ]
+    },
+    {
+      "mod": "Building",
+      "installed": "1.2.7",
+      "documentation_version": "1.2.7",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Building",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.building.cfg"
+      ]
+    },
+    {
+      "mod": "Cooking",
+      "installed": "1.2.3",
+      "documentation_version": "1.2.3",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Cooking",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.cooking.cfg"
+      ]
+    },
+    {
+      "mod": "CreatureLevelAndLootControl",
+      "installed": "5.0.4",
+      "documentation_version": "5.0.4",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/CreatureLevelAndLootControl",
+      "result": "No configuration format errors found",
+      "files": [
+        "CreatureConfig.yml",
+        "ItemConfig.yml",
+        "org.bepinex.plugins.creaturelevelcontrol.cfg"
+      ]
+    },
+    {
+      "mod": "Evasion",
+      "installed": "1.0.5",
+      "documentation_version": "1.0.5",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Evasion",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.evasion.cfg"
+      ]
+    },
+    {
+      "mod": "Exploration",
+      "installed": "1.0.5",
+      "documentation_version": "1.0.5",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Exploration",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.exploration.cfg"
+      ]
+    },
+    {
+      "mod": "Farming",
+      "installed": "2.2.3",
+      "documentation_version": "2.2.3",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Farming",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.farming.cfg"
+      ]
+    },
+    {
+      "mod": "Foraging",
+      "installed": "1.0.11",
+      "documentation_version": "1.0.11",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Foraging",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.foraging.cfg"
+      ]
+    },
+    {
+      "mod": "Lumberjacking",
+      "installed": "1.0.7",
+      "documentation_version": "1.0.7",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Lumberjacking",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.lumberjacking.cfg"
+      ]
+    },
+    {
+      "mod": "Mining",
+      "installed": "1.1.7",
+      "documentation_version": "1.1.7",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Mining",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.mining.cfg"
+      ]
+    },
+    {
+      "mod": "Ranching",
+      "installed": "1.1.9",
+      "documentation_version": "1.1.9",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Ranching",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.ranching.cfg"
+      ]
+    },
+    {
+      "mod": "Sailing",
+      "installed": "1.1.9",
+      "documentation_version": "1.1.9",
+      "source": "https://valheim.hexium.gg/mods/Smoothbrain/Sailing",
+      "result": "No configuration format errors found",
+      "files": [
+        "org.bepinex.plugins.sailing.cfg"
+      ]
+    },
+    {
+      "mod": "XPortal",
+      "installed": "1.2.25",
+      "documentation_version": "1.2.25",
+      "source": "https://github.com/SpikeHimself/XPortal/blob/main/README.md",
+      "result": "No configuration format errors found",
+      "files": [
+        "yay.spikehimself.xportal.cfg"
+      ]
+    },
+    {
+      "mod": "Wizardry",
+      "installed": "1.2.0",
+      "documentation_version": "1.2.0",
+      "source": "https://thunderstore.io/c/valheim/p/Therzie/Wizardry/",
+      "result": "No configuration format errors found",
+      "files": [
+        "Therzie.Wizardry.cfg",
+        "TherzieTranslations\\Wizardry\\Wizardry.Chinese.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.English-LatestUpToDate.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.French.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.German.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Italian.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Korean.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Polish.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Portuguese_Brazilian.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Russian.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Spanish.yml",
+        "TherzieTranslations\\Wizardry\\Wizardry.Thai.yml"
+      ]
+    },
+    {
+      "mod": "Jotunn",
+      "installed": "2.30.2",
+      "documentation_version": "2.30.2",
+      "source": "https://valheim.hexium.gg/mods/ValheimModding/Jotunn",
+      "result": "Current documentation reviewed; no separate user config present in profile",
+      "files": []
+    },
+    {
+      "mod": "JsonDotNET",
+      "installed": "13.0.4",
+      "documentation_version": "13.0.4",
+      "source": "https://valheim.hexium.gg/mods/ValheimModding/JsonDotNET",
+      "result": "Current documentation reviewed; no separate user config present in profile",
+      "files": []
+    },
+    {
+      "mod": "YamlDotNet",
+      "installed": "16.3.1",
+      "documentation_version": "16.3.1",
+      "source": "https://valheim.hexium.gg/mods/ValheimModding/YamlDotNet",
+      "result": "Current documentation reviewed; no separate user config present in profile",
+      "files": []
+    },
+    {
+      "mod": "WackyItemRequiresSkillLevel",
+      "installed": "1.4.7",
+      "documentation_version": "1.4.7",
+      "source": "https://valheim.hexium.gg/mods/WackyMole/WackyItemRequiresSkillLevel",
+      "result": "No configuration format errors found",
+      "files": [
+        "WackyMole.ItemRequiresSkillLevel.cfg",
+        "WackyMole.ItemRequiresSkillLevel.yml"
+      ]
+    },
+    {
+      "mod": "WackysDatabase",
+      "installed": "2.5.34",
+      "documentation_version": "2.5.34",
+      "source": "https://valheim.hexium.gg/mods/WackyMole/WackysDatabase",
+      "result": "No configuration format errors found",
+      "files": [
+        "WackyMole.WackysDatabase.cfg",
+        "wackysDatabase\\Items\\Item_OSRS_AbyssalBludgeon.yml",
+        "wackysDatabase\\Items\\Item_OSRS_AbyssalWhip.yml",
+        "wackysDatabase\\Items\\Item_OSRS_BandosGodsword.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeAgility.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeAxes.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeBloodMagic.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeClubs.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeConstruction.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeCooking.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeCrossbow.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeDefence.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeFarming.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeFishing.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeHerblore.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeHunter.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeKnives.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeMagic.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeMax.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeMining.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapePolearms.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeRanged.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeSailing.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeSmithing.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeSpears.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeStrength.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeSwords.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CapeWoodcutting.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CrystalBow.yml",
+        "wackysDatabase\\Items\\Item_OSRS_CrystalKey.yml",
+        "wackysDatabase\\Items\\Item_OSRS_DragonAxe.yml",
+        "wackysDatabase\\Items\\Item_OSRS_DragonBattleaxe.yml",
+        "wackysDatabase\\Items\\Item_OSRS_DragonfireShield.yml",
+        "wackysDatabase\\Items\\Item_OSRS_DragonHalberd.yml",
+        "wackysDatabase\\Items\\Item_OSRS_DraugrVisage.yml",
+        "wackysDatabase\\Items\\Item_OSRS_GracefulCape.yml",
+        "wackysDatabase\\Items\\Item_OSRS_GraniteMaul.yml",
+        "wackysDatabase\\Items\\Item_OSRS_HillGiantClub.yml",
+        "wackysDatabase\\Items\\Item_OSRS_InfernalCape.yml",
+        "wackysDatabase\\Items\\Item_OSRS_JalNibRek.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelBonemass.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelEikthyr.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelElder.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelModer.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelQueen.yml",
+        "wackysDatabase\\Items\\Item_OSRS_KeelYagluth.yml",
+        "wackysDatabase\\Items\\Item_OSRS_LoopHalfKey.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetBonemass.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetEikthyr.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetElder.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetFrozenKing.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetModer.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetQueen.yml",
+        "wackysDatabase\\Items\\Item_OSRS_PetYagluth.yml",
+        "wackysDatabase\\Items\\Item_OSRS_RuneScimitar.yml",
+        "wackysDatabase\\Items\\Item_OSRS_ScytheOfVitur.yml",
+        "wackysDatabase\\Items\\Item_OSRS_ToothHalfKey.yml"
+      ]
+    },
+    {
+      "mod": "More_World_Locations_AIO",
+      "installed": "5.1.1",
+      "documentation_version": "5.1.1",
+      "source": "https://thunderstore.io/c/valheim/p/warpalicious/More_World_Locations_AIO/",
+      "result": "No configuration format errors found",
+      "files": [
+        "warpalicious.More_World_Locations_AIO.cfg",
+        "warpalicious.More_World_Locations_TraderItems.yml"
+      ]
+    },
+    {
+      "mod": "BepInEx",
+      "installed": "5.4.2350",
+      "source": "https://docs.bepinex.dev/articles/user_guide/configuration.html",
+      "result": "No configuration format errors found",
+      "files": [
+        "BepInEx.cfg"
+      ]
+    },
+    {
+      "mod": "Almanac",
+      "installed": "disabled/absent plugin",
+      "source": null,
+      "result": "191 leftover files: syntax-only check; current documentation not reviewed for this inactive mod",
+      "files": [
+        "Almanac\\Achievements\\Alchemist.yml",
+        "Almanac\\Achievements\\Ashlands I.yml",
+        "Almanac\\Achievements\\Axesmith.yml",
+        "Almanac\\Achievements\\Beast Whisperer.yml",
+        "Almanac\\Achievements\\Blackforest I.yml",
+        "Almanac\\Achievements\\Blade in the Dark.yml",
+        "Almanac\\Achievements\\Boars I.yml",
+        "Almanac\\Achievements\\Boneshatter.yml",
+        "Almanac\\Achievements\\Bowmaster.yml",
+        "Almanac\\Achievements\\Collector.yml",
+        "Almanac\\Achievements\\Completionist.yml",
+        "Almanac\\Achievements\\Duelist.yml",
+        "Almanac\\Achievements\\Earthshaper.yml",
+        "Almanac\\Achievements\\Eikthyr I.yml",
+        "Almanac\\Achievements\\Feaster.yml",
+        "Almanac\\Achievements\\Fisherman.yml",
+        "Almanac\\Achievements\\Fleetfoot.yml",
+        "Almanac\\Achievements\\Glorious.yml",
+        "Almanac\\Achievements\\Glutton.yml",
+        "Almanac\\Achievements\\Gold Digger.yml",
+        "Almanac\\Achievements\\Harvester.yml",
+        "Almanac\\Achievements\\Hearthbound.yml",
+        "Almanac\\Achievements\\Huntsman.yml",
+        "Almanac\\Achievements\\Leaper.yml",
+        "Almanac\\Achievements\\Meadow Trophies.yml",
+        "Almanac\\Achievements\\Meadows I.yml",
+        "Almanac\\Achievements\\Miner.yml",
+        "Almanac\\Achievements\\Mistlands I.yml",
+        "Almanac\\Achievements\\Mountains I.yml",
+        "Almanac\\Achievements\\OSRSheim Antlers of the Forest.yml",
+        "Almanac\\Achievements\\OSRSheim Capecollector.yml",
+        "Almanac\\Achievements\\OSRSheim Greydwarf Slayer.yml",
+        "Almanac\\Achievements\\OSRSheim Maxed.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 01 Pet Eikthyr.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 02 Pet Elder.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 03 Pet Bonemass.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 04 Pet Moder.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 05 Pet Yagluth.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 06 Pet Queen.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 07 Jal-Nib-Rek.yml",
+        "Almanac\\Achievements\\OSRSheim Pet 08 Pet Frozen King.yml",
+        "Almanac\\Achievements\\OSRSheim Petmaster.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 01 Graceful Cape.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 02 Dragon Axe.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 03 Draugr Visage.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 04 Dragonfire Shield.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 05 Bandos Godsword.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 06 Abyssal Whip.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 07 Infernal Cape.yml",
+        "Almanac\\Achievements\\OSRSheim Unique 08 Scythe of Vitur.yml",
+        "Almanac\\Achievements\\OSRSheim Wealth of the Gods.yml",
+        "Almanac\\Achievements\\Plains I.yml",
+        "Almanac\\Achievements\\Polearm Master.yml",
+        "Almanac\\Achievements\\Quiver Keeper.yml",
+        "Almanac\\Achievements\\Runestaff Adept.yml",
+        "Almanac\\Achievements\\Seafarer.yml",
+        "Almanac\\Achievements\\Sharpshooter.yml",
+        "Almanac\\Achievements\\Skywalker.yml",
+        "Almanac\\Achievements\\Spearsmith.yml",
+        "Almanac\\Achievements\\Swamp I.yml",
+        "Almanac\\Achievements\\Swordsmith.yml",
+        "Almanac\\Achievements\\Trinkets.yml",
+        "Almanac\\Achievements\\Wall of Iron.yml",
+        "Almanac\\Achievements\\Warlord.yml",
+        "Almanac\\Achievements\\Wayfarer.yml",
+        "Almanac\\Achievements\\Woodcutter.yml",
+        "Almanac\\Almanac.English.yml",
+        "Almanac\\Bounties\\Abomination.001.yml",
+        "Almanac\\Bounties\\Boar.001.yml",
+        "Almanac\\Bounties\\FallenValkyrie.001.yml",
+        "Almanac\\Bounties\\Lox.001.yml",
+        "Almanac\\Bounties\\Neck.001.yml",
+        "Almanac\\Bounties\\SeekerSoldier.001.yml",
+        "Almanac\\Bounties\\Serpent.001.yml",
+        "Almanac\\Bounties\\Troll.001.yml",
+        "Almanac\\Bounties\\Wraith.001.yml",
+        "Almanac\\CreatureGroups\\Creatures.yml",
+        "Almanac\\CustomEffects\\CE_Blunt.yml",
+        "Almanac\\CustomEffects\\CE_BluntReduction.yml",
+        "Almanac\\CustomEffects\\CE_DamageMod.yml",
+        "Almanac\\CustomEffects\\CE_DamageReduction.yml",
+        "Almanac\\CustomEffects\\CE_LifeSteal.yml",
+        "Almanac\\CustomEffects\\CE_MinorArmor.yml",
+        "Almanac\\CustomEffects\\CE_MinorEitr.yml",
+        "Almanac\\CustomEffects\\CE_MinorHealth.yml",
+        "Almanac\\CustomEffects\\CE_MinorStamina.yml",
+        "Almanac\\CustomEffects\\CE_Mule.yml",
+        "Almanac\\CustomEffects\\CE_Speed.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_accept.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_cancel.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_cancelled.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_complete.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_info.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_intro.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_reward.yml",
+        "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_started.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_accept.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_cancel.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_cancelled.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_complete.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_info.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_intro.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_reward.yml",
+        "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_started.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_accept.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_cancel.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_cancelled.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_complete.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_info.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_intro.yml",
+        "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_reward.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_accept.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_cancel.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_cancelled.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_complete.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_info.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_intro.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_reward.yml",
+        "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_started.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_accept.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_cancel.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_complete.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_info.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_intro.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_reward.yml",
+        "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_started.yml",
+        "Almanac\\Dialogues\\Examples\\npc.about_almanac.yml",
+        "Almanac\\Dialogues\\Examples\\npc.about_bounties.yml",
+        "Almanac\\Dialogues\\Examples\\npc.about_treasures.yml",
+        "Almanac\\Dialogues\\Examples\\npc.achievements.yml",
+        "Almanac\\Dialogues\\Examples\\npc.advanced_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.beginner_only.yml",
+        "Almanac\\Dialogues\\Examples\\npc.cancel_bounty_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.cancel_treasure_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.fly_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.get_weapon.yml",
+        "Almanac\\Dialogues\\Examples\\npc.harvest_dandelion_started.yml",
+        "Almanac\\Dialogues\\Examples\\npc.intro.yml",
+        "Almanac\\Dialogues\\Examples\\npc.leaderboard.yml",
+        "Almanac\\Dialogues\\Examples\\npc.learn_sword_cancelled.yml",
+        "Almanac\\Dialogues\\Examples\\npc.lottery.yml",
+        "Almanac\\Dialogues\\Examples\\npc.map_pin_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.metrics.yml",
+        "Almanac\\Dialogues\\Examples\\npc.open_bounties.yml",
+        "Almanac\\Dialogues\\Examples\\npc.open_creatures.yml",
+        "Almanac\\Dialogues\\Examples\\npc.open_items.yml",
+        "Almanac\\Dialogues\\Examples\\npc.open_pieces.yml",
+        "Almanac\\Dialogues\\Examples\\npc.open_treasures.yml",
+        "Almanac\\Dialogues\\Examples\\npc.quest_hub.yml",
+        "Almanac\\Dialogues\\Examples\\npc.start_bounty_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.store.yml",
+        "Almanac\\Dialogues\\Examples\\npc.take_items.yml",
+        "Almanac\\Dialogues\\Examples\\npc.teleport_example.yml",
+        "Almanac\\Dialogues\\Examples\\npc.weapon_info.yml",
+        "Almanac\\Dialogues\\Examples\\npc.wood_reward.yml",
+        "Almanac\\Filters\\IgnoreList.yml",
+        "Almanac\\NPC RandomTalk\\blacksmith.forge.yml",
+        "Almanac\\NPC RandomTalk\\elder.sage.yml",
+        "Almanac\\NPC RandomTalk\\farmer.fields.yml",
+        "Almanac\\NPC RandomTalk\\guard.watchman.yml",
+        "Almanac\\NPC RandomTalk\\innkeeper.tavern.yml",
+        "Almanac\\NPC RandomTalk\\merchant.general.yml",
+        "Almanac\\Quests\\001.Dandelion.yml",
+        "Almanac\\Quests\\001.Farm.yml",
+        "Almanac\\Quests\\001.Kill.yml",
+        "Almanac\\Quests\\001.SurtlingCores.yml",
+        "Almanac\\Quests\\001.WoodenSword.yml",
+        "Almanac\\Store\\Blunt Resister.yml",
+        "Almanac\\Store\\Bronze Nails.yml",
+        "Almanac\\Store\\Crystals.yml",
+        "Almanac\\Store\\Lolite.yml",
+        "Almanac\\Store\\Minor Armor.yml",
+        "Almanac\\Store\\Minor Eitr.yml",
+        "Almanac\\Store\\Minor Health.yml",
+        "Almanac\\Store\\Minor Stamina.yml",
+        "Almanac\\Store\\Queen Bee.yml",
+        "Almanac\\Store\\Rested.yml",
+        "Almanac\\Store\\Rock.yml",
+        "Almanac\\Store\\Silver Necklace.yml",
+        "Almanac\\Store\\Stone Golem Trophy.yml",
+        "Almanac\\Store\\Stone Stack.yml",
+        "Almanac\\Store\\Tar.yml",
+        "Almanac\\Store\\Wood Stack.yml",
+        "Almanac\\Treasures\\Ashlands Stash.yml",
+        "Almanac\\Treasures\\Black Forest Stash.yml",
+        "Almanac\\Treasures\\Meadow Stash.yml",
+        "Almanac\\Treasures\\Mistlands Stash.yml",
+        "Almanac\\Treasures\\Mountains Stash.yml",
+        "Almanac\\Treasures\\Plains Stash.yml",
+        "Almanac\\Treasures\\Swamps Stash.yml",
+        "RustyMods.Almanac.cfg"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "Almanac\\Achievements\\Alchemist.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "15dcec407f6be7fa879abab5399176f74f3140633abdb463ed02996321620327",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Ashlands I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4c4f02fb942d595977438c35f503b30fcac149ebf19429179f21bf80ce7413b6",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Axesmith.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "98b3debdd40eca59a12deedded366d075f65fb1d615f4a7a083d94107f7ed2b6",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Beast Whisperer.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "1b410a183a8f9d422a6bc49dcf54e20786343b906133903c3cab1a0bd8873b6a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Blackforest I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "6767b840c2b9e38c0819b2dc208ed3c20c05720a92849303010ce00f0a6fdd13",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Blade in the Dark.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "18c80c6573e02c5ae16ba006cefb79ed692dac95e452abbc471bc75982ff7951",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Boars I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "aae59a8de71ce3a6a4f1f183c11b0ba7fded9bc443dc076cd046fb0ef32ac643",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Boneshatter.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "72578410294a089403aa19d20a552f4e03541cdbc254b73df7105edc3af651c8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Bowmaster.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c9d8280a5862c8e6f4335e5dd93ae7cc5b25317fc6d1c1b56221678cf9cfc9be",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Collector.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ace301168b27903a0bff5f410f434785860a69057247ae2157f4af4f717c8d1f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Completionist.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "89cad925812fbbe32d21450b56c31939cc1b086de2bf0cc2b8e2ee39d3f73e24",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Duelist.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5d4f8ad26111b022f08bdce78b9bcd4a2fa754da8a9ebdb9a57a78b1ba9b0e5b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Earthshaper.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "e81817a8affce97d61430a9cee3235f78e33f6bf0fd6032cd1f35df91057212b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Eikthyr I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "044cd87483359a63fafbe08ba38683ccd4f6977cda65aa1c4d0bdd110f3e9e7e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Feaster.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0fd4af0791c9d02471801aa61f8a66901134d3cab80ef4427b9aeb493b2a07ba",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Fisherman.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c44857063f47895b6847d84401969b1488c43bc5e62c9da3a88da2aa6b73df53",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Fleetfoot.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ce964d2ab107675912efbfdea0041b4103d45f0fee7f9ec7c8e0177ebca2da70",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Glorious.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "510e585eef69ebd45db6b3e6636517a21fedbec0d0c3d83dabdb4354f183937c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Glutton.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c51ac4cf3167cbc014b86a3e5a7d7cc19edd6290ff6e66b5a21c697dca77ce6a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Gold Digger.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "cbb2c73f3593b2a44a9609202c62535edd10d10d45719b8df7652a2abb3167ef",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Harvester.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "612fc9cab2950aabdb52ee63a2ccba444b71e2baaa6c457b600e79791193f340",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Hearthbound.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f8bf770ef498ecaccba9de53cb7f2c4921749ca3559151bd313b5074a9bdf125",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Huntsman.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b4bbde6236862e411984edd342d9b8663a6ee0e6b63ab4878590fe888a67eced",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Leaper.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "788f65b75fec83644ff78ba0441a541b7a60ad3389155372a316b4b68c8e5d4f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Meadow Trophies.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "755418ae825a21f1dfadb118ec274b42efc3a36f45df7f775cc61c7359b282b4",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Meadows I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c99797403c08fe7416599c6bfca3fa6d087a8fc4f42315f6acc773eb58f0f152",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Miner.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "87d494f77cbc1b9cb05955cdb1c9154fc36c6d179ecb222cef76b2b30769d857",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Mistlands I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c8b082dc1284ed14a4789c0712fcd42223610e246f00f4c5c4ddf78c97ff848b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Mountains I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "be7041342044f90b3c45c8a3e1950ae95d23964411f8f30b8dc88aabf8f6f9f8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Antlers of the Forest.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7b65b35aff41f263746f49ea1d5389ec4a5b634ce2592c7427dd0199ddcfa385",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Capecollector.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "cdb4dacc18e0f389b71b583fe73ec2c6d5657edc1b28e5478d8cd154ef465160",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Greydwarf Slayer.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "091bdb4c5f0a13f5a454496d823693ed1c1fb29f42de778fa41c3c6dffcc397f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Maxed.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "a48904533968fb3faf8b5128e3adb7aaaec8e7cb74ca69e88c61ca746e94cdc8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 01 Pet Eikthyr.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7b9145c62e2d809a418b1520c78318b4bc415815c41f976d4e174436665a228d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 02 Pet Elder.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0ccbe634239998ce4273e00195ce31cc873f3d507e1c104e80a545af07282fbe",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 03 Pet Bonemass.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4aa58d7845d3dc863dbda0d017b1e5eabefc611f46ff4ede4b502cd1db77f445",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 04 Pet Moder.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d1593cd425c44e7ee500f231f171368938695beae3289650e67036f6ed4c1a8a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 05 Pet Yagluth.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "acadd3dc6d41d5a4203f71b29c472435813c143bd7f34db10d6233fca2f4cdda",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 06 Pet Queen.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d3dd514e0c645f39ff7dee58d4b03350375d4e828feb694dc172ddb5ae7da575",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 07 Jal-Nib-Rek.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9b2e91aadfb54275ea4ae866b6e0816c2c9a2e6af2a49498fb27081f00e82b1b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Pet 08 Pet Frozen King.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0c59ac52ac92130e5c49750b366a05fb8c2be286799820aa60d7e6ec9e88898e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Petmaster.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d60d3c4d6c5d64bfc407362eb05b2c5c3b3405e2aba5a1a8079e9dd22c1d3529",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 01 Graceful Cape.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "686bb61a7c45318f60055550a981b461c542c318475a4ec96f0531c8132e63c1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 02 Dragon Axe.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "cc7bcfe279ca911e48f36b63fbe231dca9fdac8f8584fef3b9a35b0e418269f1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 03 Draugr Visage.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "09730abdbbff60a9a2e8237ec2b3f8bb828f655c579247f03ba07433f42fc112",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 04 Dragonfire Shield.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ce69e7be4cc173c068f0774bad494fdb5f073c5e3022c9c9a3bd8862715b2924",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 05 Bandos Godsword.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8a0ecf54d639511b514dcd3d81a2711a3182840ca0bf6ac56892ae7ede718ea4",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 06 Abyssal Whip.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ce9c10e905e016f2b095a797b18876ea6a0cce03d8406bfa3d92dbf45f83d661",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 07 Infernal Cape.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "22fd5304b8460040a0be8dfe84d89fb99c831ac47bdb698e27e0516f420e79ee",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Unique 08 Scythe of Vitur.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "cd9aeaf9860a876d9d1c16e0fc5e702b043f6b32f26e45d3768ffeb6064e42b3",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\OSRSheim Wealth of the Gods.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "fd2139e930a1cb83e56578d8efc2810b48fa776ba82a1dbd721c7a0ba25a5259",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Plains I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "817c37ffb0074e108da17c88db4bfacc927cda5446cc97878eb94bba433f315c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Polearm Master.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "36ccfe447c29777b50586c4e78240ce3d2b8bcca04767fa43439cc2fa3478c91",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Quiver Keeper.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c8f58bda76292923fd348823516576e1fc868e38cca7fede87f751b5f95c872f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Runestaff Adept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c9a01565e716242da296ede5c7a3bf38fa96478ca97b9ba56fbb5be7339aa1b6",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Seafarer.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b3095371ff57c34b80a851de0b3324e73e43bab540d882716454757036f90d3e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Sharpshooter.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ddc01c0d1da38945a5c917ba9b9ce5568edc966d51fd9a3bdb9f4b7d5fc89a76",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Skywalker.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5aff30124ddd4c1f342792ca3f9e60dfac8a57c133a4987c4100b91dca6ad40a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Spearsmith.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7951051bc0871ba916e4c796dd31432f853e78a2401ddd39bfc5a631166d5f37",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Swamp I.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "fe5c8737a773d5875d4034be89ba93a380ad7f3c53b5bd1c8e9442fb2b7ef22c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Swordsmith.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f96051468c2bb699418744b26ff66b4806da3f0eff5f11e79069a8a3b29abad0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Trinkets.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9999e7a7234081d918c6c7d92fca88269cecd037d982a365df071fe96cd5b432",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Wall of Iron.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "fe4f01ec825b64d7176ffa1d5eb0585f1ff2025605a334f8c99ad34ac5bf791b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Warlord.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9a79df4c2e4db896ada2224d2bad0e2e448c31bddb77011b92f5d5d0a9078bf6",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Wayfarer.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "aeb211063005c9a6333b2576927de42df9e674dd414326357441529e5a861c76",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Achievements\\Woodcutter.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0e5f70305b609a0f8f97d8ff1ed803bcbe6835305378bdf6b03585e7f7c72c0f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Almanac.English.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b4533d02701d1d957be4857a642f15eceafba7bbd3b2d3ae64a96582e4f1916c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Abomination.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5002985003f5be6f218ed8f6525d7d331866cb94c94bc466325d7b75a8338d25",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Boar.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "143503a345ddbca557ad4b336a25abad06288589771efdff6785d0ac689ba062",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\FallenValkyrie.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "592877cc9dafa25c13308105107fb43402dc942f974364f6214fa1b1d49214e1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Lox.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "3db1bcf04ce5a4afc9b54d490b35b22b18b41ddfae74f7af133269678411aede",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Neck.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7b73e5eff22f2cf8715bc92fa28982fce4dbc7c73b403ee3806f3009f98148c7",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\SeekerSoldier.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ceab11e4f7cb63274484946bfff3bcbcebe99082b909f44466b3d4d43375642d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Serpent.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9d8547c1367387392c2a09e276c4a92d8516f5ee221284eeca372711218e3ec8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Troll.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "eba71dfe4113d3884af6e161e7251921906acb3e00e282f0026e2deb583d7040",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Bounties\\Wraith.001.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5324266be0281d799e34dee787d68f393ffe7bbe360d1fbf760365e7f79e2a2c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CreatureGroups\\Creatures.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9a89e8a2fdf3ecf1e547bf983b102332de3d0e5b6442aaabb3be8420d6fbc4c1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_Blunt.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "a9b46f986b8d3d548c062f86c33add388ed2a5a9a65f18b86325cbec63bc1a45",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_BluntReduction.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d19e44ec2f63535e3b05159366ab1f7f8e4f7b01160ff6e6c49a60c365f1a2b2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_DamageMod.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "e2987bebf8e0a6bca48e435699df2bd9c317241f53599b61eeae03d944bf1e5d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_DamageReduction.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9a948a198329c9b52f8d37e2c131a5623ca419f7a99921307bc9b272e4aac615",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_LifeSteal.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5e4e3b6b8a215c82063fa99aca7eabcaf0b9e745ee1db42aaf455d25815029f2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_MinorArmor.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "035bb52c004295427ef1a21854aea23fe8796b9b932f73dc64bebabef7b5332d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_MinorEitr.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d6ffd8519010fb42495836da33a1dca8362cd60333c3ba522ba1a817f528f0a9",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_MinorHealth.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "85f7055ee96225b150758f2a274ed11cac696a7911e294dfc30a5a72f28cecc3",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_MinorStamina.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "36d93ed280c589ea0ebff919f5590dabd140fe8faf28e3d721ac3be63211eb6e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_Mule.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "6151f5e73192abc027bf32cb109ea826a202002f21ab44658c443bbdae17e04e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\CustomEffects\\CE_Speed.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "fea3471b00762143b2195da72e519e3a6c81f0a4f5db80ee599d9e14b14b3396",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_accept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9b5219a88ed75a5ac641f16549dc6f1db873ede47fadb473427cf9b47efbe3d2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_cancel.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f6e781ee8104bc38ec84aff66a08f9262c872c6c51314547e0b1b4bf4cfb9fd2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_cancelled.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "e3ddcd82c31a2d00cbbc06c2b937916115d35f1d6e87fd80a3f680d706b9cdc7",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_complete.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c9274624a3e837b0a4df89e82424b016e4b0f4d1f0fb536bce50fe9f5addca72",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ec8508f085c889a04f6d950aee9bb12e966c6510290d6e0b93eacffa0c19b3e0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8609da262eac995decaad597d64f923e25f2ba168939c29a2bf4645f32fdbada",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "03403812924bf1516b179ee8ec744b4e25254140e34e1c9816542466d12fa6b1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\CollectCores\\npc.collect_cores_started.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ac793cf09935c24acb783c9bea4462615d7b3044fd8d8389a989264843b09b26",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_accept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "848efb65ccf428cdf95ce342381bc79d07b41b987d637b161846987d65163283",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_cancel.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d4adb421e963cc6c9a0e8cecc805bdf5bab628e5b9e835d78de2f282500b75b4",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_cancelled.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8ebb4d499f9b28a46a0345f94e3e5371e2b6f9d2b214773c08aa27f11c009d84",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_complete.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "071069ebef360f6adf9221c39e8b3c250fa427e80e9e7e1291997b21433211b2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8de3cb3c29a0382eb04ac4c9b9bb0f2fe371471c42b9c1563ae64a3276eabfdf",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "561ba904177f5728672760d4b976331b509f795b4a5cf1ec745a07e37fdb4043",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "141841268b9100bd44f78c62d3bd19e206e355c48ba0b56f74e444f6b04466e3",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\FarmCarrotSeeds\\npc.farm_carrots_started.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "36aeb8b25cccb1fcf302a1ba1c27b4976fd6344e8756518056d58a6946144cf5",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_accept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "618c26982d8726b6c5c44459705e1b18337e1c792eeb589b53e5374ea16db5e8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_cancel.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b60ab64fcb657590fe840f55c9b9a59c30ffd03afcb8e569e63c4bfd6d26ed88",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_cancelled.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "824984ab78bb3aef5b0818b2fa1eaa87fef7d1e39106820d8497bfb13d72988b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_complete.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "1888c42934421e9c7ed2dce3b784c3a830efbe4ca7ab4f461785f8e0bfeb2ee8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0711c0fd43520a676e0c9eaa81e14125d8e2e155f6dca60c2a740621cdb09928",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "e9e77fb379b90e3ff9e9bb089aac318e0fc8e1093f34a6ee17b0791eccc5a4a0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\HarvestDandelion\\npc.harvest_dandelion_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f781c798e6051f4be8f337badd45a66c6159667563a7184aa9e13abc6a769000",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_accept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "2fb7cd58198a9e2e96968aece88f42d05652955499b1f7abfc746dc02cdc849e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_cancel.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "311424e0b1c569500e0507e7ecb9c652248a7fa548b28a20b213c210e57b4c1a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_cancelled.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f61d445991c2eb36cd27d2cc702817b9ab27488c2f7cfa3a27d2e93f6c49b5fb",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_complete.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "555e3e78da71bceaf4d35d1777e65fd076853dc402051d742e89e9a4387c2ab3",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d20265889ae5f08140b465996414b567d27f3604d05f6473001e2d82aa582e6e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b9cea3fa7836c97d3e47c1227c6b19facd66f830ca5c472963e8988885133e11",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "a01e028570c85f2cfd0547946c6de4a78f5fb5b1b290078768d8e4856753d84f",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\KillBoars\\npc.hunt_boars_started.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4a6f240a3183f082c723ed4868c2bb42b6b9e8c7f3f37082f786de0c8e81e6bb",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_accept.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "952749f30c70db7a808c1d87017400b6fbc8556fd51150c5847281617eacb7cb",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_cancel.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "beff0818822f540d71a8db436baf804937ed18815140ebcf9269d1191cf7bdea",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_complete.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "725ab749d25ee69eeb9b4cdb6dbb2b8802502e4e81383ee640c1d4cb37b6ed43",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ae1ca37b83bd9d7b9a16c51976c6789533c8f5aa4fe92b82a6431573d255278b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ba7bfc62ed1722cd391efad5b48b07be599ac0c98d5469e35e129872f80e3d1b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "1978da724a61a90ce2a386d371ae972a39aad9599dc0d5faab1102be50c07e6a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\LearnWoodSword\\npc.learn_sword_started.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "be27970ef214ea511d1e57f93c1cbe45fc6fd5db83c5333c933904c345558e61",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.about_almanac.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9eff29645cf5c3a0e6b7d28718f119214bb3dd2cbd9cbd852b0887ea82b89819",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.about_bounties.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9fe1bd3757a74b386011cbfc82292977dcca87267ad9671ec7a0524de9947a41",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.about_treasures.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f3309915db77303670ee5d274c41ce9f165e5c57a73f9e979cc5895e8a2a74e1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.achievements.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5606a17723c7abf892a5b652e50d2ce0fc948b890214a304c1ef3c9e465da8e8",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.advanced_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "593e86eed7eb4486e065cecc8a743a7f9cf728b4af2946a67cbfea1f53579785",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.beginner_only.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b73dd28d0786bc902c7ac713cbc69398774a4f6035278a492e2d83fad1dcc27d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.cancel_bounty_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "814f5541ac890ec18b76734ded160cbaf3db71029e55e929a1bd285d94c98173",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.cancel_treasure_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "176e3162aa726692e043b087aca3833cb64d2ef1b0a592b253c37c87fa2181d1",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.fly_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0b8604ee09ebe501c3ec4b8dc89d26a6b4fdd25a14bca963e9a03ba466206374",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.get_weapon.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "60062c0cb08cfe715a4d9914d06139cbbd316b974566b2f991b393f26e72929e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.harvest_dandelion_started.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "3009c68ab751adf8ceb0d126eb58c9161e4e1387851aaf9661d173d34842a74c",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.intro.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8a7a7f0acb2fad672f60cff721607e5f8dc8a407326e871869c86b356d830b30",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.leaderboard.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "ef02c0ff1cba67f4c3b722d6a29f7d15eb16153f2e4a0dbd5314bad33815a2fe",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.learn_sword_cancelled.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d40df1233a94eb39683b99893c67c29d65ee986bb15a54a830dfdf27a0514598",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.lottery.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "259763527df77ab47e717c5f18f15e6c924b7f2663d22705b7a4f9f18b532389",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.map_pin_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "6d69fb5302da95a9b6dcbeea1d56b3aac84db18172413a1ba0a9d4d94b0dece5",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.metrics.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "2f3b52a49e072e1ddfb591263727cd38a32c6a84f05a9df6acb7baaaf3b0c71e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.open_bounties.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4d5d13140e705db6418af549a4ea9caf6e221d6bdc70ab9278ed4c320e38135a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.open_creatures.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "cfc1a1b3b8eb1768a25a4cd9878ce595882d352a93e54da7de7cf5fe364416ce",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.open_items.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "899342fc958d961dc8531983ef4b981ebd95cf1dedf250404e46b6ddc8cfe925",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.open_pieces.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4a062f233d947d7b94c906051c3c0b74fb0e7a9cc664b11416c5eee570d9a770",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.open_treasures.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4469f77db8067f325fbe0563b27b6899a85949f52b502bdaa4839c5cfaeb3e8a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.quest_hub.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "6964676b8c04a5c1b5d884a737bf774281ee504ae8126e3148d87daa5737cf2b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.start_bounty_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "113ea8e2c9ca30b71586f88357ec40d1d4aa81c556d94cbe2ca464ed42cf3205",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.store.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "e6388a2027128a01c72d86c2eceb2220d32db743b1bd4292a6f5f5d25a5b03ed",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.take_items.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "1b2d97bf075c419a399554ad6e1240de1f99ad187aadfbfa85352739a82b8001",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.teleport_example.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "94dc67d6bb46795d6e692163a3e4db4f026a969569dfb0e2d3a42be75a807679",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.weapon_info.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c276e1654f14243cd2bba03c3025f4cfd228680aa1d06cdb092bb51dfcbae3ca",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Dialogues\\Examples\\npc.wood_reward.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8cd71cf4db68d33f121128ef59888dc32294b789bb8bf82c100a8be302eec8fa",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Filters\\IgnoreList.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "109b00c9046fce9e47fd95512a350141387b153f3a22cd50ac8581c1b28c4d27",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\blacksmith.forge.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c0814bc36162d6cce586a1cce54fd230855cb7b591147c4879f2f94393aa09aa",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\elder.sage.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "dad8c70dbcd1d73d5bda4ea29050d3d5a8633837f03bef923f7fbeb8d38bd42a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\farmer.fields.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0774824f057b207cdd74e5568e9bcad53ebec6aa71e4e02dad349dbd83b41417",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\guard.watchman.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9a3dd2fbaa63ffa1eda98f0ca31c2698588f0ef53bd5563135399cc2c971e903",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\innkeeper.tavern.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7e9d74ffa9c028d33dadcc59cd1e1c2a986857884c7ee17f4e8e6db9ae7fe1d4",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\NPC RandomTalk\\merchant.general.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "1997e1187d7cdef5ab192905cb46747a76d3f6c9efe344030d49b2f9ae246ad7",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Quests\\001.Dandelion.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "94bd33491e194fd0c204d3d0dab81d3b2f3d6d1d0fe3cbae78fe0bf6f983eef9",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Quests\\001.Farm.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "0f33c63b4234bdcc516aaabdb0d5d71df88cf189044bd978895a05180e83552a",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Quests\\001.Kill.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d3a6e2d0cfad343a591f8ddaad99c5a869441995446e76fd5672e070fb099edb",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Quests\\001.SurtlingCores.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "3220d694c068bad45bfdf4a1825670f31d08cc137fd19e69c4b8c503131ccd10",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Quests\\001.WoodenSword.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "c048c350abfdb3aaa35f4be85d80ccfbd2db903a253dc5631c31116ce82f4aff",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Blunt Resister.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4110f253bdc11a685e0fd1fb191d3c70186cf59db844992104fff5ed616b5b39",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Bronze Nails.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "22a5af3e7853a91510c7a5ba39f99d958dc9f814ad216e91350a2e6e8e3d6f42",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Crystals.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "9b97261bbbdb3637aad5f0aa3c7b041291c9c04da56bdc519b50bdcbec1c7129",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Lolite.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "4c4c10e9706ae34389822c8b65dda5411a7b2a8cb91a84552aa2b7d23a7eeddc",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Minor Armor.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "92c6601169b53a9f225f50011218981c6b7b7e406be3604f10e89f24787b9a78",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Minor Eitr.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5f1f4f1b0b957fce66f47f97d9ef98e11e12f7c4f09aa55cd2948761ed85afde",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Minor Health.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f82d57949f73aed10db5bdb765332b55eaa40cb0b9861e0c94835a200bda21a3",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Minor Stamina.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "38291174b657288f13d311835c95cd0bf31eb529dca02497e422260c331d0a3d",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Queen Bee.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "2a010b4f09539ac5eaab99bb25cb3327fea89dbab32b700b29508cdeed04cd74",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Rested.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "998f2f57549ac12a145a3c539da9afa661c816cc20cf38872024fdd40f851003",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Rock.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "7963125178cbc2e0ac89868aaf11946a6037dd821984434921e6b0e3d82c260b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Silver Necklace.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "f4b557817e421d24fa139237dc613a8f01f59304a8d2b425fdc6bd21bf783d4e",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Stone Golem Trophy.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "5e3def0359b30479ebf2270db39da622752c29a4d8fd17c0a8c338493900bce0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Stone Stack.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "3c683175126dba347fc8d56e71cdf0b3006d5b735cc939c099558f470e4932c0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Tar.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "bc259a424d3986115bdb7dfe8da0337c6414418cc58d23327c4f747284505a27",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Store\\Wood Stack.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "6781412c5195ebfc938165c24150ff1e4a5ff38cef37a922315f793d6a310dd2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Ashlands Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "589f1867fe6b5814460c4c78826941b94c6c421f94163c927f2195aa2efe19ad",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Black Forest Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d831bb8f61558ace58c4bb0487e58367eecb0c2cebcf760ccd99e33e9d5de033",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Meadow Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "8b14b35857461ea956e92f1a36772bc2587103fe11a771e6a30d576b59f95164",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Mistlands Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "b83b222c0ef14b6d92406c9ec002d0f72dc53b774d4b052c965fb347e384b9c0",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Mountains Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "a9e076dffd36afa5dc2ef51eeda23f9f9f5c3893f0930c6230b90408a3e84acd",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Plains Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "627c40c3ee852e940feba3fc171661bc7ffc9a296413c5ec3b6e67e3cbc3ec2b",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Almanac\\Treasures\\Swamps Stash.yml",
+      "entries": 0,
+      "mod": "Almanac",
+      "sha256": "d017698566fabbac3c00cc067adca59a40bbcac7d77f038d90d43399ec7bcfb2",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "Azumatt.AzuExtendedPlayerInventory.cfg",
+      "entries": 62,
+      "mod": "AzuExtendedPlayerInventory",
+      "sha256": "a877689f8dbf84d08d5ff5d9c385dc51526f21d755250efe372ae405fe359669",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "BepInEx.cfg",
+      "entries": 24,
+      "mod": "BepInEx",
+      "sha256": "973c6f57fbdc00e22bb61d2d08e274a366a1003a69b4520d038e1cb6f130d0ba",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "com.odinplus.potionsplus.cfg",
+      "entries": 646,
+      "mod": "PotionPlus",
+      "sha256": "e1880e598c0864dd58c4a0833cb3f0724db10abd8c729d170cff7728bd8584cc",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "CreatureConfig.yml",
+      "entries": 0,
+      "mod": "CreatureLevelAndLootControl",
+      "sha256": "38e248ec8b3121f3f5d314c0a42952ce3ca1dba54845023be97263e3101b4327",
+      "result": "Syntax passed; stock example; use-creature-YAML toggle is Off",
+      "findings": []
+    },
+    {
+      "file": "drop_that.cfg",
+      "entries": 16,
+      "mod": "Drop_That",
+      "sha256": "f3bac90434393749eed0babe2f4d4c2d8cbaa3f94f16cd873bd82c003c39e3b6",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "drop_that.character_drop.cfg",
+      "entries": 1266,
+      "mod": "Drop_That",
+      "sha256": "3d94e1787f0006dd81160bdc0eae507f4cffac140411c8484b221deefeb6f8e1",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "drop_that.character_drop.osrsheim_superiors.cfg",
+      "entries": 587,
+      "mod": "Drop_That",
+      "sha256": "5f28123ef41e2183608268151730612e3a65b516dc3cfb664562f15bdc79bb4c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "drop_that.character_drop_list.shared_tables.cfg",
+      "entries": 247,
+      "mod": "Drop_That",
+      "sha256": "2cb9b7418e942604fa94091226f4ab707e7c5cc89f7c7e29522710a784b2bdda",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "drop_that.drop_table.cfg",
+      "entries": 80,
+      "mod": "Drop_That",
+      "sha256": "5b06a14e1bcaf1cfe712aa12ff3aa705d4121d8093e08e8347f19b5632ac9b93",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\abilities.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "acaabaf4f04a0f74755647db1837294c74c3230f810849add68e0fce423a5c80",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\adventuredata.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "abd723769664b5a04fd06026d5160f332c070e606c63987500a7e77f4e2aca57",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\biomedata.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "2d6225d50b1f0a31220a0ee026f9a8208eaf0ad2fdb192c3731c781a2ccfd0ac",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\enchantcosts.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "9bbd0513dd7840303efb9b93af15f9f128138c2789fc059c7d85b0b0812fcea5",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\enchantingupgrades.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "3cac177dd0e8232d8dbd535db6baeef93affaa2734be927a7076973e0c3382fe",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\iteminfo.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "673c1ccce70ba7fb6ed32bb48a51ae897dd2a902ca2206068a3b0df50c6d7808",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\itemnames.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "d0f6a63ea72b1a7066a7a9604243bcb219e565e25bb184d0df6e5a52140896b8",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\itemsorter.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "9c777453e4242b9a587491272433e2da38adb913f99940438e3ee84bed3b587b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\legendaries.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "e2eecf12ad0e01a112c2323f1d710192d503b4f1a7ed96f7cf18b6a087dd5d10",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\loottables.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "0a0bcd0f4570916291456d271085b2535275ae1b4c167e630f7cfa1a674821ef",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\magiceffects.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "ba5b49c14935c3fc4c89d6d7fee900a3bfaffafc5ca15f5783fad689679892e0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\materialconversions.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "eafc2c284ee1499266a1993ee47e263b4830177448a052657f359ceac25fb780",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\shardstoneconversions.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "6470a8b2a170d8ef9d7fbf8b178d3d2838fe642dfcb4038ba34a99ba4fba3d60",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\baseconfig\\shardstones.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "4262f868be2642c611e7cec4fb2258bad6acbe72b485cdc01013275eb85b964c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "EpicLoot\\configstate.json",
+      "entries": 0,
+      "mod": "EpicLoot",
+      "sha256": "e4016c5018d7e9f93639042b4f0ef066de4aad45a27b9cdb068ed13791d8a4b0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "ItemConfig.yml",
+      "entries": 0,
+      "mod": "CreatureLevelAndLootControl",
+      "sha256": "d033bb0c97afc4d6f9042b005400aef18336c662e0c345e1e1229cb8c5682b26",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "jujuz1.mods.skillgainmodifier.cfg",
+      "entries": 29,
+      "mod": "SkillGainModifier",
+      "sha256": "4afa0d80f2a14f4a88e1059a6fe206c8ad43330ff375c20144ee36c0d2da7164",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Bankers\\osrsheim_bank.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "734587ce804359788f15de90b818a94e10a9ee10545be9653d4637702611b4ff",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\BufferProfiles\\osrsheim_chapel.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "0d7be4599448c33ea6463219b73bc4285129d7bae98185b2ef16ef2d395b0440",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Buffers\\osrsheim_prayers.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "b85bd972a67815149aad45c03d6fd1b2f42fd7df00f955b285adf26fcf57c788",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": [
+        "KG-2"
+      ]
+    },
+    {
+      "file": "Marketplace\\Configs\\Dialogues\\osrsheim_collection_log.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "96dddfbc32652bfda72daffe8b3c6fb453825b5029aebc1a56f1782932c41660",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Dialogues\\osrsheim_dialogues.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "e1f5ee2d9af69fbef0d532beb4ea69d48cfb06406e7f42f95cacbface59d03e2",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Factions.yml",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Gamblers\\osrsheim_gamblers.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "674f6b0bb6150623b5313cf916aa1b716dc6e6094710d611166b99be698051d9",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\LeaderboardAchievements\\osrsheim_hiscores.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "fb87b7b17b8c4ee5253da24968163c48201c568c3c34362690d2de0019a28c57",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\QuestEvents\\osrsheim_slayer_skip.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "887933295281b1f38344589ef865a559a7488a9b376fc4f93697b0ac35473c6c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\QuestProfiles\\osrsheim_collection_log.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "0cbf7e31e6edd70850a4aadda91cf67c5a53e232f5efc87c426140291bf80817",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\QuestProfiles\\osrsheim_quest_profiles.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "caddcd1eb5d285e40cf8321049ac59d00aef4c4cfa1991f500788ecef0eb8183",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Quests\\osrsheim_collection_log.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "931fbc3002bc7933d8f5504fa33d1b30d28d45c428a01405ea4a89587488e729",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": [
+        "KG-1"
+      ]
+    },
+    {
+      "file": "Marketplace\\Configs\\Quests\\osrsheim_quests_free.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "abba3ccf110f31b9545e9debfb5128aa082b78a2e38a4b74f572bdd56f7b9d94",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": [
+        "KG-1"
+      ]
+    },
+    {
+      "file": "Marketplace\\Configs\\Quests\\osrsheim_quests_slayer.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "980d1529a5b5eb11aed6305b93c0e86927328d16f6afa2511c6cdb1b717ec1e3",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\RandomNpcSpeech.yml",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "3e66ee9f05d45e0c9f87e57cfd2bdb1d9bdc68cefd260db46666371cf5fda90e",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\ServerInfos\\osrsheim_guide.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "2f39ff2b71cf8bceaf5f36e18090838bd27145e0abd83ce15fac1f494a2a8962",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Teleporters\\osrsheim_teleports.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "5f74aaf1401a04d4c249182fb2a74012a2502fbb8ccdc1e6006f72f14309a76e",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Territories\\README-osrsheim.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "8a582ec81784aa285bf22d469a55a246ce0ad3d275f99b4081a71142a153825c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\Configs\\Traders\\osrsheim_traders.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "5ffb0b03fdf76601d9d03305eee4a3856cb2c7faf2b00e2da7ee2c070698690b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\DiscordWebhooks\\DiscordSettings.cfg",
+      "entries": 9,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "12cd55c4c2e280bdc8d07e95be6d1637fca41f420f736da1d6728129bd96cd05",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\DistancedUI\\DistancedUI.cfg",
+      "entries": 13,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "97611ce7174b5fd4b59bcf1c158762577f839d91528eb869aef401c412593657",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\MarketPlace.cfg",
+      "entries": 27,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "78b2d4b9ddb84cc77e98525107f3c107c80ebc719badae9e70c8e74d831a7a57",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Marketplace\\PlayerTags\\PlayerTags.cfg",
+      "entries": 0,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "MarketplaceAndServerNPCs.cfg",
+      "entries": 18,
+      "mod": "Marketplace_And_Server_NPCs_Revamped",
+      "sha256": "8ca49f4f9b74e09845f2edab1e6692c577a52ea8be4bcda79cdee9f9c7dea3cd",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "marlthon.OdinShipPlus.cfg",
+      "entries": 661,
+      "mod": "OdinShipPlus",
+      "sha256": "8ff3d19b1180d0b3925e9b3a5f0d771832b757d46a7436b284d6a3d7228b66e5",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "MK_BetterUI.cfg",
+      "entries": 45,
+      "mod": "BetterUI_ForeverMaintained",
+      "sha256": "4e70a68e269fe9e516219806fa6536b9eaa7eb501fd5a8770af545ffe7c7cc08",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": [
+        "UI-1"
+      ]
+    },
+    {
+      "file": "org.bepinex.plugins.blacksmithing.cfg",
+      "entries": 19,
+      "mod": "Blacksmithing",
+      "sha256": "c258a5565c507bc4df2c97c15ce8ea9305dd1dcc351dd17427d8ad1d976dfe56",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.building.cfg",
+      "entries": 9,
+      "mod": "Building",
+      "sha256": "574075ba99c43b6a78124befa17077a1cdee62db8edc826b1badf4a5cc789d2b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.cooking.cfg",
+      "entries": 14,
+      "mod": "Cooking",
+      "sha256": "0f3e8abff1b4fe53e8b556ace5fecab954cbfd9fff371b45a2f96b4c6be3126d",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.creaturelevelcontrol.cfg",
+      "entries": 111,
+      "mod": "CreatureLevelAndLootControl",
+      "sha256": "343d26240acf1dcfad64864b74f110f6196b922cfa725dbe6a41a2ce3e2930ed",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.evasion.cfg",
+      "entries": 3,
+      "mod": "Evasion",
+      "sha256": "1be04f35104a93964c402fc91309e796f82aded2abfb7d55e85664c8e255fac9",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.exploration.cfg",
+      "entries": 10,
+      "mod": "Exploration",
+      "sha256": "861276eda5adc6690df81d4fe6c8e90986fbe4222a1fc28aa86d3a0e3614e689",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.farming.cfg",
+      "entries": 13,
+      "mod": "Farming",
+      "sha256": "156f0be3b7561b18f03e3cf4436706585857e4f4cc6c15cc2078d956615a29b9",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.foraging.cfg",
+      "entries": 8,
+      "mod": "Foraging",
+      "sha256": "f193acd78f989ec45ff1b9cc02d7571a0a406963150bea03229acc37474e18dc",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.lumberjacking.cfg",
+      "entries": 7,
+      "mod": "Lumberjacking",
+      "sha256": "7df9dfc35da721cc63a0b2eb441132eaca061a1d88e21eb9f787e5af943d6cd4",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.mining.cfg",
+      "entries": 8,
+      "mod": "Mining",
+      "sha256": "69c471bf5f8679646d7e591ee797f1044628e3b3beb5bc387ca0c4feabc2f5ea",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.ranching.cfg",
+      "entries": 10,
+      "mod": "Ranching",
+      "sha256": "a2908207ab64d6ee8277378a636d862f40ef71adc5a3e538f559a0075b855f78",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "org.bepinex.plugins.sailing.cfg",
+      "entries": 92,
+      "mod": "Sailing",
+      "sha256": "5e2ebc31b712326a4a940f4b819cfdcb47dd6cf3bbb25208c9f21576cd36ee7b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "randyknapp.mods.epicloot.cfg",
+      "entries": 122,
+      "mod": "EpicLoot",
+      "sha256": "c850dccc02493dd591e90929800d478df763e89d627675754da55bcd38508efd",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "RustyMods.Almanac.cfg",
+      "entries": 56,
+      "mod": "Almanac",
+      "sha256": "623a9b2ad85d8f9342ef875aebc0c949ac6587c7d1789c067bac82898275b2e4",
+      "result": "Syntax passed; inactive leftover, no current schema review",
+      "findings": []
+    },
+    {
+      "file": "sighsorry.TrollingFishing.cfg",
+      "entries": 16,
+      "mod": "Trolling_Fishing",
+      "sha256": "c3e1cd63d145a152ba38e866602dfa5b2386bb6631266b8d21a60b63a4c2be1c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "spawn_that.cfg",
+      "entries": 18,
+      "mod": "Spawn_That",
+      "sha256": "575bf85dc0d39f90ebd69e1fb3f26a31060ef95ba81f53ac9521c8f711d81cf4",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "spawn_that.local_spawners_advanced.cfg",
+      "entries": 0,
+      "mod": "Spawn_That",
+      "sha256": "2471d80b42de236d047b3e356c8937a5039818fc4fba1c27934354fa63324188",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "spawn_that.simple.cfg",
+      "entries": 234,
+      "mod": "Spawn_That",
+      "sha256": "c959fe3d5d6ecd168e5e246a3a85770203a85061359d64fb19f9c4a717661a25",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "spawn_that.spawnarea_spawners.cfg",
+      "entries": 0,
+      "mod": "Spawn_That",
+      "sha256": "0fb72eba355013c7984b8a5698cc383001ae8149fc1107ace2da9009b6120e87",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "spawn_that.world_spawners_advanced.cfg",
+      "entries": 176,
+      "mod": "Spawn_That",
+      "sha256": "73739a7dcbfa785c5f31595853639173bf63cc2ddabf7567f8174ece504db301",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "Therzie.Wizardry.cfg",
+      "entries": 1129,
+      "mod": "Wizardry",
+      "sha256": "c018978a639e137924757f7b5bf4aa4b8cd5f0bdaa0e3894fe71aed12695feb6",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Chinese.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "4c2f996a823ddddd0bb36077bebf7cff2d49247aa9ea114eefadaa445e7b3eba",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.English-LatestUpToDate.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "625b0816ec6afe60ea89b6c9cb92e8c0f45a6412bb0e36943d3dc7325ab28f7a",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.French.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "79d0a1249ab73843638a1a3499b30fcb45906b3483ba4ff8c9f7a053ee3a9e0c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.German.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "4c7359e78a57615ec89db8bb67f0698d8b78594d1ba9889901c9932bf2393227",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Italian.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "e85481c5fc84c0a1b97e52cfda3f4eb293e0335962e8780f8c85e5b7b007ec54",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Korean.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "478fba75ff6f3987a57f94c01f61df4b9db80bbb0351b22454be95a351139b5d",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Polish.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "6209ae51e7863fedae22c3170e829c0fd3f59e55db1b7e7584501d5e50bbdd06",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Portuguese_Brazilian.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "a542f52160b5e472adfa1b21826bfadd745be9ef45b8e5a0f09ea0dd72d387bb",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Russian.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "76d6d51b1935eaa97c24945c007cf667360e6037a38ab54e82d4f78c459f1a43",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Spanish.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "b403879f304ae6e76307e619f100c5eefd2b73540eb08897c43b783be76ef3e4",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TherzieTranslations\\Wizardry\\Wizardry.Thai.yml",
+      "entries": 0,
+      "mod": "Wizardry",
+      "sha256": "25cdbf8f50cd5bc87e7a69be4f71231689d0e7aaea481717f51574076965f431",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "TrollingFishing.yml",
+      "entries": 0,
+      "mod": "Trolling_Fishing",
+      "sha256": "83d6df42577a7d9bc61c7a09631d3ef96d44690c65768fff58415d13b93aff70",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "WackyMole.ItemRequiresSkillLevel.cfg",
+      "entries": 9,
+      "mod": "WackyItemRequiresSkillLevel",
+      "sha256": "3daf987a0c4cd95d84053c9429e3dd5522bcaba74a70af62ba687f967fb83213",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "WackyMole.ItemRequiresSkillLevel.yml",
+      "entries": 0,
+      "mod": "WackyItemRequiresSkillLevel",
+      "sha256": "a070dde1a93a392f58fe9458a9f284515677b21f7da8fb33851e69fabf04225e",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "WackyMole.WackysDatabase.cfg",
+      "entries": 14,
+      "mod": "WackysDatabase",
+      "sha256": "70b478e798e1600e07fbbb65ee881b7c4afae3a0484ad605e991de80471fe849",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_AbyssalBludgeon.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "df418317c29b16fbe3c368b28fe7a0d4058850cc4147aa87f086e1ecce386502",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_AbyssalWhip.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "addeba7c9d446b7ab69806da1a9ac36fad14dbfdfba575dd57e5a666aa48ba3a",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_BandosGodsword.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "022fb7f539a86ad653d638182be7265010c564fcd4f81db80d4104262d4a2e4d",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeAgility.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "ab48ae3a62a34108d839e10f0fc2573ecc27c8b1c0711c8b62d9ff458a526342",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeAxes.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "f6556a1c9a6d7219efec7eb0052dea496c3d2c8c640f3a6b6ce078488381aba3",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeBloodMagic.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "1413df2d8bcb706ee2a29f8430c37954162770804f5127fed6bb71c67b4f9e38",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeClubs.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "0bd8e08561dd5c1530aafe143f8245d6039caec6dea2136cf69cf1a02e881ff0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeConstruction.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "ebd35b52b362ce5aba7f85076423e367fc710957a6310b13afc754b268604762",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeCooking.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "05c0380a71dd2fcdb592dcaaefd43401a1a77a499c2aaf943ef7b79fbbe5dcd3",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeCrossbow.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "1aeb40c015a88a9b99492d4d603f97187f9e3fc32a6acfd5fcddd6dec5db1a52",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeDefence.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "a919541db4a88fe0e004141807daef46fbcd50324b6dba2a7b75f1280127ea6e",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeFarming.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "0ba61f8d69284f5c653b4f28b4dc8442c93543a027ab0b57c46b1248ef0aab82",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeFishing.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "29dd9c3764074e4208927ac549ed14f50a9727468b4689831db3b59a6fdca7f0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeHerblore.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "d1fc9d3c5ab4a70c3ebe04bcf27d569b745dfa9e6f6fcef64c18db3ddc3cd080",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeHunter.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "4ea0225df6c71f2844be0b890b0e14c76fb84cd2e3309f306e97e30b828a6755",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeKnives.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "5ec69c9f5692313a2908aa7d4995df638de6a029866149c372c669f447114e9e",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeMagic.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "d50774ed47f908e2beb509977f772628754584d392d005cdc86477e7f3cb345f",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeMax.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "5d27bbc237d379e69a89f49de8739b1f990f49c22f604f8b7237c5899f9eda78",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeMining.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "cdc8a9db0ecbf720a4a20b150ba04ad89f747144e82ef55a5fda3fe387348b55",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapePolearms.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "f4f943968aeb9b075abe633645f31bbfe5aaddd0366714916038ff175c2d88fa",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeRanged.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "d4ed34ff74c1e0b5effc221b761696b66832a52abd29d73909ad40d5a1afc7e0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeSailing.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "8ef3f3798a7fc4f3eff5516db9abd49a6099bc5698a84b321f50b671c0fe5f6c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeSmithing.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "b36ad8a9d3e921926d8a3cf51b0ed05aebe6a5ae049fc2aecb434493e0305774",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeSpears.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "cc847411d03dda7210f31953848984fab85e6e2d56b4fec96458b440418bcae5",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeStrength.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "9bf8dea9ae88dd250168fdd263d8d1c0b0e09b23a880fd99ab1d0e9cc53ca0cb",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeSwords.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "f4605659d58157ae1dc494f6def3327bab6e84ba4ef3d2f8b0a8369a77f02c41",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CapeWoodcutting.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "59c5efef4a72c66c7d823a2b4e4e32f88e9036655b4701687eb5f3e08c3dc974",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CrystalBow.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "354c6d8ad325ecc00a7ff215a5b26fc975c6032fea7059b4ae59ff2898fc16fe",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_CrystalKey.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "21f3c585fd876c546f00d22d796a2a35949476b135d1869e837dc1fe4d0ecc4c",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_DragonAxe.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "cca9a5b48f0bad25494ca99cd190a26bfeee8c2a18624bb4608bf362fc379955",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_DragonBattleaxe.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "f799d26100bef0f0085d2930b761ed8dec4b9b161238ed7886e5f7f7157a306d",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_DragonfireShield.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "e65c83deca6e6a1cc0884f3a3180532e5352feafb5a701f9fb7c804a62c5b87b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_DragonHalberd.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "aff099192126f754a5a6f448814f34473b58a7905b3929f47255f84a2026779b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_DraugrVisage.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "c49e9d5edaf2b63bbf85062d694e4c3318d86887bf6ddc7447a3a905ef291054",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_GracefulCape.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "c23df4669b581a3ccf288eeeb6dcca18dcb578f148f46d9a5d747d8ca8587eed",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_GraniteMaul.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "35e9fd5114452e49ef696113ba3a75d540252e9ec5ea185efb9dfb775ce2f2ea",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_HillGiantClub.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "49a42265570afb185c3beeea5c7ecfbc554aab8ab8d0ea3756ac3fcea843cb75",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_InfernalCape.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "c98eeb193341bb80a48eacf493d9ada603cd928295ed7c29a771b2aa3fc2c2b6",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_JalNibRek.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "4644f6e0bae77daf8edb108b30ce454b762975831582a16dca3c46c018517aea",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelBonemass.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "3f7270a7930453f0f05686dcb64af55ce6fe81b1f74ab6848751ff50c86323b6",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelEikthyr.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "fa25ce5601cdbdfd1a15c16d7128a20d2685eb38b8b58713d97eb5793d0864e4",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelElder.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "66ffb73b73419968fb415f70aaa16a6f6cd4ad07d81b36cbe8d5670809878109",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelModer.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "4475d50bd6f1d572584985cf1ad8c99fff269f44b12ac2de5e9c599ad3a83327",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelQueen.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "5fe18af0da0b31a46669032af643420601c87b97b47d01ebef7bc3405d64f845",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_KeelYagluth.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "fc02996cde3b318480a6162ff93f81885b53053579e273293c9e04deb21b3d84",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_LoopHalfKey.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "987660d09bc901ce6e091b7c019eb1ed2bd62c255c49bdbc10a708cc86772c59",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetBonemass.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "e8bfd9c1874a5cd0cea1edfa3f7253b6c3e9b98a20db8b74da51dcba8ac67abf",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetEikthyr.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "e3d57823a1bbc64391be8d37ff5cf564dafa26f84f341df1e1d69720fbaaeb6b",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetElder.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "8f2917b7fc86451a6f06ac7ed748f90b65dd084dd0c8ba1a8b55b59ce179bf00",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetFrozenKing.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "c5068fa5c7935e61ae77ba4ea584ffeffb1943ad26bb61d8f6b6e38a964f4212",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetModer.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "11260a7954daae832701a824720edeba4447cce1e50d4fed9737514637ea07ba",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetQueen.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "5a3ac64f7c3dd0fbd0090b7dcffde97922427c7476e897a750b7f3b55e0010ce",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_PetYagluth.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "72e97a9fb303bbe46b4339e3bc7646aa474a0ef30da43a6d8f96718b6aad23c2",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_RuneScimitar.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "ed845c984d49fe3222c275bb67934a4c318e3f3ae1426011147fcf15f6fbf4e0",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_ScytheOfVitur.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "1bd759db74981198e7ab705f521f796caa426d30e2071757ed5f4d5a6de5c200",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "wackysDatabase\\Items\\Item_OSRS_ToothHalfKey.yml",
+      "entries": 0,
+      "mod": "WackysDatabase",
+      "sha256": "72c81c9d6ebf6e9f9247c903cc8bef77d4f3ef0fd79b66d01b324b1a12441b98",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "warpalicious.More_World_Locations_AIO.cfg",
+      "entries": 21,
+      "mod": "More_World_Locations_AIO",
+      "sha256": "915e2b6c7fcf4c87d3582816318ef7ec0cafd821864035a0a76de53a1d6bd3f6",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "warpalicious.More_World_Locations_TraderItems.yml",
+      "entries": 0,
+      "mod": "More_World_Locations_AIO",
+      "sha256": "04b380e34f25ecd7660d268c7186b7315c99f2e3a089276b957cbb69a2702d04",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    },
+    {
+      "file": "yay.spikehimself.xportal.cfg",
+      "entries": 6,
+      "mod": "XPortal",
+      "sha256": "7bd6c88df8d7ae079e80e8f089e8a944c8d4f152093c44c2ccc7c613eb61751d",
+      "result": "Syntax check passed; mod documentation/schema checks as described in review scope",
+      "findings": []
+    }
+  ]
+}

@@ -1,0 +1,3085 @@
+# OSRSheim gates — 2026-09-19 config wave (gap campaign, Wave A)
+# Tier ladder: bronze 15 · iron 20-25 · silver/wolf 30 · blackmetal/padded 40
+#   Mistlands 50 · Ashlands 60 · Deep North 70
+# OSRS split: weapons = weapon skill (Attack), shields EQUIP = Blocking
+#   (Defence), armor/shields/trinkets CRAFT = Blacksmithing (Smithing); armor
+#   and trinket equip ungated.
+# Tools re-keyed to gathering skills (Mining/Lumberjacking) — WIRSL README says
+#   Smoothbrain support is PARTIAL; if the ModTest gate check fails or the log
+#   "Loaded:" count drops, fallback = Pickaxes/Axes (previous keys).
+# One-hand axes = hatchets -> Lumberjacking; Battleaxe stays combat (Axes).
+Requirements:
+# ===== TOOLS (gathering skills) =====
+- PrefabName: PickaxeBronze
+  Requirements:
+  - Skill: Mining
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PickaxeIron
+  Requirements:
+  - Skill: Mining
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBronze
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 15
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeIron
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBlackMetal
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== WEAPONS (vanilla combat skills — unchanged) =====
+- PrefabName: MaceBronze
+  Requirements:
+  - Skill: Clubs
+    Level: 15
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearBronze
+  Requirements:
+  - Skill: Spears
+    Level: 15
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordIron
+  Requirements:
+  - Skill: Swords
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceIron
+  Requirements:
+  - Skill: Clubs
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirIron
+  Requirements:
+  - Skill: Polearms
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Battleaxe
+  Requirements:
+  - Skill: Axes
+    Level: 25
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SledgeIron
+  Requirements:
+  - Skill: Clubs
+    Level: 25
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordSilver
+  Requirements:
+  - Skill: Swords
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceSilver
+  Requirements:
+  - Skill: Clubs
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearWolfFang
+  Requirements:
+  - Skill: Spears
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowDraugrFang
+  Requirements:
+  - Skill: Bows
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowHuntsman
+  Requirements:
+  - Skill: Bows
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordBlackmetal
+  Requirements:
+  - Skill: Swords
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirBlackmetal
+  Requirements:
+  - Skill: Polearms
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeBlackMetal
+  Requirements:
+  - Skill: Knives
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== ARMOR (equip: Blocking / craft: Blacksmithing) =====
+# --- Bronze @ 15 ---
+- PrefabName: HelmetBronze
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBronzeChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBronzeLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# --- Iron @ 20 ---
+- PrefabName: HelmetIron
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorIronChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorIronLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# --- Wolf/Drake @ 30 ---
+- PrefabName: HelmetDrake
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorWolfChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorWolfLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# --- Padded @ 40 ---
+- PrefabName: HelmetPadded
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorPaddedCuirass
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorPaddedGreaves
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== SHIELDS (equip: Blocking / craft: Blacksmithing) =====
+- PrefabName: ShieldBronzeBuckler
+  Requirements:
+  - Skill: Blocking
+    Level: 15
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldBanded
+  Requirements:
+  - Skill: Blocking
+    Level: 20
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldIronBuckler
+  Requirements:
+  - Skill: Blocking
+    Level: 20
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldIronTower
+  Requirements:
+  - Skill: Blocking
+    Level: 20
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldSilver
+  Requirements:
+  - Skill: Blocking
+    Level: 30
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldBlackmetal
+  Requirements:
+  - Skill: Blocking
+    Level: 40
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ShieldBlackmetalTower: only the FW_ (FallenWarrior) variant is confirmed in
+# the dumps; verify the plain name resolves on load ("Loaded:" count = 39).
+- PrefabName: ShieldBlackmetalTower
+  Requirements:
+  - Skill: Blocking
+    Level: 40
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== p9-9 BOSS UNIQUE CLONES (added 2026-09-19) =====
+# Rule (Doug, same day): gate each clone at its BASE item's existing gate.
+# BlockCraft stays false on every entry - these are boss drops with no recipe.
+# UNGATED ON PURPOSE:
+#   OSRS_GracefulCape (CapeDeerHide) + OSRS_InfernalCape (CapeAsh) - no cape
+#     is gated anywhere in this file, so the base gate is "none".
+#   OSRS_AbyssalWhip (SwordMistwalker) + OSRS_ScytheOfVitur (AtgeirGold) -
+#     bases have no gate yet; fold into the tier-60/70 pass rather than
+#     inventing tiers mid-stream.
+- PrefabName: OSRS_DragonAxe
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 15
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_DragonfireShield
+  Requirements:
+  - Skill: Blocking
+    Level: 30
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_BandosGodsword
+  Requirements:
+  - Skill: Swords
+    Level: 40
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# MID-TIER GAP FILL (2026-09-19) — siblings of already-gated tiers.
+# These were holes: Root/Fenring/Berserker armor and the alternate
+# shields were wearable at Blocking 0, bypassing the bronze/iron gates
+# entirely. Levels match the tier already decided for that boss step.
+- PrefabName: ArmorTrollLeatherChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorTrollLeatherLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetTrollLeather
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBerserkerChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBerserkerLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetBerserkerHood
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldBoneTower
+  Requirements:
+  - Skill: Blocking
+    Level: 15
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorRootChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorRootLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetRoot
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldSerpentscale
+  Requirements:
+  - Skill: Blocking
+    Level: 20
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeChitin
+  Requirements:
+  - Skill: Knives
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearChitin
+  Requirements:
+  - Skill: Spears
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearElderbark
+  Requirements:
+  - Skill: Spears
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorFenringChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorFenringLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetFenring
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeSilver
+  Requirements:
+  - Skill: Knives
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Scythe
+  Requirements:
+  - Skill: Polearms
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeCrystal
+  Requirements:
+  - Skill: Axes
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBerserkerUndeadChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorBerserkerUndeadLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetBerserkerUndead
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceNeedle
+  Requirements:
+  - Skill: Clubs
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeBlackmetal
+  Requirements:
+  - Skill: Axes
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PickaxeBlackMetal
+  Requirements:
+  - Skill: Mining
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# TIER 50 — MISTLANDS (defeated_queen)
+# NOT in the original ladder (which jumped blackmetal 40 -> flametal 60).
+# Added deliberately: Mistlands gear sat between two gated tiers and was
+# therefore completely ungated. 50 keeps the ladder evenly spaced.
+- PrefabName: THSwordKrom
+  Requirements:
+  - Skill: Swords
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordMistwalker
+  Requirements:
+  - Skill: Swords
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeJotunBane
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeSkullSplittur
+  Requirements:
+  - Skill: Axes
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeSkollAndHati
+  Requirements:
+  - Skill: Knives
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SledgeDemolisher
+  Requirements:
+  - Skill: Clubs
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirHimminAfl
+  Requirements:
+  - Skill: Polearms
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearCarapace
+  Requirements:
+  - Skill: Spears
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowSpineSnap
+  Requirements:
+  - Skill: Bows
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorCarapaceChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorCarapaceLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCarapace
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorMageChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorMageLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetMage
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldCarapace
+  Requirements:
+  - Skill: Blocking
+    Level: 50
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldCarapaceBuckler
+  Requirements:
+  - Skill: Blocking
+    Level: 50
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# TIER 60 — ASHLANDS (defeated_fader)
+- PrefabName: SwordNiedhogg
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordNiedhoggNature
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordNiedhoggBlood
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordNiedhoggLightning
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordSlayer
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordSlayerBlood
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordSlayerNature
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordSlayerLightning
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordDyrnwyn
+  Requirements:
+  - Skill: Swords
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBerzerkr
+  Requirements:
+  - Skill: Axes
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBerzerkrNature
+  Requirements:
+  - Skill: Axes
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBerzerkrBlood
+  Requirements:
+  - Skill: Axes
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeBerzerkrLightning
+  Requirements:
+  - Skill: Axes
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceEldner
+  Requirements:
+  - Skill: Clubs
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceEldnerBlood
+  Requirements:
+  - Skill: Clubs
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceEldnerLightning
+  Requirements:
+  - Skill: Clubs
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceEldnerNature
+  Requirements:
+  - Skill: Clubs
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearSplitner
+  Requirements:
+  - Skill: Spears
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearSplitner_Lightning
+  Requirements:
+  - Skill: Spears
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearSplitner_Nature
+  Requirements:
+  - Skill: Spears
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearSplitner_Blood
+  Requirements:
+  - Skill: Spears
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowAshlands
+  Requirements:
+  - Skill: Bows
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowAshlandsRoot
+  Requirements:
+  - Skill: Bows
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowAshlandsBlood
+  Requirements:
+  - Skill: Bows
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowAshlandsStorm
+  Requirements:
+  - Skill: Bows
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowRipper
+  Requirements:
+  - Skill: Crossbows
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowRipperBlood
+  Requirements:
+  - Skill: Crossbows
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowRipperLightning
+  Requirements:
+  - Skill: Crossbows
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowRipperNature
+  Requirements:
+  - Skill: Crossbows
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorFlametalChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorFlametalLegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetFlametal
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorAshlandsMediumChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorAshlandsMediumlegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetAshlandsMediumHood
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorMageChest_Ashlands
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorMageLegs_Ashlands
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetMage_Ashlands
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldFlametal
+  Requirements:
+  - Skill: Blocking
+    Level: 60
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldFlametalTower
+  Requirements:
+  - Skill: Blocking
+    Level: 60
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# TIER 70 — DEEP NORTH (defeated_frozenking_p3)
+- PrefabName: SwordGold
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordGold_BloodLightning
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SwordGold_FrostFire
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordGold
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordGold_BloodLightning
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: THSwordGold_FrostFire
+  Requirements:
+  - Skill: Swords
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeGold
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeGold_BloodLightning
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AxeGold_FrostFire
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeGold
+  Requirements:
+  - Skill: Axes
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeGold_FrostFire
+  Requirements:
+  - Skill: Axes
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BattleaxeGold_BloodLightning
+  Requirements:
+  - Skill: Axes
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeGold
+  Requirements:
+  - Skill: Knives
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeVoid
+  Requirements:
+  - Skill: Knives
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeGold_BloodLightning
+  Requirements:
+  - Skill: Knives
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: KnifeGold_FrostFire
+  Requirements:
+  - Skill: Knives
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceGold
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceGold_FrostFire
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: MaceGold_BloodLightning
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SledgeGold
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SledgeGold_BloodLightning
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SledgeGold_FrostFire
+  Requirements:
+  - Skill: Clubs
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirGold
+  Requirements:
+  - Skill: Polearms
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirGold_BloodLightning
+  Requirements:
+  - Skill: Polearms
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: AtgeirGold_FrostFire
+  Requirements:
+  - Skill: Polearms
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearGold
+  Requirements:
+  - Skill: Spears
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearGold_BloodLightning
+  Requirements:
+  - Skill: Spears
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: SpearGold_FrostFire
+  Requirements:
+  - Skill: Spears
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowGold
+  Requirements:
+  - Skill: Bows
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowGold_FrostFire
+  Requirements:
+  - Skill: Bows
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: BowGold_BloodLightning
+  Requirements:
+  - Skill: Bows
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowGold
+  Requirements:
+  - Skill: Crossbows
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowGold_FrostFire
+  Requirements:
+  - Skill: Crossbows
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CrossbowGold_BloodLightning
+  Requirements:
+  - Skill: Crossbows
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthMediumChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthMediumlegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthHeavyChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthHeavylegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthMageChest
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorDeepNorthMagelegs
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetDNMage
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetDNHeavy
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetDNMediumHood
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldGold
+  Requirements:
+  - Skill: Blocking
+    Level: 70
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldGoldTower
+  Requirements:
+  - Skill: Blocking
+    Level: 70
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldGoldBuckler
+  Requirements:
+  - Skill: Blocking
+    Level: 70
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ShieldRoots
+  Requirements:
+  - Skill: Blocking
+    Level: 70
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# UNARMED LADDER — SKILL NAME UNVERIFIED
+# Valheim's SkillType enum is 'Unarmed'; EpicLoot calls the category
+# 'Fists'. If these gates never fire, the log will show no error (a bad
+# skill name fails OPEN, same as the DraugrFang bug) — swap Unarmed ->
+# Fists and reload. All four entries share the one fix.
+- PrefabName: FistFenrirClaw
+  Requirements:
+  - Skill: Unarmed
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FistBjornUndeadClaw
+  Requirements:
+  - Skill: Unarmed
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FistGold
+  Requirements:
+  - Skill: Unarmed
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FistGold_BloodLightning
+  Requirements:
+  - Skill: Unarmed
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FistGold_FrostFire
+  Requirements:
+  - Skill: Unarmed
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# STAVES — MAGIC GATING (tiers 50/60/70)
+# Deliberately NOT gated before tier 50: entry staves must stay usable
+# because casting is how magic levels (OSRS Magic 1 casts wind strike).
+# SKILL ASSIGNMENT: Valheim splits staves across ElementalMagic and
+# BloodMagic. Summoners are Blood, projectiles are Elemental. The three
+# marked '?? UNVERIFIED' are guesses from the prefab name alone.
+# TO VERIFY (needs a live game, 30 seconds each): wackydb_save_item on
+# the staff, then read 'm_skillType' in the dumped yml. Do NOT dump onto
+# an authored Item_OSRS_*.yml — it overwrites the file.
+- PrefabName: StaffFireball
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffIceShards
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffSkeleton
+  Requirements:
+  - Skill: BloodMagic
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffShield
+  Requirements:
+  - Skill: BloodMagic
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffLightning
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffClusterbomb
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffRedTroll
+  Requirements:
+  - Skill: BloodMagic
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+## ?? UNVERIFIED — could be ElementalMagic
+- PrefabName: StaffGreenRoots
+  Requirements:
+  - Skill: BloodMagic
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffFrostOrbs
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+## ?? UNVERIFIED
+- PrefabName: StaffOrbofAhri
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+## ?? UNVERIFIED — name says Blood, effect says Lightning
+- PrefabName: StaffThunderBlood
+  Requirements:
+  - Skill: BloodMagic
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffSpiritCaller
+  Requirements:
+  - Skill: BloodMagic
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# p9-9 CLONE GATES DEFERRED TO THIS PASS (see the p9-9 block above)
+- PrefabName: OSRS_AbyssalWhip
+  Requirements:
+  - Skill: Swords
+    Level: 50
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_ScytheOfVitur
+  Requirements:
+  - Skill: Polearms
+    Level: 70
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# p9-11 SKILLCAPES — equip-gated at 100, no craft gate (NPC-sold).
+# 'Unarmed' and the two magic skill names share the uncertainty noted
+# in the staves/unarmed sections above: a wrong skill name fails OPEN.
+- PrefabName: OSRS_CapeMining
+  Requirements:
+  - Skill: Mining
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeWoodcutting
+  Requirements:
+  - Skill: Lumberjacking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeCooking
+  Requirements:
+  - Skill: Cooking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeFarming
+  Requirements:
+  - Skill: Farming
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeSmithing
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeConstruction
+  Requirements:
+  - Skill: Building
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeSailing
+  Requirements:
+  - Skill: Sailing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeHunter
+  Requirements:
+  - Skill: Ranching
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeHerblore
+  Requirements:
+  - Skill: Foraging
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeAgility
+  Requirements:
+  - Skill: Evasion
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeFishing
+  Requirements:
+  - Skill: Fishing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeDefence
+  Requirements:
+  - Skill: Blocking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeRanged
+  Requirements:
+  - Skill: Bows
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeCrossbow
+  Requirements:
+  - Skill: Crossbows
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeMagic
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeBloodMagic
+  Requirements:
+  - Skill: BloodMagic
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeStrength
+  Requirements:
+  - Skill: Unarmed
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeSwords
+  Requirements:
+  - Skill: Swords
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeKnives
+  Requirements:
+  - Skill: Knives
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeClubs
+  Requirements:
+  - Skill: Clubs
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapePolearms
+  Requirements:
+  - Skill: Polearms
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeSpears
+  Requirements:
+  - Skill: Spears
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CapeAxes
+  Requirements:
+  - Skill: Axes
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# Max cape — every skill at 100, ANDed.
+- PrefabName: OSRS_CapeMax
+  Requirements:
+  - Skill: Mining
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Lumberjacking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Cooking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Farming
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blacksmithing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Building
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Sailing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Ranching
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Foraging
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Evasion
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Fishing
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Blocking
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Bows
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Crossbows
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: ElementalMagic
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: BloodMagic
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Unarmed
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Swords
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Knives
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Clubs
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Polearms
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Spears
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Axes
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# WIZARDRY (Therzie 1.2.0) - magic ladder below Mistlands. Names verified
+#   against UTF-16 literals in Wizardry.dll (README spells Mountain/Stamina
+#   wrong). Ungated on purpose: StaffBlackforest_TW (Elemental entry) and
+#   StaffSurtling_TW (Blood entry; Blood XP comes only from summon hits).
+#   Rings ungated (effects unknown). Armor: EQUIP Blocking, CRAFT
+#   Blacksmithing, same split as every other set.
+- PrefabName: StaffSwamp_TW
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffMountain_TW
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffPlains_TW
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffMistlands_TW
+  Requirements:
+  - Skill: ElementalMagic
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: StaffGolem_TW
+  Requirements:
+  - Skill: BloodMagic
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetSpellslinger_BlackForest_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellSlingerChest_BlackForest_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellslingerLegs_BlackForest_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CapeSpellslinger_Blackforest_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetSpellslinger_Swamp_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellSlingerChest_Swamp_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellslingerLegs_Swamp_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CapeSpellslinger_Swamp_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetSpellslinger_Mountain_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellSlingerChest_Mountain_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellslingerLegs_Mountain_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CapeSpellslinger_Mountain_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetSpellslinger_Plains_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellSlingerChest_Plains_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellslingerLegs_Plains_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CapeSpellslinger_Plains_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetSpellslinger_Mistlands_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellSlingerChest_Mistlands_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: ArmorSpellslingerLegs_Mistlands_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: CapeSpellslinger_Mistlands_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBronze_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBronze_Stamina_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBronze_Elemental_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBronze_Hunter_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBronze_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletIron_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletIron_Stamina_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletIron_Elemental_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletIron_Hunter_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletIron_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletSilver_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletSilver_Stamina_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletSilver_Elemental_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletSilver_Hunter_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletSilver_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBM_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBM_Stamina_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBM_Elemental_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBM_Hunter_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletBM_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletCarapace_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletCarapace_Stamina_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletCarapace_Elemental_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletCarapace_Hunter_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: HelmetCircletCarapace_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== TRINKETS (Valheim 1.0; craft: Blacksmithing at armor tier, equip ungated) =====
+- PrefabName: TrinketBronzeHealth
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketBronzeStamina
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketChitinSwim
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketIronHealth
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketIronStamina
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketSilverResist
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketSilverDamage
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketBlackDamageHealth
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketBlackStamina
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketCarapaceEitr
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketScaleStaminaDamage
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketFlametalEitr
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketFlametalStaminaHealth
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketBloodGoldHealth
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: TrinketBloodGoldStamina
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ====================================================================
+# ===== POTIONPLUS HELLBROTHS (Alchemy = Herblore; craft + use) =====
+# Levels by material biome: Flames (Resin) 10, Eternal Life (Honey) 15, Frost (FreezeGland) 30, Thors Fury (Tar) 40.
+# Names: PotionsPlus.dll literals + the cfg charge recipes (Hellbroth_of_*:3). Confirm in the next Drop That items dump.
+- PrefabName: Hellbroth_of_Flames
+  Requirements:
+  - Skill: Alchemy
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Flames_Charge
+  Requirements:
+  - Skill: Alchemy
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Eternal_Life
+  Requirements:
+  - Skill: Alchemy
+    Level: 15
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Eternal_Life_Charge
+  Requirements:
+  - Skill: Alchemy
+    Level: 15
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Frost
+  Requirements:
+  - Skill: Alchemy
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Frost_Charge
+  Requirements:
+  - Skill: Alchemy
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Thors_Fury
+  Requirements:
+  - Skill: Alchemy
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Hellbroth_of_Thors_Fury_Charge
+  Requirements:
+  - Skill: Alchemy
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ===== FISHING (bait = OSRS level gate; basic FishingBait and FishingRod ungated) =====
+- PrefabName: FishingBaitForest
+  Requirements:
+  - Skill: Fishing
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitSwamp
+  Requirements:
+  - Skill: Fishing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitOcean
+  Requirements:
+  - Skill: Fishing
+    Level: 25
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitCave
+  Requirements:
+  - Skill: Fishing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitPlains
+  Requirements:
+  - Skill: Fishing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitMistlands
+  Requirements:
+  - Skill: Fishing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitAshlands
+  Requirements:
+  - Skill: Fishing
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: FishingBaitDeepNorth
+  Requirements:
+  - Skill: Fishing
+    Level: 70
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+# ELITE UNIQUE CLONES (2026-09-21): equip-gated at the base weapon tier; no recipe, so BlockCraft false.
+# OSRS_DragonBattleaxe sits at the Deep North tier (70) although its base AxeJotunBane is gated 50 above.
+- PrefabName: OSRS_HillGiantClub
+  Requirements:
+  - Skill: Clubs
+    Level: 15
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_RuneScimitar
+  Requirements:
+  - Skill: Swords
+    Level: 20
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_GraniteMaul
+  Requirements:
+  - Skill: Clubs
+    Level: 25
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_DragonHalberd
+  Requirements:
+  - Skill: Polearms
+    Level: 40
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_CrystalBow
+  Requirements:
+  - Skill: Bows
+    Level: 50
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_AbyssalBludgeon
+  Requirements:
+  - Skill: Clubs
+    Level: 60
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_DragonBattleaxe
+  Requirements:
+  - Skill: Axes
+    Level: 50
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:

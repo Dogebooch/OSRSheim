@@ -1,0 +1,39 @@
+# OSRSheim ItemConfig.yml for Creature Level & Loot Control (authored 2026-09-19, UNTESTED)
+# Enabled via "Use item configuration yaml = On" in org.bepinex.plugins.creaturelevelcontrol.cfg.
+# CLLC syncs this file to clients (Lock Configuration = On), so the server copy is authoritative.
+# The stock example file is parked at ItemConfig.yml.cllc-example for the schema.
+#
+# Coins are the OSRS currency: weightless and effectively unlimited in one stack. Vanilla Coins
+# weigh 0.1 each with a 999 stack = ~100 carry weight for a full stack, which fights the
+# coin-shower drop tables. OSRS coins have no weight and stack to 2.1 billion.
+Coins:
+  weight: 0
+  stack: 9999
+
+# Gem/Rare table valuables: light and stackable so a good drop never costs an inventory slot.
+Amber:
+  weight: 0.1
+  stack: 100
+AmberPearl:
+  weight: 0.1
+  stack: 100
+Ruby:
+  weight: 0.1
+  stack: 100
+SilverNecklace:
+  weight: 0.1
+  stack: 50
+Chain:
+  weight: 0.1
+  stack: 50
+
+# Crystal key parts (2026-09-21): light and stackable like the gems. Whether CLLC applies to wackydb clones is untested.
+OSRS_LoopHalfKey:
+  weight: 0.1
+  stack: 20
+OSRS_ToothHalfKey:
+  weight: 0.1
+  stack: 20
+OSRS_CrystalKey:
+  weight: 0.1
+  stack: 20

@@ -1,0 +1,18 @@
+# OSRSheim p9-9 boss unique — FrozenKing_p3 — authored 2026-09-19
+# Base AtgeirGold (dump: weight 2.5, Pierce 182 (+10/lvl), stamina 20).
+# Multi_Hit DROPPED per Doug - real field (README:589) but atgeirs sweep natively.
+name: OSRS_ScytheOfVitur
+clonePrefabName: AtgeirGold
+m_name: Frost King's scythe
+m_description: The sweep of it reaps a whole rank at once.
+m_weight: 2.5
+Damage:
+  Pierce: 200
+Primary_Attack:
+  Custom_AttackSpeed: 0.95
+Secondary_Attack:
+  Custom_AttackSpeed: 0.95
+# VERIFY-BY-FEEL: Custom_AttackSpeed cannot be confirmed by dumping this item
+# back out - wackydb normalizes it to 1 on save (README FAQ line 135), and a
+# wackydb_save_item on THIS file would silently reset the value below to 1.
+# Never re-save over this file; every other twist here is dump-confirmed.

@@ -1,0 +1,12 @@
+# OSRSheim p9-9 boss unique — gd_king (The Elder) — authored 2026-09-19
+# Base AxeBronze (dump: weight 2, Chop 40 / Slash 40, per-level Chop 3 / Slash 5).
+# Doug's note: chop bonus ONLY. Slash 40 is restated at its BASE value so the
+# combat number is pinned, not drifting. Per-level values left untouched.
+name: OSRS_DragonAxe
+clonePrefabName: AxeBronze
+m_name: Rootcleaver
+m_description: Bites deeper into wood than any smith's axe. Combat is not its trade.
+m_weight: 1.6
+Damage:
+  Chop: 50
+  Slash: 40

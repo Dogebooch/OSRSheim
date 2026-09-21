@@ -1,0 +1,11 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — FrozenKing_p3 — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_PetFrozenKing
+clonePrefabName: TrophyElaking
+m_name: Tiny frost king
+m_description: Crowned, tiny, and furious about the thaw.
+m_weight: 0.1
+# CAVEAT: FrozenKing_p3 has NO trophy prefab of its own (it drops FrozenKingDrop).
+# TrophyElaking belongs to the separate Deep North creature [Elaking.1].
+# Doug approved the borrowed model 2026-09-19 — invisible on a wall mount.

@@ -1,0 +1,8 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — GoblinKing — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_PetYagluth
+clonePrefabName: TrophyGoblinKing
+m_name: Sulking ember
+m_description: What is left of a god, sulking on your mantel.
+m_weight: 0.1

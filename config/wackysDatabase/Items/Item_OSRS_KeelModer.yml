@@ -1,0 +1,7 @@
+# OSRSheim hull key - Dragon rare (1/8, .104) or quest reward; consumed by the OdinShipPlus hull recipes - authored 2026-09-21
+# DragonTear clone: material only, no stat block.
+name: OSRS_KeelModer
+clonePrefabName: DragonTear
+m_name: Drake-tear keel
+m_description: A keel set with a frozen tear. It cuts ice as easily as water.
+m_weight: 1

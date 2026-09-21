@@ -1,0 +1,17 @@
+# OSRSheim p9-9 boss unique — Fader — authored 2026-09-19
+# Base CapeAsh (dump: weight 4, armor 12 (+2/lvl),
+#   Moddifiers m_attackStaminaModifier -0.1 / m_blockStaminaModifier -0.2).
+# Those two base modifiers are RESTATED so the added movement modifier does not
+# replace the block wholesale.
+name: OSRS_InfernalCape
+clonePrefabName: CapeAsh
+m_name: Cinder cape
+m_description: Woven in the pit. The heat never left it.
+m_weight: 4
+Armor:
+  armor: 15
+  armorPerLevel: 2
+Moddifiers:
+  m_movementModifier: 0.02
+  m_attackStaminaModifier: -0.1
+  m_blockStaminaModifier: -0.2

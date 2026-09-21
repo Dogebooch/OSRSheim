@@ -1,0 +1,25 @@
+# Timestamped backups - git is the history now
+*.bak
+*.bak-*
+*.bak.*
+*.cllc-example
+
+# Mod-shipped examples and runtime output
+*.log
+*.log.*
+__pycache__/
+*.pyc
+
+# Local-only Claude settings
+.claude/settings.local.json
+
+# KG binary assets - Gale reinstalls these with the mod
+config/Marketplace_CachedImages/
+config/Marketplace_KGChat_Emojis/
+config/Marketplace_Models/
+config/Marketplace_Sounds/
+config/Marketplace_VideoClips/
+
+# Never commit credentials
+*.env
+secrets.*

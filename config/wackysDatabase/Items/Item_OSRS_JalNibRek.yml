@@ -1,0 +1,8 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — Fader — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_JalNibRek
+clonePrefabName: TrophyFader
+m_name: Ember nibbler
+m_description: A nibbler that survived the pit. It thinks you are its mother.
+m_weight: 0.1

@@ -1,0 +1,12 @@
+# OSRSheim p9-9 boss unique — Eikthyr — authored 2026-09-19
+# Base CapeDeerHide. Values dump-verified in-game (wackydb_save_item),
+# reference copy: OSRSheim\reference\wackydb-base-dumps\Item_CapeDeerHide.yml
+# Base: weight 4, armor 1/+1, no stamina modifiers.
+name: OSRS_GracefulCape
+clonePrefabName: CapeDeerHide
+m_name: Windrunner cape
+m_description: Light as a rooftop breeze. Running and leaping cost less.
+m_weight: 2
+Moddifiers:
+  m_runStaminaModifier: -0.1
+  m_jumpStaminaModifier: -0.1

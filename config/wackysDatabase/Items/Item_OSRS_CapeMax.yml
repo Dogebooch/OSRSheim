@@ -1,0 +1,7 @@
+# OSRSheim p9-11 — MAX CAPE. Requires every gated skill at 100.
+# WIRSL ANDs multiple Requirements entries, so all 23 must be met.
+name: OSRS_CapeMax
+clonePrefabName: CapeLinen
+m_name: Allfather's cape
+m_description: Every skill, every level. There is nothing left in Valheim that you have not already done.
+m_weight: 1

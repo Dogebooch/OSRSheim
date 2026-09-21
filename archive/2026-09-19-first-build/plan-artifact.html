@@ -1,0 +1,1498 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>OSRSheim Setup Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+  :root {
+    --bg: #ece2cb;
+    --surface: #f7f1e0;
+    --surface-2: #e3d7b9;
+    --ink: #2c2418;
+    --muted: #6e6049;
+    --accent: #8a5d00;
+    --accent-strong: #a96e00;
+    --green: #3d7a1e;
+    --red: #9c3a2a;
+    --border: #cdbd98;
+    --border-soft: #dbcfae;
+    --track: #d3c5a0;
+    --xp: #4f9422;
+    --code-bg: #2b251b;
+    --code-ink: #e8ddc0;
+    --code-border: #4a4133;
+    --test-bg: #332b1e;
+    --test-border: #8a6d1f;
+    --test-ink: #f3e6bd;
+    --test-gold: #ffb83d;
+    --chip-changed-bg: #f4e3c0;
+    --chip-changed-ink: #7a4a00;
+    --chip-verified-bg: #dfe9d2;
+    --chip-verified-ink: #2f5c17;
+    --chip-flag-bg: #f0dcd4;
+    --chip-flag-ink: #8a3325;
+    --focus: #a96e00;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1e1912;
+      --surface: #282218;
+      --surface-2: #332b1e;
+      --ink: #eadfc2;
+      --muted: #a4977a;
+      --accent: #e2a637;
+      --accent-strong: #ffb83d;
+      --green: #7cc24a;
+      --red: #e06a55;
+      --border: #4a4030;
+      --border-soft: #3b3325;
+      --track: #3a3226;
+      --xp: #6db33f;
+      --code-bg: #16120c;
+      --code-ink: #e5dabb;
+      --code-border: #3b3325;
+      --test-bg: #2e2718;
+      --test-border: #8a6d1f;
+      --test-ink: #f3e6bd;
+      --test-gold: #ffb83d;
+      --chip-changed-bg: #3d3120;
+      --chip-changed-ink: #f0c880;
+      --chip-verified-bg: #2b3a1e;
+      --chip-verified-ink: #a8d97f;
+      --chip-flag-bg: #40231c;
+      --chip-flag-ink: #f0a08f;
+      --focus: #ffb83d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #1e1912;
+    --surface: #282218;
+    --surface-2: #332b1e;
+    --ink: #eadfc2;
+    --muted: #a4977a;
+    --accent: #e2a637;
+    --accent-strong: #ffb83d;
+    --green: #7cc24a;
+    --red: #e06a55;
+    --border: #4a4030;
+    --border-soft: #3b3325;
+    --track: #3a3226;
+    --xp: #6db33f;
+    --code-bg: #16120c;
+    --code-ink: #e5dabb;
+    --code-border: #3b3325;
+    --test-bg: #2e2718;
+    --test-border: #8a6d1f;
+    --test-ink: #f3e6bd;
+    --test-gold: #ffb83d;
+    --chip-changed-bg: #3d3120;
+    --chip-changed-ink: #f0c880;
+    --chip-verified-bg: #2b3a1e;
+    --chip-verified-ink: #a8d97f;
+    --chip-flag-bg: #40231c;
+    --chip-flag-ink: #f0a08f;
+    --focus: #ffb83d;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.55;
+    padding-inline: clamp(16px, 4vw, 28px);
+    padding-block: 0 64px;
+  }
+  .wrap { max-width: 900px; margin-inline: auto; }
+
+  h1, h2, h3, .display {
+    font-family: "Alegreya SC", "Palatino Linotype", Georgia, serif;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 700; margin: 0 0 4px; line-height: 1.15; }
+  h2 { font-size: 1.35rem; font-weight: 700; margin: 0; }
+  h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 6px; }
+  p { margin: 0 0 12px; max-width: 68ch; }
+  a { color: var(--accent-strong); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  strong { font-weight: 700; }
+  code {
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.86em;
+    background: var(--surface-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    padding: 1px 5px;
+    overflow-wrap: anywhere;
+  }
+
+  /* ── Sticky progress bar ─────────────────────────── */
+  .topbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-block: 14px 26px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(20, 14, 4, 0.12);
+  }
+  .topbar .name {
+    font-family: "Alegreya SC", Georgia, serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+  .xpbar {
+    flex: 1;
+    height: 14px;
+    background: var(--track);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .xpbar > div {
+    height: 100%;
+    width: 0%;
+    background: var(--xp);
+    border-radius: 7px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .xpbar > div { transition: width 0.35s ease; }
+  }
+  .topbar .count {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+
+  /* ── Chips & meta ────────────────────────────────── */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
+  .chip {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .chip.changed { background: var(--chip-changed-bg); color: var(--chip-changed-ink); border-color: transparent; }
+  .chip.verified { background: var(--chip-verified-bg); color: var(--chip-verified-ink); border-color: transparent; }
+  .chip.flag { background: var(--chip-flag-bg); color: var(--chip-flag-ink); border-color: transparent; }
+  .subtitle { color: var(--muted); font-size: 1.05rem; max-width: 62ch; }
+
+  /* ── Two-column expectation strip ────────────────── */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 22px 0; }
+  @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .panel h3 { display: flex; align-items: center; gap: 8px; }
+  .panel ul { margin: 6px 0 2px; padding-left: 20px; }
+  .panel li { margin-bottom: 4px; }
+  .panel.no h3 { color: var(--red); }
+  .panel.yes h3 { color: var(--green); }
+
+  /* ── Tables ──────────────────────────────────────── */
+  .tablewrap { overflow-x: auto; margin: 14px 0 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.94rem; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    font-family: "Alegreya SC", Georgia, serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+  td .sub { color: var(--muted); font-size: 0.86rem; display: block; }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ── Section headers ─────────────────────────────── */
+  section { margin-top: 40px; }
+  .sechead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; border-bottom: 2px solid var(--border); padding-bottom: 6px; margin-bottom: 14px; }
+  .eyebrow {
+    font-family: "Alegreya SC", Georgia, serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .phase-count { margin-left: auto; color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+
+  /* ── Checklist steps ─────────────────────────────── */
+  .steps { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    align-items: start;
+  }
+  .step:hover { border-color: var(--accent); }
+  .step input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    margin: 2px 0 0;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    background: var(--bg);
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    flex-shrink: 0;
+  }
+  .step input:checked { background: var(--green); border-color: var(--green); }
+  .step input:checked::after {
+    content: "";
+    width: 11px; height: 6px;
+    border-left: 2.5px solid #fff;
+    border-bottom: 2.5px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+  .step input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .step.done { opacity: 0.62; }
+  .step.done .steptext > .lead { text-decoration: line-through; text-decoration-color: var(--muted); }
+  .steptext { min-width: 0; }
+  .steptext .lead { font-weight: 500; }
+  .steptext .why { color: var(--muted); font-size: 0.9rem; display: block; margin-top: 2px; }
+
+  .note {
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    padding: 8px 14px;
+    margin: 12px 0;
+    font-size: 0.94rem;
+    color: var(--muted);
+  }
+  .note strong { color: var(--ink); }
+
+  /* ── Code blocks ─────────────────────────────────── */
+  .codewrap { position: relative; margin: 12px 0; }
+  .codewrap .fname {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.76rem;
+    color: var(--test-gold);
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 6px 12px 4px;
+    overflow-wrap: anywhere;
+  }
+  .codewrap pre {
+    margin: 0;
+    background: var(--code-bg);
+    color: var(--code-ink);
+    border: 1px solid var(--code-border);
+    border-radius: 0 0 8px 8px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    font-size: 0.83rem;
+    line-height: 1.5;
+  }
+  .codewrap.bare pre { border-radius: 8px; }
+  .copybtn {
+    position: absolute;
+    top: 6px; right: 8px;
+    font-family: "Alegreya Sans", system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--test-ink);
+    background: rgba(255, 184, 61, 0.14);
+    border: 1px solid var(--test-border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .copybtn:hover { background: rgba(255, 184, 61, 0.28); }
+  .copybtn:focus-visible { outline: 2px solid var(--test-gold); outline-offset: 1px; }
+
+  /* ── Quest-style TEST banner (single-look object) ── */
+  .test {
+    background: var(--test-bg);
+    border: 2px solid var(--test-border);
+    border-radius: 10px;
+    color: var(--test-ink);
+    padding: 12px 16px;
+    margin: 16px 0 6px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+  }
+  .test .badge {
+    font-family: "Alegreya SC", Georgia, serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    color: var(--test-gold);
+    border: 1px solid var(--test-border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+  .test p { margin: 0; color: var(--test-ink); font-size: 0.95rem; max-width: none; }
+
+  /* ── Appendices ──────────────────────────────────── */
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0;
+    margin: 12px 0;
+  }
+  details summary {
+    cursor: pointer;
+    font-family: "Alegreya SC", Georgia, serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 12px 18px;
+    list-style-position: outside;
+  }
+  details summary:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; border-radius: 10px; }
+  details .inner { padding: 2px 18px 16px; }
+  details .inner ul { padding-left: 20px; margin: 8px 0; }
+  details .inner li { margin-bottom: 6px; }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .resetbtn {
+    font: inherit;
+    font-weight: 700;
+    color: var(--red);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  .resetbtn:hover { border-color: var(--red); }
+  .resetbtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .savestate { font-size: 0.82rem; color: var(--muted); }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 4px; }
+  .toc a {
+    font-family: "Alegreya SC", Georgia, serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 3px 12px;
+    white-space: nowrap;
+  }
+  .toc a:hover { border-color: var(--accent); }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <h1>OSRSheim Setup Plan</h1>
+    <p class="subtitle">A phased install of ~20 mods that lays Old School RuneScape's progression skeleton — per-skill grinds, level-gated gear, monster levels, rare drops, a bank and marketplace, Slayer bounties, a collection log — over Valheim 1.0. Combat stays Valheim's; everything around it becomes RuneScape. <strong>Two players, on a rented dedicated server</strong> — the host owns the ruleset.</p>
+    <div class="chips">
+      <span class="chip">Valheim 1.0.15</span>
+      <span class="chip">BepInEx 5.4.2350</span>
+      <span class="chip changed">Two players · dedicated server</span>
+      <span class="chip verified">Spot-checked 2026-09-19</span>
+    </div>
+    <nav class="toc" aria-label="Phases">
+      <a href="#decisions">Decisions</a>
+      <a href="#stack">The stack</a>
+      <a href="#p0">0 · Backup</a>
+      <a href="#p1">1 · Loader</a>
+      <a href="#p2">2 · Skills</a>
+      <a href="#p3">3 · Gating</a>
+      <a href="#p4">4 · Monsters</a>
+      <a href="#p5">5 · Economy</a>
+      <a href="#p6">6 · Gear &amp; travel</a>
+      <a href="#p7">7 · World</a>
+      <a href="#p8">8 · Server &amp; run</a>
+      <a href="#p9">9 · Gap campaign</a>
+      <a href="#appendices">Appendices</a>
+    </nav>
+  </header>
+
+  <div class="topbar" role="status">
+    <span class="name">Setup XP</span>
+    <div class="xpbar"><div id="xpfill"></div></div>
+    <span class="count" id="xpcount">0 / 0</span>
+  </div>
+
+  <div class="split">
+    <div class="panel yes">
+      <h3>What this build delivers</h3>
+      <ul>
+        <li>~20 independent skills that train by doing and grind toward a cap (&asymp;99)</li>
+        <li>Gear and tools locked behind skill levels, tier by tier</li>
+        <li>Monster names + levels over every creature; loot that scales</li>
+        <li>OSRS-calibrated drop tables — shared Rare/Gem tables, boss uniques at fixed rates, pets at 1/1000+</li>
+        <li>Skilling tertiaries: bird-nest and mining-gem analogues (~1/256)</li>
+        <li>Coins, shops, a banker, quests, and a marketplace</li>
+        <li>Slayer-style bounties and clue-scroll-style treasure maps</li>
+        <li>Achievements / collection log / leaderboard</li>
+        <li>A worn-equipment tab and quick slots</li>
+        <li>Teleports that feel unlocked, not free</li>
+        <li>Towns and points of interest worth walking to</li>
+        <li>Two players in one world, with the server as the single config authority</li>
+      </ul>
+    </div>
+    <div class="panel no">
+      <h3>What stays Valheim</h3>
+      <ul>
+        <li>Real-time stamina/dodge combat — no 0.6&nbsp;s tick system exists in any maintained mod</li>
+        <li>No click-to-move, click-to-attack, or auto-retaliate</li>
+        <li>Combat triangle only loosely approximated</li>
+        <li>One-roll main tables: creature drop entries roll independently — long-run rates match OSRS exactly, but rare double-uniques can happen</li>
+        <li>No Prayer drain, Runecraft, Thieving, Hunter, or Firemaking analogues</li>
+        <li>XP <em>feel</em> via multipliers — not OSRS's exact table (13,034,431 to 99; level 92 is the halfway mark)</li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="decisions">
+    <div class="sechead"><h2>Locked decisions</h2></div>
+    <p>Defaults are committed so the install is one pass, not a research project. Change any of them before Phase 1 — after that they're wired into configs.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Decision</th><th>Call</th><th>Why</th></tr>
+        <tr>
+          <td><strong>Players</strong> <span class="chip changed">changed</span></td>
+          <td>Two, on a rented dedicated server</td>
+          <td>Changed 2026-09-19, before the profile freeze — the right time, since adding a server after Phase 8 would mean unfreezing the build. The design is untouched: an audit of the installed profile found the stack already ServerSync'd (Smoothbrain's <code>Lock Configuration</code>, and <code>[Synced with Server]</code> across EpicLoot, AzuEPI, WackysDatabase, MWL and Almanac), so the host becomes the single config authority and the Gale profile becomes the authoring copy. Loot rates are <em>not</em> recalibrated — see Phase 4.</td>
+        </tr>
+        <tr>
+          <td><strong>Mod manager</strong></td>
+          <td>Gale, profile <code>OSRSheim</code></td>
+          <td>Verified today: Gale pulls Thunderstore <em>and</em> Hexium catalogs for Valheim by default, favoring Thunderstore when versions match. r2modman is the fallback (Thunderstore only — Hexium mods by hand).</td>
+        </tr>
+        <tr>
+          <td><strong>Skill engine</strong></td>
+          <td>Smoothbrain skill suite — <em>skip</em> WackyEpicMMOSystem</td>
+          <td>Many separate grinds is the OSRS feel. EpicMMO is one character level + attribute points; running both means two progression systems fighting for the same space.</td>
+        </tr>
+        <tr>
+          <td><strong>XP rate</strong></td>
+          <td>Authentic grind: 0.5&times; per-skill multiplier</td>
+          <td>Stretches the climb toward RuneScape pacing. Drop to 0.25&times; if it still feels fast; the "respect my time" alternative is 1.5–2&times;. Starting values — tune in game.</td>
+        </tr>
+        <tr>
+          <td><strong>Death rules</strong> <span class="chip changed">changed</span></td>
+          <td>Keep skills, drop items</td>
+          <td>Your guide picked Casual (keep gear <em>and</em> skills). But an OSRS death drops your stuff — and Valheim's tombstone run is already a gravestone run. Pick the death-penalty tier that removes skill loss but keeps item drop; fall back to Casual if no tier says that. <strong>On a dedicated server this is a launch argument, not a world-creation checkbox</strong> — see Phase 8.</td>
+        </tr>
+        <tr>
+          <td><strong>World order</strong> <span class="chip changed">changed</span></td>
+          <td>Test on a scratch world; create the real world last</td>
+          <td>Your guide installs location packs in Phase 7 onto an existing world — but they only generate on unexplored terrain. Testing on a throwaway <code>ModTest</code> world and creating <code>Gielheim</code> after the full stack is stable means towns generate everywhere from hour zero.</td>
+        </tr>
+        <tr>
+          <td><strong>Loot engine</strong></td>
+          <td>Drop That — append-only (IDs ≥ 100), time-normalized rates</td>
+          <td>It edits both of Valheim's drop systems, and its v3.x syntax is now fully documented — the old guide's biggest open flag, resolved. Appending above the vanilla indexes preserves every progression drop automatically. Literal OSRS fractions at Valheim kill speeds mean 250-hour boss uniques, so rates are scaled by kills-per-hour (a literal-fractions file ships alongside as a swap-in).</td>
+        </tr>
+        <tr>
+          <td><strong>EpicLoot's role</strong> <span class="chip changed">changed</span></td>
+          <td>Restricted: treasure maps + bounties only; affix drops zeroed</td>
+          <td>OSRS gear is fixed-stat with no random affixes — Diablo-style magic drops fight the aesthetic. The loot deep-dive demotes EpicLoot from pillar to optional layer; the purist build removes it entirely (Almanac bounties then carry Slayer, and the clue-scroll analogue is lost).</td>
+        </tr>
+        <tr>
+          <td><strong>Monster levels</strong> <span class="chip changed">changed</span></td>
+          <td>CLLC stars off; all its loot multipliers 1.0</td>
+          <td>OSRS monsters have fixed levels per type — random stars and loot multipliers would silently inflate the calibrated tables. CLLC is kept purely for the name-and-level display, and tested on 1.0 before trusting (one tracker reports it quiet since May 2025).</td>
+        </tr>
+        <tr>
+          <td><strong>Travel</strong></td>
+          <td>Portals on, but earned</td>
+          <td>XPortal for named destinations + KG Teleporter NPCs as fixed hubs, gated by boss keys or fees &asymp; unlockable spellbook teleports / fairy rings. No free fast travel.</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="sechead"><h2>The stack</h2></div>
+    <p><strong>Core — the eight that make it OSRS.</strong> Version pins are from the guide's 2026-09-19 check; confirm each at install (two weeks post-1.0, everything is moving).</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Mod</th><th class="num">Pin</th><th>Home</th><th>Gives you</th></tr>
+        <tr><td>BepInExPack Valheim <span class="sub">denikson</span></td><td class="num">5.4.2350</td><td>Thunderstore</td><td>The mod loader (1.0 launch build)</td></tr>
+        <tr><td>Jötunn <span class="sub">ValheimModding</span></td><td class="num">2.30.0</td><td>Thunderstore</td><td>Shared library many mods need (1.0-fixed; build-piece categories still flaky)</td></tr>
+        <tr><td>Smoothbrain skill suite ×10 <span class="sub">Smoothbrain — list below</span></td><td class="num">latest 1.0 builds</td><td>Thunderstore</td><td>The many-skills grind</td></tr>
+        <tr><td>WackyItemRequiresSkillLevel <span class="sub">WackyMole</span></td><td class="num">1.4.7</td><td>Thunderstore</td><td>Craft/equip gated by skill level (YAML)</td></tr>
+        <tr><td>CreatureLevelAndLootControl <span class="sub">Smoothbrain</span></td><td class="num">3.9.9</td><td>Thunderstore</td><td>Monster names + levels (stars zeroed for OSRS-flat calibration) <span class="sub">possibly unmaintained since May 2025 — test on 1.0; droppable fallback</span></td></tr>
+        <tr><td>Drop That <span class="sub">ASharpPen</span></td><td class="num">3.1.4</td><td>Thunderstore / GitHub / Nexus</td><td>Both loot systems — independent creature drops + weighted object tables, shared named lists, conditions, debug prefab dump <span class="sub">1.0 republish unconfirmed as of Sept 19 — take a newer build if one shows, else test 3.1.4</span></td></tr>
+        <tr><td>Almanac <span class="sub">RustyMods (+ YamlDotNet)</span></td><td class="num">3.7.94</td><td>Thunderstore</td><td>Achievements, collection log, bounties, leaderboard <span class="sub">version confirmed live on Thunderstore 2026-09-19</span></td></tr>
+        <tr><td>AzuExtendedPlayerInventory <span class="sub">Azumatt</span></td><td class="num">2.5.1</td><td><strong>Hexium</strong> <span class="sub">Thunderstore 2.4.14 is the deprecated stale copy</span></td><td>Worn-equipment tab (6 slots) + quick slots</td></tr>
+      </table>
+    </div>
+
+    <p><strong>Recommended — the economy and juice layer.</strong></p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Mod</th><th class="num">Pin</th><th>Home</th><th>Gives you</th></tr>
+        <tr><td>EpicLoot <span class="sub">RandyKnapp &amp; team</span></td><td class="num">0.14.8</td><td>Thunderstore</td><td>Restricted role: <strong>treasure maps (clue scrolls)</strong> + <strong>bounties (Slayer)</strong>, with random-affix drops zeroed <span class="sub">2026-09-17 build, confirmed rebuilt for 1.0.14 — or skip entirely for the purist build</span></td></tr>
+        <tr><td>KG Marketplace <span class="sub">"Marketplace And Server NPCs Revamped"</span></td><td class="num">9.8.1+</td><td><strong>Hexium</strong> <span class="sub">Thunderstore copy deprecated = moved, not dead</span></td><td>Coins, shops, <strong>banker</strong>, Grand-Exchange-ish marketplace, quests, teleporter, buffs</td></tr>
+        <tr><td>Marketplace Configs <span class="sub">JewelHeim</span></td><td class="num">latest</td><td>Thunderstore</td><td>Ready-made Trader / Quests / Gamble / Buffs / Transmog NPC configs</td></tr>
+        <tr><td>WackysDatabase <span class="sub">WackyMole</span></td><td class="num">2.5.x</td><td>Thunderstore</td><td>Edit any item/recipe/piece via YAML; dump real prefab names</td></tr>
+        <tr><td>Spawn That <span class="sub">ASharpPen</span></td><td class="num">1.2.19</td><td>Thunderstore</td><td>Respawn/adjust spawners — OSRS-style replenishing resource nodes</td></tr>
+        <tr><td>XPortal <span class="sub">(or Target Portal)</span></td><td class="num">latest 1.0 build</td><td>Thunderstore</td><td>Named portal destinations</td></tr>
+      </table>
+    </div>
+
+    <p><strong>Optional flavor, added only after the core survives a session:</strong> Warpalicious "More World Locations" packs and/or Expand World (towns, dungeons — Phase 7); Therzie Warfare 1.9.2 + Armory 1.4.0 (confirmed current on 1.0 — the cleanest fixed-stat boss-unique source per the loot deep-dive, though it needs its own Drop That wiring and ships WackysDatabase content that must be loaded) plus Wizardry / Monstrum for a real staves-tomes-runes magic line and more monsters — heavy, adds hours of content weight; a BepInEx audio replacer scaffold with <em>your own</em> OSRS jingle files (never redistribute Jagex audio).</p>
+
+    <h3 style="margin-top:20px">Skill mapping — OSRS ↔ this build</h3>
+    <p>Valheim 1.0 already has 24 vanilla skills that level 1–100 by use; OSRS has 24 that level 1–99. The Smoothbrain picks fill the non-combat gaps:</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th>OSRS skill</th><th>Covered by</th></tr>
+        <tr><td>Attack / Strength</td><td>Vanilla weapon skills (Swords, Clubs, Axes, Polearms, Spears, Knives, Fists)</td></tr>
+        <tr><td>Defence</td><td>Vanilla Blocking (+ Smoothbrain <strong>Evasion</strong> for the Agility side)</td></tr>
+        <tr><td>Ranged</td><td>Vanilla Bows + Crossbows</td></tr>
+        <tr><td>Magic</td><td>Vanilla Blood/Elemental Magic (Eitr) — Therzie Wizardry if you want a full spellbook</td></tr>
+        <tr><td>Hitpoints</td><td>No direct skill — food does this job in Valheim</td></tr>
+        <tr><td>Mining</td><td>Smoothbrain <strong>Mining</strong> (vanilla Pickaxes keeps leveling alongside)</td></tr>
+        <tr><td>Woodcutting</td><td>Smoothbrain <strong>Lumberjacking</strong> (vanilla Wood Cutting alongside)</td></tr>
+        <tr><td>Fishing</td><td>Vanilla Fishing</td></tr>
+        <tr><td>Cooking</td><td>Smoothbrain <strong>Cooking</strong></td></tr>
+        <tr><td>Smithing / Crafting</td><td>Smoothbrain <strong>Blacksmithing</strong> + vanilla Crafting</td></tr>
+        <tr><td>Farming</td><td>Smoothbrain <strong>Farming</strong></td></tr>
+        <tr><td>Construction</td><td>Smoothbrain <strong>Building</strong></td></tr>
+        <tr><td>Agility</td><td>Vanilla Run / Jump / Dodge / Swim + Smoothbrain <strong>Evasion</strong></td></tr>
+        <tr><td>Sailing</td><td>Smoothbrain <strong>Sailing</strong></td></tr>
+        <tr><td>Slayer</td><td>EpicLoot bounties and/or Almanac kill achievements</td></tr>
+        <tr><td>Herblore (≈)</td><td>Smoothbrain <strong>Foraging</strong> + PotionPlus potion ladder (Phase 9, Wave B)</td></tr>
+        <tr><td>Hunter (≈)</td><td>Smoothbrain <strong>Ranching</strong></td></tr>
+        <tr><td>Prayer, Runecraft, Thieving, Fletching, Firemaking</td><td>No clean analogue — accepted gaps</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PHASE 0 ═══════════════ -->
+  <section id="p0">
+    <div class="sechead">
+      <span class="eyebrow">Phase 0</span>
+      <h2>Back up before touching anything</h2>
+      <span class="phase-count" data-phase="p0"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p0-1" data-step="p0-1">
+        <span class="steptext"><span class="lead">Copy the entire Valheim save folder somewhere safe.</span>
+        <span class="why">Characters (<code>characters_local</code>) and worlds (<code>worlds_local</code>) both live under it. One command in PowerShell:</span></span>
+      </label>
+      <div class="codewrap bare">
+        <button class="copybtn" type="button">Copy</button>
+        <pre>robocopy "$env:USERPROFILE\AppData\LocalLow\IronGate\Valheim" "$env:USERPROFILE\Desktop\Valheim-backup-2026-09-19" /E</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p0-2" data-step="p0-2">
+        <span class="steptext"><span class="lead">Steam → Valheim → Properties → Updates → "Only update this game when I launch it".</span>
+        <span class="why">Stops Steam from patching the game out from under your pinned mods mid-week. Launching through Gale also avoids mid-session updates.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p0-3" data-step="p0-3">
+        <span class="steptext"><span class="lead">Note the escape hatch: Properties → Betas → <code>default_pre1_0</code>.</span>
+        <span class="why">If a future patch breaks the stack, this rolls back to the last pre-1.0 build. Everyone on a shared world must roll back together, and Deep North content is lost while you're there.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p0-4" data-step="p0-4">
+        <span class="steptext"><span class="lead">Confirm Valheim is installed on the NVMe/SSD — not the G: drive.</span>
+        <span class="why">Your G: is the SMR drive from the Dota diagnosis; a ~20-mod stack loads a lot of DLLs and assets at boot. Steam → Properties → Installed Files shows the drive; "Move install folder" fixes it.</span></span>
+      </label>
+    </div>
+    <div class="note"><strong>Heads-up:</strong> the first modded launch is noticeably slower — Defender scans every fresh plugin DLL once. Let it finish; don't force-kill the process.</div>
+    <div class="test"><span class="badge">Test</span><p>The backup folder opens and contains <code>characters_local</code> and <code>worlds_local</code>. Only then proceed.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 1 ═══════════════ -->
+  <section id="p1">
+    <div class="sechead">
+      <span class="eyebrow">Phase 1</span>
+      <h2>Mod manager, loader, libraries</h2>
+      <span class="phase-count" data-phase="p1"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p1-1" data-step="p1-1">
+        <span class="steptext"><span class="lead">Install Gale (github.com/Kesomannen/gale → latest release, or hexium.gg/mod-manager).</span>
+        <span class="why">~15 MB, open-source, boots in under a second, and — verified today — reads both the Thunderstore and Hexium catalogs for Valheim out of the box. It imports r2modman profiles if you ever switch back.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p1-2" data-step="p1-2">
+        <span class="steptext"><span class="lead">Create a fresh profile named <code>OSRSheim</code> (profile dropdown → New).</span>
+        <span class="why">Isolates this build completely — your vanilla saves and any other modded profile stay untouched. Every config this plan edits lives under <code>…\profiles\OSRSheim\BepInEx\config\</code>.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p1-3" data-step="p1-3">
+        <span class="steptext"><span class="lead">Sanity-check the two Hexium-hosted mods exist before committing: search AzuExtendedPlayerInventory and Marketplace And Server NPCs Revamped in Gale.</span>
+        <span class="why">Hexium itself is confirmed real (valheim.hexium.gg, already hosting Smoothbrain and OdinPlus). If either mod is missing from both catalogs, pause and reassess — those are the equipment-tab and economy pillars.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p1-4" data-step="p1-4">
+        <span class="steptext"><span class="lead">Install <code>denikson-BepInExPack_Valheim</code> 5.4.2350 and <code>ValheimModding-Jotunn</code> 2.30.0, with dependencies.</span>
+        <span class="why">The loader and the shared library. Configuration Manager ships inside the BepInEx pack — F1 in game opens it for live config editing.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p1-5" data-step="p1-5">
+        <span class="steptext"><span class="lead">Launch modded once from Gale, reach the main menu, quit.</span>
+        <span class="why">First launch generates the config files every later phase edits.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Test</span><p>Main menu shows BepInEx/plugin info, and <code>profiles\OSRSheim\BepInEx\config\</code> now contains .cfg files. F1 in game opens Configuration Manager.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 2 ═══════════════ -->
+  <section id="p2">
+    <div class="sechead">
+      <span class="eyebrow">Phase 2</span>
+      <h2>Skills — the 24-skill grind</h2>
+      <span class="phase-count" data-phase="p2"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p2-1" data-step="p2-1">
+        <span class="steptext"><span class="lead">Install the ten Smoothbrain skills:</span>
+        <span class="why">Mining, Lumberjacking, Cooking, Farming, Blacksmithing, Building, Sailing, Ranching, Foraging, Evasion (all <code>Smoothbrain-*</code> packages; take the 1.0-tagged builds — the author is actively rebuilding post-launch). Each is an independent train-by-doing skill with perks, sharing one Skill Manager.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p2-2" data-step="p2-2">
+        <span class="steptext"><span class="lead">Set each skill's experience multiplier to the Authentic preset: 0.5×.</span>
+        <span class="why">Easiest via F1 → each Smoothbrain mod section → the skill-gain / experience factor entry (exact key name varies per mod). 0.25× if you want the 92-is-half-of-99 brutality; 1.5–2× for "respect my time".</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p2-3" data-step="p2-3">
+        <span class="steptext"><span class="lead">Leave skill caps at default (100 ≈ your 99). Leave the vanilla world "skill gain" modifier alone too.</span>
+        <span class="why">One tuning knob (the mod multipliers), not two stacked ones.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Test</span><p>Chop a tree, mine a rock, cook meat, pull a carrot — each fires its own skill-up popup, and the new skills appear in the skills panel (Tab).</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 3 ═══════════════ -->
+  <section id="p3">
+    <div class="sechead">
+      <span class="eyebrow">Phase 3</span>
+      <h2>Level-gated gear</h2>
+      <span class="phase-count" data-phase="p3"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p3-1" data-step="p3-1">
+        <span class="steptext"><span class="lead">Install <code>WackyMole-WackyItemRequiresSkillLevel</code> 1.4.7 — plus <code>WackyMole-WackysDatabase</code> 2.5.x.</span>
+        <span class="why">The first gates craft/equip behind skill levels via YAML. The second lets you edit recipes/items later and, usefully now, dump the game's real prefab names.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p3-2" data-step="p3-2">
+        <span class="steptext"><span class="lead">Launch once, then paste the starter gate table into the config YAML:</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\WackyMole.ItemRequiresSkillLevel.yml</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre>- PrefabName: SwordBronze
+  Requirements:
+    - Skill: Swords
+      Level: 15
+      BlockCraft: true
+      BlockEquip: true
+- PrefabName: PickaxeIron
+  Requirements:
+    - Skill: Pickaxes
+      Level: 20
+      BlockCraft: true
+      BlockEquip: true
+- PrefabName: SwordSilver
+  Requirements:
+    - Skill: Swords
+      Level: 30
+      BlockCraft: true
+      BlockEquip: true
+- PrefabName: SwordBlackmetal
+  Requirements:
+    - Skill: Swords
+      Level: 40
+      BlockCraft: true
+      BlockEquip: true</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p3-3" data-step="p3-3">
+        <span class="steptext"><span class="lead">Extend the pattern across the tier ladder: Flint 1 · Bronze 15 · Iron 20 · Silver 30 · Black metal 40 · <strong>Mistlands 50</strong> · Flametal 60 · Deep North 70.</span>
+        <span class="why">Gate tools by their tool skill (Pickaxes, or Smoothbrain Mining), weapons by their weapon skill, armor by Blocking. <code>GlobalKeyReq: defeated_bonemass</code> adds boss-kill requirements — quest-cape-style locks.</span></span>
+      </label>
+    </div>
+    <div class="note"><strong>Prefab names:</strong> the mod's own docs show examples like <code>BronzeSword</code>, but vanilla prefabs are actually <code>SwordBronze</code>, <code>AxeFlint</code>, <code>SwordSilver</code>, etc. (order flipped). High confidence but verify any gate that doesn't fire via a WackysDatabase dump — and pull Ashlands/Deep North prefab names in game, they're too new to trust from memory. Drop That's debug dump (Phase 4, step 2) is the other clean prefab source.</div>
+    <div class="test"><span class="badge">Test</span><p>With Swords below 15, crafting or equipping a bronze sword is blocked with a requirement message. Level past it and the block lifts.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 4 ═══════════════ -->
+  <section id="p4">
+    <div class="sechead">
+      <span class="eyebrow">Phase 4</span>
+      <h2>Loot — the OSRS drop engine</h2>
+      <span class="phase-count" data-phase="p4"></span>
+    </div>
+    <p>Valheim has two loot systems, and the split is lucky: creature drops roll every entry independently (per-item long-run rates match OSRS exactly; only "one item per roll" is lost), while object and skilling drops use a genuinely <em>weighted</em> table — structurally identical to OSRS's main table. Drop That edits both. The model, the math, and the fidelity map live in the <a href="#lootref">loot design reference</a> below.</p>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p4-1" data-step="p4-1">
+        <span class="steptext"><span class="lead">Install <code>ASharpPen-Drop_That</code> — a post-Sept-9 build if Gale shows one, else 3.1.4.</span>
+        <span class="why">The engine; no better-maintained alternative exists. Latest confirmed release is 3.1.4 (Feb 2026) and a 1.0 republish wasn't verifiable on Sept 19 — 3.1.4 is config-driven and may simply work, so test it. If it's broken on 1.0, this phase pauses until it updates.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p4-2" data-step="p4-2">
+        <span class="steptext"><span class="lead">Turn on Drop That's debug dump and harvest real prefab names.</span>
+        <span class="why">In the generated <code>drop_that.cfg</code>, enable the <code>[Debug]</code> write-to-file options (exact key names vary by version — enable whatever <code>Write…ToFile</code> entries appear), load a world once, and read the emitted files under <code>BepInEx\</code>. Every creature and object table comes out in ready-to-copy config format with correct 1.0 prefab names, Deep North included. Copy from the dump, never from old wikis — rock prefabs especially shift between patches.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p4-3" data-step="p4-3">
+        <span class="steptext"><span class="lead">Install <code>Smoothbrain-CreatureLevelAndLootControl</code> 3.9.9, calibrated flat: all loot / boss-loot / trophy multipliers = 1.0, star spawn chances = 0.</span>
+        <span class="why">Keeps names and levels over every monster (red = above you) — the OSRS combat-level look — while killing the two things that would silently distort calibrated tables: random stars and loot multipliers. Caveat: one tracker reports CLLC quiet since May 2025. Test it on your 1.0 patch first; if broken, drop it and carry on — Drop That alone delivers the whole loot design.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p4-4" data-step="p4-4">
+        <span class="steptext"><span class="lead">Create the shared Rare and Gem tables as named lists — OSRS's shared sub-tables:</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\drop_that.character_drop_list.shared_tables.cfg</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre># ---- GEM TABLE ----
+# Attach to any creature with: UseDropList = GemTableTier1
+
+[GemTableTier1.0]
+# ~1/256
+PrefabName = Ruby
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.390625
+ScaleByLevel = false
+
+[GemTableTier1.1]
+# ~1/128
+PrefabName = Amber
+AmountMin = 1
+AmountMax = 2
+ChanceToDrop = 0.78125
+ScaleByLevel = false
+
+[GemTableTier1.2]
+# ~1/512
+PrefabName = AmberPearl
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.1953125
+ScaleByLevel = false
+
+# ---- RARE TABLE (unlocks richer entries after Bonemass) ----
+# Attach with: UseDropList = RareTableTier2
+
+[RareTableTier2.0]
+PrefabName = Coins
+AmountMin = 20
+AmountMax = 60
+ChanceToDrop = 2.0
+ScaleByLevel = false
+ConditionGlobalKeys = defeated_bonemass
+
+[RareTableTier2.1]
+PrefabName = SilverNecklace
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.2
+ScaleByLevel = false
+ConditionGlobalKeys = defeated_bonemass</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p4-5" data-step="p4-5">
+        <span class="steptext"><span class="lead">Paste the creature starter table — append-only, drop IDs ≥ 100.</span>
+        <span class="why">Vanilla drops hold indexes 0, 1, 2… — adding at ≥ 100 means every progression drop (summon items, keys, Wishbone) survives untouched. <code>ScaleByLevel = false</code> on everything; <code>ChanceToDrop</code> is a 0–100 scale, decimals accepted. Coins on the tables give every kill loot value — vanilla currency that Haldor and the KG shops both spend.</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\drop_that.character_drop.cfg</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre># ===== MEADOWS =====
+[Greyling.100]
+PrefabName = Wood
+AmountMin = 1
+AmountMax = 2
+ChanceToDrop = 40
+ScaleByLevel = false
+
+[Neck]
+UseDropList = GemTableTier1
+[Neck.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 8
+ChanceToDrop = 25
+ScaleByLevel = false
+
+[Boar.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 5
+ChanceToDrop = 20
+ScaleByLevel = false
+
+# ===== BLACK FOREST =====
+[Greydwarf]
+UseDropList = GemTableTier1
+[Greydwarf.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 12
+ChanceToDrop = 30
+ScaleByLevel = false
+
+# ===== SWAMP =====
+[Draugr]
+UseDropList = RareTableTier2
+[Draugr.100]
+PrefabName = Coins
+AmountMin = 5
+AmountMax = 20
+ChanceToDrop = 35
+ScaleByLevel = false
+
+# ===== BOSS EXAMPLE: Eikthyr (ADD, never clear vanilla drops) =====
+[Eikthyr.100]
+PrefabName = Coins
+AmountMin = 200
+AmountMax = 400
+ChanceToDrop = 100
+ScaleByLevel = false
+DropOnePerPlayer = true
+
+[Eikthyr.101]
+# collectible / pet-analogue
+PrefabName = TrophyEikthyr
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 100
+ScaleByLevel = false</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p4-6" data-step="p4-6">
+        <span class="steptext"><span class="lead">Paste the object/skilling table — trees, ore, chests, and the skilling tertiaries.</span>
+        <span class="why">This file drives the <em>weighted</em> system: bird-nest and mining-gem analogues at a ~1/256 feel, richer crypt chests. A creature's table should only hold materials from its own biome tier or lower, so drops never bypass boss-gated metal progression. Confirm every object prefab name from the step-2 dump first.</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\drop_that.drop_table.cfg</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre># ---- Tree log: keep wood, add a bird-nest analogue ----
+# (prefab names below MUST be confirmed from the debug dump)
+[BeechTree_log.100]
+PrefabName = Feathers
+Weight = 0.4
+AmountMin = 1
+AmountMax = 3
+
+# ---- Copper deposit: gem tertiary, ~1/256 feel via low weight ----
+[MineRock_Copper.100]
+PrefabName = Amber
+Weight = 0.4
+AmountMin = 1
+AmountMax = 1
+
+# ---- Forest crypt chest: 2-4 weighted picks, one of each ----
+[TreasureChest_forestcrypt]
+DropChance = 100
+DropOnlyOnce = True
+DropMin = 2
+DropMax = 4
+[TreasureChest_forestcrypt.100]
+PrefabName = Coins
+Weight = 30
+AmountMin = 20
+AmountMax = 60</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p4-7" data-step="p4-7">
+        <span class="steptext"><span class="lead">Commit to the time-normalized rate preset (default); park literal fractions in a swap file.</span>
+        <span class="why">Valheim kill rates run 4–15× slower than OSRS, so literal fractions turn brutal — a literal 1/512 boss unique is ~256 hours at 2 kills/hour. The formula and worked tables are in the reference. Keep a <code>drop_that.character_drop.literal.cfg</code> variant alongside and enable exactly one of the two.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p4-8" data-step="p4-8">
+        <span class="steptext"><span class="lead">Install EpicLoot 0.14.8 in its restricted role — or skip it for the purist build.</span>
+        <span class="why">OSRS gear is fixed-stat; random affixes are Diablo. Zero EpicLoot's magic-item drop chances from creatures and chests (its <code>loottables.json</code> / <code>randyknapp.mods.epicloot.cfg</code>), keeping only <strong>treasure maps (clue scrolls)</strong> and <strong>bounties (Slayer)</strong>. Purist alternative: no EpicLoot at all — Almanac bounties carry Slayer and the clue layer is dropped. Boss uniques come from Drop That at fixed rates either way: vanilla rares, WackysDatabase clones, or Therzie Warfare/Armory gear. <strong>Done 2026-09-19 night, the hard way:</strong> zeroing <code>Global Drop Rate Modifier</code> was never going to work — the mod's own config says elite and boss drops "come from the loot tables directly and are not affected by this setting". Fixed at the table level instead: 141 loot tables + 157 leveled entries set to <code>Drops: [[0,100]]</code>, verified zero can still roll. Treasure maps and bounties were checked first and are completely independent (they pay tokens and <code>RewardCoins</code> directly), so the clue/Slayer layer survives intact.</span></span>
+      </label>
+    </div>
+    <div class="note"><strong>Iterating:</strong> <code>dropthat:reload</code> in the console (add <code>-console</code> to launch options; admin-only on servers) hot-reloads every loot config — a ten-second tuning loop. <strong>On the dedicated server</strong> that becomes edit → upload → reload, and it is admin-only, so you need an <code>adminlist.txt</code> entry or every tuning pass is a server restart. Fraction cheat sheet: 1/128 = <code>0.78125</code> · 1/256 = <code>0.390625</code> · 1/512 = <code>0.1953125</code> · 1/1000 = <code>0.1</code> · 1/5000 = <code>0.02</code>.</div>
+    <div class="note"><strong>Co-op — rates stay, one question opens.</strong> Loot rates are deliberately <em>unchanged</em> for two players: a shared pile split two ways is roughly solo per-player pacing, which is the OSRS-authentic answer — a duo gets drops twice as fast collectively while each player’s own rate stays fixed. What is <em>not</em> established: all 26 boss entries carry <code>DropOnePerPlayer = true</code> (a no-op solo), and whether Drop That rolls <code>ChanceToDrop</code> independently per player or rolls once and hands each player a copy is unverified. Irrelevant for coins; decisive for a 1/512 unique — “each of you has a shot” versus “you both get one or neither does”. Test with a temporary 100% entry, then a temporary 50% entry, both players present.</div>
+    <div class="test"><span class="badge">Test</span><p>Spawn-test: <code>spawn Greydwarf 20</code>, bulk-kill, confirm coins and the odd gem land. Temporarily raise one rare to ~50 to prove the entry fires, then restore it. Statistics before calling a rate broken: the first drop lands around N kills for a 1/N rate, but allow ~3×N (≈380 kills gives 95% confidence on 1/128). LogOutput.log names the file and line of any config typo.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 5 ═══════════════ -->
+  <section id="p5">
+    <div class="sechead">
+      <span class="eyebrow">Phase 5</span>
+      <h2>Coins, bank, shops, quests, collection log</h2>
+      <span class="phase-count" data-phase="p5"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p5-1" data-step="p5-1">
+        <span class="steptext"><span class="lead">Install KG Marketplace ("Marketplace And Server NPCs Revamped") — the live 1.0 build, from Hexium via Gale.</span>
+        <span class="why">The Thunderstore copy (KGvalheim 9.8.1) wears a Deprecated banner because the maintained build moved — deprecated-on-Thunderstore ≠ dead. One mod covers marketplace, trader, <strong>banker (your bank)</strong>, teleporter, quests, buffs.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p5-2" data-step="p5-2">
+        <span class="steptext"><span class="lead">Add JewelHeim's "Marketplace Configs" starter pack.</span>
+        <span class="why">Ready-made Trader / Quests / Gamble / Buffs / Transmog NPC configs so you're placing NPCs, not authoring them from scratch.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p5-3" data-step="p5-3">
+        <span class="steptext"><span class="lead">Launch once, then set the marketplace mode — local while you author, server-owned for the run:</span>
+        <span class="why"><span class="chip changed">changed</span> <code>True</code> is correct for solo ModTest work and stays that way until the host exists. At server standup (Phase 8) it flips to <code>False</code> so the server owns NPC and marketplace state. Do not flip it early — local mode is what ModTest needs.</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\MarketplaceAndServerNPCs.cfg</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre># ModTest / solo authoring — current setting:
+Use Marketplace Locally = True
+
+# Gielheim on the dedicated server (Phase 8, step 4):
+Use Marketplace Locally = False</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p5-4" data-step="p5-4">
+        <span class="steptext"><span class="lead">Install <code>RustyMods-Almanac</code> 3.7.94 (pulls YamlDotNet).</span>
+        <span class="why">Achievements = collection log, plus its own bounties, leaderboard, and a token currency (<code>AlmanacToken</code>) spendable in its store. Achievement files hot-reload on edit.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p5-5" data-step="p5-5">
+        <span class="steptext"><span class="lead">Drop in a first Slayer-style achievement:</span></span>
+      </label>
+      <div class="codewrap">
+        <div class="fname">profiles\OSRSheim\BepInEx\config\Almanac\Achievements\uniques.yml</div>
+        <button class="copybtn" type="button">Copy</button>
+        <pre>- UniqueID: Boss.001
+  Name: Antlers of the Forest
+  Lore: Proof you felled Eikthyr.
+  Icon: TrophyEikthyr
+  TokenReward: 5
+  Requirement:
+    Type: Kill
+    PrefabName: Eikthyr
+    Threshold: 1
+- UniqueID: Milestone.001
+  Name: Greydwarf Slayer
+  Lore: 500 greydwarves felled.
+  Icon: TrophyGreydwarf
+  TokenReward: 10
+  Requirement:
+    Type: Kill
+    PrefabName: Greydwarf
+    Threshold: 500</pre>
+      </div>
+      <label class="step"><input type="checkbox" id="p5-6" data-step="p5-6">
+        <span class="steptext"><span class="lead"><span class="chip flag">blocked</span> Stock the general store — <strong>in game, not in a config file.</strong></span>
+        <span class="why"><strong>Corrected 2026-09-19:</strong> there is no <code>TraderProfiles.cfg</code> on KG 10.x. The mod uses empty per-feature directories under <code>Marketplace\Configs\</code> (Traders, Bankers, Quests, Teleporters, Gamblers…), ships no templates, keeps state in a <code>DB.db</code> that is not SQLite, and its README is six lines with no schema. Traders are built with the in-game NPC editor. Knock-on: the skillcapes below have no vendor until this is done, so they are spawn-only. Almanac collection-log goals use <code>Type: CollectItems</code> (e.g. <code>TrophyDeer,5;TrophyBoar,2</code>); chain achievements with <code>Type: Achievements</code>. Confirm Type values and the file shape against your version's own example files; whether Almanac's creature pages reflect Drop That's <em>modified</em> tables is unconfirmed.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Test</span><p>Place the Marketplace, Banker, and Trader NPCs; deposit an item at the banker and get it back; accept and finish a quest; the Almanac panel shows Greydwarf Slayer ticking up.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 6 ═══════════════ -->
+  <section id="p6">
+    <div class="sechead">
+      <span class="eyebrow">Phase 6</span>
+      <h2>Equipment tab, travel, sound</h2>
+      <span class="phase-count" data-phase="p6"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p6-1" data-step="p6-1">
+        <span class="steptext"><span class="lead">Confirm no other inventory/slot mod is installed: ExtraSlots, EquipmentAndQuickSlots, ComfyQuickSlots, MoreSlots all hard-conflict.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p6-2" data-step="p6-2">
+        <span class="steptext"><span class="lead">Install <code>Azumatt-AzuExtendedPlayerInventory</code> 2.5.1 (Hexium build, 2026-09-17, tagged Valheim 1.0).</span>
+        <span class="why">Six equipment slots (Helmet, Chest, Legs, Back, Utility, Trinket — plus optional Wishbone/Demister) ≈ the worn-equipment tab, 0–8 quick slots (Alt+Z/X/C/V/B/N/1/2), 0–6 extra rows. Bundles ServerSync; doesn't need Jötunn.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p6-3" data-step="p6-3">
+        <span class="steptext"><span class="lead">Install XPortal (named destinations) — or Target Portal if you prefer pick-on-entry.</span>
+        <span class="why">Combined with KG's Teleporter NPCs as fixed fee/boss-key-gated hubs, teleports feel unlocked like spellbook teleports and fairy rings, not free.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p6-4" data-step="p6-4">
+        <span class="steptext"><span class="lead">Optional: install an audio-replacer scaffold and supply your own OSRS level-up jingle / death sound files.</span>
+        <span class="why">Client-side only. Install the scaffold empty and add audio you sourced yourself — RuneScape's assets are Jagex's; don't redistribute them in a profile export.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Test</span><p>Equipment and quick slots render and survive a relog; a named portal connects; a level-up plays your jingle.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 7 ═══════════════ -->
+  <section id="p7">
+    <div class="sechead">
+      <span class="eyebrow">Phase 7</span>
+      <h2>A populated world — still on the test world</h2>
+      <span class="phase-count" data-phase="p7"></span>
+    </div>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p7-1" data-step="p7-1">
+        <span class="steptext"><span class="lead">Install Warpalicious "More World Locations" packs (and Expand World if you want full generation control), checking each pack's 1.0 status.</span>
+        <span class="why">Towns, camps, dungeons — destinations that make the overworld feel inhabited, the closest you'll get to Lumbridge and Varrock. Locations only generate in <em>unexplored</em> terrain.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p7-2" data-step="p7-2">
+        <span class="steptext"><span class="lead">On the ModTest world, run/sail into fresh terrain and confirm new POIs appear.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p7-3" data-step="p7-3">
+        <span class="steptext"><span class="lead">Skim <code>BepInEx\LogOutput.log</code> for repeating NullReferenceException spam.</span>
+        <span class="why">Location packs are the most patch-sensitive layer of this stack. Find the first NRE and read down to the first frame that isn't UnityEngine/ObjectDB/ZNetScene — that names the guilty plugin.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Test</span><p>At least two new location types found; log clean of repeating exceptions.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 8 ═══════════════ -->
+  <section id="p8">
+    <div class="sechead">
+      <span class="eyebrow">Phase 8</span>
+      <h2>The server, and the real run — Gielheim</h2>
+      <span class="phase-count" data-phase="p8"></span>
+    </div>
+    <p><span class="chip changed">rebuilt 2026-09-19</span> This phase was written for a solo world. It is now a <strong>two-player run on a rented dedicated server</strong>, which changes four concrete things: the mod set must exist on the host as well as both clients, configs become a deploy step instead of a file save, world modifiers move from the creation screen to launch arguments, and KG Marketplace leaves local mode. The design itself is untouched. Per-mod detail lives in the <a href="#serverref">dedicated-server reference</a>.</p>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p8-1" data-step="p8-1">
+        <span class="steptext"><span class="lead">Freeze the build: Gale → export the OSRSheim profile, save the code, and send it to your friend.</span>
+        <span class="why">Disaster recovery <em>and</em> the one-string invite. Because Hexium-hosted mods are in the list (KG Marketplace, AzuEPI), the export uploads to Hexium and only Gale can import it — your friend needs Gale, not r2modman. Everything rides along, including the 16 <code>Item_OSRS_*.yml</code> clones their client needs in order to render boss uniques at all.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-2" data-step="p8-2">
+        <span class="steptext"><span class="lead">Stand the host up: BepInEx plus the identical mod set, same versions as the client profile.</span>
+        <span class="why">Drop the BepInEx pack into the server folder (Linux hosts launch through <code>start_server_bepinex.sh</code>). Version drift between host and clients is the classic modded-server failure — pin from the export rather than re-resolving "latest" on the host. Client-only pieces can be left off: the audio replacer and purely visual tweaks.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-3" data-step="p8-3">
+        <span class="steptext"><span class="lead">Deploy the config set to the host, and add yourself to its <code>adminlist.txt</code>.</span>
+        <span class="why">The server's copies are authoritative from here on: the Gale profile becomes the authoring copy, and a config is not live until it has been uploaded. Without the admin entry, <code>dropthat:reload</code> and <code>devcommands</code> are both closed to you — which turns every later tuning pass into a server restart.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-4" data-step="p8-4">
+        <span class="steptext"><span class="lead">Flip <code>Use Marketplace Locally = False</code>, then verify every KG module in game before committing to it.</span>
+        <span class="why"><strong>The highest-risk step in this phase.</strong> 10.0.1-beta.1 is a young beta, and its server path is the one configuration ModTest never exercised. Check Trader, Banker, Quests and Teleporter individually. If the banker loses an item, stop and reassess rather than starting a hundred-hour run on top of it.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-5" data-step="p8-5">
+        <span class="steptext"><span class="lead">Re-run the boss-unique drop check on the server, not just solo.</span>
+        <span class="why">The clones must register server-side <em>before</em> Drop That resolves its tables, and exist client-side to render — the same load-ordering trap that cost an hour locally, now spread across two machines and a second person's install. Use the temp-100%-entry recipe, confirm both players see the item, then delete the temp block. If it fails here but passed solo, the cause is the network boundary, not the config.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-6" data-step="p8-6">
+        <span class="steptext"><span class="lead">Set the world modifiers as <em>launch arguments</em>: death penalty = keeps skills / drops items (fallback Casual), portals per the Phase-6 travel rule, Resource rate Normal (1×), raids to taste.</span>
+        <span class="why"><span class="chip changed">changed</span> A dedicated server has no world-creation screen — these move into the startup command (<code>-preset</code> / <code>-modifier</code>). Verify the exact flag names and accepted values against your host's own startup documentation: the tier <em>wording</em> was already unverified, and now the syntax is too. Resource rate must stay 1× or the calibrated drop tables silently inflate.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-7" data-step="p8-7">
+        <span class="steptext"><span class="lead">Both players roll fresh characters.</span>
+        <span class="why">Level-1-everything is the new-account feel; an imported Viking arrives with skills that walk straight through your own gates. Worth agreeing out loud that neither of you brings one over — the gates are the game.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-8" data-step="p8-8">
+        <span class="steptext"><span class="lead">Delete ModTest, and back up <em>both</em> targets: the Gale profile and the server's world save.</span>
+        <span class="why"><span class="chip changed">changed</span> Gielheim no longer lives under <code>%USERPROFILE%\AppData\LocalLow\IronGate\Valheim</code> — that path now holds local and test worlds only. The run's world sits on the host, so whatever snapshot or backup facility the host offers is now part of your recovery plan, not an optional extra.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p8-9" data-step="p8-9">
+        <span class="steptext"><span class="lead">Run the Tutorial Island gauntlet together — the end-to-end proof:</span>
+        <span class="why">Mine copper + tin (Mining XP) → hit the SwordBronze gate below Swords 15 → grind past it → craft the sword → bank it with the banker → take your first Slayer bounty. Six systems, one loop. <strong>Co-op addition:</strong> both of you kill one boss and settle what <code>DropOnePerPlayer</code> actually does (see the Phase 4 note). If all six fire and the loot split behaves, OSRSheim is live.</span></span>
+      </label>
+    </div>
+    <div class="test"><span class="badge">Quest complete</span><p>Welcome to Gielheim. The grind is the game — now with a witness.</p></div>
+  </section>
+
+  <!-- ═══════════════ PHASE 9 ═══════════════ -->
+  <section id="p9">
+    <div class="sechead">
+      <span class="eyebrow">Phase 9</span>
+      <h2>Gap campaign — closing on the OSRS loop</h2>
+      <span class="phase-count" data-phase="p9"></span>
+    </div>
+    <p>From the 2026-09-19 gap analysis, run after the full-stack ModTest pass: everything still standing between this build and OSRS's gameloop, sequenced in four waves. <strong>Wave A slots before Phase 8</strong> (config only, one ModTest session); Wave C is hot-reloadable and safe to run mid-Gielheim. Accepted gaps, deliberately: Thieving, Prayer drain, tick combat, minigames — Valheim shouldn't cosplay those.</p>
+
+    <h3>Wave A — config only, before Gielheim</h3>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p9-1" data-step="p9-1">
+        <span class="steptext"><span class="lead">Re-key tool gates to the gathering skills: picks → Mining 10/20, hatchets → Lumberjacking 15/20/40.</span>
+        <span class="why">Makes gathering levels gate content, OSRS's core loop (Mining 30 → coal). Battleaxes stay on Axes — combat weapons keep combat skills. Fallback if Smoothbrain names don't resolve: revert to Pickaxes/Axes. Authored 2026-09-19.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-2" data-step="p9-2">
+        <span class="steptext"><span class="lead">Armor + shield gates: equip on Blocking (Defence), craft on Blacksmithing (Smithing) — bronze 15 · iron 20 · wolf 30 · padded 40.</span>
+        <span class="why">The Smithing-to-make / Defence-to-wear split; ends the accidental 1-def pure. 19 new entries, names confirmed against EpicLoot's 1.0-built item tables. Authored 2026-09-19.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-3" data-step="p9-3">
+        <span class="steptext"><span class="lead">ModTest the wave: log shows <code>Loaded: 39</code>; bronze armor refused below Blocking 15; iron pick refused below Mining 20.</span>
+        <span class="why">WIRSL's own README says Smoothbrain skill support is only <em>partial</em> — this is the go/no-go on the re-key. <code>ShieldBlackmetalTower</code> is the one unverified prefab name.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-4" data-step="p9-4">
+        <span class="steptext"><span class="lead">Fishing gates: dump item names via WackysDatabase in game, then gate the biome baits (and any rod tiers) on vanilla Fishing.</span>
+        <span class="why">Vanilla 1.0 already has the Fishing skill and biome-tiered fish + bait — the missing piece is gating. Bait prefab names exist nowhere in the on-disk dumps, so they wait for a live dump. <strong>Re-checked 2026-09-19 night and confirmed blocked:</strong> no bait prefab in any dump, and <code>FishingRod</code> is the only rod in the 1.0 item ladder. Gating that one rod on Fishing would be circular — no rod means no fishing means no Fishing levels — so it is deliberately left ungated.</span></span>
+      </label>
+    </div>
+
+    <h3>Wave B — three small mods, tested one at a time</h3>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p9-5" data-step="p9-5">
+        <span class="steptext"><span class="lead">Vanilla-skill XP tune: <code>JuJuz1/SkillGainModifier</code> (per-skill factors, Apr-2026 build) — Swords, Bows, Blocking, Fishing etc. to 0.5×, death drain 0.</span>
+        <span class="why">The gear gates key on vanilla skills that still level at vanilla speed while the Smoothbrain ten run 0.5× — inconsistent grind without it. Pre-1.0 build: ModTest. Fallback: <code>Honja/ExperienceTuner</code>.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-6" data-step="p9-6">
+        <span class="steptext"><span class="lead">Herblore: <code>OdinPlus/PotionPlus</code> (1.0-current, actively updated) — gate its potion tiers on Cooking via WIRSL (~15/25/35/45).</span>
+        <span class="why">The potion ladder meads don't provide, at an alchemy table. 410k downloads, updated the day of this analysis.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-7" data-step="p9-7">
+        <span class="steptext"><span class="lead">Optional juice: <code>Smoothbrain/Exploration</code> (map-uncover XP ≈ Agility) and an XP-bar HUD (<code>ValFox/RecentXpBars</code> or <code>Zenox/BetterUI</code>).</span>
+        <span class="why">OSRS's XP-drop dopamine. Client-side or same-family Smoothbrain — still one ModTest slot each, per the one-at-a-time rule.</span></span>
+      </label>
+    </div>
+
+    <h3>Wave C — the loot campaign (hot-reloadable, mid-run safe)</h3>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p9-8" data-step="p9-8">
+        <span class="steptext"><span class="lead">Extend coins + the Gem/Rare shared lists (list IDs 110+/120+) biome by biome until every creature rolls the RDT.</span>
+        <span class="why">The economy spine — coverage today is ~5% (starter creatures + Eikthyr). Prefab names from the saved Debug dumps; <code>dropthat:reload</code> for ten-second iteration.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-9" data-step="p9-9">
+        <span class="steptext"><span class="lead">Boss uniques: one signature drop per boss at 1/128–1/512 (time-normalized) plus a ~1/5000 vanity ultra-rare — the pet analogue.</span>
+        <span class="why">Bosses currently drop deterministic vanilla only. Altars have no resummon cooldown, so unique-hunting plays like GWD.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-10" data-step="p9-10">
+        <span class="steptext"><span class="lead">Demi-bosses: Spawn That rare elite spawns in set zones, each with its own Drop That unique.</span>
+        <span class="why">Fills the nothing-between-biome-bosses gap — wilderness-boss energy from existing prefabs, no new assets. <strong>Deferred 2026-09-19, twice blocked:</strong> <code>spawn_that.world_spawners_advanced.cfg</code> is empty and Spawn That's own instructions say to copy entries out of a generated reference — which does not exist yet, so authoring now would mean inventing syntax. Its dump flags are now enabled, so one world load unblocks it. Second blocker: the design wants a unique that only drops from a creature killed off-biome, and the only conditions Drop That actually emits are <code>ConditionGlobalKeys</code> and the three time-of-day ones. Confirm a biome condition exists before designing around one.</span></span>
+      </label>
+    </div>
+
+    <h3>Wave D — endgame flavor and the tier-60/70 pass</h3>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p9-11" data-step="p9-11">
+        <span class="steptext"><span class="lead"><span class="chip verified">authored 2026-09-19</span> Skillcapes: WackysDatabase cape clones per skill, WIRSL-gated at level 100, sold by a KG town NPC.</span>
+        <span class="why">The 99 moment, and a real gold sink. Trimmed is a recolor. <strong>Authored, untested:</strong> 24 clones of <code>CapeLinen</code> — 23 per-skill capes plus a max cape whose single gate ANDs all 23 skills at 100. Equip-gated only, since they have no recipe. OSRS names where the mapping is 1:1 (Woodcutting, Smithing, Construction, Herblore, Agility, Hunter, Defence, Ranged, Magic, Strength); Valheim names where OSRS collapses several skills into Attack. No vendor yet — see Phase 5.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-12" data-step="p9-12">
+        <span class="steptext"><span class="lead"><span class="chip verified">authored 2026-09-19</span> Tier-<strong>50</strong>/60/70 gating pass: Mistlands, Ashlands and Deep North gear, plus the staves on Blood/Elemental Magic.</span>
+        <span class="why">Magic gating lands here, not earlier: entry staves must stay usable because casting is how magic levels (OSRS Magic 1 casts wind strike). Flametal ≈ 60, Deep North ≈ 70. <strong>Authored, untested — and it grew:</strong> the file went from 43 gates to <strong>217</strong>. A <strong>tier 50 (Mistlands)</strong> was added that the original ladder never had — it jumped blackmetal 40 straight to flametal 60, leaving every Mistlands item ungated. A mid-tier gap fill closed the same kind of hole lower down: Root, Fenring, Berserker and Troll Leather armor were all wearable at Blocking 0, walking straight past the bronze and iron gates. <strong>And one bug:</strong> the Wave A gate <code>DraugrFang</code> was the wrong prefab — it is <code>BowDraugrFang</code> — so it had silently never fired. A wrong PrefabName fails open with no log line, which is exactly why it went unnoticed. Names came from EpicLoot's <code>iteminfo.json</code> <code>ItemsByBoss</code> ladder. Next launch must log <strong>Loaded: 217</strong>.</span></span>
+      </label>
+    </div>
+
+    <h3>Watch list — blocked on upstream releases</h3>
+    <div class="steps">
+      <label class="step"><input type="checkbox" id="p9-13" data-step="p9-13">
+        <span class="steptext"><span class="lead">Almanac ships a 1.0 build → re-enable it: quests, diaries, collection log and the token store go live from the already-staged configs.</span>
+        <span class="why">Still 3.7.94 (Aug 11) as of 09-19; its staged config tree is the entire quest/diary/collection-log pillar. Interim quest-ish locks: WIRSL <code>GlobalKeyReq</code> on boss keys.</span></span>
+      </label>
+      <label class="step"><input type="checkbox" id="p9-14" data-step="p9-14">
+        <span class="steptext"><span class="lead">KG Marketplace stabilizes past 10.0.1-beta.1 → wire its quest module as repeatable Slayer dailies and place the Banker — with interest OFF.</span>
+        <span class="why">Module set confirmed (Trader / Banker / Quests / Teleporter / Gambler / Buffer), but the 10.x rewrite is young — verify each module in-game. OSRS banks don't pay you to bank.</span></span>
+      </label>
+    </div>
+
+    <div class="test"><span class="badge">Test</span><p>The gauntlet, extended: bronze armor refuses below Blocking 15 · the iron pick waits on Mining 20 · a potion tier opens at Cooking 25 · every biome's kills pay coins · and when Almanac returns, the collection log starts filling.</p></div>
+  </section>
+
+  <!-- ═══════════════ APPENDICES ═══════════════ -->
+  <section id="appendices">
+    <div class="sechead"><h2>Appendices</h2></div>
+
+    <details id="lootref">
+      <summary>Loot design reference — the OSRS model and the math</summary>
+      <div class="inner">
+        <h3>How OSRS actually rolls loot</h3>
+        <ul>
+          <li><strong>Always drops:</strong> bones/ashes on almost every creature (100%).</li>
+          <li><strong>Main table:</strong> exactly one weighted roll per kill — one item or "nothing"; some bosses roll several times.</li>
+          <li><strong>Pre-roll uniques:</strong> bosses and slayer monsters roll uniques first; the main table only fires if all fail.</li>
+          <li><strong>Tertiary drops:</strong> fully independent side rolls — clue scrolls, pets, champion scrolls; several can land on one kill.</li>
+          <li><strong>Shared sub-tables:</strong> the Rare Drop Table (hit at e.g. 8/128) and Gem table (2/128) nest deeper — mega-rares at 15/128 inside the RDT, a sapphire at 32/128 inside gems with a 63/128 "nothing" slot.</li>
+          <li><strong>Reference rates:</strong> abyssal whip 1/512 · dragon med helm 1/128 on the RDT · gem while Mining 1/256 per action · bird nest 1/256 per log · pets 1/1000–1/5000 · flat rates, no bad-luck protection anywhere.</li>
+        </ul>
+        <h3>Fidelity map</h3>
+        <div class="tablewrap">
+          <table>
+            <tr><th>OSRS concept</th><th>Implementation</th><th>Fidelity</th></tr>
+            <tr><td>Always drop (bones)</td><td><code>ChanceToDrop = 100</code> entries</td><td>High</td></tr>
+            <tr><td>Main drop table</td><td>Independent CharacterDrop entries with matched per-kill chances — same long-run rate per item</td><td>Medium-high <span class="sub">mutual exclusivity lost</span></td></tr>
+            <tr><td>Shared Rare/Gem tables</td><td>Named lists via <code>UseDropList</code>, tiered with <code>ConditionGlobalKeys</code></td><td>High</td></tr>
+            <tr><td>Gems while mining (1/256)</td><td>Weighted DropTable entries on rock/deposit prefabs</td><td>High</td></tr>
+            <tr><td>Bird nests (1/256)</td><td>Weighted DropTable entry on tree-log prefabs</td><td>High</td></tr>
+            <tr><td>Tertiary pet (1/1000+)</td><td>Trophy or WackysDatabase custom item as an independent entry</td><td>Medium</td></tr>
+            <tr><td>Boss pre-roll uniques</td><td>Fixed-stat items at set rates on the boss's CharacterDrop</td><td>High</td></tr>
+            <tr><td>Clue scrolls</td><td>EpicLoot treasure maps (restricted install) or Almanac bounties</td><td>Medium</td></tr>
+            <tr><td>Noted bulk resources</td><td>Large <code>AmountMin/Max</code> + <code>AutoStack = true</code></td><td>High <span class="sub">big stacks want a stack-size mod</span></td></tr>
+            <tr><td>Ring of Wealth</td><td><code>ConditionHasItem</code> on an equipped charm enabling richer entries</td><td>Low-medium</td></tr>
+            <tr><td>Slayer-task-only drops</td><td>Bounties as a loose analogue — no per-player task-conditional drops exist</td><td>Low <span class="sub">gap</span></td></tr>
+            <tr><td>Collection log</td><td>Almanac achievements per unique + kill milestones</td><td>High</td></tr>
+          </table>
+        </div>
+        <h3>Never touch these vanilla drops</h3>
+        <p>Appending at IDs ≥ 100 protects them automatically; only override a vanilla index (<code>[Boar.0]</code>) deliberately. The list: Deer Trophy ×2 + Hard Antler (Eikthyr) · Ancient Seed ×3 + Swamp Key (Elder) · Withered Bone ×10 + Wishbone (Bonemass) · Dragon Egg ×3 + Dragon Tear (Moder) · Fuling Totem ×5 (Yagluth) · Sealbreaker fragments + Giant King's Hair (Queen) · Fader's sacrificial items · Malicious Blood ×3 (Kall Fimbulbringer) · Surtling Cores · every boss trophy.</p>
+        <h3>Rate calibration — the two presets</h3>
+        <p><code>Valheim chance = OSRS chance × (OSRS kills/hr ÷ Valheim kills/hr)</code>, capped so no unique gets commoner than ~1/20. Working assumptions (adjust to your pace): OSRS commons ~300–600 kills/hr, OSRS bosses ~20–40; Valheim commons ~60–120, Valheim bosses ~1–3 including summoning costs.</p>
+        <div class="tablewrap">
+          <table>
+            <tr><th>Common monster, OSRS 1/512</th><th class="num">ChanceToDrop</th><th class="num">Expected kills</th><th class="num">≈ Hours @ 90/hr</th></tr>
+            <tr><td>Literal</td><td class="num">0.1953125</td><td class="num">512</td><td class="num">5.7</td></tr>
+            <tr><td><strong>Time-normalized (default)</strong></td><td class="num">0.859 <span class="sub">~1/116</span></td><td class="num">116</td><td class="num">1.3</td></tr>
+          </table>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <tr><th>Boss unique, OSRS 1/512</th><th class="num">ChanceToDrop</th><th class="num">Expected kills</th><th class="num">≈ Hours @ 2/hr</th></tr>
+            <tr><td>Literal</td><td class="num">0.1953125</td><td class="num">512</td><td class="num">256</td></tr>
+            <tr><td><strong>Time-normalized (default)</strong></td><td class="num">2.94 <span class="sub">~1/34</span></td><td class="num">34</td><td class="num">17</td></tr>
+          </table>
+        </div>
+        <p>Boss unique-hunting is viable because bosses have <strong>no resummon cooldown</strong> — the same altar works as often as you have offerings. Unique trophies drop once; everything else repeats. Farm summon materials, not altar mods.</p>
+        <h3>Loot gaps that stay gaps</h3>
+        <ul>
+          <li>Exactly-one-item main-table rolls on creatures — independent rolls match long-run rates; occasional double or zero uniques per kill.</li>
+          <li>Ring of Wealth's "remove the nothing-slot" mechanic — only approximable.</li>
+          <li>Per-player Slayer-task-only drops.</li>
+          <li>Prayer from burying bones — no maintained mod.</li>
+          <li>Loot visibility windows / despawn timers — leave vanilla; items roll, slide, and sink in a physics world.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ironman &amp; Hardcore Ironman rules</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>Ironman:</strong> self-imposed — never open the marketplace or trade; the banker is allowed (it's storage, not commerce). Nothing to install.</li>
+          <li><strong>Hardcore Ironman:</strong> the vanilla <strong>Hardcore</strong> world modifier + the discipline to delete the character on death — or a permadeath mod if you find one maintained on 1.0 (none was verified in the research pass).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details id="serverref">
+      <summary>Dedicated server — the live configuration</summary>
+      <div class="inner">
+        <p><span class="chip verified">active 2026-09-19</span> No longer hypothetical: this is the shipping configuration. The notes below were written as a "later" appendix and have been checked against the installed profile.</p>
+        <ul>
+          <li>Install BepInEx on the server exactly as on a client (drop the pack contents into the server folder; on Linux run through <code>start_server_bepinex.sh</code>).</li>
+          <li><strong>Must match on server + every client, same versions:</strong> Smoothbrain skills, WackyItemRequiresSkillLevel, WackysDatabase, CLLC, Drop That, EpicLoot, KG Marketplace, AzuEPI, Almanac.</li>
+          <li>Mods bundling ServerSync push the server's config to clients — set the ruleset on the server, once. <strong>Audited on the installed profile:</strong> all ten Smoothbrain skills, CLLC and WIRSL carry <code>Lock Configuration = On</code>; EpicLoot (90 keys), AzuEPI, WackysDatabase, More World Locations and Almanac carry <code>[Synced with Server]</code>. Your friend cannot accidentally run 1.0× XP against your 0.5×.</li>
+          <li>Drop That goes on the server and every client; since its v1.4.0, clients auto-pull the server's loaded loot configs — the server's files are authoritative, and <code>dropthat:reload</code> is admin-only there.</li>
+          <li><code>DropOnePerPlayer = true</code> on boss and shared drops ≈ OSRS per-player loot — already set on all 26 boss entries. <span class="chip flag">verify</span> whether it rolls the chance per player or rolls once and duplicates; see the Phase 4 co-op note.</li>
+          <li><strong>Loot rates are not recalibrated for two players.</strong> A shared pile split two ways is roughly solo per-player pacing. A duo gets drops twice as fast collectively while each player's own rate holds — which is exactly how OSRS behaves.</li>
+          <li><strong>WackysDatabase custom items are the load-ordering risk.</strong> The 16 <code>Item_OSRS_*</code> clones must register server-side before Drop That resolves its tables <em>and</em> exist on each client to render. They travel inside the Gale profile export; verify rather than assume.</li>
+          <li>Flip <code>Use Marketplace Locally = False</code> so the server owns NPC/marketplace state; trader/quest/banker configs hot-reload server-side.</li>
+          <li><strong>Client-only:</strong> the sound replacer and visual tweaks.</li>
+          <li><strong>Two backup targets now:</strong> the Gale profile (authoring) and the host's world save. The local <code>AppData\LocalLow</code> path holds test worlds only.</li>
+          <li><strong>Deployment mechanics are deliberately undecided</strong> until the host is chosen — rented hosts differ (SFTP, web panel, git-pull hooks). Package the config set once, then script the upload to whatever the host exposes.</li>
+          <li>Console players can't use mods — a modded server is PC-only. 1.0's PS5/Switch 2 crossplay means vanilla.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Troubleshooting &amp; patch survival</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>Read the log first:</strong> <code>BepInEx\LogOutput.log</code> → find the first NullReferenceException → read down the stack to the first frame that isn't <code>UnityEngine</code> or a Valheim namespace (<code>ObjectDB</code>, <code>ZNetScene</code>) — that plugin is the culprit.</li>
+          <li><strong>After a game patch:</strong> update BepInEx first, then Jötunn, then mods <em>one at a time</em>, launching between each. Never restore a whole profile blind.</li>
+          <li><strong>False corruption:</strong> launch-day 1.0 produced scary symptoms from stale plugins (duplicated-looking characters, vanished terrain) that were <em>not</em> save damage. Load the world vanilla before concluding a save is corrupt.</li>
+          <li><strong>Pins hold:</strong> Gale installs exact versions and won't silently update them; launching through Gale also stops Steam patching mid-session.</li>
+          <li><strong>Rollback:</strong> Steam → Properties → Betas → <code>default_pre1_0</code>.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Still to verify at install time</summary>
+      <div class="inner">
+        <p><span class="chip verified">Resolved 2026-09-19</span>&nbsp; Hexium is legitimate (a second home for mods, not a Thunderstore replacement — most of this stack still lives on Thunderstore) · Gale reads both catalogs by default · Valheim 1.0 shipped Sept 9 · <strong>Drop That v3.x syntax fully documented</strong> from its wiki (edited Sept 8): <code>ChanceToDrop</code> on a 0–100 scale, no <code>Set</code> prefix, <code>drop_that.character_drop.cfg</code> vs the weighted <code>drop_that.drop_table.cfg</code> · Almanac version dispute between the two research reports settled live: <strong>3.7.94</strong> on Thunderstore · EpicLoot 0.14.8 confirmed rebuilt for 1.0.14.</p>
+        <ul>
+          <li><span class="chip flag">verify</span> A Drop That build published after Sept 9 — else test 3.1.4 on 1.0 before building the loot layer (Phase 4, step 1).</li>
+          <li><span class="chip flag">verify</span> CLLC 3.9.9 actually working on the current 1.0 patch — one tracker says nothing shipped since May 2025 (Phase 4, step 3).</li>
+          <li><span class="chip flag">verify</span> The exact <code>[Debug]</code> key names in <code>drop_that.cfg</code> — reconstructed from the changelog, not verified verbatim; enable whatever write-to-file entries the generated file shows.</li>
+          <li><span class="chip flag">verify</span> Exact live versions of AzuEPI and KG Marketplace on Hexium at install time (Phase 1, step 3).</li>
+          <li><span class="chip flag">verify</span> Prefab names for every gate and drop — from the Drop That debug dump (primary) or a WackysDatabase dump; never from old wikis.</li>
+          <li><span class="chip flag">verify</span> Almanac's achievement schema shape on your version, and whether its creature pages reflect Drop That-modified tables.</li>
+          <li><span class="chip flag">verify</span> Per-skill XP-multiplier key names in each Smoothbrain .cfg.</li>
+          <li><span class="chip flag">verify</span> Death-penalty tier wording — and, on a dedicated server, the <code>-preset</code> / <code>-modifier</code> launch-argument syntax your host expects.</li>
+          <li><span class="chip flag">verify</span> Each Warpalicious pack's 1.0 status before Phase 7.</li>
+          <li><span class="chip flag">verify</span> <strong>Co-op:</strong> whether Drop That’s <code>DropOnePerPlayer</code> rolls <code>ChanceToDrop</code> per player or rolls once and duplicates the result.</li>
+          <li><span class="chip flag">verify</span> <strong>Co-op:</strong> KG Marketplace 10.0.1-beta.1 in server mode — Trader, Banker, Quests and Teleporter each checked individually (Phase 8, step 4).</li>
+          <li><span class="chip flag">verify</span> <strong>Co-op:</strong> that a boss unique built from a WackysDatabase clone actually drops, and renders for both players, across the server boundary (Phase 8, step 5).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>Dead ends — don't bother</summary>
+      <div class="inner">
+        <ul>
+          <li><strong>ReckonRunescape modpack</strong> (quasipsuedo, 2.7.4) — deprecated; not a usable base.</li>
+          <li><strong>RtDItems</strong> "runescape inspired off-hand defenders" — cosmetic flavor only.</li>
+          <li><strong>WackyEpicMMOSystem</strong> — good mod, wrong build: its single-level+attributes model fights the many-skills design chosen here.</li>
+          <li><strong>"DropThat Diversified Loot" (Nexus mod 411)</strong> — its posted configs still use the deprecated <code>Set</code>-prefix keys; would need a full rewrite. Build from this plan's starter files instead.</li>
+          <li><strong>EpicLoot as the loot pillar</strong> — demoted: random affixes are Diablo, not OSRS. Restricted to clues + bounties (Phase 4, step 8).</li>
+          <li><strong>Altar/resummon mods</strong> — unnecessary: bosses already resummon endlessly for offerings, no cooldown.</li>
+          <li>No maintained tick-system / click-to-move mod exists. Accepted up front; stop looking.</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <footer>
+    <p>Rebuilt 2026-09-19 from the September research guide (same-day version check: Valheim 1.0.15). Rev 2, same day: loot layer reconciled from the drops deep-dive — Drop That v3.x syntax verified from its wiki, EpicLoot demoted to a restricted clue/bounty layer, CLLC calibration and the two rate presets added. Live spot-checks this session: Hexium legitimacy, Gale dual-catalog support, 1.0 release date, Almanac 3.7.94 (settling a version conflict between the two reports). Version pins — confirm each in Gale at install. Rev 3, same day (late): full-stack ModTest passed; the OSRS gap analysis folded in as Phase 9 — Wave A gates authored (39 WIRSL entries), Wave B mod candidates version-checked live on Thunderstore. <strong>Rev 4, same day (night): scope changed to two players on a rented dedicated server.</strong> Phase 8 rebuilt around host standup, config deployment, the server-mode marketplace flip and launch-argument world modifiers; the dedicated-server appendix promoted from “later” to the live configuration after a per-mod ServerSync audit of the installed profile; loot rates deliberately left as authored, with the <code>DropOnePerPlayer</code> question raised as the one genuinely new unknown.</p>
+    <p><strong>Rev 5, same night: the game-ready authoring pass.</strong> Everything buildable on disk is now built and nothing of it is tested, by design — gating taken to 217 entries across four new tiers, 24 skillcapes, EpicLoot's magic drops finally zeroed at the table level, and 22 collection-log entries. Two latent bugs surfaced and were fixed on the way: a gate pointing at a prefab that does not exist, and a staged Almanac file in the wrong shape. Three steps turned out not to be authorable at all (Phase 5's trader, the demi-bosses, the fishing gates) and carry their reasons rather than a tick.</p>
+    <p style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <button class="resetbtn" id="resetbtn" type="button">Reset progress</button>
+      <span class="savestate" id="savestate">Progress saves automatically.</span>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var LS_KEY = "osrsheim-progress-v1";
+  var state = {};
+  var boxes = Array.prototype.slice.call(document.querySelectorAll("input[data-step]"));
+  var total = boxes.length;
+  var fill = document.getElementById("xpfill");
+  var count = document.getElementById("xpcount");
+  var saveNote = document.getElementById("savestate");
+
+  function render() {
+    var done = 0;
+    boxes.forEach(function (b) {
+      var on = !!state[b.dataset.step];
+      b.checked = on;
+      b.closest(".step").classList.toggle("done", on);
+      if (on) done++;
+    });
+    var sections = document.querySelectorAll(".phase-count");
+    Array.prototype.forEach.call(sections, function (el) {
+      var phase = el.dataset.phase;
+      var ph = boxes.filter(function (b) { return b.dataset.step.indexOf(phase + "-") === 0; });
+      var phDone = ph.filter(function (b) { return !!state[b.dataset.step]; }).length;
+      el.textContent = phDone + " / " + ph.length;
+    });
+    fill.style.width = total ? Math.round(done / total * 100) + "%" : "0%";
+    count.textContent = done + " / " + total;
+  }
+
+  function lsLoad() {
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (raw) { var d = JSON.parse(raw); if (d && typeof d === "object") return d; }
+    } catch (e) {}
+    return null;
+  }
+  function lsSave() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  // ── Durable sync via the db capability (falls back to localStorage) ──
+  var docRef = null;
+  var dirty = 0;            // local edits not yet confirmed written
+  var writeChain = Promise.resolve();
+  var writeTimer = null;
+
+  function queueWrite() {
+    lsSave();
+    if (!docRef) return;
+    if (writeTimer) clearTimeout(writeTimer);
+    writeTimer = setTimeout(function () {
+      writeTimer = null;
+      var snapshotToWrite = JSON.parse(JSON.stringify(state));
+      var stamp = dirty;
+      writeChain = writeChain.then(function () {
+        return docRef.set({ steps: snapshotToWrite, updatedAt: new Date().toISOString() });
+      }).then(function () {
+        if (dirty === stamp) dirty = 0;
+        if (saveNote) saveNote.textContent = "Progress saved.";
+      }).catch(function () {
+        if (saveNote) saveNote.textContent = "Progress saved on this device.";
+      });
+    }, 700);
+  }
+
+  boxes.forEach(function (b) {
+    b.addEventListener("change", function () {
+      if (b.checked) state[b.dataset.step] = true;
+      else delete state[b.dataset.step];
+      dirty++;
+      render();
+      queueWrite();
+    });
+  });
+
+  var resetArmed = false;
+  var resetBtn = document.getElementById("resetbtn");
+  resetBtn.addEventListener("click", function () {
+    if (!resetArmed) {
+      resetArmed = true;
+      resetBtn.textContent = "Really reset all progress?";
+      setTimeout(function () { resetArmed = false; resetBtn.textContent = "Reset progress"; }, 4000);
+      return;
+    }
+    resetArmed = false;
+    resetBtn.textContent = "Reset progress";
+    state = {};
+    dirty++;
+    render();
+    queueWrite();
+  });
+
+  // Copy buttons
+  Array.prototype.forEach.call(document.querySelectorAll(".copybtn"), function (btn) {
+    btn.addEventListener("click", function () {
+      var pre = btn.parentElement.querySelector("pre");
+      var text = pre ? pre.textContent : "";
+      function ok() {
+        var old = btn.textContent;
+        btn.textContent = "Copied ✓";
+        setTimeout(function () { btn.textContent = old; }, 1400);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok, function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          ok();
+        } catch (e) {}
+      }
+    });
+  });
+
+  // Boot: localStorage immediately, then upgrade to db when it resolves.
+  var local = lsLoad();
+  if (local) state = local;
+  render();
+
+  (function initDb() {
+    var useFn = window.claude && window.claude.use;
+    if (!useFn) return;
+    window.claude.use("db").then(function (db) {
+      if (!db) return;
+      try {
+        docRef = db.doc("progress/main");
+      } catch (e) { return; }
+      var firstSnap = true;
+      docRef.onSnapshot(function (snap) {
+        var isFirst = firstSnap;
+        firstSnap = false;
+        if (dirty > 0 || writeTimer) return; // in-flight local edits win
+        var remote = (snap.exists && snap.data() && snap.data().steps) || null;
+        if (remote) {
+          if (JSON.stringify(remote) !== JSON.stringify(state)) {
+            state = JSON.parse(JSON.stringify(remote));
+            render();
+            lsSave();
+          }
+          if (saveNote) saveNote.textContent = "Progress saved.";
+        } else if (isFirst && Object.keys(state).length) {
+          // db empty but this device has progress: seed it once
+          dirty++;
+          queueWrite();
+        }
+      }, function () { /* subscription died; localStorage still works */ });
+    }).catch(function () {});
+  })();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,8 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — Dragon — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_PetModer
+clonePrefabName: TrophyDragonQueen
+m_name: Spiteful hatchling
+m_description: Hatched out of spite and a very cold egg.
+m_weight: 0.1

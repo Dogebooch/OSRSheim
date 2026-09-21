@@ -1,0 +1,8 @@
+# OSRSheim p9-9 vanity ultra-rare (1/5000) — gd_king — authored 2026-09-19
+# Trophy clone: cosmetic only, no stat block. Base verified in
+# BepInEx/Debug/drop_that.character_drop.before_changes.cfg.
+name: OSRS_PetElder
+clonePrefabName: TrophyTheElder
+m_name: Elder sapling
+m_description: A sapling with opinions. Roots itself wherever you set it down.
+m_weight: 0.1

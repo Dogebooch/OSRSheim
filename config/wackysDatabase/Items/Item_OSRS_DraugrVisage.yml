@@ -1,0 +1,10 @@
+# OSRSheim p9-9 boss unique — Bonemass — authored 2026-09-19
+# Base HelmetIron (dump: weight 3, armor 14, armorPerLevel 2).
+name: OSRS_DraugrVisage
+clonePrefabName: HelmetIron
+m_name: Bog visage
+m_description: A face pulled from the bog, still wearing its last expression.
+m_weight: 2.25
+Armor:
+  armor: 16
+  armorPerLevel: 2

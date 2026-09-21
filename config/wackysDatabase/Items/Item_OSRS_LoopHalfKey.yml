@@ -1,0 +1,7 @@
+# OSRSheim crystal chest - loop half of a key (Gem T2-T4 1/1024, Rare T2-T5 1/256) - authored 2026-09-21
+# Chain clone: material only, no stat block. Gullveig forges loop + tooth into OSRS_CrystalKey.
+name: OSRS_LoopHalfKey
+clonePrefabName: Chain
+m_name: Loop half of a crystal key
+m_description: The bow of a crystal key. Useless without its tooth.
+m_weight: 0.1

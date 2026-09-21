@@ -1,0 +1,7 @@
+# OSRSheim hull key - gd_king rare (1/8, .104) or quest reward; consumed by the OdinShipPlus hull recipes - authored 2026-09-21
+# ElderBark clone: material only, no stat block.
+name: OSRS_KeelElder
+clonePrefabName: ElderBark
+m_name: Heartwood keel
+m_description: Cut from the Elder's own root. Enough for one fishing hull.
+m_weight: 1

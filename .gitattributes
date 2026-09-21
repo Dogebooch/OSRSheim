@@ -1,0 +1,2 @@
+# Valheim/BepInEx parsers read these byte-for-byte. No EOL conversion, ever.
+* -text

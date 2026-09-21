@@ -1,0 +1,847 @@
+
+OSRSheim Setup Plan
+
+## OSRSheim Setup Plan
+
+A phased install of ~20 mods that lays Old School RuneScape's progression skeleton — per-skill grinds, level-gated gear, monster levels, rare drops, a bank and marketplace, Slayer bounties, a collection log — over Valheim 1.0. Combat stays Valheim's; everything around it becomes RuneScape. Two players, on a rented dedicated server — the host owns the ruleset.
+
+ Valheim 1.0.15
+ BepInEx 5.4.2350
+ Two players · dedicated server
+ Spot-checked 2026-09-19
+
+ Decisions
+ The stack
+ 0 · Backup
+ 1 · Loader
+ 2 · Skills
+ 3 · Gating
+ 4 · Monsters
+ 5 · Economy
+ 6 · Gear & travel
+ 7 · World
+ 8 · Server & run
+ 9 · Gap campaign
+ Appendices
+
+ Setup XP
+
+ 0 / 0
+
+### What this build delivers
+
+~20 independent skills that train by doing and grind toward a cap (≈99)
+
+Gear and tools locked behind skill levels, tier by tier
+
+Monster names + levels over every creature; loot that scales
+
+OSRS-calibrated drop tables — shared Rare/Gem tables, boss uniques at fixed rates, pets at 1/1000+
+
+Skilling tertiaries: bird-nest and mining-gem analogues (~1/256)
+
+Coins, shops, a banker, quests, and a marketplace
+
+Slayer-style bounties and clue-scroll-style treasure maps
+
+Achievements / collection log / leaderboard
+
+A worn-equipment tab and quick slots
+
+Teleports that feel unlocked, not free
+
+Towns and points of interest worth walking to
+
+Two players in one world, with the server as the single config authority
+
+### What stays Valheim
+
+Real-time stamina/dodge combat — no 0.6 s tick system exists in any maintained mod
+
+No click-to-move, click-to-attack, or auto-retaliate
+
+Combat triangle only loosely approximated
+
+One-roll main tables: creature drop entries roll independently — long-run rates match OSRS exactly, but rare double-uniques can happen
+
+No Prayer drain, Runecraft, Thieving, Hunter, or Firemaking analogues
+
+XP feel via multipliers — not OSRS's exact table (13,034,431 to 99; level 92 is the halfway mark)
+
+## Locked decisions
+
+Defaults are committed so the install is one pass, not a research project. Change any of them before Phase 1 — after that they're wired into configs.
+
+ | Decision | Call | Why
+
+ | Players changed
+ | Two, on a rented dedicated server
+ | Changed 2026-09-19, before the profile freeze — the right time, since adding a server after Phase 8 would mean unfreezing the build. The design is untouched: an audit of the installed profile found the stack already ServerSync'd (Smoothbrain's Lock Configuration, and [Synced with Server] across EpicLoot, AzuEPI, WackysDatabase, MWL and Almanac), so the host becomes the single config authority and the Gale profile becomes the authoring copy. Loot rates are not recalibrated — see Phase 4.
+
+ | Mod manager
+ | Gale, profile OSRSheim
+ | Verified today: Gale pulls Thunderstore and Hexium catalogs for Valheim by default, favoring Thunderstore when versions match. r2modman is the fallback (Thunderstore only — Hexium mods by hand).
+
+ | Skill engine
+ | Smoothbrain skill suite — skip WackyEpicMMOSystem
+ | Many separate grinds is the OSRS feel. EpicMMO is one character level + attribute points; running both means two progression systems fighting for the same space.
+
+ | XP rate
+ | Authentic grind: 0.5× per-skill multiplier
+ | Stretches the climb toward RuneScape pacing. Drop to 0.25× if it still feels fast; the "respect my time" alternative is 1.5–2×. Starting values — tune in game.
+
+ | Death rules changed
+ | Keep skills, drop items
+ | Your guide picked Casual (keep gear and skills). But an OSRS death drops your stuff — and Valheim's tombstone run is already a gravestone run. Pick the death-penalty tier that removes skill loss but keeps item drop; fall back to Casual if no tier says that. On a dedicated server this is a launch argument, not a world-creation checkbox — see Phase 8.
+
+ | World order changed
+ | Test on a scratch world; create the real world last
+ | Your guide installs location packs in Phase 7 onto an existing world — but they only generate on unexplored terrain. Testing on a throwaway ModTest world and creating Gielheim after the full stack is stable means towns generate everywhere from hour zero.
+
+ | Loot engine
+ | Drop That — append-only (IDs ≥ 100), time-normalized rates
+ | It edits both of Valheim's drop systems, and its v3.x syntax is now fully documented — the old guide's biggest open flag, resolved. Appending above the vanilla indexes preserves every progression drop automatically. Literal OSRS fractions at Valheim kill speeds mean 250-hour boss uniques, so rates are scaled by kills-per-hour (a literal-fractions file ships alongside as a swap-in).
+
+ | EpicLoot's role changed
+ | Restricted: treasure maps + bounties only; affix drops zeroed
+ | OSRS gear is fixed-stat with no random affixes — Diablo-style magic drops fight the aesthetic. The loot deep-dive demotes EpicLoot from pillar to optional layer; the purist build removes it entirely (Almanac bounties then carry Slayer, and the clue-scroll analogue is lost).
+
+ | Monster levels changed
+ | CLLC stars off; all its loot multipliers 1.0
+ | OSRS monsters have fixed levels per type — random stars and loot multipliers would silently inflate the calibrated tables. CLLC is kept purely for the name-and-level display, and tested on 1.0 before trusting (one tracker reports it quiet since May 2025).
+
+ | Travel
+ | Portals on, but earned
+ | XPortal for named destinations + KG Teleporter NPCs as fixed hubs, gated by boss keys or fees ≈ unlockable spellbook teleports / fairy rings. No free fast travel.
+
+## The stack
+
+Core — the eight that make it OSRS. Version pins are from the guide's 2026-09-19 check; confirm each at install (two weeks post-1.0, everything is moving).
+
+ | Mod | Pin | Home | Gives you
+
+ | BepInExPack Valheim denikson | 5.4.2350 | Thunderstore | The mod loader (1.0 launch build)
+
+ | Jötunn ValheimModding | 2.30.0 | Thunderstore | Shared library many mods need (1.0-fixed; build-piece categories still flaky)
+
+ | Smoothbrain skill suite ×10 Smoothbrain — list below | latest 1.0 builds | Thunderstore | The many-skills grind
+
+ | WackyItemRequiresSkillLevel WackyMole | 1.4.7 | Thunderstore | Craft/equip gated by skill level (YAML)
+
+ | CreatureLevelAndLootControl Smoothbrain | 3.9.9 | Thunderstore | Monster names + levels (stars zeroed for OSRS-flat calibration) possibly unmaintained since May 2025 — test on 1.0; droppable fallback
+
+ | Drop That ASharpPen | 3.1.4 | Thunderstore / GitHub / Nexus | Both loot systems — independent creature drops + weighted object tables, shared named lists, conditions, debug prefab dump 1.0 republish unconfirmed as of Sept 19 — take a newer build if one shows, else test 3.1.4
+
+ | Almanac RustyMods (+ YamlDotNet) | 3.7.94 | Thunderstore | Achievements, collection log, bounties, leaderboard version confirmed live on Thunderstore 2026-09-19
+
+ | AzuExtendedPlayerInventory Azumatt | 2.5.1 | Hexium Thunderstore 2.4.14 is the deprecated stale copy | Worn-equipment tab (6 slots) + quick slots
+
+Recommended — the economy and juice layer.
+
+ | Mod | Pin | Home | Gives you
+
+ | EpicLoot RandyKnapp & team | 0.14.8 | Thunderstore | Restricted role: treasure maps (clue scrolls) + bounties (Slayer), with random-affix drops zeroed 2026-09-17 build, confirmed rebuilt for 1.0.14 — or skip entirely for the purist build
+
+ | KG Marketplace "Marketplace And Server NPCs Revamped" | 9.8.1+ | Hexium Thunderstore copy deprecated = moved, not dead | Coins, shops, banker, Grand-Exchange-ish marketplace, quests, teleporter, buffs
+
+ | Marketplace Configs JewelHeim | latest | Thunderstore | Ready-made Trader / Quests / Gamble / Buffs / Transmog NPC configs
+
+ | WackysDatabase WackyMole | 2.5.x | Thunderstore | Edit any item/recipe/piece via YAML; dump real prefab names
+
+ | Spawn That ASharpPen | 1.2.19 | Thunderstore | Respawn/adjust spawners — OSRS-style replenishing resource nodes
+
+ | XPortal (or Target Portal) | latest 1.0 build | Thunderstore | Named portal destinations
+
+Optional flavor, added only after the core survives a session: Warpalicious "More World Locations" packs and/or Expand World (towns, dungeons — Phase 7); Therzie Warfare 1.9.2 + Armory 1.4.0 (confirmed current on 1.0 — the cleanest fixed-stat boss-unique source per the loot deep-dive, though it needs its own Drop That wiring and ships WackysDatabase content that must be loaded) plus Wizardry / Monstrum for a real staves-tomes-runes magic line and more monsters — heavy, adds hours of content weight; a BepInEx audio replacer scaffold with your own OSRS jingle files (never redistribute Jagex audio).
+
+### Skill mapping — OSRS ↔ this build
+
+Valheim 1.0 already has 24 vanilla skills that level 1–100 by use; OSRS has 24 that level 1–99. The Smoothbrain picks fill the non-combat gaps:
+
+ | OSRS skill | Covered by
+
+ | Attack / Strength | Vanilla weapon skills (Swords, Clubs, Axes, Polearms, Spears, Knives, Fists)
+
+ | Defence | Vanilla Blocking (+ Smoothbrain Evasion for the Agility side)
+
+ | Ranged | Vanilla Bows + Crossbows
+
+ | Magic | Vanilla Blood/Elemental Magic (Eitr) — Therzie Wizardry if you want a full spellbook
+
+ | Hitpoints | No direct skill — food does this job in Valheim
+
+ | Mining | Smoothbrain Mining (vanilla Pickaxes keeps leveling alongside)
+
+ | Woodcutting | Smoothbrain Lumberjacking (vanilla Wood Cutting alongside)
+
+ | Fishing | Vanilla Fishing
+
+ | Cooking | Smoothbrain Cooking
+
+ | Smithing / Crafting | Smoothbrain Blacksmithing + vanilla Crafting
+
+ | Farming | Smoothbrain Farming
+
+ | Construction | Smoothbrain Building
+
+ | Agility | Vanilla Run / Jump / Dodge / Swim + Smoothbrain Evasion
+
+ | Sailing | Smoothbrain Sailing
+
+ | Slayer | EpicLoot bounties and/or Almanac kill achievements
+
+ | Herblore (≈) | Smoothbrain Foraging + PotionPlus potion ladder (Phase 9, Wave B)
+
+ | Hunter (≈) | Smoothbrain Ranching
+
+ | Prayer, Runecraft, Thieving, Fletching, Firemaking | No clean analogue — accepted gaps
+
+ Phase 0
+
+## Back up before touching anything
+
+ Copy the entire Valheim save folder somewhere safe.
+ Characters (characters_local) and worlds (worlds_local) both live under it. One command in PowerShell:
+
+ Copy
+
+robocopy "$env:USERPROFILE\AppData\LocalLow\IronGate\Valheim" "$env:USERPROFILE\Desktop\Valheim-backup-2026-09-19" /E
+
+ Steam → Valheim → Properties → Updates → "Only update this game when I launch it".
+ Stops Steam from patching the game out from under your pinned mods mid-week. Launching through Gale also avoids mid-session updates.
+
+ Note the escape hatch: Properties → Betas → default_pre1_0.
+ If a future patch breaks the stack, this rolls back to the last pre-1.0 build. Everyone on a shared world must roll back together, and Deep North content is lost while you're there.
+
+ Confirm Valheim is installed on the NVMe/SSD — not the G: drive.
+ Your G: is the SMR drive from the Dota diagnosis; a ~20-mod stack loads a lot of DLLs and assets at boot. Steam → Properties → Installed Files shows the drive; "Move install folder" fixes it.
+
+Heads-up: the first modded launch is noticeably slower — Defender scans every fresh plugin DLL once. Let it finish; don't force-kill the process.
+
+Test
+The backup folder opens and contains characters_local and worlds_local. Only then proceed.
+
+ Phase 1
+
+## Mod manager, loader, libraries
+
+ Install Gale (github.com/Kesomannen/gale → latest release, or hexium.gg/mod-manager).
+ ~15 MB, open-source, boots in under a second, and — verified today — reads both the Thunderstore and Hexium catalogs for Valheim out of the box. It imports r2modman profiles if you ever switch back.
+
+ Create a fresh profile named OSRSheim (profile dropdown → New).
+ Isolates this build completely — your vanilla saves and any other modded profile stay untouched. Every config this plan edits lives under …\profiles\OSRSheim\BepInEx\config\.
+
+ Sanity-check the two Hexium-hosted mods exist before committing: search AzuExtendedPlayerInventory and Marketplace And Server NPCs Revamped in Gale.
+ Hexium itself is confirmed real (valheim.hexium.gg, already hosting Smoothbrain and OdinPlus). If either mod is missing from both catalogs, pause and reassess — those are the equipment-tab and economy pillars.
+
+ Install denikson-BepInExPack_Valheim 5.4.2350 and ValheimModding-Jotunn 2.30.0, with dependencies.
+ The loader and the shared library. Configuration Manager ships inside the BepInEx pack — F1 in game opens it for live config editing.
+
+ Launch modded once from Gale, reach the main menu, quit.
+ First launch generates the config files every later phase edits.
+
+Test
+Main menu shows BepInEx/plugin info, and profiles\OSRSheim\BepInEx\config\ now contains .cfg files. F1 in game opens Configuration Manager.
+
+ Phase 2
+
+## Skills — the 24-skill grind
+
+ Install the ten Smoothbrain skills:
+ Mining, Lumberjacking, Cooking, Farming, Blacksmithing, Building, Sailing, Ranching, Foraging, Evasion (all Smoothbrain-* packages; take the 1.0-tagged builds — the author is actively rebuilding post-launch). Each is an independent train-by-doing skill with perks, sharing one Skill Manager.
+
+ Set each skill's experience multiplier to the Authentic preset: 0.5×.
+ Easiest via F1 → each Smoothbrain mod section → the skill-gain / experience factor entry (exact key name varies per mod). 0.25× if you want the 92-is-half-of-99 brutality; 1.5–2× for "respect my time".
+
+ Leave skill caps at default (100 ≈ your 99). Leave the vanilla world "skill gain" modifier alone too.
+ One tuning knob (the mod multipliers), not two stacked ones.
+
+Test
+Chop a tree, mine a rock, cook meat, pull a carrot — each fires its own skill-up popup, and the new skills appear in the skills panel (Tab).
+
+ Phase 3
+
+## Level-gated gear
+
+ Install WackyMole-WackyItemRequiresSkillLevel 1.4.7 — plus WackyMole-WackysDatabase 2.5.x.
+ The first gates craft/equip behind skill levels via YAML. The second lets you edit recipes/items later and, usefully now, dump the game's real prefab names.
+
+ Launch once, then paste the starter gate table into the config YAML:
+
+profiles\OSRSheim\BepInEx\config\WackyMole.ItemRequiresSkillLevel.yml
+ Copy
+
+- PrefabName: SwordBronze
+ Requirements:
+ - Skill: Swords
+ Level: 15
+ BlockCraft: true
+ BlockEquip: true
+- PrefabName: PickaxeIron
+ Requirements:
+ - Skill: Pickaxes
+ Level: 20
+ BlockCraft: true
+ BlockEquip: true
+- PrefabName: SwordSilver
+ Requirements:
+ - Skill: Swords
+ Level: 30
+ BlockCraft: true
+ BlockEquip: true
+- PrefabName: SwordBlackmetal
+ Requirements:
+ - Skill: Swords
+ Level: 40
+ BlockCraft: true
+ BlockEquip: true
+
+ Extend the pattern across the tier ladder: Flint 1 · Bronze 15 · Iron 20 · Silver 30 · Black metal 40 · Mistlands 50 · Flametal 60 · Deep North 70.
+ Gate tools by their tool skill (Pickaxes, or Smoothbrain Mining), weapons by their weapon skill, armor by Blocking. GlobalKeyReq: defeated_bonemass adds boss-kill requirements — quest-cape-style locks.
+
+Prefab names: the mod's own docs show examples like BronzeSword, but vanilla prefabs are actually SwordBronze, AxeFlint, SwordSilver, etc. (order flipped). High confidence but verify any gate that doesn't fire via a WackysDatabase dump — and pull Ashlands/Deep North prefab names in game, they're too new to trust from memory. Drop That's debug dump (Phase 4, step 2) is the other clean prefab source.
+
+Test
+With Swords below 15, crafting or equipping a bronze sword is blocked with a requirement message. Level past it and the block lifts.
+
+ Phase 4
+
+## Loot — the OSRS drop engine
+
+Valheim has two loot systems, and the split is lucky: creature drops roll every entry independently (per-item long-run rates match OSRS exactly; only "one item per roll" is lost), while object and skilling drops use a genuinely weighted table — structurally identical to OSRS's main table. Drop That edits both. The model, the math, and the fidelity map live in the loot design reference below.
+
+ Install ASharpPen-Drop_That — a post-Sept-9 build if Gale shows one, else 3.1.4.
+ The engine; no better-maintained alternative exists. Latest confirmed release is 3.1.4 (Feb 2026) and a 1.0 republish wasn't verifiable on Sept 19 — 3.1.4 is config-driven and may simply work, so test it. If it's broken on 1.0, this phase pauses until it updates.
+
+ Turn on Drop That's debug dump and harvest real prefab names.
+ In the generated drop_that.cfg, enable the [Debug] write-to-file options (exact key names vary by version — enable whatever Write…ToFile entries appear), load a world once, and read the emitted files under BepInEx\. Every creature and object table comes out in ready-to-copy config format with correct 1.0 prefab names, Deep North included. Copy from the dump, never from old wikis — rock prefabs especially shift between patches.
+
+ Install Smoothbrain-CreatureLevelAndLootControl 3.9.9, calibrated flat: all loot / boss-loot / trophy multipliers = 1.0, star spawn chances = 0.
+ Keeps names and levels over every monster (red = above you) — the OSRS combat-level look — while killing the two things that would silently distort calibrated tables: random stars and loot multipliers. Caveat: one tracker reports CLLC quiet since May 2025. Test it on your 1.0 patch first; if broken, drop it and carry on — Drop That alone delivers the whole loot design.
+
+ Create the shared Rare and Gem tables as named lists — OSRS's shared sub-tables:
+
+profiles\OSRSheim\BepInEx\config\drop_that.character_drop_list.shared_tables.cfg
+ Copy
+
+# ---- GEM TABLE ----
+# Attach to any creature with: UseDropList = GemTableTier1
+
+[GemTableTier1.0]
+# ~1/256
+PrefabName = Ruby
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.390625
+ScaleByLevel = false
+
+[GemTableTier1.1]
+# ~1/128
+PrefabName = Amber
+AmountMin = 1
+AmountMax = 2
+ChanceToDrop = 0.78125
+ScaleByLevel = false
+
+[GemTableTier1.2]
+# ~1/512
+PrefabName = AmberPearl
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.1953125
+ScaleByLevel = false
+
+# ---- RARE TABLE (unlocks richer entries after Bonemass) ----
+# Attach with: UseDropList = RareTableTier2
+
+[RareTableTier2.0]
+PrefabName = Coins
+AmountMin = 20
+AmountMax = 60
+ChanceToDrop = 2.0
+ScaleByLevel = false
+ConditionGlobalKeys = defeated_bonemass
+
+[RareTableTier2.1]
+PrefabName = SilverNecklace
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 0.2
+ScaleByLevel = false
+ConditionGlobalKeys = defeated_bonemass
+
+ Paste the creature starter table — append-only, drop IDs ≥ 100.
+ Vanilla drops hold indexes 0, 1, 2… — adding at ≥ 100 means every progression drop (summon items, keys, Wishbone) survives untouched. ScaleByLevel = false on everything; ChanceToDrop is a 0–100 scale, decimals accepted. Coins on the tables give every kill loot value — vanilla currency that Haldor and the KG shops both spend.
+
+profiles\OSRSheim\BepInEx\config\drop_that.character_drop.cfg
+ Copy
+
+# ===== MEADOWS =====
+[Greyling.100]
+PrefabName = Wood
+AmountMin = 1
+AmountMax = 2
+ChanceToDrop = 40
+ScaleByLevel = false
+
+[Neck]
+UseDropList = GemTableTier1
+[Neck.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 8
+ChanceToDrop = 25
+ScaleByLevel = false
+
+[Boar.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 5
+ChanceToDrop = 20
+ScaleByLevel = false
+
+# ===== BLACK FOREST =====
+[Greydwarf]
+UseDropList = GemTableTier1
+[Greydwarf.100]
+PrefabName = Coins
+AmountMin = 1
+AmountMax = 12
+ChanceToDrop = 30
+ScaleByLevel = false
+
+# ===== SWAMP =====
+[Draugr]
+UseDropList = RareTableTier2
+[Draugr.100]
+PrefabName = Coins
+AmountMin = 5
+AmountMax = 20
+ChanceToDrop = 35
+ScaleByLevel = false
+
+# ===== BOSS EXAMPLE: Eikthyr (ADD, never clear vanilla drops) =====
+[Eikthyr.100]
+PrefabName = Coins
+AmountMin = 200
+AmountMax = 400
+ChanceToDrop = 100
+ScaleByLevel = false
+DropOnePerPlayer = true
+
+[Eikthyr.101]
+# collectible / pet-analogue
+PrefabName = TrophyEikthyr
+AmountMin = 1
+AmountMax = 1
+ChanceToDrop = 100
+ScaleByLevel = false
+
+ Paste the object/skilling table — trees, ore, chests, and the skilling tertiaries.
+ This file drives the weighted system: bird-nest and mining-gem analogues at a ~1/256 feel, richer crypt chests. A creature's table should only hold materials from its own biome tier or lower, so drops never bypass boss-gated metal progression. Confirm every object prefab name from the step-2 dump first.
+
+profiles\OSRSheim\BepInEx\config\drop_that.drop_table.cfg
+ Copy
+
+# ---- Tree log: keep wood, add a bird-nest analogue ----
+# (prefab names below MUST be confirmed from the debug dump)
+[BeechTree_log.100]
+PrefabName = Feathers
+Weight = 0.4
+AmountMin = 1
+AmountMax = 3
+
+# ---- Copper deposit: gem tertiary, ~1/256 feel via low weight ----
+[MineRock_Copper.100]
+PrefabName = Amber
+Weight = 0.4
+AmountMin = 1
+AmountMax = 1
+
+# ---- Forest crypt chest: 2-4 weighted picks, one of each ----
+[TreasureChest_forestcrypt]
+DropChance = 100
+DropOnlyOnce = True
+DropMin = 2
+DropMax = 4
+[TreasureChest_forestcrypt.100]
+PrefabName = Coins
+Weight = 30
+AmountMin = 20
+AmountMax = 60
+
+ Commit to the time-normalized rate preset (default); park literal fractions in a swap file.
+ Valheim kill rates run 4–15× slower than OSRS, so literal fractions turn brutal — a literal 1/512 boss unique is ~256 hours at 2 kills/hour. The formula and worked tables are in the reference. Keep a drop_that.character_drop.literal.cfg variant alongside and enable exactly one of the two.
+
+ Install EpicLoot 0.14.8 in its restricted role — or skip it for the purist build.
+ OSRS gear is fixed-stat; random affixes are Diablo. Zero EpicLoot's magic-item drop chances from creatures and chests (its loottables.json / randyknapp.mods.epicloot.cfg), keeping only treasure maps (clue scrolls) and bounties (Slayer). Purist alternative: no EpicLoot at all — Almanac bounties carry Slayer and the clue layer is dropped. Boss uniques come from Drop That at fixed rates either way: vanilla rares, WackysDatabase clones, or Therzie Warfare/Armory gear. Done 2026-09-19 night, the hard way: zeroing Global Drop Rate Modifier was never going to work — the mod's own config says elite and boss drops "come from the loot tables directly and are not affected by this setting". Fixed at the table level instead: 141 loot tables + 157 leveled entries set to Drops: [[0,100]], verified zero can still roll. Treasure maps and bounties were checked first and are completely independent (they pay tokens and RewardCoins directly), so the clue/Slayer layer survives intact.
+
+Iterating: dropthat:reload in the console (add -console to launch options; admin-only on servers) hot-reloads every loot config — a ten-second tuning loop. On the dedicated server that becomes edit → upload → reload, and it is admin-only, so you need an adminlist.txt entry or every tuning pass is a server restart. Fraction cheat sheet: 1/128 = 0.78125 · 1/256 = 0.390625 · 1/512 = 0.1953125 · 1/1000 = 0.1 · 1/5000 = 0.02.
+
+Co-op — rates stay, one question opens. Loot rates are deliberately unchanged for two players: a shared pile split two ways is roughly solo per-player pacing, which is the OSRS-authentic answer — a duo gets drops twice as fast collectively while each player’s own rate stays fixed. What is not established: all 26 boss entries carry DropOnePerPlayer = true (a no-op solo), and whether Drop That rolls ChanceToDrop independently per player or rolls once and hands each player a copy is unverified. Irrelevant for coins; decisive for a 1/512 unique — “each of you has a shot” versus “you both get one or neither does”. Test with a temporary 100% entry, then a temporary 50% entry, both players present.
+
+Test
+Spawn-test: spawn Greydwarf 20, bulk-kill, confirm coins and the odd gem land. Temporarily raise one rare to ~50 to prove the entry fires, then restore it. Statistics before calling a rate broken: the first drop lands around N kills for a 1/N rate, but allow ~3×N (≈380 kills gives 95% confidence on 1/128). LogOutput.log names the file and line of any config typo.
+
+ Phase 5
+
+## Coins, bank, shops, quests, collection log
+
+ Install KG Marketplace ("Marketplace And Server NPCs Revamped") — the live 1.0 build, from Hexium via Gale.
+ The Thunderstore copy (KGvalheim 9.8.1) wears a Deprecated banner because the maintained build moved — deprecated-on-Thunderstore ≠ dead. One mod covers marketplace, trader, banker (your bank), teleporter, quests, buffs.
+
+ Add JewelHeim's "Marketplace Configs" starter pack.
+ Ready-made Trader / Quests / Gamble / Buffs / Transmog NPC configs so you're placing NPCs, not authoring them from scratch.
+
+ Launch once, then set the marketplace mode — local while you author, server-owned for the run:
+ changed True is correct for solo ModTest work and stays that way until the host exists. At server standup (Phase 8) it flips to False so the server owns NPC and marketplace state. Do not flip it early — local mode is what ModTest needs.
+
+profiles\OSRSheim\BepInEx\config\MarketplaceAndServerNPCs.cfg
+ Copy
+
+# ModTest / solo authoring — current setting:
+Use Marketplace Locally = True
+
+# Gielheim on the dedicated server (Phase 8, step 4):
+Use Marketplace Locally = False
+
+ Install RustyMods-Almanac 3.7.94 (pulls YamlDotNet).
+ Achievements = collection log, plus its own bounties, leaderboard, and a token currency (AlmanacToken) spendable in its store. Achievement files hot-reload on edit.
+
+ Drop in a first Slayer-style achievement:
+
+profiles\OSRSheim\BepInEx\config\Almanac\Achievements\uniques.yml
+ Copy
+
+- UniqueID: Boss.001
+ Name: Antlers of the Forest
+ Lore: Proof you felled Eikthyr.
+ Icon: TrophyEikthyr
+ TokenReward: 5
+ Requirement:
+ Type: Kill
+ PrefabName: Eikthyr
+ Threshold: 1
+- UniqueID: Milestone.001
+ Name: Greydwarf Slayer
+ Lore: 500 greydwarves felled.
+ Icon: TrophyGreydwarf
+ TokenReward: 10
+ Requirement:
+ Type: Kill
+ PrefabName: Greydwarf
+ Threshold: 500
+
+ blocked Stock the general store — in game, not in a config file.
+ Corrected 2026-09-19: there is no TraderProfiles.cfg on KG 10.x. The mod uses empty per-feature directories under Marketplace\Configs\ (Traders, Bankers, Quests, Teleporters, Gamblers…), ships no templates, keeps state in a DB.db that is not SQLite, and its README is six lines with no schema. Traders are built with the in-game NPC editor. Knock-on: the skillcapes below have no vendor until this is done, so they are spawn-only. Almanac collection-log goals use Type: CollectItems (e.g. TrophyDeer,5;TrophyBoar,2); chain achievements with Type: Achievements. Confirm Type values and the file shape against your version's own example files; whether Almanac's creature pages reflect Drop That's modified tables is unconfirmed.
+
+Test
+Place the Marketplace, Banker, and Trader NPCs; deposit an item at the banker and get it back; accept and finish a quest; the Almanac panel shows Greydwarf Slayer ticking up.
+
+ Phase 6
+
+## Equipment tab, travel, sound
+
+ Confirm no other inventory/slot mod is installed: ExtraSlots, EquipmentAndQuickSlots, ComfyQuickSlots, MoreSlots all hard-conflict.
+
+ Install Azumatt-AzuExtendedPlayerInventory 2.5.1 (Hexium build, 2026-09-17, tagged Valheim 1.0).
+ Six equipment slots (Helmet, Chest, Legs, Back, Utility, Trinket — plus optional Wishbone/Demister) ≈ the worn-equipment tab, 0–8 quick slots (Alt+Z/X/C/V/B/N/1/2), 0–6 extra rows. Bundles ServerSync; doesn't need Jötunn.
+
+ Install XPortal (named destinations) — or Target Portal if you prefer pick-on-entry.
+ Combined with KG's Teleporter NPCs as fixed fee/boss-key-gated hubs, teleports feel unlocked like spellbook teleports and fairy rings, not free.
+
+ Optional: install an audio-replacer scaffold and supply your own OSRS level-up jingle / death sound files.
+ Client-side only. Install the scaffold empty and add audio you sourced yourself — RuneScape's assets are Jagex's; don't redistribute them in a profile export.
+
+Test
+Equipment and quick slots render and survive a relog; a named portal connects; a level-up plays your jingle.
+
+ Phase 7
+
+## A populated world — still on the test world
+
+ Install Warpalicious "More World Locations" packs (and Expand World if you want full generation control), checking each pack's 1.0 status.
+ Towns, camps, dungeons — destinations that make the overworld feel inhabited, the closest you'll get to Lumbridge and Varrock. Locations only generate in unexplored terrain.
+
+ On the ModTest world, run/sail into fresh terrain and confirm new POIs appear.
+
+ Skim BepInEx\LogOutput.log for repeating NullReferenceException spam.
+ Location packs are the most patch-sensitive layer of this stack. Find the first NRE and read down to the first frame that isn't UnityEngine/ObjectDB/ZNetScene — that names the guilty plugin.
+
+Test
+At least two new location types found; log clean of repeating exceptions.
+
+ Phase 8
+
+## The server, and the real run — Gielheim
+
+rebuilt 2026-09-19 This phase was written for a solo world. It is now a two-player run on a rented dedicated server, which changes four concrete things: the mod set must exist on the host as well as both clients, configs become a deploy step instead of a file save, world modifiers move from the creation screen to launch arguments, and KG Marketplace leaves local mode. The design itself is untouched. Per-mod detail lives in the dedicated-server reference.
+
+ Freeze the build: Gale → export the OSRSheim profile, save the code, and send it to your friend.
+ Disaster recovery and the one-string invite. Because Hexium-hosted mods are in the list (KG Marketplace, AzuEPI), the export uploads to Hexium and only Gale can import it — your friend needs Gale, not r2modman. Everything rides along, including the 16 Item_OSRS_*.yml clones their client needs in order to render boss uniques at all.
+
+ Stand the host up: BepInEx plus the identical mod set, same versions as the client profile.
+ Drop the BepInEx pack into the server folder (Linux hosts launch through start_server_bepinex.sh). Version drift between host and clients is the classic modded-server failure — pin from the export rather than re-resolving "latest" on the host. Client-only pieces can be left off: the audio replacer and purely visual tweaks.
+
+ Deploy the config set to the host, and add yourself to its adminlist.txt.
+ The server's copies are authoritative from here on: the Gale profile becomes the authoring copy, and a config is not live until it has been uploaded. Without the admin entry, dropthat:reload and devcommands are both closed to you — which turns every later tuning pass into a server restart.
+
+ Flip Use Marketplace Locally = False, then verify every KG module in game before committing to it.
+ The highest-risk step in this phase. 10.0.1-beta.1 is a young beta, and its server path is the one configuration ModTest never exercised. Check Trader, Banker, Quests and Teleporter individually. If the banker loses an item, stop and reassess rather than starting a hundred-hour run on top of it.
+
+ Re-run the boss-unique drop check on the server, not just solo.
+ The clones must register server-side before Drop That resolves its tables, and exist client-side to render — the same load-ordering trap that cost an hour locally, now spread across two machines and a second person's install. Use the temp-100%-entry recipe, confirm both players see the item, then delete the temp block. If it fails here but passed solo, the cause is the network boundary, not the config.
+
+ Set the world modifiers as launch arguments: death penalty = keeps skills / drops items (fallback Casual), portals per the Phase-6 travel rule, Resource rate Normal (1×), raids to taste.
+ changed A dedicated server has no world-creation screen — these move into the startup command (-preset / -modifier). Verify the exact flag names and accepted values against your host's own startup documentation: the tier wording was already unverified, and now the syntax is too. Resource rate must stay 1× or the calibrated drop tables silently inflate.
+
+ Both players roll fresh characters.
+ Level-1-everything is the new-account feel; an imported Viking arrives with skills that walk straight through your own gates. Worth agreeing out loud that neither of you brings one over — the gates are the game.
+
+ Delete ModTest, and back up both targets: the Gale profile and the server's world save.
+ changed Gielheim no longer lives under %USERPROFILE%\AppData\LocalLow\IronGate\Valheim — that path now holds local and test worlds only. The run's world sits on the host, so whatever snapshot or backup facility the host offers is now part of your recovery plan, not an optional extra.
+
+ Run the Tutorial Island gauntlet together — the end-to-end proof:
+ Mine copper + tin (Mining XP) → hit the SwordBronze gate below Swords 15 → grind past it → craft the sword → bank it with the banker → take your first Slayer bounty. Six systems, one loop. Co-op addition: both of you kill one boss and settle what DropOnePerPlayer actually does (see the Phase 4 note). If all six fire and the loot split behaves, OSRSheim is live.
+
+Quest complete
+Welcome to Gielheim. The grind is the game — now with a witness.
+
+ Phase 9
+
+## Gap campaign — closing on the OSRS loop
+
+From the 2026-09-19 gap analysis, run after the full-stack ModTest pass: everything still standing between this build and OSRS's gameloop, sequenced in four waves. Wave A slots before Phase 8 (config only, one ModTest session); Wave C is hot-reloadable and safe to run mid-Gielheim. Accepted gaps, deliberately: Thieving, Prayer drain, tick combat, minigames — Valheim shouldn't cosplay those.
+
+### Wave A — config only, before Gielheim
+
+ Re-key tool gates to the gathering skills: picks → Mining 10/20, hatchets → Lumberjacking 15/20/40.
+ Makes gathering levels gate content, OSRS's core loop (Mining 30 → coal). Battleaxes stay on Axes — combat weapons keep combat skills. Fallback if Smoothbrain names don't resolve: revert to Pickaxes/Axes. Authored 2026-09-19.
+
+ Armor + shield gates: equip on Blocking (Defence), craft on Blacksmithing (Smithing) — bronze 15 · iron 20 · wolf 30 · padded 40.
+ The Smithing-to-make / Defence-to-wear split; ends the accidental 1-def pure. 19 new entries, names confirmed against EpicLoot's 1.0-built item tables. Authored 2026-09-19.
+
+ ModTest the wave: log shows Loaded: 39; bronze armor refused below Blocking 15; iron pick refused below Mining 20.
+ WIRSL's own README says Smoothbrain skill support is only partial — this is the go/no-go on the re-key. ShieldBlackmetalTower is the one unverified prefab name.
+
+ Fishing gates: dump item names via WackysDatabase in game, then gate the biome baits (and any rod tiers) on vanilla Fishing.
+ Vanilla 1.0 already has the Fishing skill and biome-tiered fish + bait — the missing piece is gating. Bait prefab names exist nowhere in the on-disk dumps, so they wait for a live dump. Re-checked 2026-09-19 night and confirmed blocked: no bait prefab in any dump, and FishingRod is the only rod in the 1.0 item ladder. Gating that one rod on Fishing would be circular — no rod means no fishing means no Fishing levels — so it is deliberately left ungated.
+
+### Wave B — three small mods, tested one at a time
+
+ Vanilla-skill XP tune: JuJuz1/SkillGainModifier (per-skill factors, Apr-2026 build) — Swords, Bows, Blocking, Fishing etc. to 0.5×, death drain 0.
+ The gear gates key on vanilla skills that still level at vanilla speed while the Smoothbrain ten run 0.5× — inconsistent grind without it. Pre-1.0 build: ModTest. Fallback: Honja/ExperienceTuner.
+
+ Herblore: OdinPlus/PotionPlus (1.0-current, actively updated) — gate its potion tiers on Cooking via WIRSL (~15/25/35/45).
+ The potion ladder meads don't provide, at an alchemy table. 410k downloads, updated the day of this analysis.
+
+ Optional juice: Smoothbrain/Exploration (map-uncover XP ≈ Agility) and an XP-bar HUD (ValFox/RecentXpBars or Zenox/BetterUI).
+ OSRS's XP-drop dopamine. Client-side or same-family Smoothbrain — still one ModTest slot each, per the one-at-a-time rule.
+
+### Wave C — the loot campaign (hot-reloadable, mid-run safe)
+
+ Extend coins + the Gem/Rare shared lists (list IDs 110+/120+) biome by biome until every creature rolls the RDT.
+ The economy spine — coverage today is ~5% (starter creatures + Eikthyr). Prefab names from the saved Debug dumps; dropthat:reload for ten-second iteration.
+
+ Boss uniques: one signature drop per boss at 1/128–1/512 (time-normalized) plus a ~1/5000 vanity ultra-rare — the pet analogue.
+ Bosses currently drop deterministic vanilla only. Altars have no resummon cooldown, so unique-hunting plays like GWD.
+
+ Demi-bosses: Spawn That rare elite spawns in set zones, each with its own Drop That unique.
+ Fills the nothing-between-biome-bosses gap — wilderness-boss energy from existing prefabs, no new assets. Deferred 2026-09-19, twice blocked: spawn_that.world_spawners_advanced.cfg is empty and Spawn That's own instructions say to copy entries out of a generated reference — which does not exist yet, so authoring now would mean inventing syntax. Its dump flags are now enabled, so one world load unblocks it. Second blocker: the design wants a unique that only drops from a creature killed off-biome, and the only conditions Drop That actually emits are ConditionGlobalKeys and the three time-of-day ones. Confirm a biome condition exists before designing around one.
+
+### Wave D — endgame flavor and the tier-60/70 pass
+
+ authored 2026-09-19 Skillcapes: WackysDatabase cape clones per skill, WIRSL-gated at level 100, sold by a KG town NPC.
+ The 99 moment, and a real gold sink. Trimmed is a recolor. Authored, untested: 24 clones of CapeLinen — 23 per-skill capes plus a max cape whose single gate ANDs all 23 skills at 100. Equip-gated only, since they have no recipe. OSRS names where the mapping is 1:1 (Woodcutting, Smithing, Construction, Herblore, Agility, Hunter, Defence, Ranged, Magic, Strength); Valheim names where OSRS collapses several skills into Attack. No vendor yet — see Phase 5.
+
+ authored 2026-09-19 Tier-50/60/70 gating pass: Mistlands, Ashlands and Deep North gear, plus the staves on Blood/Elemental Magic.
+ Magic gating lands here, not earlier: entry staves must stay usable because casting is how magic levels (OSRS Magic 1 casts wind strike). Flametal ≈ 60, Deep North ≈ 70. Authored, untested — and it grew: the file went from 43 gates to 217. A tier 50 (Mistlands) was added that the original ladder never had — it jumped blackmetal 40 straight to flametal 60, leaving every Mistlands item ungated. A mid-tier gap fill closed the same kind of hole lower down: Root, Fenring, Berserker and Troll Leather armor were all wearable at Blocking 0, walking straight past the bronze and iron gates. And one bug: the Wave A gate DraugrFang was the wrong prefab — it is BowDraugrFang — so it had silently never fired. A wrong PrefabName fails open with no log line, which is exactly why it went unnoticed. Names came from EpicLoot's iteminfo.json ItemsByBoss ladder. Next launch must log Loaded: 217.
+
+### Watch list — blocked on upstream releases
+
+ Almanac ships a 1.0 build → re-enable it: quests, diaries, collection log and the token store go live from the already-staged configs.
+ Still 3.7.94 (Aug 11) as of 09-19; its staged config tree is the entire quest/diary/collection-log pillar. Interim quest-ish locks: WIRSL GlobalKeyReq on boss keys.
+
+ KG Marketplace stabilizes past 10.0.1-beta.1 → wire its quest module as repeatable Slayer dailies and place the Banker — with interest OFF.
+ Module set confirmed (Trader / Banker / Quests / Teleporter / Gambler / Buffer), but the 10.x rewrite is young — verify each module in-game. OSRS banks don't pay you to bank.
+
+Test
+The gauntlet, extended: bronze armor refuses below Blocking 15 · the iron pick waits on Mining 20 · a potion tier opens at Cooking 25 · every biome's kills pay coins · and when Almanac returns, the collection log starts filling.
+
+## Appendices
+
+ Loot design reference — the OSRS model and the math
+
+### How OSRS actually rolls loot
+
+Always drops: bones/ashes on almost every creature (100%).
+
+Main table: exactly one weighted roll per kill — one item or "nothing"; some bosses roll several times.
+
+Pre-roll uniques: bosses and slayer monsters roll uniques first; the main table only fires if all fail.
+
+Tertiary drops: fully independent side rolls — clue scrolls, pets, champion scrolls; several can land on one kill.
+
+Shared sub-tables: the Rare Drop Table (hit at e.g. 8/128) and Gem table (2/128) nest deeper — mega-rares at 15/128 inside the RDT, a sapphire at 32/128 inside gems with a 63/128 "nothing" slot.
+
+Reference rates: abyssal whip 1/512 · dragon med helm 1/128 on the RDT · gem while Mining 1/256 per action · bird nest 1/256 per log · pets 1/1000–1/5000 · flat rates, no bad-luck protection anywhere.
+
+### Fidelity map
+
+ | OSRS concept | Implementation | Fidelity
+
+ | Always drop (bones) | ChanceToDrop = 100 entries | High
+
+ | Main drop table | Independent CharacterDrop entries with matched per-kill chances — same long-run rate per item | Medium-high mutual exclusivity lost
+
+ | Shared Rare/Gem tables | Named lists via UseDropList, tiered with ConditionGlobalKeys | High
+
+ | Gems while mining (1/256) | Weighted DropTable entries on rock/deposit prefabs | High
+
+ | Bird nests (1/256) | Weighted DropTable entry on tree-log prefabs | High
+
+ | Tertiary pet (1/1000+) | Trophy or WackysDatabase custom item as an independent entry | Medium
+
+ | Boss pre-roll uniques | Fixed-stat items at set rates on the boss's CharacterDrop | High
+
+ | Clue scrolls | EpicLoot treasure maps (restricted install) or Almanac bounties | Medium
+
+ | Noted bulk resources | Large AmountMin/Max + AutoStack = true | High big stacks want a stack-size mod
+
+ | Ring of Wealth | ConditionHasItem on an equipped charm enabling richer entries | Low-medium
+
+ | Slayer-task-only drops | Bounties as a loose analogue — no per-player task-conditional drops exist | Low gap
+
+ | Collection log | Almanac achievements per unique + kill milestones | High
+
+### Never touch these vanilla drops
+
+Appending at IDs ≥ 100 protects them automatically; only override a vanilla index ([Boar.0]) deliberately. The list: Deer Trophy ×2 + Hard Antler (Eikthyr) · Ancient Seed ×3 + Swamp Key (Elder) · Withered Bone ×10 + Wishbone (Bonemass) · Dragon Egg ×3 + Dragon Tear (Moder) · Fuling Totem ×5 (Yagluth) · Sealbreaker fragments + Giant King's Hair (Queen) · Fader's sacrificial items · Malicious Blood ×3 (Kall Fimbulbringer) · Surtling Cores · every boss trophy.
+
+### Rate calibration — the two presets
+
+Valheim chance = OSRS chance × (OSRS kills/hr ÷ Valheim kills/hr), capped so no unique gets commoner than ~1/20. Working assumptions (adjust to your pace): OSRS commons ~300–600 kills/hr, OSRS bosses ~20–40; Valheim commons ~60–120, Valheim bosses ~1–3 including summoning costs.
+
+ | Common monster, OSRS 1/512 | ChanceToDrop | Expected kills | ≈ Hours @ 90/hr
+
+ | Literal | 0.1953125 | 512 | 5.7
+
+ | Time-normalized (default) | 0.859 ~1/116 | 116 | 1.3
+
+ | Boss unique, OSRS 1/512 | ChanceToDrop | Expected kills | ≈ Hours @ 2/hr
+
+ | Literal | 0.1953125 | 512 | 256
+
+ | Time-normalized (default) | 2.94 ~1/34 | 34 | 17
+
+Boss unique-hunting is viable because bosses have no resummon cooldown — the same altar works as often as you have offerings. Unique trophies drop once; everything else repeats. Farm summon materials, not altar mods.
+
+### Loot gaps that stay gaps
+
+Exactly-one-item main-table rolls on creatures — independent rolls match long-run rates; occasional double or zero uniques per kill.
+
+Ring of Wealth's "remove the nothing-slot" mechanic — only approximable.
+
+Per-player Slayer-task-only drops.
+
+Prayer from burying bones — no maintained mod.
+
+Loot visibility windows / despawn timers — leave vanilla; items roll, slide, and sink in a physics world.
+
+ Ironman & Hardcore Ironman rules
+
+Ironman: self-imposed — never open the marketplace or trade; the banker is allowed (it's storage, not commerce). Nothing to install.
+
+Hardcore Ironman: the vanilla Hardcore world modifier + the discipline to delete the character on death — or a permadeath mod if you find one maintained on 1.0 (none was verified in the research pass).
+
+ Dedicated server — the live configuration
+
+active 2026-09-19 No longer hypothetical: this is the shipping configuration. The notes below were written as a "later" appendix and have been checked against the installed profile.
+
+Install BepInEx on the server exactly as on a client (drop the pack contents into the server folder; on Linux run through start_server_bepinex.sh).
+
+Must match on server + every client, same versions: Smoothbrain skills, WackyItemRequiresSkillLevel, WackysDatabase, CLLC, Drop That, EpicLoot, KG Marketplace, AzuEPI, Almanac.
+
+Mods bundling ServerSync push the server's config to clients — set the ruleset on the server, once. Audited on the installed profile: all ten Smoothbrain skills, CLLC and WIRSL carry Lock Configuration = On; EpicLoot (90 keys), AzuEPI, WackysDatabase, More World Locations and Almanac carry [Synced with Server]. Your friend cannot accidentally run 1.0× XP against your 0.5×.
+
+Drop That goes on the server and every client; since its v1.4.0, clients auto-pull the server's loaded loot configs — the server's files are authoritative, and dropthat:reload is admin-only there.
+
+DropOnePerPlayer = true on boss and shared drops ≈ OSRS per-player loot — already set on all 26 boss entries. verify whether it rolls the chance per player or rolls once and duplicates; see the Phase 4 co-op note.
+
+Loot rates are not recalibrated for two players. A shared pile split two ways is roughly solo per-player pacing. A duo gets drops twice as fast collectively while each player's own rate holds — which is exactly how OSRS behaves.
+
+WackysDatabase custom items are the load-ordering risk. The 16 Item_OSRS_* clones must register server-side before Drop That resolves its tables and exist on each client to render. They travel inside the Gale profile export; verify rather than assume.
+
+Flip Use Marketplace Locally = False so the server owns NPC/marketplace state; trader/quest/banker configs hot-reload server-side.
+
+Client-only: the sound replacer and visual tweaks.
+
+Two backup targets now: the Gale profile (authoring) and the host's world save. The local AppData\LocalLow path holds test worlds only.
+
+Deployment mechanics are deliberately undecided until the host is chosen — rented hosts differ (SFTP, web panel, git-pull hooks). Package the config set once, then script the upload to whatever the host exposes.
+
+Console players can't use mods — a modded server is PC-only. 1.0's PS5/Switch 2 crossplay means vanilla.
+
+ Troubleshooting & patch survival
+
+Read the log first: BepInEx\LogOutput.log → find the first NullReferenceException → read down the stack to the first frame that isn't UnityEngine or a Valheim namespace (ObjectDB, ZNetScene) — that plugin is the culprit.
+
+After a game patch: update BepInEx first, then Jötunn, then mods one at a time, launching between each. Never restore a whole profile blind.
+
+False corruption: launch-day 1.0 produced scary symptoms from stale plugins (duplicated-looking characters, vanished terrain) that were not save damage. Load the world vanilla before concluding a save is corrupt.
+
+Pins hold: Gale installs exact versions and won't silently update them; launching through Gale also stops Steam patching mid-session.
+
+Rollback: Steam → Properties → Betas → default_pre1_0.
+
+ Still to verify at install time
+
+Resolved 2026-09-19  Hexium is legitimate (a second home for mods, not a Thunderstore replacement — most of this stack still lives on Thunderstore) · Gale reads both catalogs by default · Valheim 1.0 shipped Sept 9 · Drop That v3.x syntax fully documented from its wiki (edited Sept 8): ChanceToDrop on a 0–100 scale, no Set prefix, drop_that.character_drop.cfg vs the weighted drop_that.drop_table.cfg · Almanac version dispute between the two research reports settled live: 3.7.94 on Thunderstore · EpicLoot 0.14.8 confirmed rebuilt for 1.0.14.
+
+verify A Drop That build published after Sept 9 — else test 3.1.4 on 1.0 before building the loot layer (Phase 4, step 1).
+
+verify CLLC 3.9.9 actually working on the current 1.0 patch — one tracker says nothing shipped since May 2025 (Phase 4, step 3).
+
+verify The exact [Debug] key names in drop_that.cfg — reconstructed from the changelog, not verified verbatim; enable whatever write-to-file entries the generated file shows.
+
+verify Exact live versions of AzuEPI and KG Marketplace on Hexium at install time (Phase 1, step 3).
+
+verify Prefab names for every gate and drop — from the Drop That debug dump (primary) or a WackysDatabase dump; never from old wikis.
+
+verify Almanac's achievement schema shape on your version, and whether its creature pages reflect Drop That-modified tables.
+
+verify Per-skill XP-multiplier key names in each Smoothbrain .cfg.
+
+verify Death-penalty tier wording — and, on a dedicated server, the -preset / -modifier launch-argument syntax your host expects.
+
+verify Each Warpalicious pack's 1.0 status before Phase 7.
+
+verify Co-op: whether Drop That’s DropOnePerPlayer rolls ChanceToDrop per player or rolls once and duplicates the result.
+
+verify Co-op: KG Marketplace 10.0.1-beta.1 in server mode — Trader, Banker, Quests and Teleporter each checked individually (Phase 8, step 4).
+
+verify Co-op: that a boss unique built from a WackysDatabase clone actually drops, and renders for both players, across the server boundary (Phase 8, step 5).
+
+ Dead ends — don't bother
+
+ReckonRunescape modpack (quasipsuedo, 2.7.4) — deprecated; not a usable base.
+
+RtDItems "runescape inspired off-hand defenders" — cosmetic flavor only.
+
+WackyEpicMMOSystem — good mod, wrong build: its single-level+attributes model fights the many-skills design chosen here.
+
+"DropThat Diversified Loot" (Nexus mod 411) — its posted configs still use the deprecated Set-prefix keys; would need a full rewrite. Build from this plan's starter files instead.
+
+EpicLoot as the loot pillar — demoted: random affixes are Diablo, not OSRS. Restricted to clues + bounties (Phase 4, step 8).
+
+Altar/resummon mods — unnecessary: bosses already resummon endlessly for offerings, no cooldown.
+
+No maintained tick-system / click-to-move mod exists. Accepted up front; stop looking.
+
+Rebuilt 2026-09-19 from the September research guide (same-day version check: Valheim 1.0.15). Rev 2, same day: loot layer reconciled from the drops deep-dive — Drop That v3.x syntax verified from its wiki, EpicLoot demoted to a restricted clue/bounty layer, CLLC calibration and the two rate presets added. Live spot-checks this session: Hexium legitimacy, Gale dual-catalog support, 1.0 release date, Almanac 3.7.94 (settling a version conflict between the two reports). Version pins — confirm each in Gale at install. Rev 3, same day (late): full-stack ModTest passed; the OSRS gap analysis folded in as Phase 9 — Wave A gates authored (39 WIRSL entries), Wave B mod candidates version-checked live on Thunderstore. Rev 4, same day (night): scope changed to two players on a rented dedicated server. Phase 8 rebuilt around host standup, config deployment, the server-mode marketplace flip and launch-argument world modifiers; the dedicated-server appendix promoted from “later” to the live configuration after a per-mod ServerSync audit of the installed profile; loot rates deliberately left as authored, with the DropOnePerPlayer question raised as the one genuinely new unknown.
+
+Rev 5, same night: the game-ready authoring pass. Everything buildable on disk is now built and nothing of it is tested, by design — gating taken to 217 entries across four new tiers, 24 skillcapes, EpicLoot's magic drops finally zeroed at the table level, and 22 collection-log entries. Two latent bugs surfaced and were fixed on the way: a gate pointing at a prefab that does not exist, and a staged Almanac file in the wrong shape. Three steps turned out not to be authorable at all (Phase 5's trader, the demi-bosses, the fishing gates) and carry their reasons rather than a tick.
+
+ Reset progress
+ Progress saves automatically.
+
