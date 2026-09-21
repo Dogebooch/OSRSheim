@@ -10,6 +10,7 @@ Read-only. Checks the authoring copy in the Gale profile:
   3. WIRSL yml parses, entry count, no duplicate PrefabNames.
   4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues -> nodes/profiles; handbook cfg matches loot\\*.csv.
   5. Every JSON / YAML we touched still parses; EpicLoot loot tables still roll zero items.
+  6. reference\\mods.tsv still matches the profile's installed mods (the frozen mod list).
 Exit code 1 when any ERROR is printed (WARNs are advisory: names we could not verify on disk).
 """
 import glob
@@ -123,6 +124,11 @@ for flag in ("--check", "--audit"):
 r = subprocess.run([sys.executable, os.path.join(HERE, "gen-handbook.py"), "--check"], capture_output=True, text=True)
 if r.returncode == 0: ok(r.stdout.strip())
 else: err(r.stdout.strip().replace(chr(10), " | "))
+
+r = subprocess.run([sys.executable, os.path.join(HERE, "gen-mods.py"), "--check"], capture_output=True, text=True)
+if r.returncode == 0: ok("reference\\mods.tsv matches the profile's installed mods")
+else: err(r.stdout.strip().replace(chr(10), " | ") + "  (mod list is frozen: an unexpected line means Gale installed, "
+          "removed or updated something)")
 
 # ---------------------------------------------------------------- 3. WIRSL
 try:

@@ -20,6 +20,7 @@ Slayer tasks, prayers, hiscores.
 | Prefab dumps | `<profile>\BepInEx\Debug\` (written on world load) |
 | Game | `C:\Program Files (x86)\Steam\steamapps\common\Valheim` (app 892970) |
 | Local saves | `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only) |
+| Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
@@ -28,41 +29,43 @@ Slayer tasks, prayers, hiscores.
 
 ## 3. Mod stack
 
-Versions are the pinned, loading-clean set as of 2026-09-21. Sources: TS =
-Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
+Frozen set. Versions: generated `reference\mods.tsv` (`gen-mods.py`), validator
+checked. Sources: TS = Thunderstore, HX = Hexium (valheim.hexium.gg). Gale
+reads both.
 
-| Mod | Version | Source | Role | Status |
-|---|---|---|---|---|
-| BepInExPack Valheim (denikson) | 5.4.2350 | TS | loader | verified |
-| Jötunn | 2.30.2 | TS | library | verified |
-| Smoothbrain Mining | 1.1.7 | TS | skill | verified |
-| Smoothbrain Lumberjacking | 1.0.7 | TS | skill | verified |
-| Smoothbrain Cooking | 1.2.3 | TS | skill | verified |
-| Smoothbrain Farming | 2.2.3 | TS | skill | verified |
-| Smoothbrain Blacksmithing | 1.3.6 | HX | skill | verified |
-| Smoothbrain Building | 1.2.7 | TS | skill | verified |
-| Smoothbrain Sailing | 1.1.9 | TS | skill | verified |
-| Smoothbrain Ranching | 1.1.9 | HX | skill | verified |
-| Smoothbrain Foraging | 1.0.11 | TS | skill | verified |
-| Smoothbrain Evasion | 1.0.5 | TS | skill | verified |
-| WackyItemRequiresSkillLevel (WIRSL) | 1.4.7 | TS | gear gating | verified |
-| WackysDatabase | 2.5.34 | TS | item clones, prefab dumps | verified |
-| Drop That | 3.1.5 | TS | creature + object loot | verified |
-| Spawn That | 1.2.19 | TS | superior spawns | loads; spawns untested |
-| CreatureLevelAndLootControl (CLLC) | 5.0.4 | TS | levels display, item yaml | verified |
-| EpicLoot | 0.14.11 | TS | treasure maps + bounties only | loads; economy untested |
-| KG Marketplace (Marketplace And Server NPCs Revamped) | 10.0.1-beta.1 | HX | economy, NPCs, quests | configs parse; NPCs untested |
-| AzuExtendedPlayerInventory | 2.5.1 | HX | equipment tab + quick slots | verified |
-| XPortal | 1.2.25 | TS | named portals | verified |
-| More World Locations AIO | 5.1.1 | TS | towns and POIs | verified |
-| JsonDotNET / YamlDotNet | 13.0.4 / 16.3.1 | TS | dependencies | verified |
-| Therzie Wizardry | 1.2.0 | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
-| OdinPlus PotionPlus | 4.3.4 | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
-| Smoothbrain Exploration | 1.0.5 | HX | Agility feel | verified |
-| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | verified; cfg in §18 |
-| BetterUI_ForeverMaintained | 2.5.12 | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
-| sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
-| Marlthon OdinShip | 0.8.1 | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
+| Mod | Source | Role | Status |
+|---|---|---|---|
+| BepInExPack Valheim (denikson) | TS | loader | verified |
+| Jötunn | TS | library | verified |
+| Smoothbrain Mining | TS | skill | verified |
+| Smoothbrain Lumberjacking | TS | skill | verified |
+| Smoothbrain Cooking | TS | skill | verified |
+| Smoothbrain Farming | TS | skill | verified |
+| Smoothbrain Blacksmithing | HX | skill | verified |
+| Smoothbrain Building | TS | skill | verified |
+| Smoothbrain Sailing | TS | skill | verified |
+| Smoothbrain Ranching | HX | skill | verified |
+| Smoothbrain Foraging | TS | skill | verified |
+| Smoothbrain Evasion | TS | skill | verified |
+| WackyItemRequiresSkillLevel (WIRSL) | TS | gear gating | verified |
+| WackysDatabase | TS | item clones, prefab dumps | verified |
+| Drop That | TS | creature + object loot | verified |
+| Spawn That | TS | superior spawns | loads; spawns untested |
+| CreatureLevelAndLootControl (CLLC) | TS | levels display, item yaml | verified |
+| EpicLoot | TS | treasure maps + bounties only | loads; economy untested |
+| KG Marketplace (Marketplace And Server NPCs Revamped) | HX | economy, NPCs, quests | configs parse; NPCs untested |
+| AzuExtendedPlayerInventory | HX | equipment tab + quick slots | verified |
+| XPortal | TS | named portals | verified |
+| More World Locations AIO | TS | towns and POIs | verified |
+| JsonDotNET / YamlDotNet | TS | dependencies | verified |
+| Therzie Wizardry | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
+| OdinPlus PotionPlus | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
+| Smoothbrain Exploration | HX | Agility feel | verified |
+| JuJuz1 SkillGainModifier | TS | vanilla skill XP 0.5x | verified; cfg in §18 |
+| BetterUI_ForeverMaintained | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
+| sighsorry Trolling Fishing | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
+| Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
+| JereKuusela Server devcommands | TS | admin console (§16) | loads |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
@@ -504,7 +507,8 @@ station an Eikthyr-era base has). The cfg is generated by
 - Deploy payload = the Gale profile root: `winhttp.dll`,
   `doorstop_config.ini` (relative target, works unchanged), `doorstop_libs\`,
   `BepInEx\`. Linux hosts use `start_server_bepinex.sh`.
-- Same versions on host and both clients. ServerSync'd: all Smoothbrain
+- Same versions on host and both clients: `python scripts\gen-mods.py --verify
+  <host BepInEx\plugins | its LogOutput.log>`. ServerSync'd: all Smoothbrain
   skills, CLLC, WIRSL (`Lock Configuration = On`), EpicLoot, AzuEPI,
   WackysDatabase, MWL, Trolling Fishing. Drop That clients pull the server's loaded
   configs.
