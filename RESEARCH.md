@@ -174,11 +174,14 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 `python scripts\gen-loot.py` writes `drop_that.character_drop.cfg` and
 `drop_that.character_drop_list.shared_tables.cfg` from `loot\*.csv`. The
 validator fails when cfgs and tables differ. Never hand-edit those two cfgs.
+`python scripts\gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` (bestiary:
+biome -> creature -> every drop at its real chance, superior sub-pages) to the
+repo `config\`; `--check` runs in the validator.
 
 | Table | Columns | Edit it to |
 |---|---|---|
 | `loot\classes.csv` | class, valheim_kills_hr, osrs_kills_hr | rebalance: multiplier = osrs / valheim |
-| `loot\creatures.csv` | biome, creature, class, list | add a creature; its one `UseDropList` |
+| `loot\creatures.csv` | biome, creature, class, list, display | add a creature; its one `UseDropList`; its handbook page name |
 | `loot\lists.csv` | list, class, first_id (Gem 110, Rare 120) | add a shared table |
 | `loot\drops.csv` | owner, item, min, max, chance, flags, id | add or change a drop |
 
@@ -341,7 +344,8 @@ SteamID64 is in `MarketPlace.cfg` `OverrideDebug`).
 `Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`,
 `AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `Use Marketplace
 Locally = true` (flip to false only once the server exists). Banker interest
-off. `DistancedUI` lists filled but `Enabled = false`.
+off. `DistancedUI` on: `Dialogues = handbook`, `InfoProfiles = gielheim_guide`, every
+other list empty, marketplace and mail off (open key unverified).
 
 ### Content pack (all `osrsheim_*.cfg`)
 
@@ -441,7 +445,7 @@ coordinates from the in-game `pos` command on Gielheim.
 | Ragnar the Bold | Gambler | `flower_poker` | — | — |
 | Gothi Eirik | Buffer | `chapel` | `chapel` | — |
 | Seeress | Trader | `offerings` | `seeress` | — |
-| Gielheim Guide | Info | `gielheim_guide` | — | — |
+| Gielheim Guide | Info | `gielheim_guide` | `handbook` | — |
 | Halla the Skald | Quests | `collection_log` | `collection_log` | — |
 | Kaupang | Marketplace | — | — | leaderboard tab lives here |
 
@@ -568,10 +572,8 @@ bundles (LZ4 keeps literals); that verified the nine `FishingBait*` ids.
 
 ### Planned, not done
 
-- **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0 (fixed-stat
-  boss-unique gear, needs Drop That wiring), Monstrum.
+- **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0, Monstrum.
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
-  Hardcore Ironman = vanilla Hardcore modifier + delete on death.
 - **Knobs to tune by feel**: skillcape price, gem prices, trophy prices,
   Slayer rewards, superior rarity (8% / 900 s), treasure map payout (1.5x),
   gambler edge, market tax, Goblin double coins, clone attack speeds, Fishing
@@ -581,12 +583,11 @@ bundles (LZ4 keeps literals); that verified the nine `FishingBait*` ids.
 ## 19. Dead ends
 
 Almanac 3.7.94 (crashes on 1.0) · Boat mods: BoatAdditions, CustomShips (stale), Balrond shipyard (no cfg),
-ValheimRAFT (freeform) · ReckonRunescape modpack (deprecated) · RtDItems defenders (cosmetic) ·
+ValheimRAFT (freeform) · RtDItems defenders (cosmetic) ·
 WackyEpicMMOSystem (single-level model) · EpicLoot affix drops on creature
-tables (random rolls break fixed-item identity, the collection log, WIRSL tiers) · "DropThat Diversified Loot" Nexus
-configs (deprecated) · EpicLoot as the loot pillar · altar
+tables (random rolls break fixed-item identity, the collection log, WIRSL tiers) · EpicLoot as the loot pillar · altar
 or resummon mods (bosses already resummon freely) · valheim.fandom.com (returns 402 to fetches;
-use valheim.weirdgloop.org) · JewelHeim Marketplace Configs (never on 1.0).
+use valheim.weirdgloop.org).
 Fishing: Hooked, PeasFishing (minigames) · Spearfishing (skips bait gates) ·
 TheFisher · BetterFishing · FishingBonus · FishChum · Reely SpecTackleLure.
 
@@ -601,7 +602,6 @@ MagicalMounts, MagicOverhaul, Skyheim.
 - Drop That: https://github.com/ASharpPen/Valheim.DropThat/wiki (CharacterDrop-Configuration has `ConditionMinLevel`, `ConditionBiomes`)
 - Dedicated server flags: https://www.valheimgame.com/support/a-guide-to-dedicated-servers/
 - Gale: https://github.com/Kesomannen/gale · Hexium: https://valheim.hexium.gg
-- Original plan export: `archive\2026-09-19-first-build\plan-artifact-export.txt`
 
 ## 21. Wizardry (Therzie 1.2.0)
 
