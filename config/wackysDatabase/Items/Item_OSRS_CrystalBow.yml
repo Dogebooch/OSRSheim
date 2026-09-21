@@ -7,3 +7,5 @@ m_description: Strung with gjall sinew. The string bites harder than any dvergr 
 m_weight: 1.5           # BowSpineSnap base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   DmgMultiplier: 1.1
+Secondary_Attack:
+  DmgMultiplier: 1.1
