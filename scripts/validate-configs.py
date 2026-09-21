@@ -55,16 +55,20 @@ if os.path.exists(prefabs):
     objects |= set(re.findall(r"^\[([^\].]+)\]", t, re.M))
     items |= set(re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M))
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
-    m = re.search(r"^name:\s*(\S+)", read(f), re.M)
+    t = read(f)
+    m = re.search(r"^name:\s*(\S+)", t, re.M)
     if m: clones.add(m.group(1))
-    m2 = re.search(r"^clonePrefabName:\s*(\S+)", read(f), re.M)
+    m2 = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
     if m2 and m2.group(1) not in items:
         err(f"wackydb {os.path.basename(f)} clones unknown prefab {m2.group(1)}")
     # No top-level m_weight = WackysDatabase drops the file at load, silently, no log line.
     # Proven 2026-09-21: of 56 ymls only the 7 without it failed to build; m_maxStackSize
     # does not substitute. Restate the clone target's base weight to keep it a no-op.
-    if not re.search(r"^m_weight:\s*\S", read(f), re.M):
+    if not re.search(r"^m_weight:\s*\S", t, re.M):
         err(f"wackydb {os.path.basename(f)} has no m_weight; wackydb will skip it silently")
+    if re.search(r"^Primary_Attack:", t, re.M) and not re.search(r"^Secondary_Attack:", t, re.M):
+        err(f"wackydb {os.path.basename(f)}: Primary_Attack without Secondary_Attack "
+            f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
 if len(clones) != 56:
