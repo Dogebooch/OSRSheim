@@ -280,9 +280,9 @@ rate broken (~380 kills for 95% confidence on 1/128).
 
 ## 8. Custom items (WackysDatabase)
 
-Folder: `wackysDatabase\Items\Item_OSRS_*.yml`. wackydb only reads files named
-`Item_*.yml`. Never run `wackydb_save_item` onto an authored file (it resets
-`Custom_AttackSpeed`). Base dumps: `reference\wackydb-base-dumps\`.
+Folder: `wackysDatabase\Items\Item_OSRS_*.yml`. Base dumps:
+`reference\wackydb-base-dumps\`. `Primary_Attack:` needs a `Secondary_Attack:`
+block: wackydb dereferences it unguarded and drops the rest of the item's data.
 
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 64, stamina 14, attack speed 1.2; Bandos Godsword

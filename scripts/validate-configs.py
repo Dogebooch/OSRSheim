@@ -55,11 +55,15 @@ if os.path.exists(prefabs):
     objects |= set(re.findall(r"^\[([^\].]+)\]", t, re.M))
     items |= set(re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M))
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
-    m = re.search(r"^name:\s*(\S+)", read(f), re.M)
+    t = read(f)
+    m = re.search(r"^name:\s*(\S+)", t, re.M)
     if m: clones.add(m.group(1))
-    m2 = re.search(r"^clonePrefabName:\s*(\S+)", read(f), re.M)
+    m2 = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
     if m2 and m2.group(1) not in items:
         err(f"wackydb {os.path.basename(f)} clones unknown prefab {m2.group(1)}")
+    if re.search(r"^Primary_Attack:", t, re.M) and not re.search(r"^Secondary_Attack:", t, re.M):
+        err(f"wackydb {os.path.basename(f)}: Primary_Attack without Secondary_Attack "
+            f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
 if len(clones) != 56:

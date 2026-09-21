@@ -6,3 +6,5 @@ m_name: Gjall-gut bow
 m_description: Strung with gjall sinew. The string bites harder than any dvergr cord.
 Primary_Attack:
   DmgMultiplier: 1.1
+Secondary_Attack:
+  DmgMultiplier: 1.1
