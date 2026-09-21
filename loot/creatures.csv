@@ -1,115 +1,115 @@
-biome,creature,class,list
-Meadows,Greyling,camped,
-Meadows,Neck,camped,GemTableTier1
-Meadows,Boar,camped,
-Meadows,Deer,camped,
-Meadows,Skeleton_Meadows,camped,GemTableTier1
-Meadows,Skeleton_Meadows_noarcher,camped,GemTableTier1
-Black Forest,Greydwarf,camped,GemTableTier1
-Black Forest,Greydwarf_Shaman,roamer,GemTableTier1
-Black Forest,Greydwarf_Elite,elite,RareTableTier2
-Black Forest,Skeleton,camped,GemTableTier1
-Black Forest,Skeleton_NoArcher,camped,GemTableTier1
-Black Forest,Skeleton_Poison,camped,GemTableTier1
-Black Forest,Ghost,camped,
-Black Forest,Ghost_sleeping,camped,
-Black Forest,Troll,elite,GemTableTier1
-Black Forest,Troll_sleeping,elite,GemTableTier1
-Black Forest,GreydwarfMage_TW,roamer,GemTableTier1
-Swamp,Draugr,camped,RareTableTier2
-Swamp,Draugr_sleeping,camped,RareTableTier2
-Swamp,Draugr_Ranged,camped,RareTableTier2
-Swamp,Draugr_Ranged_sleeping,camped,RareTableTier2
-Swamp,Draugr_Elite,elite,RareTableTier2
-Swamp,Draugr_Elite_sleeping,elite,RareTableTier2
-Swamp,Skeleton_Swamps,camped,GemTableTier2
-Swamp,Skeleton_Swamps_noarcher,camped,GemTableTier2
-Swamp,Blob,camped,GemTableTier2
-Swamp,Leech,camped,
-Swamp,Leech_cave,camped,
-Swamp,Wraith,elite,GemTableTier2
-Swamp,Surtling,camped,
-Swamp,Abomination,elite,RareTableTier2
-Swamp,Bat_Swamp,camped,
-Swamp,SkeletonMage_TW,roamer,GemTableTier2
-Ocean,Serpent,elite,GemTableTier2
-Mountain,Wolf,roamer,GemTableTier2
-Mountain,Ulv,roamer,GemTableTier2
-Mountain,Hatchling,camped,
-Mountain,Bat,camped,
-Mountain,Fenring,roamer,GemTableTier2
-Mountain,Fenring_Cultist,roamer,GemTableTier2
-Mountain,Skeleton_Mountains,camped,GemTableTier2
-Mountain,Skeleton_Mountains_noarcher,camped,GemTableTier2
-Mountain,StoneGolem,elite,RareTableTier2
-Mountain,FenringMage_TW,roamer,GemTableTier2
-Plains,Goblin,roamer,GemTableTier3
-Plains,GoblinArcher,roamer,GemTableTier3
-Plains,GoblinShaman,roamer,GemTableTier3
-Plains,GoblinBrute,elite,RareTableTier3
-Plains,Deathsquito,camped,
-Plains,Lox,roamer,GemTableTier3
-Plains,BlobTar,camped,
-Plains,GoblinMage_TW,roamer,GemTableTier3
-Mistlands,Seeker,roamer,GemTableTier3
-Mistlands,SeekerBrute,elite,RareTableTier3
-Mistlands,Gjall,elite,RareTableTier3
-Mistlands,Tick,camped,
-Mistlands,Dverger,camped,GemTableTier3
-Mistlands,DvergerMage,camped,GemTableTier3
-Mistlands,DvergerMageFire,camped,GemTableTier3
-Mistlands,DvergerMageIce,camped,GemTableTier3
-Mistlands,DvergerMageSupport,camped,GemTableTier3
-Mistlands,CorruptedDvergerMage_TW,roamer,GemTableTier3
-Ashlands,Charred_Melee,camped,GemTableTier4
-Ashlands,Charred_Archer,camped,GemTableTier4
-Ashlands,Charred_Mage,camped,GemTableTier4
-Ashlands,Charred_Twitcher,camped,
-Ashlands,Charred_Melee_Dyrnwyn,elite,RareTableTier4
-Ashlands,Asksvin,roamer,GemTableTier4
-Ashlands,Volture,roamer,
-Ashlands,BlobLava,camped,
-Ashlands,Morgen,elite,RareTableTier4
-Ashlands,Morgen_NonSleeping,elite,RareTableTier4
-Ashlands,FallenValkyrie,elite,RareTableTier4
-Ashlands,BonemawSerpent,elite,RareTableTier4
-Ashlands,DvergerAshlands,camped,GemTableTier4
-Deep North,Frysling,camped,GemTableTier4
-Deep North,Greydwarf_Frozen,roamer,GemTableTier4
-Deep North,Greydwarf_Shaman_Frozen,roamer,GemTableTier4
-Deep North,BlobFrost,camped,
-Deep North,BlobMork,camped,
-Deep North,Moose,roamer,
-Deep North,Seal,roamer,
-Deep North,Elaking,roamer,GemTableTier4
-Deep North,ElakingLantern,roamer,GemTableTier4
-Deep North,ElakingMole,roamer,GemTableTier4
-Deep North,GoblinDeepNorth,roamer,GemTableTier4
-Deep North,Skeleton_DeepNorth,camped,GemTableTier4
-Deep North,DvergerDeepNorth,camped,GemTableTier4
-Deep North,Ghost_Void,camped,
-Deep North,Bjorn,elite,RareTableTier5
-Deep North,Bjorn_sleeping,elite,RareTableTier5
-Deep North,Unbjorn,elite,RareTableTier5
-Deep North,JotunWarrior,elite,RareTableTier5
-Deep North,JotunWarriorDualWield,elite,RareTableTier5
-Deep North,JotunWitch,elite,RareTableTier5
-Deep North,Writhan,elite,RareTableTier5
-Deep North,Barka,elite,RareTableTier5
-Hildir Minibosses,Skeleton_Hildir,elite,
-Hildir Minibosses,Skeleton_Hildir_nochest,elite,
-Hildir Minibosses,Fenring_Cultist_Hildir,elite,
-Hildir Minibosses,Fenring_Cultist_Hildir_nochest,elite,
-Hildir Minibosses,GoblinShaman_Hildir,elite,
-Hildir Minibosses,GoblinShaman_Hildir_nochest,elite,
-Hildir Minibosses,GoblinBrute_Hildir,elite,
-Hildir Minibosses,GoblinBruteBros,elite,
-Hildir Minibosses,GoblinBruteBros_nochest,elite,
-Bosses,Eikthyr,boss,
-Bosses,gd_king,boss,
-Bosses,Bonemass,boss,
-Bosses,Dragon,boss,
-Bosses,GoblinKing,boss,
-Bosses,SeekerQueen,boss,
-Bosses,Fader,boss,
-Bosses,FrozenKing_p3,boss,
+biome,creature,class,list,display
+Meadows,Greyling,camped,,Greyling
+Meadows,Neck,camped,GemTableTier1,Neck
+Meadows,Boar,camped,,Boar
+Meadows,Deer,camped,,Deer
+Meadows,Skeleton_Meadows,camped,GemTableTier1,Skeleton (Meadows)
+Meadows,Skeleton_Meadows_noarcher,camped,GemTableTier1,Skeleton (Meadows)
+Black Forest,Greydwarf,camped,GemTableTier1,Greydwarf
+Black Forest,Greydwarf_Shaman,roamer,GemTableTier1,Greydwarf shaman
+Black Forest,Greydwarf_Elite,elite,RareTableTier2,Greydwarf brute
+Black Forest,Skeleton,camped,GemTableTier1,Skeleton
+Black Forest,Skeleton_NoArcher,camped,GemTableTier1,Skeleton
+Black Forest,Skeleton_Poison,camped,GemTableTier1,Rancid remains
+Black Forest,Ghost,camped,,Ghost
+Black Forest,Ghost_sleeping,camped,,Ghost
+Black Forest,Troll,elite,GemTableTier1,Troll
+Black Forest,Troll_sleeping,elite,GemTableTier1,Troll
+Black Forest,GreydwarfMage_TW,roamer,GemTableTier1,Greydwarf mage
+Swamp,Draugr,camped,RareTableTier2,Draugr
+Swamp,Draugr_sleeping,camped,RareTableTier2,Draugr
+Swamp,Draugr_Ranged,camped,RareTableTier2,Draugr archer
+Swamp,Draugr_Ranged_sleeping,camped,RareTableTier2,Draugr archer
+Swamp,Draugr_Elite,elite,RareTableTier2,Draugr elite
+Swamp,Draugr_Elite_sleeping,elite,RareTableTier2,Draugr elite
+Swamp,Skeleton_Swamps,camped,GemTableTier2,Skeleton (Swamp)
+Swamp,Skeleton_Swamps_noarcher,camped,GemTableTier2,Skeleton (Swamp)
+Swamp,Blob,camped,GemTableTier2,Blob
+Swamp,Leech,camped,,Leech
+Swamp,Leech_cave,camped,,Leech
+Swamp,Wraith,elite,GemTableTier2,Wraith
+Swamp,Surtling,camped,,Surtling
+Swamp,Abomination,elite,RareTableTier2,Abomination
+Swamp,Bat_Swamp,camped,,Bat (Swamp)
+Swamp,SkeletonMage_TW,roamer,GemTableTier2,Skeleton mage
+Ocean,Serpent,elite,GemTableTier2,Serpent
+Mountain,Wolf,roamer,GemTableTier2,Wolf
+Mountain,Ulv,roamer,GemTableTier2,Ulv
+Mountain,Hatchling,camped,,Drake
+Mountain,Bat,camped,,Bat
+Mountain,Fenring,roamer,GemTableTier2,Fenring
+Mountain,Fenring_Cultist,roamer,GemTableTier2,Cultist
+Mountain,Skeleton_Mountains,camped,GemTableTier2,Skeleton (Mountain)
+Mountain,Skeleton_Mountains_noarcher,camped,GemTableTier2,Skeleton (Mountain)
+Mountain,StoneGolem,elite,RareTableTier2,Stone golem
+Mountain,FenringMage_TW,roamer,GemTableTier2,Fenring mage
+Plains,Goblin,roamer,GemTableTier3,Fuling
+Plains,GoblinArcher,roamer,GemTableTier3,Fuling archer
+Plains,GoblinShaman,roamer,GemTableTier3,Fuling shaman
+Plains,GoblinBrute,elite,RareTableTier3,Fuling berserker
+Plains,Deathsquito,camped,,Deathsquito
+Plains,Lox,roamer,GemTableTier3,Lox
+Plains,BlobTar,camped,,Growth
+Plains,GoblinMage_TW,roamer,GemTableTier3,Fuling mage
+Mistlands,Seeker,roamer,GemTableTier3,Seeker
+Mistlands,SeekerBrute,elite,RareTableTier3,Seeker soldier
+Mistlands,Gjall,elite,RareTableTier3,Gjall
+Mistlands,Tick,camped,,Tick
+Mistlands,Dverger,camped,GemTableTier3,Dvergr rogue
+Mistlands,DvergerMage,camped,GemTableTier3,Dvergr mage
+Mistlands,DvergerMageFire,camped,GemTableTier3,Dvergr mage (fire)
+Mistlands,DvergerMageIce,camped,GemTableTier3,Dvergr mage (frost)
+Mistlands,DvergerMageSupport,camped,GemTableTier3,Dvergr mage (support)
+Mistlands,CorruptedDvergerMage_TW,roamer,GemTableTier3,Corrupted dvergr mage
+Ashlands,Charred_Melee,camped,GemTableTier4,Charred warrior
+Ashlands,Charred_Archer,camped,GemTableTier4,Charred archer
+Ashlands,Charred_Mage,camped,GemTableTier4,Charred mage
+Ashlands,Charred_Twitcher,camped,,Charred twitcher
+Ashlands,Charred_Melee_Dyrnwyn,elite,RareTableTier4,Lord Reto
+Ashlands,Asksvin,roamer,GemTableTier4,Asksvin
+Ashlands,Volture,roamer,,Volture
+Ashlands,BlobLava,camped,,Lava blob
+Ashlands,Morgen,elite,RareTableTier4,Morgen
+Ashlands,Morgen_NonSleeping,elite,RareTableTier4,Morgen
+Ashlands,FallenValkyrie,elite,RareTableTier4,Fallen valkyrie
+Ashlands,BonemawSerpent,elite,RareTableTier4,Bonemaw serpent
+Ashlands,DvergerAshlands,camped,GemTableTier4,Dvergr (Ashlands)
+Deep North,Frysling,camped,GemTableTier4,Frysling
+Deep North,Greydwarf_Frozen,roamer,GemTableTier4,Frozen greydwarf
+Deep North,Greydwarf_Shaman_Frozen,roamer,GemTableTier4,Frozen greydwarf shaman
+Deep North,BlobFrost,camped,,Frost blob
+Deep North,BlobMork,camped,,Mork blob
+Deep North,Moose,roamer,,Moose
+Deep North,Seal,roamer,,Seal
+Deep North,Elaking,roamer,GemTableTier4,Elaking
+Deep North,ElakingLantern,roamer,GemTableTier4,Elaking lantern-bearer
+Deep North,ElakingMole,roamer,GemTableTier4,Elaking mole
+Deep North,GoblinDeepNorth,roamer,GemTableTier4,Fuling (Deep North)
+Deep North,Skeleton_DeepNorth,camped,GemTableTier4,Frozen skeleton
+Deep North,DvergerDeepNorth,camped,GemTableTier4,Dvergr (Deep North)
+Deep North,Ghost_Void,camped,,Void ghost
+Deep North,Bjorn,elite,RareTableTier5,Bjorn
+Deep North,Bjorn_sleeping,elite,RareTableTier5,Bjorn
+Deep North,Unbjorn,elite,RareTableTier5,Unbjorn
+Deep North,JotunWarrior,elite,RareTableTier5,Jotun warrior
+Deep North,JotunWarriorDualWield,elite,RareTableTier5,Jotun warrior (dual wield)
+Deep North,JotunWitch,elite,RareTableTier5,Jotun witch
+Deep North,Writhan,elite,RareTableTier5,Writhan
+Deep North,Barka,elite,RareTableTier5,Barka
+Hildir Minibosses,Skeleton_Hildir,elite,,Brenna
+Hildir Minibosses,Skeleton_Hildir_nochest,elite,,Brenna
+Hildir Minibosses,Fenring_Cultist_Hildir,elite,,Geirrhafa
+Hildir Minibosses,Fenring_Cultist_Hildir_nochest,elite,,Geirrhafa
+Hildir Minibosses,GoblinShaman_Hildir,elite,,Zil
+Hildir Minibosses,GoblinShaman_Hildir_nochest,elite,,Zil
+Hildir Minibosses,GoblinBrute_Hildir,elite,,Thungr
+Hildir Minibosses,GoblinBruteBros,elite,,Thungr (brothers)
+Hildir Minibosses,GoblinBruteBros_nochest,elite,,Thungr (brothers)
+Bosses,Eikthyr,boss,,Eikthyr
+Bosses,gd_king,boss,,The Elder
+Bosses,Bonemass,boss,,Bonemass
+Bosses,Dragon,boss,,Moder
+Bosses,GoblinKing,boss,,Yagluth
+Bosses,SeekerQueen,boss,,The Queen
+Bosses,Fader,boss,,Fader
+Bosses,FrozenKing_p3,boss,,The Frost King
