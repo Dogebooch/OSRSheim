@@ -8,6 +8,7 @@ Pages: [handbook] root (Gielheim Guide NPC, also DistancedUI) -> bestiary -> bio
 A creature page lists every modded drop with the chance the player actually gets: csv chance x the
 owner's class multiplier, the same maths as gen-loot.py. Shared gem / rare tables are merged in, superior
 bonus loot (update-superiors.py ROWS) gets a sub-page. Vanilla drops are untouched and not listed.
+Every drop line is tinted by rarity (TIERS); the bestiary page carries the key.
 Names: creatures.csv `display` (variants with identical drops share one page), collection-log.csv
 `display`, VANILLA below; an unnamed item fails the run.
 Writes to the repo config\ (source of truth); push with scripts\sync-configs.ps1 -Push.
@@ -31,6 +32,13 @@ VANILLA = {
     'BlackMetalScrap': 'Black metal scrap', 'Needle': 'Needle', 'Carapace': 'Carapace', 'ScaleHide': 'Scale hide',
     'CharredBone': 'Charred bone', 'FlametalNew': 'Flametal ore',
 }
+# Rarity colours (TMP rich text): threshold %, hex, legend line. COLOUR = False drops every tag.
+COLOUR = True
+TIERS = [(50, 'b8b8b8', 'Common - 50% or better'),
+         (10, '5ad46a', 'Uncommon - 10% to 50%'),
+         (2, '4da3ff', 'Rare - 1 in 10 to 1 in 50'),
+         (0.5, 'c77dff', 'Very rare - 1 in 50 to 1 in 200'),
+         (0, 'ffb300', 'Ultra rare - rarer than 1 in 200')]
 BOSS = {'defeated_eikthyr': 'Eikthyr', 'defeated_gdking': 'the Elder', 'defeated_bonemass': 'Bonemass',
         'defeated_dragon': 'Moder', 'defeated_goblinking': 'Yagluth', 'defeated_queen': 'the Queen',
         'defeated_fader': 'Fader', 'defeated_frozenking_p3': 'the Frost King'}
@@ -67,6 +75,13 @@ def item_names():
     return names
 
 
+def colour(s, p):
+    if not COLOUR:
+        return s
+    hexcode = next(t[1] for t in TIERS if p >= t[0])
+    return f'<color=#{hexcode}>{s}</color>'
+
+
 def odds(p):
     if p >= 100:
         return 'always'
@@ -80,7 +95,7 @@ def row(names, item, lo, hi, p, one=False, key=None):
     amt = '' if lo == hi == 1 else f' x{lo}' if lo == hi else f' {lo}-{hi}'
     tail = f' (after {BOSS.get(key, key)})' if key else ''
     tail += ' (one each)' if one else ''
-    return f'Text: {text(name + amt + " " + odds(p) + tail)}\n'
+    return f'Text: {colour(text(name + amt + " " + odds(p) + tail), p)}\n'
 
 
 def drop_rows(names, rows, mult, loot):
@@ -124,6 +139,8 @@ def generate():
          f'Text: The bestiary | Transition: {P}_bestiary\n',
          f'Text: Farewell | Transition: {P}_bye\n\n',
          f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see and uniques and pets roll once per player.\n']
+    for t in TIERS if COLOUR else []:
+        d.append(f'Text: {colour(t[2], t[0])}\n')
     for b in biomes:
         n = sum(1 for k in order if k[0] == b)
         d.append(f'Text: {text(b)} ({n}) | Transition: {P}_b_{slug(b)}\n')
