@@ -58,8 +58,8 @@ Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
 | JsonDotNET / YamlDotNet | 13.0.4 / 16.3.1 | TS | dependencies | verified |
 | Therzie Wizardry | 1.2.0 | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
 | OdinPlus PotionPlus | 4.3.4 | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
-| Smoothbrain Exploration | 1.0.5 | HX | Agility feel | loads; §18 keys set |
-| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | loads; §18 keys set |
+| Smoothbrain Exploration | 1.0.5 | HX | Agility feel | verified |
+| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | verified |
 | BetterUI_ForeverMaintained | 2.5.12 | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
 | sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
 | Marlthon OdinShipPlus | 0.8.3 | TS | 15 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
@@ -141,8 +141,8 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
 - Skillcapes: skill 100 (max cape ANDs all 23 skills).
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
-  Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` confirmed in the 2026-09-21
-  load log; `_Charge` from the DLL only.
+  Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
+  `_Charge` from the DLL only.
 - Clone uniques: DragonAxe Lumberjacking 15, DragonfireShield Blocking 30,
   BandosGodsword Swords 40, AbyssalWhip Swords 50, ScytheOfVitur Polearms 70;
   DraugrVisage ungated (armor). Elite uniques (equip, base item's level): HillGiantClub Clubs 15,
@@ -285,8 +285,8 @@ rate broken (~380 kills for 95% confidence on 1/128).
 Folder: `wackysDatabase\Items\Item_OSRS_*.yml`. wackydb only reads files named
 `Item_*.yml`. Never run `wackydb_save_item` onto an authored file (it resets
 `Custom_AttackSpeed`). Base dumps: `reference\wackydb-base-dumps\`.
-Every yml needs a top-level `m_weight` (restate the base) or wackydb drops it silently;
-bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded by the mod).
+Every yml needs a top-level `m_weight` (restate the base) or wackydb drops it silently.
+Bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded).
 
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 64, stamina 14, attack speed 1.2; Bandos Godsword
@@ -300,8 +300,7 @@ bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded by the mo
   (Blocking), Ranged (Bows), Crossbow, Magic (ElementalMagic), BloodMagic,
   Strength (Unarmed), Swords, Knives, Clubs, Polearms, Spears, Axes, Max.
 
-Clones register and load from cache before world load and drop off kills
-(verified 2026-09-20). Both server and every client need the yml files.
+Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
 
 ## 9. CLLC
 
@@ -557,7 +556,7 @@ bundles.
 | Test world vanished | orphan-save discard after a hard kill | never kill with a world loaded |
 | Troll trophy name | `TrophyTroll` does not exist | `TrophyFrostTroll` |
 | Copper rock name | `rock4_copper` gone in 1.0.15 | `MineRock_Copper` |
-| 7 elite uniques never loaded (49/56 clones) | Item yml without `m_weight` | base weight from a dump; validator errors |
+| 7 elite uniques never loaded | Item yml without `m_weight` | dumped base weight; validator errors |
 
 ## 18. Wave B and backlog
 
@@ -571,7 +570,7 @@ bundles.
 | Marlthon OdinShipPlus | `marlthon.OdinShipPlus.cfg` | `Force Server Config = true`; `OSRS_Keel<Boss>:1:False` appended to all 15 hull `Crafting Costs`; enemy ships `LittleBoatAuto` / `WarShipAuto` off | Sections by display name; costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. |
 | sighsorry Trolling Fishing | `sighsorry.TrollingFishing.cfg` | `Lock Configuration = On`, `Fishing Bite Chance Bonus Factor = 0.3`, `Fishing Extra Drop Chance Bonus Factor = 1`, `Fishing Rod Bag = Off`, `Fishing Rod Multi Line = Off` | ServerSync. Writes `TrollingFishing.yml` (bait each fish nibbles + chance) on first launch. |
 
-### Planned, not done
+### Planned
 
 - **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0 (fixed-stat
   boss-unique gear, needs Drop That wiring), Monstrum.
@@ -590,7 +589,7 @@ ValheimRAFT (freeform) · ReckonRunescape modpack (deprecated) · RtDItems defen
 WackyEpicMMOSystem (single-level model) · EpicLoot affix drops on creature
 tables (random rolls break fixed-item identity, the collection log, WIRSL tiers) · "DropThat Diversified Loot" Nexus
 configs (deprecated) · EpicLoot as the loot pillar · altar
-or resummon mods (bosses already resummon freely) · valheim.fandom.com (returns 402 to fetches;
+or resummon mods (bosses already resummon freely) · valheim.fandom.com (402;
 use valheim.weirdgloop.org) · JewelHeim Marketplace Configs (never on 1.0).
 Fishing: Hooked, PeasFishing (minigames) · Spearfishing (skips bait gates) ·
 TheFisher · BetterFishing · FishingBonus · FishChum · Reely SpecTackleLure.
