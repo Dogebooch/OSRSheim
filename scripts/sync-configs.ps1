@@ -37,8 +37,8 @@ still copies; it just skips the validator, which already ran before commit.
 Most mods are ServerSync'd, so the host's values win at runtime and a stale
 client cfg does not matter. The exceptions that DO need this push are
 JuJuz1 SkillGainModifier (no sync) and the WackysDatabase / CLLC ymls, which
-every client must have on disk. Mod versions are not handled here: those come
-from a fresh Gale profile export.
+every client must have on disk. -Pull also regenerates reference\mods.tsv, the
+committed mod manifest, so a Gale install or update lands with the configs.
 
 .PARAMETER ProfilePath
 Gale profile root. Defaults to the OSRSheim profile under %APPDATA%, so it
@@ -110,6 +110,12 @@ switch ($PSCmdlet.ParameterSetName) {
         Write-Host "  $ProfConfig"
         Write-Host "  $RepoConfig"
         Invoke-Sync -Source $ProfConfig -Dest $RepoConfig | Write-Host
+
+        $genMods = Join-Path $PSScriptRoot 'gen-mods.py'
+        if ((Test-Path $genMods) -and (Get-Command python -ErrorAction SilentlyContinue)) {
+            Write-Host "`ngen-mods.py" -ForegroundColor Cyan
+            & python $genMods
+        }
         Write-Host "`nStaged in the working tree. Review with 'git diff', then commit." -ForegroundColor Green
     }
     default {

@@ -44,12 +44,12 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
   Gale; never mass-update. After a Valheim patch: BepInEx,
   then Jötunn, then mods one at a time, launching between each. Install
   updates through Gale, never by swapping DLLs.
-- Loot cfgs are generated: edit `loot\*.csv`, run `python scripts\gen-loot.py`,
-  never hand-edit `drop_that.character_drop*.cfg` (superiors: `update-superiors.py`).
+- Generated, never hand-edited: `drop_that.character_drop*.cfg` from `loot\*.csv`
+  (`gen-loot.py`; superiors `update-superiors.py`), the collection log from
+  `loot\collection-log.csv` (`gen-collection-log.py`; every collectible gets a
+  row), `reference\mods.tsv` from the Gale profile (`gen-mods.py`).
   Enforced: IDs >= 100 (lists 110+/120+), vanilla drops never cleared,
   `ScaleByLevel = false`, <= 100 items per entry, no `DropOnePerPlayer` on purses.
-- Collection log is generated: `loot\collection-log.csv` ->
-  `gen-collection-log.py`; every collectible added or removed gets a row.
 - Prefab names come only from the `BepInEx\Debug` dumps, EpicLoot's tables or
   a WackysDatabase dump. The validator enforces this.
 - wackydb reads only `Item_*.yml`; never `wackydb_save_item` onto an authored file.
