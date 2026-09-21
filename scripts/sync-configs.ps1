@@ -27,6 +27,13 @@ Friend, picking up config changes mid-playthrough:
   git pull
   .\scripts\sync-configs.ps1 -Push
 
+Windows blocks unsigned scripts by default. If it refuses to run, no need to
+change any machine-wide setting - this bypasses it for that one run:
+  powershell -ExecutionPolicy Bypass -File .\scripts\sync-configs.ps1 -Push
+
+Python is not required on a second player's machine. Without it the push
+still copies; it just skips the validator, which already ran before commit.
+
 Most mods are ServerSync'd, so the host's values win at runtime and a stale
 client cfg does not matter. The exceptions that DO need this push are
 JuJuz1 SkillGainModifier (no sync) and the WackysDatabase / CLLC ymls, which
@@ -83,7 +90,12 @@ switch ($PSCmdlet.ParameterSetName) {
         Invoke-Sync -Source $RepoConfig -Dest $ProfConfig | Write-Host
 
         $validator = Join-Path $PSScriptRoot 'validate-configs.py'
-        if (Test-Path $validator) {
+        $havePython = [bool](Get-Command python -ErrorAction SilentlyContinue)
+        if ((Test-Path $validator) -and -not $havePython) {
+            Write-Host "`nPython not found - skipping validate-configs.py." -ForegroundColor Yellow
+            Write-Host "Fine on a second player's machine: the configs were validated before commit." -ForegroundColor Yellow
+        }
+        elseif (Test-Path $validator) {
             Write-Host "`nvalidate-configs.py" -ForegroundColor Cyan
             & python $validator
             if ($LASTEXITCODE -ne 0) {
