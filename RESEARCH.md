@@ -28,7 +28,7 @@ Slayer tasks, prayers, hiscores.
 
 ## 3. Mod stack
 
-Versions are the pinned, loading-clean set as of 2026-09-20. Sources: TS =
+Versions are the pinned, loading-clean set as of 2026-09-21. Sources: TS =
 Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
 
 | Mod | Version | Source | Role | Status |
@@ -58,11 +58,11 @@ Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
 | JsonDotNET / YamlDotNet | 13.0.4 / 16.3.1 | TS | dependencies | verified |
 | Therzie Wizardry | 1.2.0 | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
 | OdinPlus PotionPlus | 4.3.4 | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
-| Smoothbrain Exploration | 1.0.5 | HX | Agility feel | loads; cfg untouched |
-| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | loads; cfg in §18 |
+| Smoothbrain Exploration | 1.0.5 | HX | Agility feel | verified |
+| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | verified; cfg in §18 |
 | BetterUI_ForeverMaintained | 2.5.12 | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
-| sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | installed 2026-09-21, untested |
-| Marlthon OdinShip | 0.8.1 | TS | 7 hulls, keel-gated (§6, §7, §18) | installed 2026-09-21, untested |
+| sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
+| Marlthon OdinShip | 0.8.1 | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
@@ -141,8 +141,8 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
 - Skillcapes: skill 100 (max cape ANDs all 23 skills).
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
-  Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>[_Charge]` from the
-  DLL; not yet in a dump.
+  Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
+  `_Charge` from the DLL only.
 - Clone uniques: DragonAxe Lumberjacking 15, DragonfireShield Blocking 30,
   BandosGodsword Swords 40, AbyssalWhip Swords 50, ScytheOfVitur Polearms 70;
   DraugrVisage ungated (armor). Elite uniques (equip, base item's level): HillGiantClub Clubs 15,
@@ -287,6 +287,8 @@ rate broken (~380 kills for 95% confidence on 1/128).
 Folder: `wackysDatabase\Items\Item_OSRS_*.yml`. Base dumps:
 `reference\wackydb-base-dumps\`. `Primary_Attack:` needs a `Secondary_Attack:`
 block: wackydb dereferences it unguarded and drops the rest of the item's data.
+Every yml needs a top-level `m_weight` (restate the base) or wackydb drops it silently.
+Bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded).
 
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 64, stamina 14, attack speed 1.2; Bandos Godsword
@@ -300,8 +302,7 @@ block: wackydb dereferences it unguarded and drops the rest of the item's data.
   (Blocking), Ranged (Bows), Crossbow, Magic (ElementalMagic), BloodMagic,
   Strength (Unarmed), Swords, Knives, Clubs, Polearms, Spears, Axes, Max.
 
-Clones register and load from cache before world load and drop off kills
-(verified 2026-09-20). Both server and every client need the yml files.
+Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
 
 ## 9. CLLC
 
@@ -541,7 +542,7 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 `.ok.stmp`. Logout, wait for the save, then Quit.
 
 **Vanilla names in no dump**: `grep -a` the `valheim_Data\StreamingAssets\SoftRef`
-bundles (LZ4 keeps literals); that verified the nine `FishingBait*` ids.
+bundles.
 
 ## 17. Bugs found and fixed (so they are not re-found)
 
@@ -558,20 +559,21 @@ bundles (LZ4 keeps literals); that verified the nine `FishingBait*` ids.
 | Test world vanished | orphan-save discard after a hard kill | never kill with a world loaded |
 | Troll trophy name | `TrophyTroll` does not exist | `TrophyFrostTroll` |
 | Copper rock name | `rock4_copper` gone in 1.0.15 | `MineRock_Copper` |
+| 7 elite uniques never loaded | Item yml without `m_weight` | dumped base weight; validator errors |
 
 ## 18. Wave B and backlog
 
-### Wave B settings (applied)
+### Wave B settings
 
 | Mod | Cfg file | Settings | Notes |
 |---|---|---|---|
-| OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99` (uncraftable). Hellbroths stay (§6) | Skill `Alchemy` (= Herblore): 1 XP per craft at `opalchemy`; gain 1x / death loss 5% hard-coded. Stations `opalchemy`, `opcauldron`; base `Potion_Meadbase`. |
-| Smoothbrain Exploration | `org.bepinex.plugins.exploration.cfg` | `Skill Experience Gain Factor = 0.5`, `Skill Experience Loss = 0`, `Treasure Multiplication Chance = 0` | Treasure doubling condition is inverted in source (fires at or below the level). Speed +15 / radius +250 at 100; cartography write 20 / read 40. All keys ServerSync. |
-| JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 3` (a catch is ~2 XP; ~8,400 XP to 70 = ~1,400 catches), `[Skill reduction] Modifier = 0`; ships 2.5x, logging on, 60 s | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
+| OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99`. Hellbroths stay (§6) | Skill `Alchemy` (= Herblore): 1 XP per craft at `opalchemy`; gain 1x / death loss 5% hard-coded. Stations `opalchemy`, `opcauldron`; base `Potion_Meadbase`. |
+| Smoothbrain Exploration | `org.bepinex.plugins.exploration.cfg` | `Skill Experience Gain Factor = 0.5`, `Skill Experience Loss = 0`, `Treasure Multiplication Chance = 0` | Treasure doubling condition is inverted in source. Speed +15 / radius +250 at 100; cartography write 20 / read 40. All keys ServerSync. |
+| JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 3`, `[Skill reduction] Modifier = 0` | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
 | Marlthon OdinShip | `marlthon.OdinShip.cfg` | `OSRS_Keel<Boss>:1:False` appended to the 7 hull `Crafting Costs`, War Ship takes Yagluth + Queen; everything else default, BepInEx writes the full file on first launch | Sections by display name, apostrophes stripped (`[Merchants boat]`); costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. |
-| sighsorry Trolling Fishing | `sighsorry.TrollingFishing.cfg` | `Lock Configuration = On`, `Fishing Bite Chance Bonus Factor = 0.3` (hook 10% at Fishing 0 to 30% at 100), `Fishing Extra Drop Chance Bonus Factor = 1` (bonus drops x2 at 100), `Fishing Rod Bag = Off`, `Fishing Rod Multi Line = Off` | ServerSync. Writes `TrollingFishing.yml` (bait each fish nibbles + chance) on first launch. |
+| sighsorry Trolling Fishing | `sighsorry.TrollingFishing.cfg` | `Lock Configuration = On`, `Fishing Bite Chance Bonus Factor = 0.3`, `Fishing Extra Drop Chance Bonus Factor = 1`, `Fishing Rod Bag = Off`, `Fishing Rod Multi Line = Off` | ServerSync. Writes `TrollingFishing.yml` (bait each fish nibbles + chance) on first launch. |
 
-### Planned, not done
+### Planned
 
 - **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0, Monstrum.
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
@@ -587,7 +589,7 @@ Almanac 3.7.94 (crashes on 1.0) · Boat mods: BoatAdditions, CustomShips (stale)
 ValheimRAFT (freeform) · RtDItems defenders (cosmetic) ·
 WackyEpicMMOSystem (single-level model) · EpicLoot affix drops on creature
 tables (random rolls break fixed-item identity, the collection log, WIRSL tiers) · EpicLoot as the loot pillar · altar
-or resummon mods (bosses already resummon freely) · valheim.fandom.com (returns 402 to fetches;
+or resummon mods (bosses already resummon freely) · valheim.fandom.com (402;
 use valheim.weirdgloop.org).
 Fishing: Hooked, PeasFishing (minigames) · Spearfishing (skips bait gates) ·
 TheFisher · BetterFishing · FishingBonus · FishChum · Reely SpecTackleLure.
@@ -617,15 +619,13 @@ regenerating. No damage or eitr keys; balance = recipes.
 | Potion Cauldron `Tools` | empty (was `Hammer`) so the piece leaves the build menu |
 
 Content: staves per §6; spellslinger sets, circlets and rings per
-`referenceerified-prefab-names.json` (Biome = BlackForest / Swamp /
+`reference\verified-prefab-names.json` (Biome = BlackForest / Swamp /
 Mountain / Plains / Mistlands, cape `Blackforest`); mages `GreydwarfMage_TW`
 `SkeletonMage_TW` `FenringMage_TW` `GoblinMage_TW` `CorruptedDvergerMage_TW`
 drop `Shard<Elder|Bonemass|Moder|Yagluth|Queen>_TW`. README misspells the
 Mountain set (`_Mountains_`) and the stamina circlets (`_EitrRegen_`); the
-json names are from the DLL. All five mages are `Spawn = Default` and appear
-in no dump (every dump predates the 2026-09-20 install), so their spawn rates
-are unreviewed. Mage purses + gem lists in
-`loot\*.csv` (roamer class), names from the DLL until the next dump.
+json names are from the DLL. All five mages are `Spawn = Default`, in the 2026-09-21 dump, spawn rates
+unreviewed. Mage purses + gem lists in `loot\*.csv` (roamer class).
 
 ### Build pieces
 

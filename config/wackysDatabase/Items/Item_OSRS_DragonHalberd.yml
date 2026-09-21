@@ -1,9 +1,10 @@
 # OSRSheim elite unique - GoblinBrute (1/256 OSRS, elite class) - authored 2026-09-21
-# Base AtgeirBlackmetal; relative twists only (no base dump).
+# Base AtgeirBlackmetal (dump in reference\wackydb-base-dumps); relative twists only.
 name: OSRS_DragonHalberd
 clonePrefabName: AtgeirBlackmetal
 m_name: Warlord's glaive
 m_description: A fuling warlord's glaive. Heavier than the smith's pattern and it shows on the hit.
+m_weight: 2.5           # AtgeirBlackmetal base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   Custom_AttackSpeed: 0.95
   DmgMultiplier: 1.1

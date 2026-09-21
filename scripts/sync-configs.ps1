@@ -61,7 +61,8 @@ $ProfConfig = Join-Path $ProfilePath 'BepInEx\config'
 # Mirrors .gitignore. Keep the two in step.
 $ExcludeFiles = @('*.bak', '*.bak-*', '*.bak.*', '*.cllc-example', '*.log', '*.log.*', '.gitkeep')
 $ExcludeDirs  = @('Marketplace_CachedImages', 'Marketplace_KGChat_Emojis',
-                  'Marketplace_Models', 'Marketplace_Sounds', 'Marketplace_VideoClips')
+                  'Marketplace_Models', 'Marketplace_Sounds', 'Marketplace_VideoClips',
+                  'Cache', 'wackyDatabase-BulkYML')
 
 foreach ($p in @($RepoConfig, $ProfConfig)) {
     if (-not (Test-Path $p)) { throw "Not found: $p" }

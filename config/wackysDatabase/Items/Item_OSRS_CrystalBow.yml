@@ -1,9 +1,10 @@
 # OSRSheim elite unique - Gjall (1/256 OSRS, elite class) - authored 2026-09-21
-# Base BowSpineSnap; relative twist only (no base dump).
+# Base BowSpineSnap (dump in reference\wackydb-base-dumps); relative twists only.
 name: OSRS_CrystalBow
 clonePrefabName: BowSpineSnap
 m_name: Gjall-gut bow
 m_description: Strung with gjall sinew. The string bites harder than any dvergr cord.
+m_weight: 1.5           # BowSpineSnap base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   DmgMultiplier: 1.1
 Secondary_Attack:
