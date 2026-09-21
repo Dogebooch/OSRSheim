@@ -7,7 +7,7 @@ lore renames (§7, §11), Wizardry `supplies` + cauldron off (§21), Halla's
 collection log (§11), fishing wave (§6, §11, §18), Sailing hull gates, trinket
 + hatchet gates (§6), 7 elite uniques + crystal chest (§7, §11), hull keels: 6
 clones, `.104` drops, 6 quests, 7 OdinShip recipes (§6, §7, §11, §18; 137
-log entries, WIRSL 303). Validator clean.
+log entries, WIRSL 303), handbook + DistancedUI (§7, §11). Validator clean.
 Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 (57 story quests, 43 hunts, skip fees, 6 reward edits; §11). Checker clean.
 
@@ -41,7 +41,7 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
   `loot\classes.csv`, `gen-loot.py`, `dropthat:reload`.
 
 ## Waiting on upstream
-KG Marketplace stable 10.x (still 10.0.1-beta.1).
+KG Marketplace stable 10.x.
 
 ## Server (later)
 §15: profile export, host standup,

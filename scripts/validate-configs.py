@@ -8,7 +8,7 @@ Read-only. Checks the authoring copy in the Gale profile:
      the on-disk dumps (BepInEx\\Debug), EpicLoot's item tables, or are our own OSRS_* wackydb clones.
   2. Drop That append-only rule: per-creature IDs >= 100, shared-list IDs >= 110; cfgs match loot\\*.csv.
   3. WIRSL yml parses, entry count, no duplicate PrefabNames.
-  4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues -> nodes/profiles.
+  4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues -> nodes/profiles; handbook cfg matches loot\\*.csv.
   5. Every JSON / YAML we touched still parses; EpicLoot loot tables still roll zero items.
 Exit code 1 when any ERROR is printed (WARNs are advisory: names we could not verify on disk).
 """
@@ -114,6 +114,10 @@ for flag in ("--check", "--audit"):
     r = subprocess.run([sys.executable, os.path.join(HERE, "gen-collection-log.py"), flag], capture_output=True, text=True)
     if r.returncode == 0: ok(r.stdout.strip())
     else: err(r.stdout.strip().replace(chr(10), " | ") + "  (fix loot\\collection-log.csv, run python scripts\\gen-collection-log.py)")
+
+r = subprocess.run([sys.executable, os.path.join(HERE, "gen-handbook.py"), "--check"], capture_output=True, text=True)
+if r.returncode == 0: ok(r.stdout.strip())
+else: err(r.stdout.strip().replace(chr(10), " | "))
 
 # ---------------------------------------------------------------- 3. WIRSL
 try:
