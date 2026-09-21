@@ -62,7 +62,7 @@ Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
 | JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | loads; cfg untouched, unverified on 1.0 |
 | BetterUI_ForeverMaintained | 2.5.12 | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
 | sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | installed 2026-09-21, untested |
-| Marlthon OdinShipPlus | 0.8.3 | TS | 15 hulls, keel-gated (§6, §7, §18) | installed 2026-09-21, loads, untested |
+| Marlthon OdinShip | 0.8.1 | TS | 7 hulls, keel-gated (§6, §7, §18) | installed 2026-09-21, untested |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
@@ -158,10 +158,8 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
   half / full sail Raft 0/0/0 · Karve 5/10/15 · Longship 15/20/30 · Drakkar
   30/40/50. `Exploration Radius Factor = 2`. XP 0.5/s at the helm while
   moving. Full-sail calc: Karve ~15 min, Longship ~70 min,
-  Drakkar ~4 h. OdinShipPlus hulls (keel per §7): canoes, Little Boat 0/0/0 ·
-  Hercule 5/10/15 · Merchants, Cargo 15/20/30 · Big Cargo, Caravel, Fast
-  Skuldelev 20/30/40 · War Ship, Skuldelev, Goblin 25/35/45 · Huge Cargo,
-  Animal Transport, Taurus 30/40/50.
+  Drakkar ~4 h. OdinShip hulls (keel per §7): canoes, Little Boat 0/0/0 ·
+  Merchants, Cargo 15/20/30 · Big Cargo 20/30/40 · War Ship 25/35/45.
 
 **Ungated on purpose:** Shovel, HelmetLox, HelmetCrownofValheim, vanilla
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
@@ -264,11 +262,11 @@ at Gullveig into `OSRS_CrystalKey` (Crystal clone); the Gambler's
 | Boss | Keel (clone base) | Display | Hulls |
 |---|---|---|---|
 | Eikthyr | OSRS_KeelEikthyr (HardAntler) | Antler-carved keel | RowingCanoe, DoubleRowingCanoe, LittleBoat |
-| Elder | OSRS_KeelElder (ElderBark) | Heartwood keel | HerculeShip |
-| Bonemass | OSRS_KeelBonemass (WitheredBone) | Bone-ribbed keel | MercantShip, CargoShip |
-| Moder | OSRS_KeelModer (DragonTear) | Drake-tear keel | BigCargoShip, CargoCaravel, FastShipSkuldelev |
-| Yagluth | OSRS_KeelYagluth (YagluthDrop) | Fuling war-keel | WarShip, Skuldelev, GoblinShip |
-| Queen | OSRS_KeelQueen (QueenDrop) | Dvergr shipwright's keel | HugeCargoShip, CargoAnimalShip, TaurusWarShip |
+| Elder | OSRS_KeelElder (ElderBark) | Heartwood keel | MercantShip |
+| Bonemass | OSRS_KeelBonemass (WitheredBone) | Bone-ribbed keel | CargoShip |
+| Moder | OSRS_KeelModer (DragonTear) | Drake-tear keel | BigCargoShip |
+| Yagluth | OSRS_KeelYagluth (YagluthDrop) | Fuling war-keel | WarShip |
+| Queen | OSRS_KeelQueen (QueenDrop) | Dvergr shipwright's keel | WarShip (with Yagluth) |
 
 ### Never touch (vanilla progression drops)
 Deer trophies + Hard Antler (Eikthyr) · Ancient Seeds + Swamp Key (Elder) ·
@@ -565,7 +563,7 @@ bundles (LZ4 keeps literals); that verified the nine `FishingBait*` ids.
 | OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99` (uncraftable). Hellbroths stay (§6) | Skill `Alchemy` (= Herblore): 1 XP per craft at `opalchemy`; gain 1x / death loss 5% hard-coded. Stations `opalchemy`, `opcauldron`; base `Potion_Meadbase`. |
 | Smoothbrain Exploration | `org.bepinex.plugins.exploration.cfg` | `Skill Experience Gain Factor = 0.5`, `Skill Experience Loss = 0`, `Treasure Multiplication Chance = 0` | Treasure doubling condition is inverted in source (fires at or below the level). Speed +15 / radius +250 at 100; cartography write 20 / read 40. All keys ServerSync. |
 | JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 3` (a catch is ~2 XP; ~8,400 XP to 70 = ~1,400 catches), `[Skill reduction] Modifier = 0`; ships 2.5x, logging on, 60 s | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
-| Marlthon OdinShipPlus | `marlthon.OdinShipPlus.cfg` | `Force Server Config = true`; `OSRS_Keel<Boss>:1:False` appended to all 15 hull `Crafting Costs`; enemy ships `LittleBoatAuto` / `WarShipAuto` off (default, later knob) | Sections by display name; costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. |
+| Marlthon OdinShip | `marlthon.OdinShip.cfg` | `OSRS_Keel<Boss>:1:False` appended to the 7 hull `Crafting Costs`, War Ship takes Yagluth + Queen; everything else default, BepInEx writes the full file on first launch | Sections by display name, apostrophes stripped (`[Merchants boat]`); costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. |
 | sighsorry Trolling Fishing | `sighsorry.TrollingFishing.cfg` | `Lock Configuration = On`, `Fishing Bite Chance Bonus Factor = 0.3` (hook 10% at Fishing 0 to 30% at 100), `Fishing Extra Drop Chance Bonus Factor = 1` (bonus drops x2 at 100), `Fishing Rod Bag = Off`, `Fishing Rod Multi Line = Off` | ServerSync. Writes `TrollingFishing.yml` (bait each fish nibbles + chance) on first launch. |
 
 ### Planned, not done
