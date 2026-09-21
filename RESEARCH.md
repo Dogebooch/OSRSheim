@@ -59,7 +59,7 @@ Thunderstore, HX = Hexium (valheim.hexium.gg). Gale reads both.
 | Therzie Wizardry | 1.2.0 | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
 | OdinPlus PotionPlus | 4.3.4 | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
 | Smoothbrain Exploration | 1.0.5 | HX | Agility feel | verified |
-| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | verified |
+| JuJuz1 SkillGainModifier | 0.1.1 | TS | vanilla skill XP 0.5x | verified; cfg in §18 |
 | BetterUI_ForeverMaintained | 2.5.12 | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
 | sighsorry Trolling Fishing | 1.1.3 | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
 | Marlthon OdinShip | 0.8.1 | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
@@ -171,12 +171,13 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 ## 7. Loot (Drop That)
 
 ### Generator
-`python scripts\gen-loot.py` writes `drop_that.character_drop.cfg` and
-`drop_that.character_drop_list.shared_tables.cfg` from `loot\*.csv`. The
-validator fails when cfgs and tables differ. Never hand-edit those two cfgs.
-`python scripts\gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` (bestiary:
-biome -> creature -> every drop at its real chance, superior sub-pages) to the
-repo `config\`; `--check` runs in the validator.
+`gen-loot.py` writes `drop_that.character_drop.cfg` and
+`drop_that.character_drop_list.shared_tables.cfg` from `loot\*.csv`; never
+hand-edit either. `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg`
+(bestiary: biome -> creature -> every drop at its real chance, superior
+sub-pages; lines tinted by rarity per `TIERS`, key on the page, `COLOUR =
+False` removes them). Both to the repo
+`config\`; both `--check` in the validator, which fails on a mismatch.
 
 | Table | Columns | Edit it to |
 |---|---|---|
@@ -457,7 +458,7 @@ preserve spaces; fix collection generator. Website example disagrees.
 **Unfixed:** buff multipliers: attack 0.1/0.2 -> 1.1/1.2; health 0.5 -> 1.5;
 stamina 0.3 -> 1.3; XP 0.1 -> 1.1. DamageReduction correct.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
-Runtime unverified: icons/VFX, discovery gates, skip fee, fish quality,
+Runtime unverified: icons/VFX, rich text, discovery gates, skip fee, fish quality,
 Pet/Harvest, custom-skill XP, multi-cost trades, gambling.
 
 ## 12. Superiors and wanderers (Spawn That)
