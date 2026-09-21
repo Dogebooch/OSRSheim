@@ -4,6 +4,7 @@ name: OSRS_RuneScimitar
 clonePrefabName: SwordIron
 m_name: Barrow blade
 m_description: Pulled from a draugr lord's grip. It swings quicker than a blade its weight should.
+m_weight: 0.8            # SwordIron base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   Custom_AttackSpeed: 1.1
 Secondary_Attack:

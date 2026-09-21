@@ -1,9 +1,10 @@
 # OSRSheim elite unique - Troll (1/256 OSRS, elite class) - authored 2026-09-21
-# Base MaceBronze; no base dump, so every twist is a relative multiplier.
+# Base MaceBronze (dump in reference\wackydb-base-dumps); relative twists only.
 name: OSRS_HillGiantClub
 clonePrefabName: MaceBronze
 m_name: Troll's knucklebone
 m_description: A troll's knuckle on a haft. Slow to swing, and what it hits stays hit.
+m_weight: 2             # MaceBronze base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   Custom_AttackSpeed: 0.9
   StaggerMultiplier: 1.5

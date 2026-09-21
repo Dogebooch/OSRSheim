@@ -20,6 +20,11 @@ config/Marketplace_Models/
 config/Marketplace_Sounds/
 config/Marketplace_VideoClips/
 
+# WackysDatabase output - Cache is rebuilt every launch, BulkYML by wackydb_all_items
+config/wackysDatabase/Cache/
+config/wackyDatabase-BulkYML/*
+!config/wackyDatabase-BulkYML/.gitkeep
+
 # Never commit credentials
 *.env
 secrets.*
