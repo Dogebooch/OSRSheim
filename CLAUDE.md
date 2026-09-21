@@ -1,9 +1,9 @@
 # OSRSheim — Valheim 1.0 modded to play like Old School RuneScape
 
-Two-player run on a rented dedicated server. Doug maintains it with Claude and
-Codex (Codex reads `AGENTS.md`, a pointer here). The AI's job is documentation
-upkeep and guided walkthroughs; changes to the live profile are proposed as an
-exact file list and walked through with Doug, not applied unprompted.
+Two-player run. Doug maintains it with Claude and Codex (Codex reads
+`AGENTS.md`, a pointer here). The AI's job is documentation upkeep and guided
+walkthroughs; changes to the live profile are proposed as an exact file list
+and walked through with Doug, not applied unprompted.
 
 **Design principle:** OSRS gameplay loops and light grinds, Valheim lore and
 feel. Copy OSRS mechanics (skills, gating, drop tables, Slayer, clues, bank).
@@ -14,13 +14,13 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
   learned, testing knowledge, backlog. Update it when a fact is learned.
 - `STATE.md` — what is live, what is next. Keep it under a page. Update it
   at the end of every session.
-- `archive\` — the first build's docs, plan export and a config snapshot.
-  Read-only history.
+- `archive\` — first build's docs and config snapshot. Read-only.
 
 ## Where everything lives
-- Gale profile **OSRSheim**: `C:\Users\drumm\AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim`
-- Mod configs (authoring copy): `<profile>\BepInEx\config\`. The deployed
-  server copy wins at runtime once a server exists.
+- Gale profile **OSRSheim**: `%APPDATA%\com.kesomannen.gale\valheim\profiles\OSRSheim`
+- Configs: the repo's `config\` is the source of truth. Edit there, run
+  `scripts\sync-configs.ps1 -Push`, then deploy to the host. Profile and host
+  are downstream: never edit them first, they get overwritten.
 - Load log: `<profile>\BepInEx\LogOutput.log`. Prefab dumps: `<profile>\BepInEx\Debug\`.
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
   `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only).

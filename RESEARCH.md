@@ -15,7 +15,7 @@ Slayer tasks, prayers, hiscores.
 |---|---|
 | Mod manager | Gale, `C:\Program Files\Gale\gale.exe`, profile **OSRSheim** |
 | Profile root | `C:\Users\drumm\AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim` |
-| Mod configs (authoring copy) | `<profile>\BepInEx\config\` |
+| Mod configs | repo `config\` is truth -> `<profile>\BepInEx\config\` |
 | Load log | `<profile>\BepInEx\LogOutput.log` (Unity copy: `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim\Player.log`) |
 | Prefab dumps | `<profile>\BepInEx\Debug\` (written on world load) |
 | Game | `C:\Program Files (x86)\Steam\steamapps\common\Valheim` (app 892970) |
