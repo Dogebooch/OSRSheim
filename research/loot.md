@@ -121,6 +121,9 @@ tier's stone.
 
 Gate lives in `wackysDatabase\Pieces\Piece_<hull>.yml` (full cost, keel included). OdinShip alone drops the keel (#31).
 Build menu shows the right keel on all 7 hulls (2026-09-22). OdinShip's `The required item 'OSRS_Keel*' does not exist` warnings stay; expected.
+Keel highlight: `ammoType: 'Ancient|MagicCraftingMaterial'` + `m_itemType: Material` -> gold name, Ancient tooltip line (EpicLoot `Ancient Rarity Color = #FFD700`, not server-synced).
+Ancient only: EpicLoot sets `m_variant` to the tier's icon index; Ancient = 0, keels have 1 icon, vanilla `GetIcon()` has no bounds check.
+No loot beam: EpicLoot beams only items with a MagicItem (enchanted gear).
 
 ### Never touch (vanilla progression drops)
 Deer trophies + Hard Antler (Eikthyr) · Ancient Seeds + Swamp Key (Elder) ·

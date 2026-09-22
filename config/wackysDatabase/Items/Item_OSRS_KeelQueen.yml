@@ -5,3 +5,5 @@ clonePrefabName: QueenDrop
 m_name: Dvergr shipwright's keel
 m_description: Sealed with the Queen's jelly. The dvergr build nothing larger.
 m_weight: 1
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'

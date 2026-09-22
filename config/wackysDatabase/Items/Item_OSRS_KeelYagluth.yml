@@ -5,3 +5,5 @@ clonePrefabName: YagluthDrop
 m_name: Fuling war-keel
 m_description: Charred by the goblin king. Built for ramming, not hauling.
 m_weight: 1
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'
