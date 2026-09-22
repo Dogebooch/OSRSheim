@@ -16,10 +16,10 @@ Black Forest,Ghost_sleeping,camped,,Ghost
 Black Forest,Troll,elite,GemTableTier1,Troll
 Black Forest,Troll_sleeping,elite,GemTableTier1,Troll
 Black Forest,GreydwarfMage_TW,roamer,GemTableTier1,Greydwarf mage
-Swamp,Draugr,camped,RareTableTier2,Draugr
-Swamp,Draugr_sleeping,camped,RareTableTier2,Draugr
-Swamp,Draugr_Ranged,camped,RareTableTier2,Draugr archer
-Swamp,Draugr_Ranged_sleeping,camped,RareTableTier2,Draugr archer
+Swamp,Draugr,camped,GemTableTier2,Draugr
+Swamp,Draugr_sleeping,camped,GemTableTier2,Draugr
+Swamp,Draugr_Ranged,camped,GemTableTier2,Draugr archer
+Swamp,Draugr_Ranged_sleeping,camped,GemTableTier2,Draugr archer
 Swamp,Draugr_Elite,elite,RareTableTier2,Draugr elite
 Swamp,Draugr_Elite_sleeping,elite,RareTableTier2,Draugr elite
 Swamp,Skeleton_Swamps,camped,GemTableTier2,Skeleton (Swamp)

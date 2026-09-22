@@ -47,3 +47,17 @@ OSRS_ToothHalfKey:
 OSRS_CrystalKey:
   weight: 0.1
   stack: 20
+
+# Riddle-stones (2026-09-21): light and stackable so a casket run can be banked and opened in batches.
+OSRS_RiddleStoneT1:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT2:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT3:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT4:
+  weight: 0.1
+  stack: 20

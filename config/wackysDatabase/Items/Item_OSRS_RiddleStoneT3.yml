@@ -1,0 +1,9 @@
+# OSRSheim riddle-stones (2026-09-21): drop off kills, read by the Gambler for a casket roll.
+# Clone base: EpicLoot enchanting gemstone (unobtainable in this build - every loot table rolls zero).
+# Material only, no stat block. Stack also set in ItemConfig.yml (CLLC reach over clones untested).
+name: OSRS_RiddleStoneT3
+clonePrefabName: AncientGemstonePurple
+m_name: Bound riddle-stone
+m_description: Wound in old wire. Whoever sealed it did not want it read.
+m_weight: 0.1
+m_maxStackSize: 20
