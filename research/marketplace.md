@@ -134,6 +134,7 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 
 Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`.
 File name = Hammer piece name. `/mreloadnpcs` reloads.
+Client-only (`MarketplaceHammer` is a KG Client module): the placing admin's profile needs them; the host never reads them.
 
 ### Config audit (2026-09-21)
 Evidence: `reference/config-audit-2026-09-21.json`.

@@ -20,9 +20,11 @@ Live host state is never uploaded even though some of it is tracked in git:
   Marketplace\SavedData\        KG's live database (bank, NPC state)
   EpicLoot\BountySaves\         live bounty ledgers
   KeyManager\                   KG licence cache
-  Marketplace_SavedNPCs\        placed NPCs
   permissions.yaml alias.yaml binds.yaml server_devcommands.cfg   devcommands
 Overwriting any of these with a copy from a test world loses server progress.
+
+Client-only files are listed, never uploaded; the server never reads them:
+  Marketplace_SavedNPCs\        KG Hammer templates (MarketplaceHammer is a Client module)
 
 Host-only values live in $HostOverrides. They are written into a staged copy
 of the repo file just before comparing and uploading; the repo and the Gale
@@ -69,8 +71,10 @@ $ExcludeFiles = @('*.bak', '*.bak-*', '*.bak.*', '*.cllc-example', '*.log', '*.l
 $ExcludeDirs  = @('Marketplace_CachedImages', 'Marketplace_KGChat_Emojis', 'Marketplace_Models',
                   'Marketplace_Sounds', 'Marketplace_VideoClips', 'Cache', 'wackyDatabase-BulkYML')
 # Host-only live state: compared for information, never uploaded.
-$LiveDirs  = @('Marketplace\SavedData', 'EpicLoot\BountySaves', 'KeyManager', 'Marketplace_SavedNPCs')
+$LiveDirs  = @('Marketplace\SavedData', 'EpicLoot\BountySaves', 'KeyManager')
 $LiveFiles = @('permissions.yaml', 'alias.yaml', 'binds.yaml', 'server_devcommands.cfg')
+# Client-only: the server never reads these. Listed, never uploaded.
+$ClientDirs = @('Marketplace_SavedNPCs')
 # Host-only config values. File is relative to config\; Section and Key take wildcards.
 # Every rule must match at least one key, or the run stops before touching the host.
 $HostOverrides = @(
@@ -93,6 +97,10 @@ function Test-Live([string]$Rel) {
     foreach ($d in $LiveDirs) { if ($Rel -like "$d\*") { return $true } }
     return $false
 }
+function Test-Client([string]$Rel) {
+    foreach ($d in $ClientDirs) { if ($Rel -like "$d\*") { return $true } }
+    return $false
+}
 function Get-NormalizedHash([string]$Path) {
     # CRLF -> LF before hashing so the Linux rewrite is not drift.
     $bytes = [IO.File]::ReadAllBytes($Path)
@@ -111,7 +119,10 @@ function Get-Tree([string]$Root) {
 function Invoke-Sftp([string[]]$Commands) {
     $batch = Join-Path $Work 'batch.txt'
     [IO.File]::WriteAllText($batch, (($Commands + 'bye') -join "`n") + "`n", [Text.Encoding]::ASCII)
-    $out = & sftp -o BatchMode=yes -o ConnectTimeout=20 -b $batch $SshHost 2>&1
+    # Windows PowerShell 5.1 turns native stderr into a terminating error under Stop;
+    # OpenSSH 10 warns on stderr about the host's non-post-quantum key exchange.
+    $ErrorActionPreference = 'Continue'
+    $out = & sftp -o BatchMode=yes -o ConnectTimeout=20 -b $batch $SshHost 2>&1 | ForEach-Object { "$_" }
     if ($LASTEXITCODE -ne 0) { $out | Write-Host; throw "sftp exited $LASTEXITCODE" }
     return $out
 }
@@ -176,15 +187,16 @@ function Compare-Trees {
     $repo = Get-Tree $RepoConfig
     foreach ($k in @($Staged.Keys)) { if ($repo.ContainsKey($k)) { $repo[$k] = Get-NormalizedHash $Staged[$k] } }
     $srv  = Get-Tree $HostConfig
-    $r = [ordered]@{ same = 0; differs = @(); onlyRepo = @(); onlyHost = @(); live = @() }
+    $r = [ordered]@{ same = 0; differs = @(); onlyRepo = @(); onlyHost = @(); live = @(); client = @() }
     foreach ($k in ($repo.Keys | Sort-Object)) {
+        if (Test-Client $k) { $r.client += $k; continue }
         if (Test-Live $k) { $r.live += $k; continue }
         if (-not $srv.ContainsKey($k)) { $r.onlyRepo += $k }
         elseif ($srv[$k] -ne $repo[$k]) { $r.differs += $k }
         else { $r.same++ }
     }
     foreach ($k in ($srv.Keys | Sort-Object)) {
-        if (-not $repo.ContainsKey($k) -and -not (Test-Live $k)) { $r.onlyHost += $k }
+        if (-not $repo.ContainsKey($k) -and -not (Test-Live $k) -and -not (Test-Client $k)) { $r.onlyHost += $k }
     }
     return $r
 }
@@ -194,6 +206,7 @@ function Show-Report($r) {
     if ($r.differs)  { Write-Host "`nDIFFERS (repo wins on -Deploy):" -ForegroundColor Yellow; $r.differs  | ForEach-Object { "  $_" } }
     if ($r.onlyRepo) { Write-Host "`nMISSING ON HOST (uploaded on -Deploy):" -ForegroundColor Yellow; $r.onlyRepo | ForEach-Object { "  $_" } }
     if ($r.live)     { Write-Host "`nLIVE STATE, tracked in git but never uploaded:" -ForegroundColor DarkGray; $r.live | ForEach-Object { "  $_" } }
+    if ($r.client)   { Write-Host "`nCLIENT ONLY, the server never reads these, never uploaded:" -ForegroundColor DarkGray; $r.client | ForEach-Object { "  $_" } }
     if ($OverrideReport) { Write-Host "`nHOST OVERRIDES, applied to the upload only:" -ForegroundColor DarkGray; $OverrideReport }
     if ($r.onlyHost) {
         $top = $r.onlyHost | ForEach-Object { ($_ -split '\\')[0] } | Group-Object | Sort-Object Count -Descending
