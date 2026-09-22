@@ -76,8 +76,36 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
             f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 66:
-    warn(f"expected 66 wackydb clones (16 p9-9 + 24 capes + 7 elite uniques + 3 crystal key parts + 6 hull keels + 4 riddle-stones + 6 riddle rewards), found {len(clones)}")
+if len(clones) != 72:
+    warn(f"expected 72 wackydb clones (16 p9-9 + 24 capes + 7 elite uniques + 3 crystal key parts + 6 hull keels + 4 riddle-stones + 6 riddle rewards + 6 jewellery), found {len(clones)}")
+
+# wackydb Recipes and status effects. Filename prefixes are load-bearing: ReadFiles.cs
+# globs "?ecipe_*.yml" and "SE_*.yml" over the whole config tree, so a misnamed file
+# is skipped with no log line. A recipe's clonePrefabName is the item it produces.
+STATIONS = {"forge", "piece_workbench", "piece_artisanstation", "piece_stonecutter",
+            "piece_magetable", "blackforge", "piece_preptable", "opalchemy", "opcauldron", ""}
+se_names = set()
+for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "SE_*.yml"), recursive=True):
+    m = re.search(r"^Name:\s*(\S+)", read(f), re.M)
+    if m: se_names.add(m.group(1))
+for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "Recipe_*.yml"), recursive=True):
+    t, base = read(f), os.path.basename(f)
+    m = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
+    if not m:
+        err(f"wackydb {base}: no clonePrefabName; wackydb cannot resolve the item and creates no recipe")
+    elif m.group(1) not in known_items:
+        err(f"wackydb {base} makes unknown item {m.group(1)}")
+    st = re.search(r"^craftingStation:\s*(\S*)", t, re.M)
+    if st and st.group(1) not in STATIONS:
+        err(f"wackydb {base}: unknown craftingStation {st.group(1)}")
+    for req in re.findall(r"^\s*-\s*(\w+):", t, re.M):
+        if req not in known_items:
+            err(f"wackydb {base}: req prefab {req} unknown")
+# An item pointing at a status effect that no SE_*.yml defines equips with no bonus at all.
+for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
+    m = re.search(r"^SE_Equip:\s*\n\s*EffectName:\s*(\S+)", read(f), re.M)
+    if m and m.group(1).startswith("SE_OSRS_") and m.group(1) not in se_names:
+        err(f"wackydb {os.path.basename(f)}: SE_Equip {m.group(1)} has no SE_*.yml defining it")
 
 KNOWN_KEYS = {"defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
               "defeated_goblinking", "defeated_queen", "defeated_fader", "defeated_frozenking_p3"}

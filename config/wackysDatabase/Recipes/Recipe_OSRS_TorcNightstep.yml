@@ -1,0 +1,12 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# wackydb recipes: 'name' is the RECIPE's name, 'clonePrefabName' is the item
+# it produces. reqs are Prefab:amount:amountPerLevel:recover.
+name: Recipe_OSRS_TorcNightstep
+clonePrefabName: OSRS_TorcNightstep
+craftingStation: forge
+minStationLevel: 3
+amount: 1
+disabledUpgrade: true
+reqs:
+  - Chain:2:1:true
+  - Crystal:1:1:true
