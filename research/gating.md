@@ -87,6 +87,7 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
   sold by the skillcape shop.
-- 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50.
+- 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
+- Vanilla traders (Haldor, Hildir, Bog Witch) buy any item with `m_value > 0` at `m_value x stack`; a clone without `m_value` keeps its source's. Crafted items stay `m_value: 0`.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
