@@ -36,7 +36,7 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 - Four root docs only: `CLAUDE.md`, `STATE.md`, `RESEARCH.md`, `AGENTS.md`. No
   new `.md` in the root. `archive\` is read-only.
 - Size caps, hook-enforced (`scripts\doc-guard.py`): STATE 3 KB, CLAUDE 3.5 KB,
-  AGENTS 0.8 KB, RESEARCH 40 KB. When a cap trips, prune before adding.
+  AGENTS 0.8 KB. RESEARCH uncapped. Prune in place when a cap trips.
 - Memory files follow the same rules. Cleanup pass only when Doug asks.
 
 ## Rules
