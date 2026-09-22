@@ -24,7 +24,7 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 - Load log: `<profile>\BepInEx\LogOutput.log`. Prefab dumps: `<profile>\BepInEx\Debug\`.
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
   `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only).
-- Pre-flight before any launch: `python scripts\validate-configs.py`.
+- Pre-flight before any launch: `python scripts\post-build-check.py`.
 - Full path table, doc URLs and console commands: `RESEARCH.md` §2, §16, §20.
 
 ## Documentation rules (strict)
