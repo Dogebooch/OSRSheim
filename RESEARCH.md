@@ -92,7 +92,8 @@ Install: `ror2mm://v1/install/thunderstore.io/<owner>/<name>/<version>/`.
 | Sailing | Smoothbrain Sailing |
 | Hunter | Smoothbrain Ranching |
 | Slayer | EpicLoot bounties + KG Slayer tasks |
-| Prayer, Runecraft, Thieving, Fletching, Firemaking | no analogue |
+| Prayer | KG Buffer `chapel`, bones as the cost item (sec 11) |
+| Runecraft, Thieving, Fletching, Firemaking | no analogue |
 
 ## 5. Skill settings (Smoothbrain)
 
@@ -179,8 +180,8 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 hand-edit either. `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg`
 (bestiary: biome -> creature -> every drop at its real chance, superior
 sub-pages; lines tinted by rarity per `TIERS`, key on the page, `COLOUR =
-False` removes them). Both to the repo
-`config\`; both `--check` in the validator, which fails on a mismatch.
+False` removes them). `gen-loot` writes to the profile (then `-Pull`),
+`gen-handbook` to the repo; both `--check` in the validator.
 
 | Table | Columns | Edit it to |
 |---|---|---|
@@ -406,9 +407,18 @@ Skip fee (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Co
 N`): a third of the pay.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`, 8-line
-positional blocks): 7 buffs, 80c to 2,000c, 250-900 s (DamageReduction,
-ModifyAttack, HealthRegen, StaminaRegen, RaiseSkills). Same group = mutually
-exclusive. Buffs cannot be key-gated; price is the gate.
+positional blocks): 12 buffs, 300-900 s, groups Wards / Might / Vigour /
+Wisdom / Wayfaring. Same group = exclusive; the group string is a yellow UI
+header. No condition field exists in `BufferBuffData`, so the **cost item**
+is the only gate: cost is bones, never coins. Ladder BoneFragments (Meadows)
+-> TrophySkeleton (BF) -> WitheredBone + TrophyDraugrElite (Swamp) ->
+TrophyFenring (Mtn) -> TrophyLox (Plains) -> TrophySeeker (Mist) ->
+CharredBone + TrophyFallenValkyrie (Ash). From `kg.Marketplace.dll`
+2026-09-21: cost prefab needs an ItemDrop; one cost item only; removal is
+`RemoveItem(m_shared.m_name)` so it matches by **display name**, not prefab;
+empty group = unbuyable; parser reads i+1..i+6 raw (no blank or `#` in a
+block, never end the file on a group line); multipliers default 1.0 (0.1 =
+-90%), DamageReduction 0..1, MaxCarryWeight additive. Validator checks all.
 
 **Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23 entries):
 kill milestones per biome, boss kill counts (1 and 10), The Knight's Sword
@@ -458,8 +468,8 @@ coordinates from the in-game `pos` command on Gielheim.
 Evidence: `reference/config-audit-2026-09-21.json`; configs unchanged.
 **Unfixed:** 138 Talk targets retain quotes in 10.0.1-beta.1; remove quotes,
 preserve spaces; fix collection generator. Website example disagrees.
-**Unfixed:** buff multipliers: attack 0.1/0.2 -> 1.1/1.2; health 0.5 -> 1.5;
-stamina 0.3 -> 1.3; XP 0.1 -> 1.1. DamageReduction correct.
+Fixed 2026-09-21: buff multipliers (attack, health, stamina, XP) rewritten to
+1.x in the bone-cost rebuild; the validator now fails on any multiplier < 1.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
 Runtime unverified: icons/VFX, rich text, discovery gates, skip fee, fish quality,
 Pet/Harvest, custom-skill XP, multi-cost trades, gambling.

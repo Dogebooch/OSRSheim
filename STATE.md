@@ -1,22 +1,22 @@
 # STATE — 2026-09-21
 
 Stack loads on 1.0.15; mod list frozen (§3).
-Config audit: unfixed KG Talk quotes + buff multipliers (§11).
-Launched 2026-09-21 clean (WIRSL 303, 56 wackydb clones, 0 exceptions).
-Untested in play: spawn spacing (§12), hellbroths on Alchemy (§6), mage purses
+Config audit: unfixed KG Talk quotes (§11); buff multipliers fixed.
+Launched 2026-09-21 clean (WIRSL 303, 0 exceptions).
+Untested in play: 12 bone-cost prayers (§11), spawn spacing (§12),
+hellbroths on Alchemy (§6), mage purses
 (§7), lore renames (§7, §11), Wizardry `supplies` + cauldron off (§21), Halla's
 collection log (§11), fishing wave (§6, §11, §18), Sailing hull gates, trinket
 + hatchet gates (§6), 7 elite uniques + crystal chest (§7, §11), hull keels +
 7 OdinShip recipes (§6, §7, §11, §18), handbook + DistancedUI (§7, §11).
-Validator clean.
+Validator clean but for 17 collection-log rows (another session's clones).
 Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 (57 story quests, 43 hunts, skip fees, 6 reward edits; §11). Checker clean.
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
-   MWL density now; `genloc` cannot retrofit explored terrain (§13). Dumps,
-   `*Mage_TW` and the 4 `Hellbroth_of_*` base names confirmed 2026-09-21;
-   `_Charge` variants not yet.
+   MWL density now; `genloc` cannot retrofit explored terrain (§13).
+   `_Charge` prefab variants not yet confirmed.
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table.
 3. After session one the AI reads `LogOutput.log` for Drop That / WIRSL
@@ -24,8 +24,9 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 4. Watch for in play: superiors spawning, EpicLoot Haldor / map / bounty
    paying coins, bank deposit + shop buy, wandering troll, Wizardry potions
    at the alchemy table, mage spawns, boss purse + unique on the first kill.
-   Coin sinks: Seeress offerings after a boss kill, 900 s blessings, skip fee,
+   Coin sinks: Seeress offerings after a boss kill, skip fee,
    maps (pure sink), supplies meads and food. Bounties (§10): empty until the biome boss dies, one at a time, x6 coins.
+   Prayers: chapel takes bones not coins; groups stack.
    Fishing: bait refused below level, fish sell, The Harbour Wager completes,
    `TrollingFishing.yml` appears. Elite unique + key half (wiring session, §16), Gullveig forge, chest roll eats
    the key. Collection log: Talk quest completes at its giver, found lit,

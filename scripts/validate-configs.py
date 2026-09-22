@@ -21,8 +21,12 @@ import sys
 
 APPDATA = os.environ.get("APPDATA") or os.path.expanduser(r"~\AppData\Roaming")
 BEP = os.path.join(APPDATA, "com.kesomannen.gale", "valheim", "profiles", "OSRSheim", "BepInEx")
-CFG = os.path.join(BEP, "config")
+# --repo validates the repo's config\ in place, without pushing to the profile first. Use it from a
+# worktree, or whenever another session may be writing the profile. Dumps, and the gen-loot /
+# gen-collection-log --check calls, still read the profile: those two generators write there.
 DBG = os.path.join(BEP, "Debug")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CFG = os.path.join(ROOT, "config") if "--repo" in sys.argv else os.path.join(BEP, "config")
 KG = os.path.join(CFG, "Marketplace", "Configs")
 HERE = os.path.dirname(os.path.abspath(__file__))
 REF = os.path.join(os.path.dirname(HERE), "reference")
@@ -209,7 +213,57 @@ for p, lines in kg_sections("Gamblers").items():
     toks = [x.strip() for x in lines[-1].split(",")]
     for i in range(0, len(toks) - 1, 2):
         if toks[i] not in known_items: err(f"KG gambler [{p}] unknown item '{toks[i]}'")
-buffs = kg_sections("Buffers")
+# Buffers: re-implement the DLL's positional parser (Marketplace.Modules.Buffer.Buffer_Main_Server).
+# A block is [id] then 7 RAW lines; the parser only skips blanks/# when scanning for the name line,
+# so a blank or comment at i+1..i+6 silently shifts the whole block.
+BUFF_MODS = {"modifyattack": "mult", "modifyhealthregen": "mult", "modifystaminaregen": "mult",
+             "modifyraiseskills": "mult", "modifyspeed": "mult", "modifynoise": "mult",
+             "modifystealth": "mult", "runstaminadrain": "mult",
+             "modifymaxcarryweight": "add", "damagereduction": "frac"}
+buffs = {}
+for f in glob.glob(os.path.join(KG, "Buffers", "*.cfg")):
+    raw, base = read(f).splitlines(), os.path.basename(f)
+    i = 0
+    while i < len(raw):
+        line = raw[i].strip()
+        if not line or line.startswith("#") or not line.startswith("["):
+            i += 1; continue
+        bid = line[1:].split("]")[0].strip().lower()
+        if i + 6 >= len(raw):
+            err(f"KG buffer [{bid}] in {base}: block is cut off; the parser reads 7 lines after [id] "
+                f"(it bounds-checks i+5 but reads i+6, so never end the file on the group line)")
+            break
+        body = raw[i + 1:i + 7]
+        bad = [n for n, l in enumerate(body, 1) if not l.strip() or l.strip().startswith("#")]
+        if bad:
+            err(f"KG buffer [{bid}] in {base}: blank/comment line at offset {bad} inside the block")
+            i += 1; continue
+        name, dur, icon, cost, mods, vfx, group = [l.strip() for l in raw[i + 1:i + 8]]
+        if not dur.isdigit(): err(f"KG buffer [{bid}]: duration '{dur}' is not an integer")
+        if icon not in known_items and icon not in objects and icon not in creatures:
+            err(f"KG buffer [{bid}]: icon prefab '{icon}' unknown")
+        ctoks = [t.strip() for t in cost.split(",")]
+        if len(ctoks) != 2 or not ctoks[1].isdigit():
+            err(f"KG buffer [{bid}]: cost line '{cost}' is not 'prefab, count'")
+        elif ctoks[0] not in known_items:
+            err(f"KG buffer [{bid}]: cost prefab '{ctoks[0]}' unknown (it must be an item: "
+                f"Init() dereferences its ItemDrop unguarded)")
+        for part in mods.split(","):
+            if "=" not in part: err(f"KG buffer [{bid}]: modifier '{part.strip()}' is not 'Key = value'"); continue
+            k, v = (x.strip() for x in part.split("=", 1))
+            kind = BUFF_MODS.get(k.lower())
+            if kind is None: err(f"KG buffer [{bid}]: unknown modifier key '{k}'"); continue
+            try: fv = float(v)
+            except ValueError: err(f"KG buffer [{bid}]: modifier {k} value '{v}' is not a number"); continue
+            if kind == "mult" and fv < 1:
+                err(f"KG buffer [{bid}]: {k} = {v} is a multiplier defaulting to 1.0, so this is a "
+                    f"{round((1 - fv) * 100)}% PENALTY; use {round(1 + fv, 2)} for a buff")
+            if kind == "frac" and not 0 <= fv <= 1:
+                err(f"KG buffer [{bid}]: {k} = {v} must be a fraction 0..1 (applied as Clamp01(1 - x))")
+        if not group: err(f"KG buffer [{bid}]: group is empty; CanTake() returns false and it can never be bought")
+        buffs[bid] = group
+        i += 8
+ok(f"KG buffers: {len(buffs)} parsed, groups {sorted(set(buffs.values()))}")
 for p, lines in kg_sections("BufferProfiles").items():
     for b in lines[0].split(","):
         if b.strip().lower() not in buffs: err(f"KG buffer profile [{p}] references missing buff '{b.strip()}'")
