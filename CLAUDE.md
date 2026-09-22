@@ -10,8 +10,8 @@ feel. Copy OSRS mechanics (skills, gating, drop tables, Slayer, clues, bank).
 Do not copy OSRS names, characters, items, quest text or audio; those are
 OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 
-- `RESEARCH.md` — the single reference: stack, settings, facts learned,
-  testing knowledge, backlog. Update it when a fact is learned.
+- `RESEARCH.md` — reference hub; topic files in `research\` (section map at
+  its top, §N global). Update the file that owns the section when a fact is learned.
 - `STATE.md` — what is live, what is next. Under a page. Update it every
   session.
 - `README.md` — what OSRSheim is, repo map, glossary. No status.
@@ -35,9 +35,10 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 - Facts only: value, path, name. No explanations, no narrative.
 - One fact per line. Prefer tables.
 - Five root docs only: `CLAUDE.md`, `STATE.md`, `RESEARCH.md`, `AGENTS.md`,
-  `README.md`. No new `.md` in the root. `archive\` is read-only.
+  `README.md`. No new `.md` in the root. `research\` holds only the files in
+  the hub map. `archive\` is read-only.
 - Size caps, hook-enforced (`scripts\doc-guard.py`): STATE 3.5 KB, CLAUDE 4.5 KB,
-  README 5 KB, AGENTS 0.8 KB. RESEARCH uncapped. Prune in place when a cap trips.
+  README 5 KB, AGENTS 0.8 KB. RESEARCH and `research\` uncapped. Prune in place when a cap trips.
 - Memory files follow the same rules. Cleanup pass only when Doug asks.
 
 ## Rules
