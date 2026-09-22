@@ -1,0 +1,9 @@
+# OSRSheim skilling pet - Woodcutting (1/5000 per tree felled) - authored 2026-09-21
+# Trophy clone: cosmetic only, no stat block. Rolled from loot\objects.csv on the
+# TreeBase tables. EpicLoot's IncreaseTreeDrop adds extra rolls, so an enchanted axe
+# raises the effective rate; Lumberjacking's yield postfix can duplicate the drop.
+name: OSRS_PetWoodcutting
+clonePrefabName: TrophyGreydwarf
+m_name: Splinter
+m_description: It followed the axe home and has not left the woodpile since.
+m_weight: 0.1

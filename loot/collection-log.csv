@@ -17,6 +17,16 @@ Elite uniques,OSRS_DragonBattleaxe,Giantsbane axe
 Crystal chest,OSRS_LoopHalfKey,Loop half of a crystal key
 Crystal chest,OSRS_ToothHalfKey,Tooth half of a crystal key
 Crystal chest,OSRS_CrystalKey,Crystal key
+Riddle-stones,OSRS_RiddleStoneT1,Scratched riddle-stone
+Riddle-stones,OSRS_RiddleStoneT2,Whispering riddle-stone
+Riddle-stones,OSRS_RiddleStoneT3,Bound riddle-stone
+Riddle-stones,OSRS_RiddleStoneT4,Allfather's riddle-stone
+Riddle rewards,OSRS_CloakWayfarer,Wayfarer's mantle
+Riddle rewards,OSRS_CloakGravebinder,Gravebinder's shroud
+Riddle rewards,OSRS_CloakMistweave,Mistweave cloak
+Riddle rewards,OSRS_CloakRimewalker,Rimewalker cloak
+Riddle rewards,OSRS_CrownFeastday,Feast-day crown
+Riddle rewards,OSRS_CrownNine,Crown of the Nine
 Pets,OSRS_PetEikthyr,Sparkfawn
 Pets,OSRS_PetElder,Elder sapling
 Pets,OSRS_PetBonemass,Bog lump
@@ -25,6 +35,10 @@ Pets,OSRS_PetYagluth,Sulking ember
 Pets,OSRS_PetQueen,Mist broodling
 Pets,OSRS_JalNibRek,Ember nibbler
 Pets,OSRS_PetFrozenKing,Tiny frost king
+Pets,OSRS_PetMining,Grit
+Pets,OSRS_PetWoodcutting,Splinter
+Curios,OSRS_Geode,Cracked geode
+Curios,OSRS_Burl,Knotted burl
 Capes,OSRS_CapeMining,Mining cape
 Capes,OSRS_CapeWoodcutting,Lumberjacking cape
 Capes,OSRS_CapeCooking,Cooking cape

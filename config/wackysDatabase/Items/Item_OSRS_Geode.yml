@@ -1,0 +1,7 @@
+# OSRSheim mining curio (1/500 per ore segment) - authored 2026-09-21
+# Amber clone: light, stackable, no stat block. Sold to the gem trader.
+name: OSRS_Geode
+clonePrefabName: Amber
+m_name: Cracked geode
+m_description: Split it and something glitters back. The gem trader pays for these.
+m_weight: 0.1

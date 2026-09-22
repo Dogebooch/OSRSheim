@@ -30,7 +30,7 @@ VANILLA = {
     'FineWood': 'Fine wood', 'Resin': 'Resin', 'BoneFragments': 'Bone fragments', 'Feathers': 'Feathers',
     'Entrails': 'Entrails', 'IronScrap': 'Scrap iron', 'WolfPelt': 'Wolf pelt', 'WolfFang': 'Wolf fang',
     'BlackMetalScrap': 'Black metal scrap', 'Needle': 'Needle', 'Carapace': 'Carapace', 'ScaleHide': 'Scale hide',
-    'CharredBone': 'Charred bone', 'FlametalNew': 'Flametal ore',
+    'CharredBone': 'Charred bone', 'FlametalNew': 'Flametal ore', 'WitheredBone': 'Withered bone',
 }
 # Rarity colours (TMP rich text): threshold %, hex, legend line. COLOUR = False drops every tag.
 COLOUR = True
