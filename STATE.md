@@ -2,18 +2,18 @@
 
 Stack loads on 1.0.15; mod list frozen (§3). Launched clean (WIRSL 303, 0
 exceptions); 73 clones now, unlaunched. Config audit: unfixed KG Talk quotes
-+ buff multipliers (§11).
-Untested in play: spawn spacing (§12), hellbroths on Alchemy (§6), mage purses
+(§11); buff multipliers fixed.
+Untested in play: 12 bone-cost prayers (§11), spawn spacing (§12),
+hellbroths on Alchemy (§6), mage purses
 (§7), lore renames (§7, §11), Wizardry `supplies` + cauldron off (§21), Halla's
 collection log (§11), fishing wave (§6, §11, §18), Sailing hull gates, skilling
-pets + curios (§7), trinket + hatchet gates (§6), jewellery (§8, §13),
-7 elite uniques + crystal
+pets + curios (§7), trinket + hatchet gates (§6), 7 elite uniques + crystal
 chest + riddle-stones (§7, §11), hull keels +
 7 OdinShip recipes (§6, §7, §11, §18), handbook + DistancedUI (§7, §11).
-`drop_that.drop_table.cfg` is generated now (`gen-objects.py`). Next push needs
-`sync-configs.ps1 -Push` + `gen-loot.py`: the profile predates the merge
-(27 diffs, 3 OathCape clones unlogged).
-Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
+`drop_that.drop_table.cfg` is generated now (`gen-objects.py`); the old
+weights dropped Feathers at 100% on ten empty log tables. `gen-loot.py` has
+run; next push needs `-Push`. OathCapes unlogged: #10.
+Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1`
 (57 story quests, 43 hunts, skip fees, 6 reward edits; §11).
 
 ## Gielheim (Doug plays and reports)
@@ -27,7 +27,7 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 4. Watch for in play: superiors spawning, EpicLoot Haldor / map / bounty
    paying coins, bank deposit + shop buy, wandering troll, Wizardry potions,
    mage spawns, boss purse + unique on the first kill.
-   Coin sinks (§11). Bounties (§10). Riddle-stone off a Greydwarf and a
+   Coin sinks (§11). Prayers: chapel takes bones not coins; groups stack. Bounties (§10). Riddle-stone off a Greydwarf and a
    boss; caskets pay out.
    Fishing: bait refused below level, fish sell, Harbour Wager completes,
    `TrollingFishing.yml` appears. Elite unique + key half (§16), Gullveig
