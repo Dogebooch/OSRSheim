@@ -8,7 +8,8 @@ Untested in play: spawn spacing (§12), hellbroths on Alchemy (§6), mage purses
 collection log (§11), fishing wave (§6, §11, §18), Sailing hull gates, trinket
 + hatchet gates (§6), 7 elite uniques + crystal chest (§7, §11), hull keels +
 7 OdinShip recipes (§6, §7, §11, §18), handbook + DistancedUI (§7, §11).
-Validator clean.
+Validator: 7 loot-cfg diffs + profile clone drift, both pre-existing.
+Jewellery in repo, NOT pushed (§8, §13); push before validating.
 Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 (57 story quests, 43 hunts, skip fees, 6 reward edits; §11). Checker clean.
 

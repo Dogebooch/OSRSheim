@@ -1,0 +1,12 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# wackydb recipes: 'name' is the RECIPE's name, 'clonePrefabName' is the item
+# it produces. reqs are Prefab:amount:amountPerLevel:recover.
+name: Recipe_OSRS_TorcAmber
+clonePrefabName: OSRS_TorcAmber
+craftingStation: forge
+minStationLevel: 1
+amount: 1
+disabledUpgrade: true
+reqs:
+  - Amber:5:1:true
+  - Bronze:2:1:true
