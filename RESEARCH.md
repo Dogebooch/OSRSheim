@@ -26,7 +26,8 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Mod manager | Gale, `C:\Program Files\Gale\gale.exe`, profile **OSRSheim** |
 | Profile root | `C:\Users\drumm\AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim` |
 | Mod configs | repo `config\` is truth -> `<profile>\BepInEx\config\` |
-| Load log | `<profile>\BepInEx\LogOutput.log` (Unity copy: `...LocalLow\IronGate\Valheim\Player.log`) |
+| Load log | `<profile>\BepInEx\LogOutput.log`, appends (Unity copy: `...LocalLow\IronGate\Valheim\Player.log`) |
+| Past session logs | `<profile>\BepInEx\Logs\LogOutput-<stamp>.log`, last 20, rotated by `launch-modded.ps1` |
 | Prefab dumps | `<profile>\BepInEx\Debug\` (on world load) |
 | Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
