@@ -68,7 +68,7 @@ N`): a third of the pay.
 Pickable via `Pickable.RPC_Pick`, so own plots count.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
-groups Wards / Might / Vigour / Wisdom / Wayfaring (same group = exclusive).
+groups Wards / Might / Vigour / Wisdom / Wayfaring (same group: second buy blocked while one is active).
 No condition field exists, so the cost item is the only gate: bones, never
 coins. BoneFragments (Meadows) -> WitheredBone (Swamp) -> CharredBone (Ash),
 with trophy rungs between. Rungs, traps and block shape: cfg header,
@@ -132,7 +132,8 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
 | Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
-Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`.
+Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`, `Gothi Eirik.yml`.
+NPC UI (10.0.1): the Buffer type tile is labelled "Enchanter".
 File name = Hammer piece name. `/mreloadnpcs` reloads.
 
 ### Config audit (2026-09-21)
