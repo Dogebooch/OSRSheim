@@ -1,0 +1,17 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# Trinket type is required: AzuEPI only routes reserved types (6,7,11,17,18,24)
+# into a custom slot. Utility (18) would be caught by UtilityExclusivity if
+# 'One Utility Item At A Time' is ever turned On, so Trinket (24) is used.
+# m_weight is mandatory or wackydb drops the file silently.
+name: OSRS_RingEmber
+clonePrefabName: SilverRing
+m_name: Ember band
+m_description: A warm ring of beaten copper. The breath comes back quicker.
+m_weight: 0.2
+m_itemType: Trinket
+m_maxStackSize: 1
+m_maxQuality: 1
+m_value: 90
+m_teleportable: true
+SE_Equip:
+  EffectName: SE_OSRS_RingEmber

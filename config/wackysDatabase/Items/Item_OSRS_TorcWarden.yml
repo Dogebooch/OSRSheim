@@ -1,0 +1,17 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# Trinket type is required: AzuEPI only routes reserved types (6,7,11,17,18,24)
+# into a custom slot. Utility (18) would be caught by UtilityExclusivity if
+# 'One Utility Item At A Time' is ever turned On, so Trinket (24) is used.
+# m_weight is mandatory or wackydb drops the file silently.
+name: OSRS_TorcWarden
+clonePrefabName: SilverNecklace
+m_name: Warden's torc
+m_description: Pearl and silver, worn by those who carried the dead home.
+m_weight: 0.5
+m_itemType: Trinket
+m_maxStackSize: 1
+m_maxQuality: 1
+m_value: 300
+m_teleportable: true
+SE_Equip:
+  EffectName: SE_OSRS_TorcWarden

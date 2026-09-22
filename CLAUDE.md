@@ -1,19 +1,19 @@
 # OSRSheim — Valheim 1.0 modded to play like Old School RuneScape
 
 Two-player run. Doug maintains it with Claude and Codex (Codex reads
-`AGENTS.md`, a pointer here). The AI's job is documentation upkeep and guided
-walkthroughs; changes to the live profile are proposed as an exact file list
-and walked through with Doug, not applied unprompted.
+`AGENTS.md`, a pointer here). The AI's job is doc upkeep and guided
+walkthroughs; live-profile changes are proposed as an exact file list and
+walked through with Doug, not applied unprompted.
 
 **Design principle:** OSRS gameplay loops and light grinds, Valheim lore and
 feel. Copy OSRS mechanics (skills, gating, drop tables, Slayer, clues, bank).
 Do not copy OSRS names, characters, items, quest text or audio; those are
 OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 
-- `RESEARCH.md` — the single reference: stack, every setting, every fact
-  learned, testing knowledge, backlog. Update it when a fact is learned.
-- `STATE.md` — what is live, what is next. Keep it under a page. Update it
-  at the end of every session.
+- `RESEARCH.md` — the single reference: stack, settings, facts learned,
+  testing knowledge, backlog. Update it when a fact is learned.
+- `STATE.md` — what is live, what is next. Under a page. Update it every
+  session.
 - `archive\` — first build's docs and config snapshot. Read-only.
 
 ## Where everything lives
@@ -24,7 +24,7 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 - Load log: `<profile>\BepInEx\LogOutput.log`. Prefab dumps: `<profile>\BepInEx\Debug\`.
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
   `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only).
-- Pre-flight before any launch: `python scripts\validate-configs.py`.
+- Pre-flight before any launch: `python scripts\post-build-check.py`.
 - Full path table, doc URLs and console commands: `RESEARCH.md` §2, §16, §20.
 
 ## Documentation rules (strict)
@@ -47,11 +47,12 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 - Generated, never hand-edited: `drop_that.character_drop*.cfg` from `loot\*.csv`
   (`gen-loot.py`; superiors `update-superiors.py`), the collection log from
   `loot\collection-log.csv` (`gen-collection-log.py`; every collectible gets a
-  row), `reference\mods.tsv` from the Gale profile (`gen-mods.py`).
+  row), `reference\mods.tsv` from the profile (`gen-mods.py`),
+  `drop_that.drop_table.cfg` from `loot\objects.csv` (`gen-objects.py`).
   Enforced: IDs >= 100 (lists 110+/120+), vanilla drops never cleared,
   `ScaleByLevel = false`, <= 100 items per entry, no `DropOnePerPlayer` on purses.
 - Prefab names come only from the `BepInEx\Debug` dumps, EpicLoot's tables or
-  a WackysDatabase dump. The validator enforces this.
+  a wackydb dump. Validator-enforced.
 - wackydb reads only `Item_*.yml`; never `wackydb_save_item` onto an authored file.
 - Doug handles all Steam UI himself.
 - Never kill valheim.exe with a world loaded (Valheim discards the save).

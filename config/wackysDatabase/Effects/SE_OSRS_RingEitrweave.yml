@@ -1,0 +1,10 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# Base SetEffect_TrollArmor is an SE_Stats; its own sneak bonus is zeroed below
+# so only the fields set here apply. Icon is inherited (polish: CustomIcon).
+Name: SE_OSRS_RingEitrweave
+ClonedSE: SetEffect_TrollArmor
+Status_m_name: Eitrweave band
+Tooltip: Gold wound round a red stone. The mind refills faster.
+SeData:
+  m_eitrRegenMultiplier: 1.15
+  m_sneakStaminaUseModifier: 0
