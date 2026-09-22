@@ -120,6 +120,7 @@ tier's stone.
 | Queen | OSRS_KeelQueen (QueenDrop) | Dvergr shipwright's keel | WarShip (with Yagluth) |
 
 Gate lives in `wackysDatabase\Pieces\Piece_<hull>.yml` (full cost, keel included). OdinShip alone drops the keel (#31).
+Build menu shows the right keel on all 7 hulls (2026-09-22). OdinShip's `The required item 'OSRS_Keel*' does not exist` warnings stay; expected.
 
 ### Never touch (vanilla progression drops)
 Deer trophies + Hard Antler (Eikthyr) · Ancient Seeds + Swamp Key (Elder) ·
