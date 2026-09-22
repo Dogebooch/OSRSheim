@@ -154,6 +154,8 @@ weight 0.1 stack 50.
   missing on Linux: 259 errors. Fix: `_Full` copy beside `_full`.
 - Drop That + Spawn That `Write*` dumps load every location prefab at boot (MWL on:
   10.6 GiB, 2.5 without). `sync-server.ps1` turns them off on the host.
+- A client on the host takes the host's `false`: pre-sync dumps still write (drop tables,
+  locations, local spawners), post-sync ones do not (character drops, loaded cfgs, world spawners).
 - `gen-mods.py --verify` checks host versions. ServerSync'd: Smoothbrain skills, CLLC,
   WIRSL, EpicLoot, AzuEPI, WackysDatabase, MWL, Trolling Fishing; Drop That clients
   pull the host's configs.
