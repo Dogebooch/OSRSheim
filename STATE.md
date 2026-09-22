@@ -9,6 +9,8 @@ Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
+15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 4 fixed
+effects, §10); Troll verified, bosses unseen. Uniques lose one-per-player.
 Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 43 hunts, skip fees, 6 reward edits; §11).
 

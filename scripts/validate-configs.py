@@ -573,9 +573,22 @@ def rollable(node):
     elif isinstance(node, list):
         for v in node: n += rollable(v)
     return n
-r = rollable(lt)
+# gen-loot.py writes one table per unique= row in drops.csv: a lone OSRS_ clone at Legendary rarity.
+def unique_table(t):
+    loot = t.get("Loot") or []
+    return len(loot) == 1 and loot[0].get("Item") in clones and loot[0].get("Rarity") == [0, 0, 0, 1, 0, 0]
+uniq = [t for t in lt["LootTables"] if unique_table(t)]
+r = rollable({**lt, "LootTables": [t for t in lt["LootTables"] if not unique_table(t)]})
 if r: err(f"EpicLoot loottables.json: {r} entries can still roll a magic item")
-else: ok("EpicLoot loottables.json: 0 rollable magic drops")
+else: ok(f"EpicLoot loottables.json: 0 rollable magic drops outside {len(uniq)} generated unique tables")
+leg = {x["ID"]: x for x in json.loads(read(os.path.join(EL, "legendaries.json")))["LegendaryItems"]}
+for t in uniq:
+    if t.get("RefObject"): err(f"EpicLoot unique table {t['Object']} still has RefObject {t['RefObject']} (aliased away)")
+osrs_leg = [x for x in leg.values() if x["ID"].startswith("OSRSheim_")]
+for x in osrs_leg:
+    if x.get("GuaranteedEffectCount") != len(x.get("GuaranteedMagicEffects", [])):
+        err(f"EpicLoot legendary {x['ID']}: GuaranteedEffectCount must equal its effect count (else random extras)")
+ok(f"EpicLoot legendaries.json: {len(osrs_leg)} OSRSheim legendaries, fixed effect counts")
 if yaml:
     for f in [os.path.join(CFG, "ItemConfig.yml"), os.path.join(CFG, "CreatureConfig.yml"),
               os.path.join(KG, "RandomNpcSpeech.yml")]:

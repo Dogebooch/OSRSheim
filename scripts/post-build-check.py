@@ -164,8 +164,8 @@ for name, header in HEADERS.items():
                 err(f'drops.csv:{n}: chance {cells[4]!r} is not a percent or a 1/x rate')
             if cells[6] and not cells[6].isdigit():
                 err(f'drops.csv:{n}: id {cells[6]!r} is not a number')
-            for f in filter(None, cells[5].split(';')):
-                if f != 'one-per-player' and not f.startswith('key='):
+            for f in cells[5].split():
+                if f != 'one-per-player' and not f.startswith(('key=', 'unique=')):
                     err(f'drops.csv:{n}: unknown flag {f!r}')
             if cells[5] == 'one-per-player' and cells[2:4] != ['1', '1']:
                 err(f'drops.csv:{n}: one-per-player needs amount 1')
