@@ -5,3 +5,5 @@ clonePrefabName: WitheredBone
 m_name: Bone-ribbed keel
 m_description: Withered bone lashed into a keel. The bog does not rot it.
 m_weight: 1
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'

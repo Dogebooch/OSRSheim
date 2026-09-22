@@ -5,3 +5,5 @@ clonePrefabName: DragonTear
 m_name: Drake-tear keel
 m_description: A keel set with a frozen tear. It cuts ice as easily as water.
 m_weight: 1
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'

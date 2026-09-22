@@ -5,3 +5,5 @@ clonePrefabName: HardAntler
 m_name: Antler-carved keel
 m_description: A dugout keel carved with the stag's antler. Enough for one small boat.
 m_weight: 1
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'
