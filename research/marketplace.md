@@ -132,6 +132,9 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
 | Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
+Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`.
+File name = Hammer piece name. `/mreloadnpcs` reloads.
+
 ### Config audit (2026-09-21)
 Evidence: `reference/config-audit-2026-09-21.json`.
 **Unfixed:** 138 Talk targets retain quotes; remove them and keep the spaces, fix
