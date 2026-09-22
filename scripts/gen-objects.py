@@ -30,6 +30,8 @@ import re
 import sys
 from pathlib import Path
 
+from main_guard import require_current
+
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
 PROFILE = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx'
@@ -233,6 +235,7 @@ def main():
                                       OUT + ' (on disk)', OUT + ' (from objects.csv)', lineterm=''))
         print('\n'.join(d) if d else 'no change')
         return
+    require_current(LOOT, __file__)
     # newline='' keeps the LF endings the repo stores (.gitattributes: "* -text",
     # no EOL conversion ever); text mode would rewrite them to CRLF on Windows.
     with open(path, 'w', encoding='utf-8', newline='') as f:

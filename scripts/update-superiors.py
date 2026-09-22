@@ -4,6 +4,8 @@ import re
 import shutil
 from pathlib import Path
 
+from main_guard import require_current
+
 CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
 # Station names: EpicLoot's recipe/station tables and the verified Wizardry roster.
 ANCHOR_LIST = ['forge', 'blackforge', 'piece_stonecutter', 'piece_artisanstation',
@@ -31,6 +33,7 @@ def save(name, text):
     path.write_text(text, encoding='utf-8')
 
 def main():
+    require_current(__file__)
     path = CFG / 'spawn_that.world_spawners_advanced.cfg'
     source = path.read_text(encoding='utf-8-sig')
     blocks = re.split(r'(?=^\[WorldSpawner\.\d+\]$)', source, flags=re.M)[1:]

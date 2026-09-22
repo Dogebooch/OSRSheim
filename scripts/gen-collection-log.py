@@ -24,6 +24,8 @@ import re
 import sys
 from pathlib import Path
 
+from main_guard import require_current
+
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
 CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
@@ -148,6 +150,7 @@ def main():
         stale = [k for k in OUT if on_disk(k) != new[k]]
         print(f'collection log cfgs {"stale: " + ", ".join(stale) if stale else "match the csv"}')
         sys.exit(1 if stale else 0)
+    require_current(LOOT, __file__)
     for k, text in new.items():
         OUT[k].parent.mkdir(parents=True, exist_ok=True)
         OUT[k].write_text(text, encoding='utf-8')

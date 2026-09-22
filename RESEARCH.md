@@ -187,6 +187,10 @@ Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `resetkeys`, Logout. Conso
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
 shape, gambler lines, repo/profile parity, validator.
 
+**Stale-branch guard**: profile writers (`gen-loot`, `gen-objects`, `gen-collection-log`,
+`update-superiors`, `sync-configs -Push`) refuse when origin/main has newer inputs.
+Override: `--allow-behind` / `-AllowBehind`.
+
 **Log reading**: `LogOutput.log` is the source of truth. Find the first
 NullReferenceException and read down to the first frame that is not
 UnityEngine / ObjectDB / ZNetScene. `MissingMethodException` on a Harmony
