@@ -92,7 +92,8 @@ Install: `ror2mm://v1/install/thunderstore.io/<owner>/<name>/<version>/`.
 | Sailing | Smoothbrain Sailing |
 | Hunter | Smoothbrain Ranching |
 | Slayer | EpicLoot bounties + KG Slayer tasks |
-| Prayer, Runecraft, Thieving, Fletching, Firemaking | no analogue |
+| Prayer | KG Buffer `chapel`, bones as cost (§11) |
+| Runecraft, Thieving, Fletching, Firemaking | no analogue |
 
 ## 5. Skill settings (Smoothbrain)
 
@@ -415,10 +416,12 @@ Greydwarf 500 + AmberPearl, Draugr 800, Wolf 1200, Fuling 1500, Seeker 2500 + Ch
 Skip fee (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
-**Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`, 8-line
-positional blocks): 7 buffs, 80c to 2,000c, 250-900 s (DamageReduction,
-ModifyAttack, HealthRegen, StaminaRegen, RaiseSkills). Same group = mutually
-exclusive. Buffs cannot be key-gated; price is the gate.
+**Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
+groups Wards / Might / Vigour / Wisdom / Wayfaring (same group = exclusive).
+No condition field exists, so the cost item is the only gate: bones, never
+coins. BoneFragments (Meadows) -> WitheredBone (Swamp) -> CharredBone (Ash),
+with trophy rungs between. Rungs, traps and block shape: cfg header,
+validator-enforced.
 
 **Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23 entries):
 kill milestones per biome, boss kill counts (1 and 10), The Knight's Sword
@@ -468,8 +471,6 @@ coordinates from the in-game `pos` command on Gielheim.
 Evidence: `reference/config-audit-2026-09-21.json`; configs unchanged.
 **Unfixed:** 138 Talk targets retain quotes in 10.0.1-beta.1; remove quotes,
 preserve spaces; fix collection generator. Website example disagrees.
-**Unfixed:** buff multipliers: attack 0.1/0.2 -> 1.1/1.2; health 0.5 -> 1.5;
-stamina 0.3 -> 1.3; XP 0.1 -> 1.1. DamageReduction correct.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
 Runtime unverified: icons/VFX, rich text, discovery gates, skip fee, fish quality,
 Pet/Harvest, custom-skill XP, multi-cost trades, gambling.
