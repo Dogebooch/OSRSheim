@@ -16,7 +16,7 @@ or the topic file listed here. Read the hub, then only the topic file you need.
 Two players, rented dedicated server, 23 mods on Valheim 1.0.15. Skills grind to
 100 at half speed; gear gated by skill level. Every creature pays coins and rolls
 Gem/Rare tables; bosses drop uniques and pets, elites drop uniques and crystal-key
-halves. EpicLoot: maps and bounties only. KG Marketplace: shops, bank, gamblers,
+halves. EpicLoot: maps, bounties and the 15 unique Legendaries. KG Marketplace: shops, bank, gamblers,
 quests, Slayer, prayers, hiscores, biome oaths.
 
 ## 2. Where things live

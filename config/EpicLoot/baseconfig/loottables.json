@@ -8339,7 +8339,7 @@
     },
     {
       "Object": "Troll",
-      "RefObject": "Tier3EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8423,7 +8423,7 @@
     },
     {
       "Object": "Draugr_Elite",
-      "RefObject": "Tier4Mob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8519,7 +8519,7 @@
     },
     {
       "Object": "StoneGolem",
-      "RefObject": "Tier5EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8603,7 +8603,7 @@
     },
     {
       "Object": "GoblinBrute",
-      "RefObject": "Tier6EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8735,7 +8735,7 @@
     },
     {
       "Object": "Gjall",
-      "RefObject": "Tier7EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8843,7 +8843,7 @@
     },
     {
       "Object": "Morgen",
-      "RefObject": "Tier8EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8855,7 +8855,7 @@
     },
     {
       "Object": "Morgen_NonSleeping",
-      "RefObject": "Tier8EliteMob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8915,7 +8915,7 @@
     },
     {
       "Object": "JotunWarrior",
-      "RefObject": "Tier9Mob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -8927,7 +8927,7 @@
     },
     {
       "Object": "JotunWarriorDualWield",
-      "RefObject": "Tier9Mob",
+      "RefObject": null,
       "Drops": [
         [
           0.0,
@@ -11642,6 +11642,1089 @@
         }
       ],
       "LeveledLoot": []
+    },
+    {
+      "Object": "Troll",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_HillGiantClub",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_HillGiantClub",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Troll_sleeping",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_HillGiantClub",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_HillGiantClub",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Draugr_Elite",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          98.75
+        ],
+        [
+          1.0,
+          1.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_RuneScimitar",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              98.75
+            ],
+            [
+              1.0,
+              1.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_RuneScimitar",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Draugr_Elite_sleeping",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          98.75
+        ],
+        [
+          1.0,
+          1.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_RuneScimitar",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              98.75
+            ],
+            [
+              1.0,
+              1.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_RuneScimitar",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "StoneGolem",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_GraniteMaul",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_GraniteMaul",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "GoblinBrute",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DragonHalberd",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DragonHalberd",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Gjall",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_CrystalBow",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_CrystalBow",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Morgen",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_AbyssalBludgeon",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_AbyssalBludgeon",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Morgen_NonSleeping",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_AbyssalBludgeon",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_AbyssalBludgeon",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "JotunWarrior",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DragonBattleaxe",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DragonBattleaxe",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "JotunWarriorDualWield",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          93.75
+        ],
+        [
+          1.0,
+          6.25
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DragonBattleaxe",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              93.75
+            ],
+            [
+              1.0,
+              6.25
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DragonBattleaxe",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Eikthyr",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_GracefulCape",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_GracefulCape",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "gd_king",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DragonAxe",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DragonAxe",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Bonemass",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DraugrVisage",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DraugrVisage",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Dragon",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_DragonfireShield",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_DragonfireShield",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "GoblinKing",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_BandosGodsword",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_BandosGodsword",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "SeekerQueen",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_AbyssalWhip",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_AbyssalWhip",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "Fader",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_InfernalCape",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_InfernalCape",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Object": "FrozenKing_p3",
+      "RefObject": null,
+      "Drops": [
+        [
+          0.0,
+          97.0703125
+        ],
+        [
+          1.0,
+          2.9296875
+        ]
+      ],
+      "Loot": [
+        {
+          "Item": "OSRS_ScytheOfVitur",
+          "Weight": 1.0,
+          "Rarity": [
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "LeveledLoot": [
+        {
+          "Level": 4,
+          "Drops": [
+            [
+              0.0,
+              97.0703125
+            ],
+            [
+              1.0,
+              2.9296875
+            ]
+          ],
+          "Loot": [
+            {
+              "Item": "OSRS_ScytheOfVitur",
+              "Weight": 1.0,
+              "Rarity": [
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "RestrictedItems": [

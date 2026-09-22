@@ -16,12 +16,17 @@ Tables in loot\:
                  a creature of another class gets a copy at its own multiplier (GemTableTier3Roamer)
   drops.csv      owner, item, min, max, chance, flags, id owner = creature or list; rows in ID order
 chance "30" = flat percent. chance "1/256" = OSRS rate x the owner's class multiplier, capped at 100.
-flags: one-per-player (amount 1 items only), key=<global key>.
+flags: one-per-player (amount 1 items only), key=<global key>,
+       unique=<EpicLoot legendary ID>: rolled by EpicLoot, not Drop That, as that legendary (beam +
+       inventory highlight). Creature rows only, amount 1, no one-per-player (EpicLoot rolls once per kill).
+       Drop That item modifiers never apply to creature drops in this stack, so this is the only route.
 id: blank = next free (100+ creatures, first_id+ lists); set it to pin a slot (uniques 102, pets 103).
 Coins purses above 100 are split into <=100 chunks: extras at 106+ (creatures) / 130+ (lists).
-Writes drop_that.character_drop.cfg and drop_that.character_drop_list.shared_tables.cfg to the profile.
+Writes drop_that.character_drop.cfg, drop_that.character_drop_list.shared_tables.cfg and the unique
+tables in EpicLoot\baseconfig\loottables.json (tables whose Loot is an OSRS_ item; owners lose RefObject).
 """
 import csv
+import json
 import os
 import sys
 from pathlib import Path
@@ -33,6 +38,8 @@ LOOT = ROOT / 'loot'
 CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
 MAIN = 'drop_that.character_drop.cfg'
 LISTS = 'drop_that.character_drop_list.shared_tables.cfg'
+EL_TABLES = 'EpicLoot/baseconfig/loottables.json'
+EL_LEGENDARIES = 'EpicLoot/baseconfig/legendaries.json'
 CHUNK = 100
 CREATURE_BASE, CREATURE_OVERFLOW, LIST_OVERFLOW = 100, 106, 130
 NUMERIC = {'AmountMin', 'AmountMax', 'ChanceToDrop'}
@@ -121,7 +128,7 @@ def chance(text, mult, mode):
 
 
 def entries(owner, rows, base, overflow, mult, mode):
-    """Return (id, item, lo, hi, chance, one_per_player, key) rows for one owner, sorted by ID."""
+    """Return (id, item, lo, hi, chance, one_per_player, key, unique) rows for one owner, sorted by ID."""
     ids, nxt = [], base
     for r in rows:
         idx = int(r['id']) if r.get('id') else nxt
@@ -137,26 +144,31 @@ def entries(owner, rows, base, overflow, mult, mode):
         flags = set(r['flags'].split())
         one = 'one-per-player' in flags
         key = next((f[4:] for f in flags if f.startswith('key=')), None)
-        bad = flags - {'one-per-player'} - {f for f in flags if f.startswith('key=')}
+        unique = next((f[7:] for f in flags if f.startswith('unique=')), None)
+        bad = flags - {'one-per-player'} - {f for f in flags if f.startswith(('key=', 'unique='))}
         if bad:
             fail(f'{owner} {item}: unknown flags {sorted(bad)}')
         if not 1 <= lo <= hi:
             fail(f'{owner} {item}: bad amount {lo}-{hi}')
         if one and (hi != 1 or item == 'Coins'):
             fail(f'{owner} {item}: one-per-player forces amount 1; never on a purse')
+        if unique and (hi != 1 or one):
+            fail(f'{owner} {item}: unique forces amount 1 and rules out one-per-player')
         p = chance(r['chance'], mult, mode)
         if hi > CHUNK and item != 'Coins':
             fail(f'{owner} {item}: max {hi} above the {CHUNK} per-entry cap (only Coins split)')
         parts = chunks(lo, hi)
-        out.append((idx, item, parts[0][0], parts[0][1], p, one, key))
+        out.append((idx, item, parts[0][0], parts[0][1], p, one, key, unique))
         for lo2, hi2 in parts[1:]:
-            out.append((overflow, item, lo2, hi2, p, one, key))
+            out.append((overflow, item, lo2, hi2, p, one, key, unique))
             overflow += 1
     return sorted(out)
 
 
 def entry_text(owner, e):
-    idx, item, lo, hi, p, one, key = e
+    idx, item, lo, hi, p, one, key, unique = e
+    if unique:
+        return ''
     lines = [f'[{owner}.{idx}]', f'PrefabName = {item}', f'AmountMin = {lo}', f'AmountMax = {hi}',
              f'ChanceToDrop = {fmt(p)}', 'ScaleByLevel = false']
     if one:
@@ -181,6 +193,7 @@ def generate(mode='time', marker=None):
             f'# mode = {label}\n')
     mults = ' '.join(f'{k} x{fmt(v)}' for k, v in classes.items())
     main = [head, f'# class multipliers: {mults}\n\n']
+    uniques = []
     biome = None
     for c in creatures:
         name = c['creature']
@@ -194,11 +207,14 @@ def generate(mode='time', marker=None):
         if c['list'] and any(e[0] >= 110 for e in es):
             fail(f'{name}: per-creature IDs reach 110+ and would collide with list {c["list"]}')
         main += [entry_text(name, e) for e in es]
+        uniques += [(name, e[1], e[4], e[7]) for e in es if e[7]]
     listtxt = [head, f'# class multipliers: {mults}\n\n']
     for l in lists:
         rows = drops.get(l['list'], [])
         if not rows:
             fail(f'list {l["list"]} has no rows in drops.csv')
+        if any('unique=' in r['flags'] for r in rows):
+            fail(f'list {l["list"]}: unique= is creature-only (EpicLoot tables are per creature)')
         for k in classes:
             if not any(c['list'] == l['list'] and c['class'] == k for c in creatures):
                 continue
@@ -206,7 +222,36 @@ def generate(mode='time', marker=None):
             listtxt.append(f'# ---- {name} ({k}) ----\n\n')
             es = entries(name, rows, int(l['first_id']), LIST_OVERFLOW, classes[k], mode)
             listtxt += [entry_text(name, e) for e in es]
-    return ''.join(main), ''.join(listtxt)
+    return ''.join(main), ''.join(listtxt), el_tables(uniques)
+
+
+def el_tables(uniques):
+    """Rewrite loottables.json: drop old OSRS_ tables, add one standalone Legendary table per unique row.
+    A RefObject table is an alias of its tier (AddLootTable), so owners are detached from theirs.
+    Level 4 LeveledLoot covers CLLC levels above 3; levels 1-3 read the top-level Drops/Loot."""
+    text = on_disk(EL_TABLES)
+    if not text:
+        fail(f'{EL_TABLES} missing from the profile: run sync-configs.ps1 -Push first')
+    data = json.loads(text)
+    legs = json.loads(on_disk(EL_LEGENDARIES))['LegendaryItems']
+    for owner, item, p, lid in uniques:
+        if not any(x['ID'] == lid for x in legs):
+            fail(f'{owner} {item}: unique={lid} is not in {EL_LEGENDARIES}')
+    owners = {u[0] for u in uniques}
+    kept = []
+    for t in data['LootTables']:
+        if any(str(d.get('Item', '')).startswith('OSRS_') for d in t.get('Loot') or []):
+            continue
+        if t['Object'] in owners:
+            t['RefObject'] = None
+        kept.append(t)
+    for owner, item, p, lid in uniques:
+        drops = [[0.0, round(100.0 - p, 7)], [1.0, round(p, 7)]]
+        loot = [{'Item': item, 'Weight': 1.0, 'Rarity': [0.0, 0.0, 0.0, 1.0, 0.0, 0.0]}]
+        kept.append({'Object': owner, 'RefObject': None, 'Drops': drops, 'Loot': loot,
+                     'LeveledLoot': [{'Level': 4, 'Drops': drops, 'Loot': loot}]})
+    data['LootTables'] = kept
+    return json.dumps(data, indent=2).replace('\n', '\r\n')
 
 
 def parse(text):
@@ -239,7 +284,18 @@ def diff(old, new):
 
 def on_disk(name):
     p = CFG / name
-    return p.read_text(encoding='utf-8-sig') if p.exists() else ''
+    return p.read_bytes().decode('utf-8-sig') if p.exists() else ''
+
+
+def el_diff(new):
+    old = on_disk(EL_TABLES)
+    if old == new:
+        return []
+    key = lambda t: json.dumps(t, sort_keys=True)
+    a = {key(t) for t in json.loads(old)['LootTables']} if old else set()
+    b = {key(t) for t in json.loads(new)['LootTables']}
+    return ([f'- {EL_TABLES} {s[:160]}' for s in sorted(a - b)] +
+            [f'+ {EL_TABLES} {s[:160]}' for s in sorted(b - a)] or [f'~ {EL_TABLES} formatting only'])
 
 
 def disk_mode():
@@ -263,18 +319,19 @@ def main():
         if m.startswith('wiring') or m.startswith('marker'):
             print(f'loot cfgs are in {m} mode: regenerate with gen-loot.py before a real session')
             sys.exit(2)
-        cur_main, cur_lists = generate('literal' if m == 'literal' else 'time')
-        d = diff(on_disk(MAIN), cur_main) + diff(on_disk(LISTS), cur_lists)
+        cur_main, cur_lists, cur_el = generate('literal' if m == 'literal' else 'time')
+        d = diff(on_disk(MAIN), cur_main) + diff(on_disk(LISTS), cur_lists) + el_diff(cur_el)
         print(f'{len(d)} difference(s) between loot\\*.csv and the cfgs on disk')
         sys.exit(1 if d else 0)
-    new_main, new_lists = generate(mode, marker)
+    new_main, new_lists, new_el = generate(mode, marker)
     if '--diff' in args:
-        for line in diff(on_disk(MAIN), new_main) + diff(on_disk(LISTS), new_lists):
+        for line in diff(on_disk(MAIN), new_main) + diff(on_disk(LISTS), new_lists) + el_diff(new_el):
             print(line)
         return
     require_current(LOOT, __file__)
     (CFG / MAIN).write_text(new_main, encoding='utf-8')
     (CFG / LISTS).write_text(new_lists, encoding='utf-8')
+    (CFG / EL_TABLES).write_bytes(new_el.encode('utf-8'))
     print(f'wrote {MAIN} ({new_main.count(chr(10) + "[")} sections) and {LISTS} '
           f'({new_lists.count(chr(10) + "[")} sections), mode = {mode if not marker else "marker"}')
     if mode != 'time' or marker:
