@@ -111,7 +111,80 @@ for sec in re.findall(r"^\[([^\].]+)(?:\.\d+)?\]", t, re.M):
 for p in re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M):
     if p not in known_items: err(f"drop_that.drop_table.cfg: PrefabName {p} unknown")
 ok("drop_that.drop_table.cfg objects + items checked")
+
+# Effective-rate check. Weight is a share of the table's picks, not a chance, so an entry
+# is only rare relative to the vanilla entries already on the table. Hand-authored weights
+# read as if they were rarities and shipped Feathers at 100% on ten empty log tables; this
+# recomputes what each entry actually does against the dump.
+RATE_CAP = 0.05
+if os.path.exists(prefabs):
+    dump, cur, cursrc = {}, None, None
+    heads, ents = {}, {}
+    for line in read(prefabs).splitlines():
+        m = re.match(r"^\[([^\]]+)\]", line)
+        if m:
+            cur = m.group(1)
+            (ents if "." in cur else heads)[cur] = {}
+            continue
+        if cur and "=" in line:
+            k, v = line.split("=", 1)
+            (ents if "." in cur else heads)[cur][k.strip()] = v.strip()
+    ours, sec, exempt, pending = {}, None, set(), False
+    for line in t.splitlines():
+        if line.lstrip().startswith("#"):
+            if "rate-exempt" in line: pending = True
+            continue
+        m = re.match(r"^\[([^\]]+)\]", line)
+        if m:
+            sec = m.group(1); ours[sec] = {}
+            if pending: exempt.add(sec)
+            pending = False
+            continue
+        if sec and "=" in line:
+            k, v = line.split("=", 1)
+            ours[sec][k.strip()] = v.strip()
+    for sec, d in ours.items():
+        if "." not in sec or "Weight" not in d or sec in exempt: continue
+        base = sec.rsplit(".", 1)[0]
+        head = heads.get(base)
+        if head is None: continue
+        W = sum(float(v.get("Weight", 0)) for k, v in ents.items() if k.rsplit(".", 1)[0] == base)
+        try: w = float(d["Weight"])
+        except ValueError: err(f"drop_that.drop_table.cfg: [{sec}] Weight {d['Weight']!r} is not a number"); continue
+        if W <= 0:
+            err(f"drop_that.drop_table.cfg: [{sec}] {d.get('PrefabName')} sits on a table with no vanilla "
+                f"entries (total weight 0), so it drops on every destruction")
+            continue
+        lo, hi = int(head.get("DropMin", 1)), int(head.get("DropMax", 1))
+        dc = float(head.get("DropChance", 100)) / 100.0
+        p = w / (W + w)
+        ns = range(lo, hi + 1)
+        rate = dc * sum(1 - (1 - p) ** n for n in ns) / len(list(ns))
+        if rate > RATE_CAP:
+            err(f"drop_that.drop_table.cfg: [{sec}] {d.get('PrefabName')} drops {rate:.1%} per destruction "
+                f"and takes {p:.1%} of {base}'s picks (cap {RATE_CAP:.0%}); weight is a share, not a chance")
+    ok(f"drop_that.drop_table.cfg effective rates checked against the dump (cap {RATE_CAP:.0%})")
+
+# Mods that postfix DropTable.GetDropList and would silently multiply every object drop.
+t2 = read(os.path.join(CFG, "ItemConfig.yml"))
+if re.search(r"^\s*worldLevelToLootAmount\s*:", t2, re.M):
+    err("ItemConfig.yml sets worldLevelToLootAmount; CLLC's GetDropList postfix would duplicate "
+        "every object drop, including the skilling pets. Remove it.")
+else:
+    ok("ItemConfig.yml free of worldLevelToLootAmount (CLLC loot multiplier stays a no-op)")
+for cfgname, key, expect in (("org.bepinex.plugins.mining.cfg", "Mining Yield Factor", "2"),
+                             ("org.bepinex.plugins.lumberjacking.cfg", "Tree item yield modifier at level 100", "2")):
+    m = re.search(rf"^{re.escape(key)}\s*=\s*(\S+)", read(os.path.join(CFG, cfgname)), re.M)
+    if m and m.group(1) != expect:
+        warn(f"{cfgname}: {key} = {m.group(1)} (was {expect}). Smoothbrain duplicates each rolled "
+             f"drop floor(1 + skill*(factor-1) + rand) times, so this changes how often a pet lands as a pair.")
+ok("Smoothbrain mining/lumberjacking yield factors checked")
+
 import subprocess
+r = subprocess.run([sys.executable, os.path.join(HERE, "gen-objects.py"), "--check"], capture_output=True, text=True)
+if r.returncode == 0: ok("drop_that.drop_table.cfg matches loot\\objects.csv (gen-objects.py --check)")
+else: err("drop_that.drop_table.cfg differs from loot\\objects.csv: run python scripts\\gen-objects.py  ("
+          + r.stdout.strip().replace(chr(10), " | ") + ")")
 r = subprocess.run([sys.executable, os.path.join(HERE, "gen-loot.py"), "--check"], capture_output=True, text=True)
 if r.returncode == 0: ok("loot cfgs match loot\\*.csv (gen-loot.py --check)")
 elif r.returncode == 2: warn(r.stdout.strip())
