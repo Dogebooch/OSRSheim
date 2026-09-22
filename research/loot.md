@@ -61,6 +61,19 @@ Object tables have no per-entry chance: `Weight` is a share of
 `Condition*`, no one-per-player. EpicLoot/Smoothbrain/CLLC postfix
 `GetDropList`. No object hook for Fishing or Farming.
 
+Segments per node (ModTest 2026-09-22, Mining 0-6 so a few % high); per-node = `1-(1-p)^segments`:
+
+| Table | Segments | Pet 1/5000 | Curio 1/500 | Gem 1/256 |
+|---|---|---|---|---|
+| `rock4_copper_frac` | 79 | 1/64 | 1/6.8 | 1/3.8 |
+| `mudpile_frac` | 20 | 1/250 | 1/25.5 | none |
+| `mudpile2_frac` | 28 | no rows | no rows | no rows |
+| `rock3_silver_frac` | 141 | 1/36 | 1/4.1 | 1/2.4 |
+| `silvervein_frac` | 106 | 1/48 | 1/5.2 | 1/2.9 |
+| `goldvein_frac` | 97 | 1/52 | 1/5.7 | 1/3.2 |
+
+`goldvein`: no pickaxe damages it (BlackMetal is the top tier), not in the location dump (#64).
+
 Coin/hr target, best camped source: Meadows 150 · BF 200 · Swamp 440 · Mountain
 520 · Plains 700 · Mistlands 900 · Ashlands 1300 · DeepNorth 1600. Roamer purse =
 0.03 x target a kill; elite purse >= 2x the biome's roamer mean, nest >= 1x.
