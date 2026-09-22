@@ -113,7 +113,6 @@ def generate():
     sup = {r[0]: r for r in module('update-superiors').ROWS}
     classes, creatures, lists, drops = loot.load('time', None)
     names = item_names()
-    list_class = {l['list']: l['class'] for l in lists}
     for c in creatures:
         if not c.get('display'):
             fail(f'creatures.csv {c["creature"]}: no display name')
@@ -121,7 +120,7 @@ def generate():
     pages, order, biomes = {}, [], []
     for c in creatures:
         key = (c['biome'], c['display'])
-        sig = (c['list'], tuple(tuple(r[k] for k in ('item', 'min', 'max', 'chance', 'flags')) for r in drops.get(c['creature'], [])))
+        sig = (c['list'], c['class'], tuple(tuple(r[k] for k in ('item', 'min', 'max', 'chance', 'flags')) for r in drops.get(c['creature'], [])))
         if key in pages:
             if pages[key]['sig'] != sig:
                 fail(f'{c["creature"]}: display {c["display"]!r} already used in {c["biome"]} with different drops')
@@ -157,7 +156,7 @@ def generate():
         d.append(f'[{node[k]}]\n{k[1]} ({k[0]}). Extra drops on top of the usual spoils.\n')
         d += drop_rows(names, drops.get(c['creature'], []), classes[c['class']], loot)
         if c['list']:
-            d += drop_rows(names, drops.get(c['list'], []), classes[list_class[c['list']]], loot)
+            d += drop_rows(names, drops.get(c['list'], []), classes[c['class']], loot)
         s = next((sup[p] for p in pg['prefabs'] if p in sup), None)
         if s:
             d.append(f'Text: Superior (two stars) loot | Transition: {node[k]}_superior\n')
