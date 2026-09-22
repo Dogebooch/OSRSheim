@@ -7,7 +7,7 @@ Meadows,Skeleton_Meadows,camped,GemTableTier1,Skeleton (Meadows)
 Meadows,Skeleton_Meadows_noarcher,camped,GemTableTier1,Skeleton (Meadows)
 Black Forest,Greydwarf,camped,GemTableTier1,Greydwarf
 Black Forest,Greydwarf_Shaman,roamer,GemTableTier1,Greydwarf shaman
-Black Forest,Greydwarf_Elite,elite,RareTableTier2,Greydwarf brute
+Black Forest,Greydwarf_Elite,nest,RareTableTier2,Greydwarf brute
 Black Forest,Skeleton,camped,GemTableTier1,Skeleton
 Black Forest,Skeleton_NoArcher,camped,GemTableTier1,Skeleton
 Black Forest,Skeleton_Poison,camped,GemTableTier1,Rancid remains
@@ -20,8 +20,8 @@ Swamp,Draugr,camped,GemTableTier2,Draugr
 Swamp,Draugr_sleeping,camped,GemTableTier2,Draugr
 Swamp,Draugr_Ranged,camped,GemTableTier2,Draugr archer
 Swamp,Draugr_Ranged_sleeping,camped,GemTableTier2,Draugr archer
-Swamp,Draugr_Elite,elite,RareTableTier2,Draugr elite
-Swamp,Draugr_Elite_sleeping,elite,RareTableTier2,Draugr elite
+Swamp,Draugr_Elite,nest,RareTableTier2,Draugr elite
+Swamp,Draugr_Elite_sleeping,nest,RareTableTier2,Draugr elite
 Swamp,Skeleton_Swamps,camped,GemTableTier2,Skeleton (Swamp)
 Swamp,Skeleton_Swamps_noarcher,camped,GemTableTier2,Skeleton (Swamp)
 Swamp,Blob,camped,GemTableTier2,Blob
@@ -29,6 +29,7 @@ Swamp,Leech,camped,,Leech
 Swamp,Leech_cave,camped,,Leech
 Swamp,Wraith,elite,GemTableTier2,Wraith
 Swamp,Surtling,camped,,Surtling
+Swamp,BlobElite,roamer,GemTableTier2,Oozer
 Swamp,Abomination,elite,RareTableTier2,Abomination
 Swamp,Bat_Swamp,camped,,Bat (Swamp)
 Swamp,SkeletonMage_TW,roamer,GemTableTier2,Skeleton mage
@@ -55,11 +56,11 @@ Mistlands,Seeker,roamer,GemTableTier3,Seeker
 Mistlands,SeekerBrute,elite,RareTableTier3,Seeker soldier
 Mistlands,Gjall,elite,RareTableTier3,Gjall
 Mistlands,Tick,camped,,Tick
-Mistlands,Dverger,camped,GemTableTier3,Dvergr rogue
-Mistlands,DvergerMage,camped,GemTableTier3,Dvergr mage
-Mistlands,DvergerMageFire,camped,GemTableTier3,Dvergr mage (fire)
-Mistlands,DvergerMageIce,camped,GemTableTier3,Dvergr mage (frost)
-Mistlands,DvergerMageSupport,camped,GemTableTier3,Dvergr mage (support)
+Mistlands,Dverger,roamer,GemTableTier3,Dvergr rogue
+Mistlands,DvergerMage,roamer,GemTableTier3,Dvergr mage
+Mistlands,DvergerMageFire,roamer,GemTableTier3,Dvergr mage (fire)
+Mistlands,DvergerMageIce,roamer,GemTableTier3,Dvergr mage (frost)
+Mistlands,DvergerMageSupport,roamer,GemTableTier3,Dvergr mage (support)
 Mistlands,CorruptedDvergerMage_TW,roamer,GemTableTier3,Corrupted dvergr mage
 Ashlands,Charred_Melee,camped,GemTableTier4,Charred warrior
 Ashlands,Charred_Archer,camped,GemTableTier4,Charred archer
@@ -73,7 +74,7 @@ Ashlands,Morgen,elite,RareTableTier4,Morgen
 Ashlands,Morgen_NonSleeping,elite,RareTableTier4,Morgen
 Ashlands,FallenValkyrie,elite,RareTableTier4,Fallen valkyrie
 Ashlands,BonemawSerpent,elite,RareTableTier4,Bonemaw serpent
-Ashlands,DvergerAshlands,camped,GemTableTier4,Dvergr (Ashlands)
+Ashlands,DvergerAshlands,roamer,GemTableTier4,Dvergr (Ashlands)
 Deep North,Frysling,camped,GemTableTier4,Frysling
 Deep North,Greydwarf_Frozen,roamer,GemTableTier4,Frozen greydwarf
 Deep North,Greydwarf_Shaman_Frozen,roamer,GemTableTier4,Frozen greydwarf shaman
@@ -81,12 +82,12 @@ Deep North,BlobFrost,camped,,Frost blob
 Deep North,BlobMork,camped,,Mork blob
 Deep North,Moose,roamer,,Moose
 Deep North,Seal,roamer,,Seal
-Deep North,Elaking,roamer,GemTableTier4,Elaking
-Deep North,ElakingLantern,roamer,GemTableTier4,Elaking lantern-bearer
+Deep North,Elaking,camped,GemTableTier4,Elaking
+Deep North,ElakingLantern,camped,GemTableTier4,Elaking lantern-bearer
 Deep North,ElakingMole,roamer,GemTableTier4,Elaking mole
 Deep North,GoblinDeepNorth,roamer,GemTableTier4,Fuling (Deep North)
 Deep North,Skeleton_DeepNorth,camped,GemTableTier4,Frozen skeleton
-Deep North,DvergerDeepNorth,camped,GemTableTier4,Dvergr (Deep North)
+Deep North,DvergerDeepNorth,roamer,GemTableTier4,Dvergr (Deep North)
 Deep North,Ghost_Void,camped,,Void ghost
 Deep North,Bjorn,elite,RareTableTier5,Bjorn
 Deep North,Bjorn_sleeping,elite,RareTableTier5,Bjorn

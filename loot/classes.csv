@@ -1,5 +1,6 @@
 class,valheim_kills_hr,osrs_kills_hr,members
 camped,100,400,nest and pile campers: Greydwarf Draugr Skeleton Charred; guess = spawn ceiling / 3
 roamer,25,300,night roamers: Goblin Wolf Seeker Shaman
-elite,5,80,Troll Golem Gjall Brute Abomination and every _Elite
+nest,25,80,nest and pile elites: Draugr_Elite Greydwarf_Elite; ceiling pile 103/hr nest 51/hr
+elite,5,80,Troll Golem Gjall Brute Abomination and the rare world elites
 boss,2,30,the eight bosses
