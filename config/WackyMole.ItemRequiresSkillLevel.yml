@@ -3237,3 +3237,62 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+# ===== JEWELLERY (craft gate only) =====
+# BlockEquip is deliberately false: WIRSL and AzuEPI both postfix
+# ItemData.IsEquipable with opposite results for custom-slot prefabs and
+# neither sets a Harmony priority, so an equip gate here is load-order luck.
+# OSRS jewellery has a Crafting level to make, no level to wear.
+- PrefabName: OSRS_TorcAmber
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_RingEmber
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_TorcWarden
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_RingEitrweave
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_RingDelver
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_TorcNightstep
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:

@@ -1,0 +1,10 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# Base SetEffect_TrollArmor is an SE_Stats; its own sneak bonus is zeroed below
+# so only the fields set here apply. Icon is inherited (polish: CustomIcon).
+Name: SE_OSRS_RingDelver
+ClonedSE: SetEffect_TrollArmor
+Status_m_name: Delver's band
+Tooltip: Crystal set flush to the silver. Long drops hurt less.
+SeData:
+  m_fallDamageModifier: -0.5
+  m_sneakStaminaUseModifier: 0

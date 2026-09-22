@@ -1,0 +1,12 @@
+# OSRSheim jewellery wave - authored 2026-09-21
+# wackydb recipes: 'name' is the RECIPE's name, 'clonePrefabName' is the item
+# it produces. reqs are Prefab:amount:amountPerLevel:recover.
+name: Recipe_OSRS_RingDelver
+clonePrefabName: OSRS_RingDelver
+craftingStation: forge
+minStationLevel: 3
+amount: 1
+disabledUpgrade: true
+reqs:
+  - Crystal:2:1:true
+  - Silver:4:1:true
