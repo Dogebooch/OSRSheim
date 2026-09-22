@@ -8,6 +8,7 @@ are downstream copies that get overwritten.
 
   -Status   show what differs, change nothing (default)
   -Push     repo config\  ->  profile BepInEx\config\   (then run the validator)
+            refused when origin/main has config\ commits this checkout lacks; -AllowBehind overrides
   -Pull     profile BepInEx\config\  ->  repo config\   (stage local edits)
 
 Backups (*.bak*), mod-shipped examples and the KG binary asset folders are
@@ -49,6 +50,7 @@ param(
     [Parameter(ParameterSetName = 'Push')][switch]$Push,
     [Parameter(ParameterSetName = 'Pull')][switch]$Pull,
     [Parameter(ParameterSetName = 'Status')][switch]$Status,
+    [Parameter(ParameterSetName = 'Push')][switch]$AllowBehind,
     [string]$ProfilePath = (Join-Path $env:APPDATA 'com.kesomannen.gale\valheim\profiles\OSRSheim')
 )
 
@@ -85,6 +87,20 @@ function Invoke-Sync {
 
 switch ($PSCmdlet.ParameterSetName) {
     'Push' {
+        # The profile is shared by every worktree: a checkout behind origin/main on config\ would regress it.
+        $behind = @()
+        if (Get-Command git -ErrorAction SilentlyContinue) {
+            try {
+                & git -C $RepoRoot fetch -q origin main 2>$null
+                $behind = @(& git -C $RepoRoot log --oneline 'HEAD..origin/main' -- config 2>$null)
+            } catch { Write-Host "Cannot compare with origin/main; pushing anyway." -ForegroundColor Yellow }
+            if ($behind.Count -gt 0 -and -not $AllowBehind) {
+                Write-Host "This checkout is behind origin/main on config\ ($($behind.Count) commit(s)):" -ForegroundColor Red
+                $behind | Select-Object -First 10 | ForEach-Object { Write-Host "  $_" }
+                Write-Host "git merge origin/main, then re-run. -AllowBehind overrides." -ForegroundColor Red
+                exit 1
+            }
+        }
         Write-Host "repo -> profile" -ForegroundColor Cyan
         Write-Host "  $RepoConfig"
         Write-Host "  $ProfConfig"

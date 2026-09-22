@@ -7,6 +7,7 @@ r"""Generate the Drop That loot cfgs from loot\*.csv. Never edit the cfgs by han
     python scripts\gen-loot.py --literal       OSRS fractions as-is (every class multiplier = 1)
     python scripts\gen-loot.py --wiring        every ChanceToDrop = 100: spawn 3, kill, watch each entry fire
     python scripts\gen-loot.py --marker Greydwarf Flint   add a 100% x1 kill counter to one creature
+    --allow-behind   write even when origin/main has newer loot\ or gen-loot.py (refused otherwise)
 
 Tables in loot\:
   classes.csv    class, valheim_kills_hr, osrs_kills_hr   multiplier = osrs / valheim
@@ -24,6 +25,8 @@ import csv
 import os
 import sys
 from pathlib import Path
+
+from main_guard import require_current
 
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
@@ -269,6 +272,7 @@ def main():
         for line in diff(on_disk(MAIN), new_main) + diff(on_disk(LISTS), new_lists):
             print(line)
         return
+    require_current(LOOT, __file__)
     (CFG / MAIN).write_text(new_main, encoding='utf-8')
     (CFG / LISTS).write_text(new_lists, encoding='utf-8')
     print(f'wrote {MAIN} ({new_main.count(chr(10) + "[")} sections) and {LISTS} '
