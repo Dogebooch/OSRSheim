@@ -2,15 +2,15 @@
 
 Stack loads on 1.0.15; mod list frozen (§3).
 Config audit: KG Talk quotes + buff multipliers unfixed (§11).
-Launched 2026-09-21 clean (WIRSL 303, 0 exceptions); 59 clones authored.
-Untested in play: spawn spacing (§12), hellbroths and the trinket / hatchet
-gates (§6), mage purses and lore renames (§7), Wizardry `supplies` + cauldron
-off (§21), collection log and handbook (§11), fishing wave (§18), hull keels +
-OdinShip recipes and Sailing gates (§7), elite uniques + chest (§7).
-Biome oaths live in config (§11): 15 quests, 3 keys, waystones, sworn stores,
-`chapel_oath`, 3 capes. Needs `pos` coordinates + 4 NPCs placed.
-Validator: oath configs clean; 9 errors belong to a parallel session (loot
-cfgs, collection log, 6 `log_osrs_*` rows whose clones do not exist yet).
+Launched 2026-09-21 clean (WIRSL 303, 0 exceptions); 64 clones authored.
+Untested in play: spawn spacing (§12), hellbroths and the trinket / hatchet gates
+(§6), mage purses and lore renames (§7), Wizardry `supplies` + cauldron off (§21),
+collection log and handbook (§11), fishing wave (§18), hull keels + OdinShip
+recipes and Sailing gates (§7), elite uniques + chest (§7).
+Biome oaths live in config (§11): 40 quests over 8 biomes, 8 keys, sworn stores,
+`chapel_oath`, 8 capes. Needs `set-waystone.py` coords + 9 NPCs placed.
+Validator: oath configs clean; the 3 errors belong to a parallel session (loot
+cfgs and the collection log).
 Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 (57 story quests, 43 hunts, skip fees; §11). Checker clean.
 
@@ -20,7 +20,7 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
    `_Charge` hellbroth variants still unconfirmed.
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table and
-   read `pos` at each waystone.
+   read `pos` at the 9 waystone spots (rules in the teleporter cfg).
 3. After session one the AI reads `LogOutput.log` for Drop That / WIRSL /
    Spawn That warnings.
 4. Watch for in play: superiors spawning, EpicLoot map / bounty paying coins,

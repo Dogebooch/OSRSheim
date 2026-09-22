@@ -21,6 +21,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
+| Waystone coordinates | `scripts\set-waystone.py` (§11) |
 | Server launch template | `scripts\server-start-template.bat` |
 | Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19` |
 
@@ -64,9 +65,9 @@ reads both.
 | Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
 | JereKuusela Server devcommands | TS | admin console (§16) | loads |
 
-Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
-`https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
-Install: `ror2mm://v1/install/thunderstore.io/<owner>/<name>/<version>/`.
+Version checks without Gale: `thunderstore.io/api/experimental/package/<owner>/<name>/`
+and `valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`). Install
+through Gale only.
 
 ## 4. Skill mapping
 
@@ -174,10 +175,9 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 `gen-loot.py` writes `drop_that.character_drop.cfg` and
 `drop_that.character_drop_list.shared_tables.cfg` from `loot\*.csv`; never
 hand-edit either. `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg`
-(bestiary: biome -> creature -> every drop at its real chance, superior
-sub-pages; lines tinted by rarity per `TIERS`, key on the page, `COLOUR =
-False` removes them). Both to the repo
-`config\`; both `--check` in the validator, which fails on a mismatch.
+(bestiary: biome -> creature -> every drop at its real chance, superior sub-pages,
+lines tinted by rarity). Both write to the repo `config\`; both `--check` in the
+validator, which fails on a mismatch.
 
 | Table | Columns | Edit it to |
 |---|---|---|
@@ -196,10 +196,9 @@ pin uniques / pets. Coins above 100 split into <=100 chunks at `.106+`
 
 Enforced: IDs >= 100 (vanilla drops at 0-2 never cleared); lists 110+/120+
 keep their index when merged; `ScaleByLevel = false`; <= 100 items per entry;
-`DropOnePerPlayer` only on amount-1 items (per-player roll on a server
-unverified). `drop_that.cfg`: dump flags on,
-`AlwaysAutoStack = true`. `dropthat:reload` hot-reloads all loot files
-(needs `-console`; admin-only on a server).
+`DropOnePerPlayer` only on amount-1 items (per-player roll on a server unverified).
+`drop_that.cfg`: dump flags on, `AlwaysAutoStack = true`. `dropthat:reload`
+hot-reloads all loot files (needs `-console`; admin-only on a server).
 
 ### Rates
 Valheim chance = OSRS chance x (OSRS kills/hr / Valheim kills/hr). Valheim
@@ -336,13 +335,13 @@ Backups `.bak-osrsheim`; redo both edits if an update refreshes `baseconfig`.
 
 ## 11. KG Marketplace
 
-Docs: https://kg-marketplace.pages.dev/ (config pages under `/configs/`).
-Content is plain `.cfg` files under `Marketplace\Configs\<Feature>\`, any
-filename, `[profile]` headers, comma-separated fields, hot-reloaded on save.
-Bad lines are logged per entry with file and line; the rest still loads.
-Only the physical NPC needs the in-game Marketplace Hammer (admin).
+Docs: https://kg-marketplace.pages.dev/ (config pages under `/configs/`). Content is
+plain `.cfg` under `Marketplace\Configs\<Feature>\`, any filename, `[profile]`
+headers, comma-separated fields, hot-reloaded on save. A bad line is logged with its
+file and line; the rest of the file still loads.
+Only the NPC itself needs the in-game Marketplace Hammer (admin).
 
-`Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`,
+`MarketPlace.cfg` changes: `UseLeaderboard = true`,
 `AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `CanTeleportWithOre =
 false` (the waystones must not carry metal either, §15), `Use Marketplace Locally
 = true` (flip to false only once the server exists). Banker interest off.
@@ -352,30 +351,29 @@ other list empty, marketplace and mail off (open key unverified).
 ### Content pack (all `osrsheim_*.cfg`)
 
 **Traders** (`Traders\`) — line = `cost item, amount, result item, amount`.
-- `general_store`: buys basics at ~10x sell price (Wood 3c to FishingRod
-  350c); sells wood, stone, hides 10-60c, trophies 5-200c, fish 3-50c.
+- `general_store`: buys basics at ~10x sell price; sells wood stone hides 10-60c,
+  trophies 5-200c, fish 3-50c.
 - `gem_trader`: gems 8-120c (25-45% of a kill's value); key forge
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
-- `skillcape_shop`: every cape 5,000c, max cape 25,000c.
+- `skillcape_shop`: any cape 5,000c, max cape 25,000c.
 - `offerings` (`= true` discovery gate, Seeress): 150-500c a piece; a summon =
   2.5-2.8x the boss purse. DragonEgg and DvergrKeyFragment wait on a wackydb
   dump. Fader, Kall never.
 - `supplies` (`= true`, shopkeeper second menu): arrows and bolts 20 a bundle
   60-400c; Wizardry eitr mead bases / soups / plates 20-150c. Vanilla bolts and
   mead bases need a dump. Meads and food are the per-trip drain never bought back.
-- `oath_supplies` (`= true` + `HasPlayerKey`, §11 biome oaths): the same
-  consumables in 50-bundles at ~7% off. No gear and nothing WIRSL gates.
+- `oath_supplies` (`= true` + `HasPlayerKey`): the same consumables in 50-bundles
+  at ~7% off. No gear and nothing WIRSL gates.
 
-**Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
-ores and metals included.
+**Bank** (`Bankers\`, profile `bank`): the bankable list is the cfg; ores included.
 
 **Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~5% house edge);
 `flower_poker` 1,000c (~11% edge, up to 3 queued rolls); `crystal_chest` 1
 OSRS_CrystalKey a roll, 8 uniform prizes, opened from the Gambler dialogue.
 
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 live + `osrsheim_quests_story.cfg`
-57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; one-time via
-cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
+57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; cooldown 36500 =
+one-time; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
 Types: Collect, Kill, Craft, Talk, Harvest (1). Per biome: a kill, a collect, a craft
 of the tier's sword or shield, a fish quest, a boss kill (unlocks on the PREVIOUS
 boss key). `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
@@ -384,55 +382,56 @@ rewards: Boar, Wolf (1 star), Lox. Coins 25c (Meadows) to 8,000c (Deep North),
 until the named quest is done. Six hull keel quests (§7), one keel each.
 
 **Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43 staged, `= Autocomplete`,
-cooldown `60s`, biome boss key; profile `slayer_master`). Per-contract kill counts
-and pay live in the cfg. Pay ladder by biome: Meadows 80-150, Black Forest 200-300,
-Swamp 250-500, Mountain 500-900, Plains 700-1000, Mistlands 1200-2000, Ashlands
-2000-4000, Deep North 3000-4500; the hardest contract of each biome also pays a gem.
-Starred variants (`creature, 1, 2`, superiors §12) pay 500-2500.
+cooldown `60s`, biome boss key; profile `slayer_master`). Kill counts and pay live in
+the cfg. Pay by biome: Meadows 80-150, Black Forest 200-300, Swamp 250-500, Mountain
+500-900, Plains 700-1000, Mistlands 1200-2000, Ashlands 2000-4000, Deep North
+3000-4500; each biome's hardest contract also pays a gem. Starred variants
+(`creature, 1, 2`, §12) pay 500-2500.
 Skip fee (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
-**Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`, 8-line positional
-blocks): 7 buffs, 80-2,000c, 250-900 s. Same group = mutually exclusive. A buff
+**Prayers** (`Buffers\osrsheim_prayers.cfg`, `chapel`, 8-line positional blocks):
+7 buffs, 80-2,000c, 250-900 s. Same group = mutually exclusive. A buff
 carries no condition and no per-profile price: gate by price, or key-gate the reply
 that opens a second profile of cheaper duplicates (`chapel_oath`).
 
-**Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23 entries):
-kill milestones per biome, boss kill counts, a craft, explored 25/50/75%,
-first and 100th death. IDs are case-sensitive.
+**Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23): kill milestones
+per biome, boss kills, a craft, explored 25/50/75%, first and 100th death.
+IDs are case-sensitive.
 
 **Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): the rulebook.
-
-**Collection log** (`loot\collection-log.csv` -> `scripts\gen-collection-log.py`
--> `*\osrsheim_collection_log.cfg` in Quests, QuestProfiles, Dialogues;
-`--check` / `--audit`, hook `scripts\collection-guard.py`): one Talk quest
+**Collection log** (`loot\collection-log.csv` -> `gen-collection-log.py` ->
+`*\osrsheim_collection_log.cfg` in Quests, QuestProfiles, Dialogues; `--check` /
+`--audit`, hook `collection-guard.py`): one Talk quest
 `log_<prefab>` per csv row on Halla the Skald, unlock `HasItem, <prefab>, 1`,
 target the same NPC, cooldown 36500, 1c, item kept. Dialogue pages per csv
 category list each entry gated by `Condition: QuestFinished, log_<prefab>`
 (lit = found). Audit: every wackydb clone, drops.csv item and shard needs a
 row. Row counts live in the csv; the generator writes into the profile.
 
-**Dialogues** (`Dialogues\`): one root per NPC; each root has an
-`OpenUI, <Type>, <profile>` reply. If a reply opens nothing, use bare
-`Command: OpenUI`. No commas inside reply text.
+**Dialogues** (`Dialogues\`): one root per NPC; each root has an `OpenUI, <Type>,
+<profile>` reply. If a reply opens nothing use bare `Command: OpenUI`. No commas in
+reply text. `AlwaysVisible: true` = a failed reply shows red and unclickable.
 
 **Biome oaths** (achievement diaries; `Quests\osrsheim_quests_oaths.cfg` 15 live,
 profile + dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). Per biome: 4 PARALLEL
 tasks then a `= HiddenOtherQuestCondition` seal Talk quest whose one condition line
 ANDs the four `QuestFinished`. The seal fires `QuestEvents\osrsheim_oaths.cfg`
 `OnCompleteQuest: AddPlayerKey, oath_<biome>` — `Player.AddUniqueKey`, per-character,
-NOT a global key, so Drop That / WIRSL / bounty gates never see it. Live: Meadows,
-Black Forest, Swamp; 4,400c and 3 capes. Every perk gates on `HasPlayerKey` on a
-dialogue reply: waystone travel, trader `oath_supplies`, buffer `chapel_oath`
-(the 4 cheap prayers at -40%; the price-gated three stay out).
+NOT a global key, so Drop That / WIRSL / bounty gates never see it. All 8 biomes:
+40 quests, 36,380c, 8 capes; tasks unlock on the previous boss key. Every perk gates
+on `HasPlayerKey` on a dialogue reply: waystone travel, trader `oath_supplies`,
+buffer `chapel_oath` (the 4 cheap prayers at -40%; the price-gated three stay out).
 
-**Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..3`, NPC Type
-Teleporter + Dialogue `waystone`): the file has NO gating and no cost — format and
-the one-level `@from:` rule are in its header. Gate and fee sit on the dialogue
-reply; 25 / 50 / 100c by tier. Closing the pin map unused still spends it.
+**Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..8`, NPC Type
+Teleporter + Dialogue `waystone`): the file has NO gating and no cost — format, the
+one-level `@from:` rule and the per-biome placement rules are in its header. Gate and
+fee sit on the dialogue reply, 25c to 500c by tier; a row needs its own key AND no
+higher key, so exactly one shows. Coordinates: `set-waystone.py <node> "<pos>"`,
+`--show` to list. Closing the map unused spends the fee.
 **Territories**: template only; fill coordinates from the in-game `pos` command.
 
-**Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic).
+**Idle barks**: `RandomNpcSpeech.yml`, 5 sets.
 
 ### NPC placement
 
@@ -530,11 +529,12 @@ station an Eikthyr-era base has). The cfg is generated by
 `raiseskill <Skill> <n>`, `setkey` / `resetkeys`, `tod 0.9` / `tod -1`, `pos`,
 `dropthat:reload`, `location Vendor_BlackForest` (disables saving).
 
-**Wiring session** (proves entries fire): `gen-loot.py --wiring`, validate,
-launch, `devcommands`, `god`, `setkey defeated_bonemass`; spawn Greydwarf 3
-(gems), Draugr_Elite 2 (Rare T2, key halves, unique), Eikthyr 1 (purse,
-unique, pet), `setkey defeated_frozenking_p3` + JotunWarrior 1 3 (superior).
-Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `resetkeys`, Logout. Console takes synthetic typing only right after F5.
+**Wiring session** (proves entries fire): `gen-loot.py --wiring`, validate, launch,
+`devcommands`, `god`, `setkey defeated_bonemass`; spawn Greydwarf 3 (gems),
+Draugr_Elite 2 (Rare T2, key halves, unique), Eikthyr 1 (purse, unique, pet),
+`setkey defeated_frozenking_p3` + JotunWarrior 1 3 (superior). Then `gen-loot.py`,
+`dropthat:reload`, `removedrops`, `resetkeys`, Logout. The console takes synthetic
+typing only right after F5.
 
 **Log reading**: `LogOutput.log` is the source of truth. Find the first
 NullReferenceException and read down to the first frame that is not

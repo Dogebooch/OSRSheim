@@ -72,9 +72,9 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
             f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 59:
-    warn(f"expected 59 wackydb clones (16 p9-9 + 24 capes + 7 elite uniques + 3 crystal key parts "
-         f"+ 6 hull keels + 3 oath capes), found {len(clones)}")
+if len(clones) != 64:
+    warn(f"expected 64 wackydb clones (16 p9-9 + 24 capes + 7 elite uniques + 3 crystal key parts "
+         f"+ 6 hull keels + 8 oath capes), found {len(clones)}")
 
 KNOWN_KEYS = {"defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
               "defeated_goblinking", "defeated_queen", "defeated_fader", "defeated_frozenking_p3"}
