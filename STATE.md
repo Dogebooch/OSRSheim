@@ -23,7 +23,7 @@ Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7), hull keels
 + 7 OdinShip recipes and Sailing gates (§6, §7), DistancedUI (§11).
-#31 hull keels: `wackysDatabase\Pieces\` (7 ymls) not pushed yet.
+#31/#44 hull keels: `wackysDatabase\Pieces\` (7 ymls) in the profile; server + build-menu check pending.
 Loot rebalance (§7: lists at creature class, coin curve, nest class) not on the host yet.
 
 ## Gielheim (Doug plays and reports)

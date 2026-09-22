@@ -170,8 +170,9 @@ weight 0.1 stack 50.
 `find <prefab>` counts world objects server-wide; `AlwaysAutoStack` merges, so it
 counts stacks, a lower bound. `V` toggles auto-pickup (off before counting). An
 admin client's `dropthat:reload` reloads the server and re-syncs (client log
-`Unpacked CharacterDrop`). `killall` cannot kill bosses (CLLC `GetAffixBoss` NRE on a
-hit with no attacker). Kills set `killedtroll` / `jotun_killed`; `removekey`.
+`Unpacked CharacterDrop`). `killall` cannot kill bosses: CLLC 5.0.4 `PatchCharacterHit` calls
+`GetAffixBoss(attacker)` unguarded, so any attacker-less hit on a boss throws;
+boss-affix toggles do not help. Kill bosses by hand. Kills set `killedtroll` / `jotun_killed`; `removekey`.
 On a server, drops follow the server's Drop That cfgs, not the local profile.
 Computer-use screenshots mask Valheim; GDI `CopyFromScreen` captures it.
 
