@@ -2945,6 +2945,160 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+# ===== ALCHEMY (PotionPlus brews; Lesser vials ungated as the entry tier) =====
+- PrefabName: Medium_Healing_Tide_Flask
+  Requirements:
+  - Skill: Alchemy
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Medium_Spiritual_Healing_Flask
+  Requirements:
+  - Skill: Alchemy
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Medium_Stamina_Flask
+  Requirements:
+  - Skill: Alchemy
+    Level: 10
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Grand_Healing_Tide_Potion
+  Requirements:
+  - Skill: Alchemy
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Grand_Spiritual_Healing_Potion
+  Requirements:
+  - Skill: Alchemy
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Grand_Stamina_Elixir
+  Requirements:
+  - Skill: Alchemy
+    Level: 20
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Grand_Stealth_Elixir
+  Requirements:
+  - Skill: Alchemy
+    Level: 25
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Flask_of_Magelight
+  Requirements:
+  - Skill: Alchemy
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Odins_Weapon_Oil
+  Requirements:
+  - Skill: Alchemy
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Flask_of_Fortification
+  Requirements:
+  - Skill: Alchemy
+    Level: 35
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Flask_of_Second_Wind
+  Requirements:
+  - Skill: Alchemy
+    Level: 35
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Flask_of_Elements
+  Requirements:
+  - Skill: Alchemy
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: Flask_of_the_Gods
+  Requirements:
+  - Skill: Alchemy
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PhilosopherStonePurple
+  Requirements:
+  - Skill: Alchemy
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PhilosopherStoneGreen
+  Requirements:
+  - Skill: Alchemy
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PhilosopherStoneRed
+  Requirements:
+  - Skill: Alchemy
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: PhilosopherStoneBlue
+  Requirements:
+  - Skill: Alchemy
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
 # ===== FISHING (bait = OSRS level gate; basic FishingBait and FishingRod ungated) =====
 - PrefabName: FishingBaitForest
   Requirements:

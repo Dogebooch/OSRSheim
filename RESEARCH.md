@@ -112,7 +112,7 @@ SkillGainModifier `Global = 0.5`, death loss `Modifier = 0` (§18).
 File: `WackyMole.ItemRequiresSkillLevel.yml`. Top-level `Requirements:` list;
 each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 `BlockCraft`, `BlockEquip`. Log line on load: `ItemRequiresSkillLevel Loaded:
-303`. A wrong PrefabName fails OPEN with no log line. Tiers:
+320`. A wrong PrefabName fails OPEN with no log line. Tiers:
 `EpicLoot\baseconfig\iteminfo.json` `ItemsByBoss`.
 
 **Tier ladder**
@@ -146,6 +146,9 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
   Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
   `_Charge` from the DLL only.
+- Alchemy brews (craft + use): Medium flasks 10, Grands 20, Stealth 25,
+  Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
+  Gods and the 4 stones 50. Lesser vials ungated.
 - Clone uniques: DragonAxe Lumberjacking 15, DragonfireShield Blocking 30,
   BandosGodsword Swords 40, AbyssalWhip Swords 50, ScytheOfVitur Polearms 70;
   DraugrVisage ungated (armor). Elite uniques (equip, base item's level): HillGiantClub Clubs 15,
@@ -364,6 +367,9 @@ other list empty, marketplace and mail off (open key unverified).
 - `offerings` (`= true` discovery gate, Seeress): TrophyDeer 400, AncientSeed
   400, WitheredBone 150, GoblinTotem 500; a summon = 2.5-2.8x the boss purse.
   DragonEgg and DvergrKeyFragment wait on a wackydb dump. Fader, Kall never.
+- `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
+  TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
+  they are not sold: bootstrap off `Pickable_<Barley|Flax>_Wild`.
 - `supplies` (`= true`, shopkeeper second menu): arrows and BoltCharred 20 a
   bundle, Flint 60c to Charred 400c; Wizardry eitr mead bases 60 / 150c,
   soups 20-90c, plates 30-120c. Vanilla bolts and mead bases need a dump.
@@ -381,29 +387,24 @@ opened from the Gambler dialogue.
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 live + `osrsheim_quests_story.cfg`
 57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; one-time via
 cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
-Types: Collect, Kill, Craft, Talk, Harvest (1). Per biome: a kill, a collect, a craft
-of the tier's sword or shield (`Skill_EXP` on its skill 30-350), a fish quest
-(`Skill_EXP: Fishing` 20-400), a boss kill (unlocks on the previous boss key, 300c
-Eikthyr to 8,000c Kall). Talk intros to 3 NPCs. `Pet:` rewards: tame
-Boar, Wolf (1 star), Lox. Coins 25c (Meadows) to 8,000c (Deep North), 107k total. Gated quests `= HiddenAnyCondition`
-(hidden until open), chains `= HiddenOtherQuestCondition`. Six hull keel quests (§7), one keel each.
+Types: Collect, Kill, Craft, Talk, Harvest. Per biome: a kill, a collect, a
+craft of the tier's sword or shield, a fish quest, a boss kill on the previous
+boss key; `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
+tames Boar, Wolf (1 star), Lox. Coins 25c to 8,000c, 107k total. Gated `=
+HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
 
-**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43 staged, `= Autocomplete`,
-cooldown `60s`, biome boss key; profile `slayer_master`). Kills = coins: Meadows
-Greylings 20 / Boars 15 = 80, Greydwarfs 30 = 150 + Amber, Skeletons 25 = 150 ·
-Black Forest shamans 8 / brutes 5 = 200, Trolls 3 = 300 + Ruby · Swamp Leeches 15 =
-250, Surtlings 10 = 300, Blobs 20 = 350, Draugr 25 = 400, Abomination 1 = 400 +
-Ruby, Wraiths 3 = 500 · Mountain Drakes 10 = 500, Wolves 20 = 600, Fenrings 5 = 800
-+ Ruby, Golems 3 = 900 + 2 Crystal · Plains Deathsquitoes 15 / shamans 5 = 700,
-Fulings 25 / Lox 5 = 900, berserkers 2 = 1000 + Ruby · Mistlands Ticks 20 = 1200,
-Seekers 20 = 1500, Gjall 2 = 1500 + SilverNecklace, soldiers 2 = 2000 + Ruby ·
-Ashlands Twitchers 30 / Voltures 10 = 2000, Charred 20 / archers 15 = 2500, Morgen 3
-= 3000 + 2 Ruby, Asksvin 5 = 3000, Bonemaw 1 = 4000 + GoldOre · Deep North Ulv 15 /
-frozen skeletons 25 = 3000, Jotun warriors 5 = 4000 + GoldOre, Bjorn 3 = 4500 +
-GoldOre, witches 3 = 4500 + 2 Ruby · starred (`creature, 1, 2`, superiors §12)
-Greydwarf 500 + AmberPearl, Draugr 800, Wolf 1200, Fuling 1500, Seeker 2500 + Chain.
-Skip fee (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
+**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 14 live + 43 staged,
+`= Autocomplete`, cooldown `60s`, biome boss key on line 8; profile
+`slayer_master`). Per-task kill counts and pay live in the cfg: 80c (Meadows
+Greylings) to 4,500c (Deep North witches), a gem on the harder ones; starred
+tasks (`creature, 1, 2`, superiors §12) 500-2,500c. Skip fee
+(`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
+
+**Herb contracts** (same file and profile, 5 live, `Harvest`, cooldown `1` =
+one day): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60
+(`defeated_dragon`); 200-700c + seeds + `Skill_EXP: Farming`. Harvest counts any
+Pickable via `Pickable.RPC_Pick`: your own plots count.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`, 8-line
 positional blocks): 7 buffs, 80c to 2,000c, 250-900 s (DamageReduction,
@@ -445,6 +446,7 @@ coordinates from the in-game `pos` command on Gielheim.
 | Verdandi the Weaver | Trader | `skillcape_shop` | `wise_old_man` | `wise_old_man_idle` |
 | Shopkeeper | Trader | `general_store` | `shopkeeper` | — |
 | Gullveig | Trader | `gem_trader` | `gem_trader` | — |
+| Herbwife | Trader | `herbwife` | `herbwife` | — |
 | Banker (two, far apart) | Banker | `bank` | `banker` | `banker_idle` |
 | Gambler | Gambler | `dice_bag` | `gambler` | `gambler_idle` |
 | Ragnar the Bold | Gambler | `flower_poker` | — | — |
@@ -571,7 +573,7 @@ bundles.
 
 | Mod | Cfg file | Settings | Notes |
 |---|---|---|---|
-| OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99`. Hellbroths stay (§6) | Skill `Alchemy` (= Herblore): 1 XP per craft at `opalchemy`; gain 1x / death loss 5% hard-coded. Stations `opalchemy`, `opcauldron`; base `Potion_Meadbase`. |
+| OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99`. Hellbroths stay (§6) | Skill `Alchemy` (= Herblore), vanilla curve: level L->L+1 costs `(L+1)^1.5*0.5+0.5` XP, cumulative 76 @10, 2107 @40, 20301 @100. 1 XP per craft at `opalchemy`; `opcauldron` is an Incinerator, XP = items produced per pull (batch UNMEASURED). Philosopher's Stone is ADDITIVE (`SE_Stats.ModifyRaiseSkill`: `value += factor`), Alchemy only: cfg 2.0 = 3x. Chain: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy). Balance check `scripts\check-alchemy-balance.py`. |
 | Smoothbrain Exploration | `org.bepinex.plugins.exploration.cfg` | `Skill Experience Gain Factor = 0.5`, `Skill Experience Loss = 0`, `Treasure Multiplication Chance = 0` | Treasure doubling condition is inverted in source. Speed +15 / radius +250 at 100; cartography write 20 / read 40. All keys ServerSync. |
 | JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 3`, `[Skill reduction] Modifier = 0` | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
 | Marlthon OdinShip | `marlthon.OdinShip.cfg` | `OSRS_Keel<Boss>:1:False` appended to the 7 hull `Crafting Costs`, War Ship takes Yagluth + Queen; everything else default, BepInEx writes the full file on first launch | Sections by display name, apostrophes stripped (`[Merchants boat]`); costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. |
