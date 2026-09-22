@@ -11,7 +11,7 @@ m_weight: 0.2
 m_itemType: Trinket
 m_maxStackSize: 1
 m_maxQuality: 1
-m_value: 90
+m_value: 0
 m_teleportable: true
 SE_Equip:
   EffectName: SE_OSRS_RingEmber
