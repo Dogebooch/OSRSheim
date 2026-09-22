@@ -20,6 +20,9 @@ def require_current(*paths):
     rel = [Path(p).resolve().relative_to(ROOT).as_posix() for p in paths]
     try:
         fetched = git('fetch', '-q', 'origin', 'main').returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        fetched = False
+    try:
         r = git('log', '--oneline', 'HEAD..origin/main', '--', *rel)
     except (OSError, subprocess.TimeoutExpired) as e:
         print(f'WARN   cannot compare with origin/main ({e}); writing anyway')

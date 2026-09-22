@@ -90,8 +90,8 @@ switch ($PSCmdlet.ParameterSetName) {
         # The profile is shared by every worktree: a checkout behind origin/main on config\ would regress it.
         $behind = @()
         if (Get-Command git -ErrorAction SilentlyContinue) {
+            try { & git -C $RepoRoot fetch -q origin main 2>$null } catch { }
             try {
-                & git -C $RepoRoot fetch -q origin main 2>$null
                 $behind = @(& git -C $RepoRoot log --oneline 'HEAD..origin/main' -- config 2>$null)
             } catch { Write-Host "Cannot compare with origin/main; pushing anyway." -ForegroundColor Yellow }
             if ($behind.Count -gt 0 -and -not $AllowBehind) {
