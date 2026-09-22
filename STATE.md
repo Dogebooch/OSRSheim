@@ -14,9 +14,8 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
-   MWL density now; `genloc` cannot retrofit explored terrain (§13). Dumps,
-   `*Mage_TW` and the 4 `Hellbroth_of_*` base names confirmed 2026-09-21;
-   `_Charge` variants not yet.
+   MWL density now; `genloc` cannot retrofit explored terrain (§13).
+   `_Charge` prefab variants not dumped yet.
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table.
 3. After session one the AI reads `LogOutput.log` for Drop That / WIRSL
@@ -25,10 +24,10 @@ Quest pass STAGED, not applied: `staging\quest-pass\apply-quest-pass.ps1`
    paying coins, bank deposit + shop buy, wandering troll, Wizardry potions
    at the alchemy table, mage spawns, boss purse + unique on the first kill.
    Coin sinks: Seeress offerings after a boss kill, 900 s blessings, skip fee,
-   maps (pure sink), supplies meads and food. Bounties (§10): empty until the biome boss dies, one at a time, x6 coins.
-   Fishing: bait refused below level, fish sell, The Harbour Wager completes,
-   `TrollingFishing.yml` appears. Elite unique + key half (wiring session, §16), Gullveig forge, chest roll eats
-   the key. Collection log: Talk quest completes at its giver, found lit,
+   maps (pure sink), supplies meads and food. Bounties (§10).
+   Fishing: bait refused below level, fish sell, Harbour Wager completes,
+   `TrollingFishing.yml` appears. Elite unique + key half (§16), Gullveig
+   forge, chest roll eats the key. Collection log: Talk quest completes at its giver, found lit,
    missing grey. Hulls: OdinShip Hammer category, keel off a boss (12.5%)
    or The Dugout Wager, canoe recipe lists the keel, helm refused below level.
    Quests: hidden ones open on the key, Pet tames, Harvest counts. Names:

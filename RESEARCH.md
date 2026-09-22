@@ -299,11 +299,7 @@ Bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded).
 - 8 pets = trophy clones (vanity items).
 - 7 elite uniques + 3 crystal key parts (§7).
 - 24 skillcapes (display `<Valheim skill> cape`, max = `Allfather's cape`) = CapeLinen clones, equip-gated at skill 100, no recipe, sold
-  by the skillcape shop. Cape to skill: Mining, Woodcutting (Lumberjacking),
-  Cooking, Farming, Smithing (Blacksmithing), Construction (Building), Sailing,
-  Hunter (Ranching), Herblore (Foraging), Agility (Evasion), Fishing, Defence
-  (Blocking), Ranged (Bows), Crossbow, Magic (ElementalMagic), BloodMagic,
-  Strength (Unarmed), Swords, Knives, Clubs, Polearms, Spears, Axes, Max.
+  by the skillcape shop. One cape per skill in the §4 table, plus Max.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
 
