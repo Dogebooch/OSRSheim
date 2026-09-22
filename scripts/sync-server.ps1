@@ -24,6 +24,11 @@ Live host state is never uploaded even though some of it is tracked in git:
   permissions.yaml alias.yaml binds.yaml server_devcommands.cfg   devcommands
 Overwriting any of these with a copy from a test world loses server progress.
 
+Host-only values live in $HostOverrides. They are written into a staged copy
+of the repo file just before comparing and uploading; the repo and the Gale
+profile keep their own values. Drop That and Spawn That debug dumps are off on
+the host: they load every location prefab at boot (RESEARCH.md, Server setup).
+
 Deploy with the host STOPPED: mods read cfg at start and some write theirs
 back on shutdown, which would undo the upload.
 
@@ -66,6 +71,16 @@ $ExcludeDirs  = @('Marketplace_CachedImages', 'Marketplace_KGChat_Emojis', 'Mark
 # Host-only live state: compared for information, never uploaded.
 $LiveDirs  = @('Marketplace\SavedData', 'EpicLoot\BountySaves', 'KeyManager', 'Marketplace_SavedNPCs')
 $LiveFiles = @('permissions.yaml', 'alias.yaml', 'binds.yaml', 'server_devcommands.cfg')
+# Host-only config values. File is relative to config\; Section and Key take wildcards.
+# Every rule must match at least one key, or the run stops before touching the host.
+$HostOverrides = @(
+    # Debug dumps load every location prefab at boot: 10.6 GiB peak with MWL, 2.5 GiB without them.
+    @{ File = 'drop_that.cfg';  Section = '*'; Key = 'Write*'; Value = 'false' },
+    @{ File = 'spawn_that.cfg'; Section = '*'; Key = 'Write*'; Value = 'false' }
+)
+$Stage  = Join-Path $env:TEMP 'osrsheim-server-stage'
+$Staged = @{}
+$OverrideReport = @()
 
 function Test-Excluded([string]$Rel) {
     $name = Split-Path -Leaf $Rel
@@ -102,6 +117,51 @@ function Invoke-Sftp([string[]]$Commands) {
 }
 function ToSftp([string]$Path) { return $Path -replace '\\', '/' }
 
+function New-HostStage {
+    # Copy each overridden repo file into $Stage and rewrite the matching keys there.
+    if (Test-Path $Stage) { Remove-Item $Stage -Recurse -Force }
+    $script:Staged = @{}
+    $script:OverrideReport = @()
+    $utf8 = New-Object Text.UTF8Encoding($false)
+    foreach ($group in ($HostOverrides | Group-Object { $_.File })) {
+        $rel = $group.Name -replace '/', '\'
+        $src = Join-Path $RepoConfig $rel
+        if (-not (Test-Path $src)) { throw "Host override names a missing file: config\$rel" }
+        $rules = @($group.Group)
+        $hits  = New-Object int[] $rules.Count
+        # Split on LF only, so each line keeps its own CR: these cfgs mix CRLF and LF.
+        $lines = $utf8.GetString([IO.File]::ReadAllBytes($src)) -split "`n"
+        $section = ''
+        for ($i = 0; $i -lt $lines.Count; $i++) {
+            if ($lines[$i] -match '^\s*\[(.+?)\]\s*\r?$') { $section = $Matches[1]; continue }
+            if ($lines[$i] -notmatch '^(\s*)([^#;\s][^=]*?)(\s*=\s*)(.*?)(\r?)$') { continue }
+            $indent = $Matches[1]; $key = $Matches[2]; $eq = $Matches[3]; $old = $Matches[4]; $cr = $Matches[5]
+            for ($j = 0; $j -lt $rules.Count; $j++) {
+                if ($section -like $rules[$j].Section -and $key -like $rules[$j].Key) {
+                    $lines[$i] = $indent + $key + $eq + $rules[$j].Value + $cr
+                    $hits[$j]++
+                    if ($old -ne $rules[$j].Value) {
+                        $script:OverrideReport += "  $rel [$section] $key = $($rules[$j].Value)   (repo: $old)"
+                    }
+                    break
+                }
+            }
+        }
+        for ($j = 0; $j -lt $rules.Count; $j++) {
+            if ($hits[$j] -eq 0) { throw "Host override matched no key: $rel [$($rules[$j].Section)] $($rules[$j].Key)" }
+        }
+        $dest = Join-Path $Stage $rel
+        New-Item -ItemType Directory -Force (Split-Path -Parent $dest) | Out-Null
+        [IO.File]::WriteAllBytes($dest, $utf8.GetBytes($lines -join "`n"))
+        $script:Staged[$rel] = $dest
+    }
+}
+function Get-Source([string]$Rel) {
+    # The file uploaded for $Rel: the staged copy if it carries host overrides, else the repo file.
+    if ($Staged.ContainsKey($Rel)) { return $Staged[$Rel] }
+    return Join-Path $RepoConfig $Rel
+}
+
 function Fetch-Host {
     if (Test-Path $Work) { Remove-Item $Work -Recurse -Force }
     New-Item -ItemType Directory -Force (Join-Path $Work 'BepInEx') | Out-Null
@@ -114,6 +174,7 @@ function Fetch-Host {
 
 function Compare-Trees {
     $repo = Get-Tree $RepoConfig
+    foreach ($k in @($Staged.Keys)) { if ($repo.ContainsKey($k)) { $repo[$k] = Get-NormalizedHash $Staged[$k] } }
     $srv  = Get-Tree $HostConfig
     $r = [ordered]@{ same = 0; differs = @(); onlyRepo = @(); onlyHost = @(); live = @() }
     foreach ($k in ($repo.Keys | Sort-Object)) {
@@ -133,6 +194,7 @@ function Show-Report($r) {
     if ($r.differs)  { Write-Host "`nDIFFERS (repo wins on -Deploy):" -ForegroundColor Yellow; $r.differs  | ForEach-Object { "  $_" } }
     if ($r.onlyRepo) { Write-Host "`nMISSING ON HOST (uploaded on -Deploy):" -ForegroundColor Yellow; $r.onlyRepo | ForEach-Object { "  $_" } }
     if ($r.live)     { Write-Host "`nLIVE STATE, tracked in git but never uploaded:" -ForegroundColor DarkGray; $r.live | ForEach-Object { "  $_" } }
+    if ($OverrideReport) { Write-Host "`nHOST OVERRIDES, applied to the upload only:" -ForegroundColor DarkGray; $OverrideReport }
     if ($r.onlyHost) {
         $top = $r.onlyHost | ForEach-Object { ($_ -split '\\')[0] } | Group-Object | Sort-Object Count -Descending
         Write-Host "`nHOST EXTRAS (never removed): $($r.onlyHost.Count) files" -ForegroundColor DarkGray
@@ -148,6 +210,7 @@ switch ($PSCmdlet.ParameterSetName) {
         Write-Host "Downloaded. Log: $(Join-Path $Work 'BepInEx\LogOutput.log')" -ForegroundColor Green
     }
     'Deploy' {
+        New-HostStage
         Fetch-Host
         $r = Compare-Trees
         Show-Report $r
@@ -167,7 +230,7 @@ switch ($PSCmdlet.ParameterSetName) {
         }
         $cmds = $cmds | Select-Object -Unique
         foreach ($f in $files) {
-            $cmds += "put `"$(ToSftp (Join-Path $RepoConfig $f))`" `"$RemoteConfig/$(ToSftp $f)`""
+            $cmds += "put `"$(ToSftp (Get-Source $f))`" `"$RemoteConfig/$(ToSftp $f)`""
         }
         Invoke-Sftp $cmds | Where-Object { $_ -match '^(sftp> put|Uploading)' } | ForEach-Object { "  $_" }
 
@@ -179,6 +242,7 @@ switch ($PSCmdlet.ParameterSetName) {
         Write-Host "`nHost config matches the repo. Start the host, then -Fetch and read the log." -ForegroundColor Green
     }
     default {
+        New-HostStage
         Fetch-Host
         $r = Compare-Trees
         Show-Report $r
