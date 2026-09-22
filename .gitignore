@@ -25,6 +25,10 @@ config/wackysDatabase/Cache/
 config/wackyDatabase-BulkYML/*
 !config/wackyDatabase-BulkYML/.gitkeep
 
+# Live state - the host's bank and bounty ledgers; a deploy must never overwrite them
+config/Marketplace/SavedData/
+config/EpicLoot/BountySaves/
+
 # Never commit credentials
 *.env
 secrets.*
