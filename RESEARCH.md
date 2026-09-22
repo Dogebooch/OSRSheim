@@ -2,12 +2,11 @@
 
 ## 1. The build
 
-Two players, rented dedicated server, 23 mods on Valheim 1.0.15. Skills grind
-to 100 at half speed; gear gated by skill level, tier by tier. Every creature
-pays coins and rolls Gem/Rare tables; bosses drop signature uniques and pets at
-fixed rates; elites drop uniques and key halves for a crystal chest. EpicLoot:
-treasure maps and bounties only. KG Marketplace: shops, bank, gamblers, quests,
-Slayer tasks, prayers, hiscores.
+Two players, rented dedicated server, 23 mods on Valheim 1.0.15. Skills grind to
+100 at half speed; gear gated by skill level. Every creature pays coins and rolls
+Gem/Rare tables; bosses drop uniques and pets, elites drop uniques and crystal-key
+halves. EpicLoot: maps and bounties only. KG Marketplace: shops, bank, gamblers,
+quests, Slayer, prayers, hiscores, biome oaths.
 
 ## 2. Where things live
 
@@ -16,56 +15,54 @@ Slayer tasks, prayers, hiscores.
 | Mod manager | Gale, `C:\Program Files\Gale\gale.exe`, profile **OSRSheim** |
 | Profile root | `C:\Users\drumm\AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim` |
 | Mod configs | repo `config\` is truth -> `<profile>\BepInEx\config\` |
-| Load log | `<profile>\BepInEx\LogOutput.log` (Unity copy: `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim\Player.log`) |
-| Prefab dumps | `<profile>\BepInEx\Debug\` (written on world load) |
-| Game | `C:\Program Files (x86)\Steam\steamapps\common\Valheim` (app 892970) |
-| Local saves | `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only) |
+| Load log | `<profile>\BepInEx\LogOutput.log` (Unity copy: `...LocalLow\IronGate\Valheim\Player.log`) |
+| Prefab dumps | `<profile>\BepInEx\Debug\` (on world load) |
 | Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
-| Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19`, `archive\config-snapshot-2026-09-20.zip` |
+| Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19` |
 
 ## 3. Mod stack
 
 Frozen set. Versions: generated `reference\mods.tsv` (`gen-mods.py`), validator
-checked. Sources: TS = Thunderstore, HX = Hexium (valheim.hexium.gg). Gale
+checked. What is still untested in play: STATE. Sources: TS = Thunderstore, HX = Hexium (valheim.hexium.gg). Gale
 reads both.
 
-| Mod | Source | Role | Status |
-|---|---|---|---|
-| BepInExPack Valheim (denikson) | TS | loader | verified |
-| Jötunn | TS | library | verified |
-| Smoothbrain Mining | TS | skill | verified |
-| Smoothbrain Lumberjacking | TS | skill | verified |
-| Smoothbrain Cooking | TS | skill | verified |
-| Smoothbrain Farming | TS | skill | verified |
-| Smoothbrain Blacksmithing | HX | skill | verified |
-| Smoothbrain Building | TS | skill | verified |
-| Smoothbrain Sailing | TS | skill | verified |
-| Smoothbrain Ranching | HX | skill | verified |
-| Smoothbrain Foraging | TS | skill | verified |
-| Smoothbrain Evasion | TS | skill | verified |
-| WackyItemRequiresSkillLevel (WIRSL) | TS | gear gating | verified |
-| WackysDatabase | TS | item clones, prefab dumps | verified |
-| Drop That | TS | creature + object loot | verified |
-| Spawn That | TS | superior spawns | loads; spawns untested |
-| CreatureLevelAndLootControl (CLLC) | TS | levels display, item yaml | verified |
-| EpicLoot | TS | treasure maps + bounties only | loads; economy untested |
-| KG Marketplace (Marketplace And Server NPCs Revamped) | HX | economy, NPCs, quests | configs parse; NPCs untested |
-| AzuExtendedPlayerInventory | HX | equipment tab + quick slots | verified |
-| XPortal | TS | named portals | verified |
-| More World Locations AIO | TS | towns and POIs | verified |
-| JsonDotNET / YamlDotNet | TS | dependencies | verified |
-| Therzie Wizardry | TS | magic ladder Black Forest to Mistlands | loads; gates + cfg set, untested in world |
-| OdinPlus PotionPlus | TS | Herblore (Alchemy skill) | loads; §18 keys set, hellbroths gated (§6) |
-| Smoothbrain Exploration | HX | Agility feel | verified |
-| JuJuz1 SkillGainModifier | TS | vanilla skill XP 0.5x | verified; cfg in §18 |
-| BetterUI_ForeverMaintained | TS | XP bar | loads; Hexium flags `Smelter.UpdateHoverTexts` missing on 1.0; kept |
-| sighsorry Trolling Fishing | TS | Fishing bite chance and bonus drops scale with skill (§18) | loads; untested in play |
-| Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) | loads; untested in play |
-| JereKuusela Server devcommands | TS | admin console (§16) | loads |
+| Mod | Source | Role |
+|---|---|---|
+| BepInExPack Valheim (denikson) | TS | loader |
+| Jötunn | TS | library |
+| Smoothbrain Mining | TS | skill |
+| Smoothbrain Lumberjacking | TS | skill |
+| Smoothbrain Cooking | TS | skill |
+| Smoothbrain Farming | TS | skill |
+| Smoothbrain Blacksmithing | HX | skill |
+| Smoothbrain Building | TS | skill |
+| Smoothbrain Sailing | TS | skill |
+| Smoothbrain Ranching | HX | skill |
+| Smoothbrain Foraging | TS | skill |
+| Smoothbrain Evasion | TS | skill |
+| WackyItemRequiresSkillLevel (WIRSL) | TS | gear gating |
+| WackysDatabase | TS | item clones, prefab dumps |
+| Drop That | TS | creature + object loot |
+| Spawn That | TS | superior spawns |
+| CreatureLevelAndLootControl (CLLC) | TS | levels display, item yaml |
+| EpicLoot | TS | treasure maps + bounties only |
+| KG Marketplace (Marketplace And Server NPCs Revamped) | HX | economy, NPCs, quests |
+| AzuExtendedPlayerInventory | HX | equipment tab + quick slots |
+| XPortal | TS | named portals |
+| More World Locations AIO | TS | towns and POIs |
+| JsonDotNET / YamlDotNet | TS | dependencies |
+| Therzie Wizardry | TS | magic ladder Black Forest to Mistlands |
+| OdinPlus PotionPlus | TS | Herblore (Alchemy skill) |
+| Smoothbrain Exploration | HX | Agility feel |
+| JuJuz1 SkillGainModifier | TS | vanilla skill XP 0.5x |
+| BetterUI_ForeverMaintained | TS | XP bar |
+| sighsorry Trolling Fishing | TS | Fishing bite chance and bonus drops scale with skill (§18) |
+| Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) |
+| JereKuusela Server devcommands | TS | admin console (§16) |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
@@ -356,13 +353,13 @@ Docs: https://kg-marketplace.pages.dev/ (config pages under `/configs/`).
 Content is plain `.cfg` files under `Marketplace\Configs\<Feature>\`, any
 filename, `[profile]` headers, comma-separated fields, hot-reloaded on save.
 Bad lines are logged per entry with file and line; the rest still loads.
-Only the physical NPC needs the in-game Marketplace Hammer (admin; Doug's
-SteamID64 is in `MarketPlace.cfg` `OverrideDebug`).
+Only the physical NPC needs the in-game Marketplace Hammer (admin).
 
 `Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`,
-`AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `Use Marketplace
-Locally = true` (flip to false only once the server exists). Banker interest
-off. `DistancedUI` on: `Dialogues = handbook`, `InfoProfiles = gielheim_guide`, every
+`AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `CanTeleportWithOre =
+false` (the waystones must not carry metal either, §15), `Use Marketplace Locally
+= true` (flip to false only once the server exists). Banker interest off.
+`DistancedUI` on: `Dialogues = handbook`, `InfoProfiles = gielheim_guide`, every
 other list empty, marketplace and mail off (open key unverified).
 
 ### Content pack (all `osrsheim_*.cfg`)
@@ -370,30 +367,29 @@ other list empty, marketplace and mail off (open key unverified).
 **Traders** (`Traders\`) — line = `cost item, amount, result item, amount`.
 - `general_store`: buys basics at ~10x sell price (Wood 3c to FishingRod
   350c); sells wood, stone, hides 10-60c, trophies 5-200c, fish 3-50c.
-- `gem_trader`: Amber 8, AmberPearl 20, Ruby 40, Crystal 20, Chain 60,
-  SilverNecklace 80, GoldOre 120 (gems 25-45% of a kill's value); key forge
+- `gem_trader`: gems 8-120c (25-45% of a kill's value); key forge
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
 - `skillcape_shop`: every cape 5,000c, max cape 25,000c.
-- `offerings` (`= true` discovery gate, Seeress): TrophyDeer 400, AncientSeed
-  400, WitheredBone 150, GoblinTotem 500; a summon = 2.5-2.8x the boss purse.
-  DragonEgg and DvergrKeyFragment wait on a wackydb dump. Fader, Kall never.
+- `offerings` (`= true` discovery gate, Seeress): 150-500c a piece; a summon =
+  2.5-2.8x the boss purse. DragonEgg and DvergrKeyFragment wait on a wackydb
+  dump. Fader, Kall never.
 - `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
   TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
   they are not sold: bootstrap off `Pickable_<Barley|Flax>_Wild`.
-- `supplies` (`= true`, shopkeeper second menu): arrows and BoltCharred 20 a
-  bundle, Flint 60c to Charred 400c; Wizardry eitr mead bases 60 / 150c,
-  soups 20-90c, plates 30-120c. Vanilla bolts and mead bases need a dump.
-  Meads 25-150c, cooked food 15-160c: the per-trip drain, never bought back.
+- `supplies` (`= true`, shopkeeper second menu): arrows and bolts 20 a bundle
+  60-400c; Wizardry eitr mead bases / soups / plates 20-150c. Vanilla bolts and
+  mead bases need a dump. Meads and food are the per-trip drain never bought back.
+- `oath_supplies` (`= true` + `HasPlayerKey`, biome oaths): the same consumables
+  in 50-bundles at ~7% off. No gear and nothing WIRSL gates.
 
-**Bank** (`Bankers\`, profile `bank`): 154 bankable prefabs including ores,
-metals, riddle-stones and rewards.
+**Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
+ores, metals, riddle-stones, riddle rewards and oath capes included.
 
-**Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~5% house edge, prizes
-coins 10-300, Ruby, Amber, Stone); `flower_poker` 1,000c (~11% edge, up to 3
-queued rolls); `crystal_chest` 1 OSRS_CrystalKey a roll, 8 uniform prizes
-(coins 200-1000, Ruby, AmberPearl, Crystal, Chain, SilverNecklace, GoldOre);
-`riddle_simple` / `_cryptic` / `_elaborate` / `_master` one riddle-stone a roll
-(§7). All opened from the Gambler dialogue, node `gambler_riddles`.
+**Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~5% house edge);
+`flower_poker` 1,000c (~11% edge, up to 3 queued rolls); `crystal_chest` 1
+OSRS_CrystalKey a roll, 8 uniform prizes; `riddle_simple` / `_cryptic` /
+`_elaborate` / `_master` one riddle-stone a roll (§7). All opened from the
+Gambler dialogue.
 
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 live + `osrsheim_quests_story.cfg`
 57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; one-time via
@@ -404,7 +400,8 @@ boss key; `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
 tames Boar, Wolf (1 star), Lox. Coins 25c to 8,000c, 107k total. Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
 
-**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 14 live + 43 staged,
+**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 14 hunts + 5 herb contracts live,
+43 staged,
 `= Autocomplete`, cooldown `60s`, biome boss key on line 8; profile
 `slayer_master`). Per-task kill counts and pay live in the cfg: 80c (Meadows
 Greylings) to 4,500c (Deep North witches), a gem on the harder ones; starred
@@ -425,28 +422,39 @@ with trophy rungs between. Rungs, traps and block shape: cfg header,
 validator-enforced.
 
 **Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23 entries):
-kill milestones per biome, boss kill counts (1 and 10), The Knight's Sword
-craft, explored 25/50/75%, first death, 100 deaths. IDs are case-sensitive.
+kill milestones per biome, boss kill counts, a craft, explored 25/50/75%,
+first and 100th death. IDs are case-sensitive.
 
-**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): the
-in-game rulebook.
+**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): the rulebook.
 
 **Collection log** (`loot\collection-log.csv` -> `scripts\gen-collection-log.py`
 -> `*\osrsheim_collection_log.cfg` in Quests, QuestProfiles, Dialogues;
-`--check` / `--audit`, hook `scripts\collection-guard.py`): 137 Talk quests
-`log_<prefab>` on Halla the Skald, unlock `HasItem, <prefab>, 1`, target the
-same NPC, cooldown 36500, 1c, item kept. Dialogue pages per category list
-each entry gated by `Condition: QuestFinished, log_<prefab>` (lit = found).
-8 uniques, 7 elite uniques, 3 key parts, 6 keels, 10 pets, 2 curios, 24 capes, 7 gems,
-5 shards, 69 trophies. Audit: every wackydb clone, drops.csv item and shard
-needs a row.
+`--check` / `--audit`, hook `scripts\collection-guard.py`): one Talk quest
+`log_<prefab>` per csv row on Halla the Skald, unlock `HasItem, <prefab>, 1`,
+target the same NPC, cooldown 36500, 1c, item kept. Dialogue pages per csv
+category list each entry gated by `Condition: QuestFinished, log_<prefab>`
+(lit = found). Audit: every wackydb clone, drops.csv item and shard needs a
+row. Row counts live in the csv; the generator writes into the profile.
 
-**Dialogues** (`Dialogues\`, 20 nodes): one root per NPC; each root has an
+**Dialogues** (`Dialogues\`): one root per NPC; each root has an
 `OpenUI, <Type>, <profile>` reply. If a reply opens nothing, use bare
 `Command: OpenUI`. No commas inside reply text.
 
-**Teleporters / Territories**: templates only, every line commented; fill
-coordinates from the in-game `pos` command on Gielheim.
+**Biome oaths** (achievement diaries; `Quests\osrsheim_quests_oaths.cfg` 15 live,
+profile + dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). Per biome: 4 PARALLEL
+tasks then a `= HiddenOtherQuestCondition` seal Talk quest whose one condition line
+ANDs the four `QuestFinished`. The seal fires `QuestEvents\osrsheim_oaths.cfg`
+`OnCompleteQuest: AddPlayerKey, oath_<biome>` — `Player.AddUniqueKey`, per-character,
+NOT a global key, so Drop That / WIRSL / bounty gates never see it. Live: Meadows,
+Black Forest, Swamp; 4,400c and 3 capes. Every perk gates on `HasPlayerKey` on a
+dialogue reply: waystone travel, trader `oath_supplies`, buffer `chapel_oath`
+(the 4 cheap prayers at -40%; the price-gated three stay out).
+
+**Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..3`, NPC Type
+Teleporter + Dialogue `waystone`): the file has NO gating and no cost — format and
+the one-level `@from:` rule are in its header. Gate and fee sit on the dialogue
+reply; 25 / 50 / 100c by tier. Closing the pin map unused still spends it.
+**Territories**: template only; fill coordinates from the in-game `pos` command.
 
 **Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic).
 
@@ -468,14 +476,16 @@ coordinates from the in-game `pos` command on Gielheim.
 | Gielheim Guide | Info | `gielheim_guide` | `handbook` | — |
 | Halla the Skald | Quests | `collection_log` | `collection_log` | — |
 | Kaupang | Marketplace | — | — | leaderboard tab lives here |
+| Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
+| Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
 ### Config audit (2026-09-21)
-Evidence: `reference/config-audit-2026-09-21.json`; configs unchanged.
-**Unfixed:** 138 Talk targets retain quotes in 10.0.1-beta.1; remove quotes,
-preserve spaces; fix collection generator. Website example disagrees.
+Evidence: `reference/config-audit-2026-09-21.json`.
+**Unfixed:** 138 Talk targets retain quotes; remove them and keep the spaces, fix
+the collection generator. DLL-confirmed: `ParseTargets` strips neither spaces nor
+quotes for Talk / Move and compares against the raw NPC name override.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
-Runtime unverified: icons/VFX, rich text, discovery gates, skip fee, fish quality,
-Pet/Harvest, custom-skill XP, multi-cost trades, gambling.
+Everything needing a live world to confirm: the GitHub issue list.
 
 ## 12. Superiors and wanderers (Spawn That)
 
@@ -505,18 +515,19 @@ station an Eikthyr-era base has). The cfg is generated by
 ## 13. World, inventory, travel
 
 - **More World Locations AIO**: `Enable Trainers = Off`, `Use Custom Trader
-  Configs = On`. The mod writes
-  `warpalicious.More_World_Locations_TraderItems.yml` on first launch; Skill
-  Books and Blacksmith Stones removed, trainer lists emptied (`.bak-generated`).
-  `Use Custom Location YAML = On` extracts `..._LocationConfigs.yml` (188 MWL
-  location types); locations bake at world-gen, so tune before Gielheim exists.
+  Configs = On`, `Use Custom Location YAML = On`. First launch writes
+  `..._TraderItems.yml` (Skill Books and Blacksmith Stones removed, trainer lists
+  emptied) and `..._LocationConfigs.yml` (188 location types). Locations bake at
+  world-gen: tune before Gielheim exists.
 
 ## 15. Server setup
 
 - Flags (valheimgame.com/support/a-guide-to-dedicated-servers/): `-preset`,
   `-modifier combat|deathpenalty|resources|raids|portals <value>`, `-setkey`.
   Template: `scripts\server-start-template.bat`. Chosen: `-modifier
-  deathpenalty casual`; `portals` undecided (keep vanilla: no metal).
+  deathpenalty casual`; `portals` left at default (vanilla, no metal) — the earned
+  KG waystone network is the travel reward, and `CanTeleportWithOre = false`
+  keeps metal off it too (§11).
 - Deploy payload = the Gale profile root: `winhttp.dll`,
   `doorstop_config.ini` (relative target, works unchanged), `doorstop_libs\`,
   `BepInEx\`. Linux hosts use `start_server_bepinex.sh`.
@@ -561,8 +572,8 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 **Save safety**: 1.0 deletes a world whose main files are newer than its
 `.ok.stmp`. Logout, wait for the save, then Quit.
 
-**Vanilla names in no dump**: `grep -a` the `valheim_Data\StreamingAssets\SoftRef`
-bundles.
+**Vanilla names in no dump**: `grep -a` the `SoftRef` bundles under
+`valheim_Data\StreamingAssets`.
 
 ## 17. Bugs found and fixed (so they are not re-found)
 
@@ -599,7 +610,8 @@ bundles.
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
 - **Knobs to tune by feel**: skillcape price, gem prices, trophy prices,
   Slayer rewards, superior rarity (8% / 900 s), treasure map payout (1.5x),
-  gambler edge, market tax, Goblin double coins, clone attack speeds, Fishing
+  gambler edge, market tax, waystone fee (25 / 50 / 100c), Goblin double coins,
+  clone attack speeds, Fishing
   XP factor, fish sale prices, bite chance at 100,
   Wizardry Swamp-tier gear (reported strong; gate 20).
 
@@ -612,11 +624,11 @@ tables (random rolls break fixed-item identity, the collection log, WIRSL tiers)
 or resummon mods (bosses already resummon freely) · valheim.fandom.com (402;
 use valheim.weirdgloop.org).
 Fishing: Hooked, PeasFishing (minigames) · Spearfishing (skips bait gates) ·
-TheFisher · BetterFishing · FishingBonus · FishChum · Reely SpecTackleLure.
+TheFisher · BetterFishing · FishingBonus · FishChum · Reely.
 
-Magic mods rejected: MagicRevamp, MagicPlugin, Wisdom,
-SecondaryAttacks, Jewelcrafting; dead on 1.0: ChebsNecromancy, RtDMagic,
-MagicalMounts, MagicOverhaul, Skyheim.
+Magic mods rejected: MagicRevamp, MagicPlugin, Wisdom, SecondaryAttacks,
+Jewelcrafting; dead on 1.0: ChebsNecromancy, RtDMagic, MagicalMounts,
+MagicOverhaul, Skyheim.
 
 ## 20. Sources
 

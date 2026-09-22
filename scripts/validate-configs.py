@@ -76,8 +76,10 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
             f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 66:
-    warn(f"expected 66 wackydb clones (16 p9-9 + 24 capes + 7 elite uniques + 3 crystal key parts + 6 hull keels + 4 riddle-stones + 6 riddle rewards), found {len(clones)}")
+if len(clones) != 73:
+    warn(f"expected 73 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
+         f"+ 6 hull keels + 6 riddle rewards + 4 riddle-stones + 3 crystal key parts "
+         f"+ 3 oath capes + 2 curios), found {len(clones)}")
 
 KNOWN_KEYS = {"defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
               "defeated_goblinking", "defeated_queen", "defeated_fader", "defeated_frozenking_p3"}
@@ -340,10 +342,19 @@ ok(f"KG buffers: {len(buffs)} parsed, groups {sorted(set(buffs.values()))}")
 for p, lines in kg_sections("BufferProfiles").items():
     for b in lines[0].split(","):
         if b.strip().lower() not in buffs: err(f"KG buffer profile [{p}] references missing buff '{b.strip()}'")
+# Quest events: the section id is a quest id, and AddPlayerKey is the only source of a diary key.
+player_keys = set()
+for q, lines in kg_sections("QuestEvents").items():
+    if q not in quests: err(f"KG quest event [{q}] is not a quest id")
+    for line in lines:
+        for cmd in re.split(r"(?<!\|)\|(?!\|)", line.split(":", 1)[-1]):
+            m = re.match(r"\s*AddPlayerKey\s*,\s*(\S+)", cmd)
+            if m: player_keys.add(m.group(1).strip())
+ok(f"KG quest events: {sorted(player_keys)} granted")
 dialogs = kg_sections("Dialogues")
 menu_profiles = {"trader": traders, "banker": kg_sections("Bankers"), "quests": profiles,
                  "gambler": kg_sections("Gamblers"), "buffer": kg_sections("BufferProfiles"),
-                 "info": kg_sections("ServerInfos")}
+                 "info": kg_sections("ServerInfos"), "teleporter": kg_sections("Teleporters")}
 for node, lines in dialogs.items():
     for line in lines[1:]:
         for field in line.split("|"):
@@ -354,6 +365,12 @@ for node, lines in dialogs.items():
             if field.startswith("Condition:") and "QuestFinished" in field:
                 qref = field.split(",", 1)[1].strip().lower()
                 if qref not in quests: err(f"KG dialogue [{node}] QuestFinished references missing quest '{qref}'")
+            if field.startswith("Condition:") and "HasPlayerKey" in field:
+                for grp in field.split(":", 1)[1].split("||"):
+                    if "HasPlayerKey" not in grp: continue
+                    k = grp.split(",", 1)[1].strip()
+                    if k not in player_keys:
+                        err(f"KG dialogue [{node}] HasPlayerKey '{k}' is granted by no AddPlayerKey quest event")
             if field.startswith("Command: OpenUI"):
                 args = [a.strip() for a in field.split(",")[1:]]
                 if len(args) == 2 and args[1].lower() not in menu_profiles.get(args[0].lower(), {}):
