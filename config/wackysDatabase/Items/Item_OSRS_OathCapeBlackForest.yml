@@ -1,0 +1,8 @@
+# OSRSheim biome-oath cape — authored 2026-09-21
+# Clone of CapeLinen (same base as the 24 skillcapes). Cosmetic proof of a diary.
+# No recipe and no WIRSL gate: the only source is the oath_blackforest_seal seal quest.
+name: OSRS_OathCapeBlackForest
+clonePrefabName: CapeLinen
+m_name: Forestsworn cape
+m_description: Sworn to the deep wood where the roots listen.
+m_weight: 1
