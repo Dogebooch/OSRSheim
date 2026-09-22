@@ -14,7 +14,7 @@ Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
-decide the whole Alchemy ladder · #20 bone prayers · #21 biome oaths, which need
+decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
 #14 object drop rates · #9 handbook.
