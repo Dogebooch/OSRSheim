@@ -103,6 +103,45 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "Recipe_*.yml"), re
     for req in re.findall(r"^\s*-\s*(\w+):", t, re.M):
         if req not in known_items:
             err(f"wackydb {base}: req prefab {req} unknown")
+# Hull keels: OdinShip's PieceManager resolves hull costs at ObjectDB.Awake, before wackydb
+# adds the OSRS_Keel* clones, and silently drops a missing requirement. Piece_<hull>.yml
+# restates the cost after the clones exist; it must equal the OdinShip cfg (issue #31).
+# Pieces are classified by the word "piecehammer" and read by "?iece_*.yml" (ReadFiles.cs).
+HULLS = {"Big Cargo Ship": "BigCargoShip", "Cargo Ship": "CargoShip",
+         "Double rowing canoe": "DoubleRowingCanoe", "Little Boat": "LittleBoat",
+         "Merchants boat": "MercantShip", "Rowing canoe": "RowingCanoe", "War Ship": "WarShip"}
+# Hull mats absent from the Drop That dumps; names from OdinShip.dll (new Item / RequiredItems.Add).
+ODINSHIP_ITEMS = {"ClothShip", "CaulkedWood", "ResinWood", "ShipRope", "IronNails"}
+odin = os.path.join(CFG, "marlthon.OdinShip.cfg")
+if os.path.exists(odin):
+    hull_cost = {}
+    for sec, body in re.findall(r"^\[([^\]]+)\]\s*\n(.*?)(?=^\[|\Z)", read(odin), re.M | re.S):
+        c = re.search(r"^Crafting Costs\s*=\s*(.*?)\s*$", body, re.M)
+        if sec in HULLS and c:
+            hull_cost[HULLS[sec]] = [tuple(t.strip().lower().split(":")) for t in c.group(1).split(",")]
+    pieces = {}
+    for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "Piece_*.yml"), recursive=True):
+        t, base = read(f), os.path.basename(f)
+        m = re.search(r"^name:\s*(\S+)", t, re.M)
+        if not m or "piecehammer" not in t:
+            err(f"wackydb {base}: needs name and piecehammer (wackydb skips it otherwise)"); continue
+        if re.search(r"^piecehammer:\s*$", t, re.M):
+            err(f"wackydb {base}: empty piecehammer (SetPieceRecipeData passes it to GetItemPrefab unguarded)")
+        reqs = [tuple(r.split(":")) for r in re.findall(r"^\s*-\s*(\S+)", t, re.M)]
+        for r in reqs:
+            if len(r) != 4:
+                err(f"wackydb {base}: build entry {':'.join(r)} is not Prefab:amount:amountPerLevel:recover")
+            elif r[0] not in known_items | ODINSHIP_ITEMS:
+                err(f"wackydb {base}: build prefab {r[0]} unknown")
+        pieces[m.group(1)] = [(r[0].lower(), r[1], r[3].lower()) for r in reqs if len(r) == 4]
+    for hull, cost in hull_cost.items():
+        if any(p.startswith("osrs_") for p, *_ in cost):
+            if hull not in pieces:
+                err(f"OdinShip {hull} needs an OSRS_ item but has no Piece_{hull}.yml; the requirement is dropped at load")
+            elif sorted(pieces[hull]) != sorted(cost):
+                err(f"wackydb Piece_{hull}.yml build differs from marlthon.OdinShip.cfg Crafting Costs")
+    ok(f"hull pieces: {len(pieces)} wackydb overrides, {len(hull_cost)} OdinShip hulls")
+
 # An item pointing at a status effect that no SE_*.yml defines equips with no bonus at all.
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     m = re.search(r"^SE_Equip:\s*\n\s*EffectName:\s*(\S+)", read(f), re.M)
