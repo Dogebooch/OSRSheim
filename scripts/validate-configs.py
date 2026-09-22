@@ -8,7 +8,7 @@ Read-only. Checks the authoring copy in the Gale profile:
      the on-disk dumps (BepInEx\\Debug), EpicLoot's item tables, or are our own OSRS_* wackydb clones.
   2. Drop That append-only rule: per-creature IDs >= 100, shared-list IDs >= 110; cfgs match loot\\*.csv.
   3. WIRSL yml parses, entry count, no duplicate PrefabNames.
-  4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues -> nodes/profiles; handbook cfg matches loot\\*.csv.
+  4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues and saved NPCs -> nodes/profiles; handbook cfg matches loot\\*.csv.
   5. Every JSON / YAML we touched still parses; EpicLoot loot tables still roll zero items.
   6. reference\\mods.tsv still matches the profile's installed mods (the frozen mod list).
 Exit code 1 when any ERROR is printed (WARNs are advisory: names we could not verify on disk).
@@ -445,6 +445,18 @@ for node, lines in dialogs.items():
             if "," in field.split(":", 1)[-1] and field.startswith("Text:"):
                 warn(f"KG dialogue [{node}] reply text contains a comma (KG field separator): {field}")
 ok(f"KG dialogues: {len(dialogs)} nodes")
+# Saved NPCs (Marketplace Hammer templates): a mistyped Profile or Dialogue fails silently in game.
+saved = glob.glob(os.path.join(CFG, "Marketplace_SavedNPCs", "*.yml"))
+for f in saved:
+    t = read(f)
+    field = lambda k: (re.search(rf"^\s+{k}:\s*'?([^'\n]*)'?\s*$", t, re.M) or [None, ""])[1].strip()
+    kind, prof, dlg = field("Type"), field("Profile"), field("Dialogue")
+    name = os.path.basename(f)
+    if kind.lower() in menu_profiles and prof.lower() not in menu_profiles[kind.lower()]:
+        err(f"KG saved NPC {name}: {kind} profile '{prof}' does not exist")
+    if dlg and dlg.lower() not in dialogs: err(f"KG saved NPC {name}: dialogue '{dlg}' does not exist")
+    if not field("ModelScale"): err(f"KG saved NPC {name}: no ModelScale (1 = normal size)")
+ok(f"KG saved NPCs: {len(saved)}")
 for p, lines in kg_sections("LeaderboardAchievements").items():
     if len(lines) != 6: err(f"KG achievement [{p}] has {len(lines)} lines, needs 6")
     elif lines[0] in ("MonstersKilled", "KilledBy") and lines[3].split(",")[0].strip() not in creatures:
