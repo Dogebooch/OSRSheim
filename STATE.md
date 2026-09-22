@@ -41,6 +41,8 @@ trinket + hatchet gates (§6), 7 elite uniques + crystal chest (§7), hull keels
 
 Waiting on upstream: KG Marketplace stable 10.x.
 
-## Server (later)
-§15: profile export, host standup, `Use Marketplace Locally = false`,
-clone-drop and `DropOnePerPlayer` checks with both players present.
+## Server
+Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = main via
+`sync-server.ps1`, mods = `mods.tsv`. MWL inert (§15, needs > 8 GiB). Open:
+`Use Marketplace Locally = false`, Doug in `adminlist.txt`, clone-drop and
+`DropOnePerPlayer` checks with both players present.
