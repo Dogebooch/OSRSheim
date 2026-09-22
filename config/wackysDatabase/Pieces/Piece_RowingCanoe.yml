@@ -1,0 +1,10 @@
+# Hull keel gate (RESEARCH.md §7). OdinShip resolves hull costs before wackydb adds
+# the OSRS_Keel* clones and silently drops the keel; this restates the full cost.
+# Must equal [Rowing canoe] Crafting Costs in marlthon.OdinShip.cfg (validator-enforced).
+# build: Prefab:amount:amountPerLevel:recover
+name: RowingCanoe
+piecehammer: Hammer
+build:
+  - Resin:8:0:true
+  - Wood:20:0:true
+  - OSRS_KeelEikthyr:1:0:false

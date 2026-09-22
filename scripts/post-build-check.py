@@ -85,7 +85,7 @@ ok(f'wackydb ymls: {len(list(ITEMS.glob("*.yml")))} files, {"/".join(sorted(fold
 
 # Mod-shipped files (EpicLoot baseconfig, Therzie translations, CLLC examples) ship without a
 # trailing newline and are not ours to reformat; the rule applies to what we author.
-AUTHORED = ('loot/', 'config/Marketplace/Configs/', 'config/wackysDatabase/Items/',
+AUTHORED = ('loot/', 'config/Marketplace/Configs/', 'config/wackysDatabase/Items/', 'config/wackysDatabase/Pieces/',
             'config/drop_that.', 'config/ItemConfig.yml', 'config/WackyMole.')
 n_authored = 0
 for f in [*CFG.rglob('*'), *LOOT.glob('*')]:
@@ -281,7 +281,7 @@ if PROFILE.is_dir():
         if not f.is_file() or f.suffix not in TEXT or any(s in rel for s in SKIP):
             continue
         twin = PROFILE / rel
-        if twin.is_file() and twin.read_bytes() != f.read_bytes():
+        if not twin.is_file() or twin.read_bytes() != f.read_bytes():
             drift.append(rel)
     if drift:
         (warn if REPO else err)(f'repo config\\ differs from the profile ({len(drift)}): {drift[:6]}'

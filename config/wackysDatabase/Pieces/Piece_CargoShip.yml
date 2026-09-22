@@ -1,0 +1,12 @@
+# Hull keel gate (RESEARCH.md §7). OdinShip resolves hull costs before wackydb adds
+# the OSRS_Keel* clones and silently drops the keel; this restates the full cost.
+# Must equal [Cargo Ship] Crafting Costs in marlthon.OdinShip.cfg (validator-enforced).
+# build: Prefab:amount:amountPerLevel:recover
+name: CargoShip
+piecehammer: Hammer
+build:
+  - ClothShip:4:0:true
+  - ResinWood:40:0:true
+  - IronNails:100:0:true
+  - ShipRope:2:0:true
+  - OSRS_KeelBonemass:1:0:false
