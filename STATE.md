@@ -43,6 +43,6 @@ Waiting on upstream: KG Marketplace stable 10.x.
 
 ## Server
 Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = main via
-`sync-server.ps1`, mods = `mods.tsv`. MWL inert until the host dumps are off
+`sync-server.ps1`, mods = `mods.tsv`. MWL live, 2.5 GiB boot, host dumps off
 (§15). Open: `Use Marketplace Locally = false`, Doug in `adminlist.txt`,
 clone-drop and `DropOnePerPlayer` checks with both players present.
