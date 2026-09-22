@@ -24,7 +24,7 @@ items, quest text or audio ([`CLAUDE.md`](CLAUDE.md)).
 | KG Marketplace (bank, shops, quests, hiscores) | NPCs placed in town | §11 |
 | Earned waystones (teleports) | one KG waystone per sworn biome | §11 |
 
-§N = section of [`RESEARCH.md`](RESEARCH.md).
+§N = section of [`RESEARCH.md`](RESEARCH.md) or the [`research/`](research) file its map names.
 
 ## Status
 
@@ -37,6 +37,7 @@ items, quest text or audio ([`CLAUDE.md`](CLAUDE.md)).
 | [`config/`](config) | mod configs; source of truth for the Gale profile and the host |
 | [`loot/`](loot) | drop-rate CSVs; input to the loot and collection-log generators |
 | [`reference/`](reference) | mod manifest, verified prefab names, wackydb base dumps, audits |
+| [`research/`](research) | reference topic files (loot, marketplace, gating, ...); map in `RESEARCH.md` |
 | [`scripts/`](scripts) | generators, validators, sync, doc hooks |
 | [`staging/`](staging) | changes built but not yet applied to `config/` |
 | [`archive/`](archive) | first build's docs and config snapshot; read-only |
@@ -63,7 +64,7 @@ Profile and host are downstream; edits there get overwritten.
 |---|---|
 | 1 | [`CLAUDE.md`](CLAUDE.md): rules, paths, doc style (Codex enters via [`AGENTS.md`](AGENTS.md)) |
 | 2 | [`STATE.md`](STATE.md): status |
-| 3 | [`RESEARCH.md`](RESEARCH.md): the reference |
+| 3 | [`RESEARCH.md`](RESEARCH.md): the reference hub, then the [`research/`](research) file for the topic |
 
 The AI records and proposes; Doug decides. In-game test checklists live in
 [GitHub issues](https://github.com/Dogebooch/OSRSheim/issues).
@@ -80,4 +81,4 @@ The AI records and proposes; Doug decides. In-game test checklists live in
 | Drop That / Spawn That | config mods for creature and object drops / spawns |
 | Superiors | rare 3-level elites with an effect, one per biome, own drop table (§12) |
 | wackydb clones | custom items cloned from vanilla prefabs via WackysDatabase (§8) |
-| §N | a numbered section of `RESEARCH.md` |
+| §N | a numbered section of the reference; `RESEARCH.md` maps each to its file |
