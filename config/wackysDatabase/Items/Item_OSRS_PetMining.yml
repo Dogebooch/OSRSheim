@@ -1,0 +1,9 @@
+# OSRSheim skilling pet - Mining (1/5000 per ore segment) - authored 2026-09-21
+# Trophy clone: cosmetic only, no stat block. Rolled from loot\objects.csv on the
+# MineRock_* / *vein_frac ore tables. Smoothbrain Mining's yield postfix duplicates
+# any rolled drop at skill 100, so this can land as a pair.
+name: OSRS_PetMining
+clonePrefabName: TrophySGolem
+m_name: Grit
+m_description: A chip off something older. It hums when there is ore nearby.
+m_weight: 0.1
