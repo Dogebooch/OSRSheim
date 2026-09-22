@@ -177,16 +177,24 @@ admin client's `dropthat:reload` reloads the server and re-syncs (client log
 boss-affix toggles do not help. Kill bosses by hand. Kills set `killedtroll` / `jotun_killed`; `removekey`.
 On a server, drops follow the server's Drop That cfgs, not the local profile.
 Computer-use screenshots mask Valheim; GDI `CopyFromScreen` captures it.
+Synthetic right-clicks never reach Valheim (no build menu); keys and left-clicks do.
+Typed text with spaces goes via clipboard and can drop focus: type words, send `space` as a key.
 
 **Seen at shipping rates (server, 2026-09-22)**: 7 elite uniques, Rare T2-T4
 key halves + riddle-stones, Gem T1 riddle-stone; `defeated_bonemass` necklace
 gate holds.
 
+**Seen at wiring (server, 2026-09-22)**: Rare T5, all 7 rows; superiors
+`.200`-`.213` on all 8 rows + Meadows Troll; 1-star JotunWarrior drops no superior row.
+
 **Wiring session** (proves entries fire): `gen-loot.py --wiring`, validate,
 launch, `devcommands`, `god`, `setkey defeated_bonemass`; spawn Greydwarf 3
 (gems), Draugr_Elite 2 (Rare T2, key halves, unique), Eikthyr 1 (purse,
 unique, pet), `setkey defeated_frozenking_p3` + JotunWarrior 1 3 (superior).
-Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `resetkeys`, Logout. Console takes synthetic typing only right after F5.
+Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `removekey` each key set, Logout
+(`resetkeys` also wipes the world's own keys). Console takes synthetic typing only right after F5.
+Server-only wiring: copy `config\` under a scratch `APPDATA` profile path, run
+`gen-loot.py --wiring` with that `APPDATA`, copy the drop cfgs to the server; the Gale profile stays untouched.
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
 shape, gambler lines, repo/profile parity, validator.
