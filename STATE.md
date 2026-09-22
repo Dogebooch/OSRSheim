@@ -5,7 +5,7 @@ Stack loads on 1.0.15; mod list frozen (§3). Launched clean (0 exceptions);
 `drop_that.drop_table.cfg` is generated now (`gen-objects.py`); the old weights
 dropped Feathers at 100% on ten empty log tables.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
-Alchemy gates (WIRSL 320), `herbwife`, 5 Harvest contracts.
+Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost (closes #24
@@ -30,7 +30,7 @@ Drop bugs open: #30 Eikthyr double trophy · #31 hull keel requirement.
    MWL density now; `genloc` cannot retrofit explored terrain (§13).
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table.
-3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 320`).
+3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 326`).
 4. Doug vetoes renames.
 
 ## First Gielheim sessions

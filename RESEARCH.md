@@ -110,7 +110,7 @@ SkillGainModifier `Global = 0.5`, death loss `Modifier = 0` (§18).
 File: `WackyMole.ItemRequiresSkillLevel.yml`. Top-level `Requirements:` list;
 each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 `BlockCraft`, `BlockEquip`. Log line on load: `ItemRequiresSkillLevel Loaded:
-320`. A wrong PrefabName fails OPEN with no log line. Tiers:
+326`. A wrong PrefabName fails OPEN with no log line. Tiers:
 `EpicLoot\baseconfig\iteminfo.json` `ItemsByBoss`.
 
 **Tier ladder**
