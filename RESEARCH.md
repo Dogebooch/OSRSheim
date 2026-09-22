@@ -92,7 +92,7 @@ Install: `ror2mm://v1/install/thunderstore.io/<owner>/<name>/<version>/`.
 | Sailing | Smoothbrain Sailing |
 | Hunter | Smoothbrain Ranching |
 | Slayer | EpicLoot bounties + KG Slayer tasks |
-| Prayer | KG Buffer `chapel`, bones as the cost item (sec 11) |
+| Prayer | KG Buffer `chapel`, bones as cost (§11) |
 | Runecraft, Thieving, Fletching, Firemaking | no analogue |
 
 ## 5. Skill settings (Smoothbrain)
@@ -175,41 +175,32 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 ## 7. Loot (Drop That)
 
 ### Generator
-`gen-loot.py` writes `drop_that.character_drop.cfg` and
-`drop_that.character_drop_list.shared_tables.cfg` from `loot\*.csv`; never
-hand-edit either. `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg`
-(bestiary: biome -> creature -> every drop at its real chance, superior
-sub-pages; lines tinted by rarity per `TIERS`, key on the page, `COLOUR =
-False` removes them). `gen-loot` writes to the profile (then `-Pull`),
-`gen-handbook` to the repo; both `--check` in the validator.
+`gen-loot.py` (two `character_drop` cfgs), `gen-objects.py`
+(`drop_that.drop_table.cfg`) and `gen-collection-log.py` (three KG cfgs)
+write to the **profile**; copy them back to `config\` after a run.
+`gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` to the repo:
+bestiary biome -> creature -> every drop at its real chance, superior
+sub-pages, rarity tints per `TIERS`, `COLOUR = False` removes them.
+Never hand-edit a generated cfg; all four `--check` in the validator.
 
-| Table | Columns | Edit it to |
-|---|---|---|
-| `loot\classes.csv` | class, valheim_kills_hr, osrs_kills_hr | rebalance: multiplier = osrs / valheim |
-| `loot\creatures.csv` | biome, creature, class, list, display | add a creature; its one `UseDropList`; its handbook page name |
-| `loot\lists.csv` | list, class, first_id (Gem 110, Rare 120) | add a shared table |
-| `loot\drops.csv` | owner, item, min, max, chance, flags, id | add or change a drop |
+Columns are in each generator's docstring. Edit `classes.csv` to rebalance
+(multiplier = osrs / valheim), `creatures.csv` to add a creature, `lists.csv` a
+shared table, `drops.csv` a creature drop, `objects.csv` an object drop.
 
-`chance`: `30` = flat percent (purses, pets, trophies); `1/256` = OSRS rate x
-the owner's class multiplier (gem, rare and unique items). `flags`:
-`one-per-player`, `key=defeated_bonemass`. `id` blank = next free; 102 / 103
-pin uniques / pets. Coins above 100 split into <=100 chunks at `.106+`
-(creatures) / `.130+` (lists). Flags: `--diff` preview, `--check`, `--literal`
-(multipliers 1), `--wiring` (every chance 100), `--marker <Creature> <Item>`
-(100% x1 kill counter); the validator warns until a plain run restores them.
+`--literal`, `--wiring` and `--marker` leave the cfgs in a test state; the
+validator warns until a plain run restores them.
 
-Enforced: IDs >= 100 (vanilla drops at 0-2 never cleared); lists 110+/120+
-keep their index when merged; `ScaleByLevel = false`; <= 100 items per entry;
-`DropOnePerPlayer` only on amount-1 items (per-player roll on a server
-unverified). `drop_that.cfg`: dump flags on,
+Enforced (CLAUDE.md has the append-only list): lists 110+/120+ keep their
+index when merged; `DropOnePerPlayer` per-player roll on a server is
+unverified; object entries capped at 5% per destruction and refused on a
+table with no vanilla entries. `drop_that.cfg`: dump flags on,
 `AlwaysAutoStack = true`. `dropthat:reload` hot-reloads all loot files
 (needs `-console`; admin-only on a server).
 
 ### Rates
 Valheim chance = OSRS chance x (OSRS kills/hr / Valheim kills/hr). Valheim
 kills/hr is spawn supply, not kill speed: `python scripts\spawn-rates.py`
-prints spawns/hr ceilings from the Spawn That dumps (camps 250-720, roams
-2-242 at night, Troll / Gjall / Brute < 1, camps and villages one-shot).
+prints spawns/hr ceilings from the Spawn That dumps.
 
 Classes (`loot\classes.csv`). Valheim /hr is a guess (ceiling / 3) until
 measured with `--marker`. Gem lists roll at camped, Rare lists at elite,
@@ -225,13 +216,21 @@ boss uniques at boss; pets stay a literal 0.02 (1/5000):
 ### Files
 | File | Contents |
 |---|---|
-| `drop_that.character_drop.cfg` | generated: commons = coins + Gem tier; elites = coins + Rare tier; bosses = flat coins in <=100 chunks + trophy + unique `.102` + pet `.103`; 7 elites = unique `.102` |
-| `drop_that.character_drop_list.shared_tables.cfg` | generated: Gem tiers 1-4 (T1 Ruby 1/256, Amber 1/128, AmberPearl 1/512; richer per tier), Rare tiers 2-5 (flat 2-3% coins, SilverNecklace, Chain, Ruby, GoldOre at T5), T2 coins/necklace gated `defeated_bonemass`; key halves Gem T2-4 1/1024, Rare T2-5 1/256 |
+| `drop_that.character_drop.cfg` | generated: commons = coins + Gem tier; elites = coins + Rare tier; bosses = coin chunks + trophy + unique `.102` + pet `.103` + riddle-stone `.105` |
+| `drop_that.character_drop_list.shared_tables.cfg` | generated: Gem tiers 1-4, Rare tiers 2-5 (T2 coins/necklace gated `defeated_bonemass`), key halves, riddle-stones; every rate lives in `loot\drops.csv` |
 | `drop_that.character_drop.osrsheim_superiors.cfg` | generated by `scripts\update-superiors.py` (ROWS): `.200+` coin chunks, `.210` gem, `.211` material, `.212` extra, `.213` rare on the 8 superiors (level 3 + boss key + not tamed); Troll `.200-.210` Meadows purse 100-200c + Ruby |
-| `drop_that.drop_table.cfg` | weighted object drops: Feathers on 12 tree logs (bird nest), gems on ore deposits (`MineRock_Copper` etc.), `TreasureChest_forestcrypt` 2-4 picks |
+| `drop_that.drop_table.cfg` | generated by `scripts\gen-objects.py` from `loot\objects.csv`: skilling pet 1/5000, curio 1/500 on 23 `TreeBase` trees and 10 ore tables, gem 1/256 on ore, `TreasureChest_forestcrypt` Coins `w=30` |
 
-Coin scale: Greydwarf ~2c/kill, Goblin ~4.5c/kill (vanilla 25% x 5-10 plus
-ours 30% x 5-15), bosses 200-1200c, bounties 150-4800c.
+Object tables have no per-entry chance: `Weight` is a share of
+`DropMin..DropMax` picks, so rarity exists only against the vanilla entries,
+`P = DropChance * mean_N[1-(1-w/(W+w))^N]`. Empty vanilla table = fires at
+100%; ten `*_log` tables are empty, so woodcutting uses `TreeBase`. No
+`Condition*`, no one-per-player. EpicLoot/Smoothbrain/CLLC postfix
+`GetDropList` (memory `valheim-getdroplist-multipliers`). No object hook for
+Fishing or Farming.
+
+Coin scale: Greydwarf ~2c/kill, Goblin ~4.5c/kill, Charred ~13c/kill, bosses
+200-1200c, bounties 150-4800c. Riddle caskets add under 25% at every tier.
 
 Gem tiers: T1 Meadows/Black Forest · T2 Swamp/Mountain/Ocean · T3
 Plains/Mistlands · T4 Ashlands/Deep North. Rare tiers: T2 Swamp elites
@@ -266,6 +265,16 @@ relative multipliers (no base dumps for these bases). Crystal chest:
 at Gullveig into `OSRS_CrystalKey` (Crystal clone); the Gambler's
 `crystal_chest` takes one key and pays one of 8 uniform prizes (§11).
 
+### Riddle-stones (casket loop)
+| Tier | Source | csv |
+|---|---|---|
+| T1 | Gem T1-T2 | 1/256 |
+| T2 | Gem T3-T4 | 1/512 |
+| T3 | Rare T2-T3 | 1/512 |
+| T4 | Rare T4-T5 1/1024, every boss 100% `.105` one-per-player | |
+Prizes uniform: weight = duplicate slots; every line but master carries the next
+tier's stone.
+
 ### Hull keels (`.104` @ 12.5%, csv `1/120`; one guaranteed by its §11 quest)
 | Boss | Keel (clone base) | Display | Hulls |
 |---|---|---|---|
@@ -283,8 +292,8 @@ Fuling Totems (Yagluth) · Sealbreaker fragments + Giant King's Hair (Queen) ·
 Fader's items · Malicious Blood (Kall) · Surtling Cores · every boss trophy.
 
 ### Statistics
-First drop lands around N kills for a 1/N rate; allow ~3N before calling a
-rate broken (~380 kills for 95% confidence on 1/128).
+First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
+(380 kills for 95% confidence at 1/128).
 
 ## 8. Custom items (WackysDatabase)
 
@@ -297,14 +306,14 @@ Bulk dump: `wackydb_all_items` -> `wackyDatabase-BulkYML\` (not loaded).
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 64, stamina 14, attack speed 1.2; Bandos Godsword
   attack speed 0.9; Scythe of Vitur 0.95.
-- 8 pets = trophy clones (vanity items).
+- 10 pets = trophy clones (8 boss, + Mining/Woodcutting at 1/5000 per
+  action); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
 - 7 elite uniques + 3 crystal key parts (§7).
-- 24 skillcapes (display `<Valheim skill> cape`, max = `Allfather's cape`) = CapeLinen clones, equip-gated at skill 100, no recipe, sold
-  by the skillcape shop. Cape to skill: Mining, Woodcutting (Lumberjacking),
-  Cooking, Farming, Smithing (Blacksmithing), Construction (Building), Sailing,
-  Hunter (Ranching), Herblore (Foraging), Agility (Evasion), Fishing, Defence
-  (Blocking), Ranged (Bows), Crossbow, Magic (ElementalMagic), BloodMagic,
-  Strength (Unarmed), Swords, Knives, Clubs, Polearms, Spears, Axes, Max.
+- 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
+  no `SE_Equip` or modifiers, no WIRSL gate, AzuEPI vanity-wearable.
+- 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
+  the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
+  sold by the skillcape shop.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
 
@@ -329,7 +338,7 @@ Mode Enabled = true`. `baseconfig\loottables.json`: every table's `Drops` is
 `baseconfig\adventuredata.json` (coins-only economy, untested in game):
 - Treasure maps: payouts 0 (2026-09-21) - a pure sink at every tier, the dug
   chest is the whole reward. Cost 100 (Meadows) to 800 (Deep North); Meadows
-  chest ~40c. Cost is the knob if high tiers feel dead. Runestone items removed.
+  chest ~40c; cost is the knob. Runestone items removed.
 - Bounties (rare/hard/big): tokens 0, `RewardCoins` x6 (150 -> 4800); Iron
   lvl 3 @3x HP, Gold @4.5x, adds lvl 2-3 @2x HP.
 - Bounty cfg: `Gated Bounty Mode = BossKillUnlocksCurrentBiomeBounties`,
@@ -370,18 +379,19 @@ other list empty, marketplace and mail off (open key unverified).
   soups 20-90c, plates 30-120c. Vanilla bolts and mead bases need a dump.
   Meads 25-150c, cooked food 15-160c: the per-trip drain, never bought back.
 
-**Bank** (`Bankers\`, profile `bank`): 134 bankable prefabs including ores
-and metals.
+**Bank** (`Bankers\`, profile `bank`): 154 bankable prefabs including ores,
+metals, riddle-stones and rewards.
 
 **Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~5% house edge, prizes
 coins 10-300, Ruby, Amber, Stone); `flower_poker` 1,000c (~11% edge, up to 3
 queued rolls); `crystal_chest` 1 OSRS_CrystalKey a roll, 8 uniform prizes
-(coins 200-1000, Ruby, AmberPearl, Crystal, Chain, SilverNecklace, GoldOre),
-opened from the Gambler dialogue.
+(coins 200-1000, Ruby, AmberPearl, Crystal, Chain, SilverNecklace, GoldOre);
+`riddle_simple` / `_cryptic` / `_elaborate` / `_master` one riddle-stone a roll
+(§7). All opened from the Gambler dialogue, node `gambler_riddles`.
 
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 live + `osrsheim_quests_story.cfg`
-57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; one-time via
-cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
+57 staged in `staging\quest-pass\`; one-time via cooldown 36500; profile
+`lumbridge_guide`).
 Types: Collect, Kill, Craft, Talk, Harvest (1). Per biome: a kill, a collect, a craft
 of the tier's sword or shield (`Skill_EXP` on its skill 30-350), a fish quest
 (`Skill_EXP: Fishing` 20-400), a boss kill (unlocks on the previous boss key, 300c
@@ -406,19 +416,12 @@ Greydwarf 500 + AmberPearl, Draugr 800, Wolf 1200, Fuling 1500, Seeker 2500 + Ch
 Skip fee (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
-**Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`, 8-line
-positional blocks): 12 buffs, 300-900 s, groups Wards / Might / Vigour /
-Wisdom / Wayfaring. Same group = exclusive; the group string is a yellow UI
-header. No condition field exists in `BufferBuffData`, so the **cost item**
-is the only gate: cost is bones, never coins. Ladder BoneFragments (Meadows)
--> TrophySkeleton (BF) -> WitheredBone + TrophyDraugrElite (Swamp) ->
-TrophyFenring (Mtn) -> TrophyLox (Plains) -> TrophySeeker (Mist) ->
-CharredBone + TrophyFallenValkyrie (Ash). From `kg.Marketplace.dll`
-2026-09-21: cost prefab needs an ItemDrop; one cost item only; removal is
-`RemoveItem(m_shared.m_name)` so it matches by **display name**, not prefab;
-empty group = unbuyable; parser reads i+1..i+6 raw (no blank or `#` in a
-block, never end the file on a group line); multipliers default 1.0 (0.1 =
--90%), DamageReduction 0..1, MaxCarryWeight additive. Validator checks all.
+**Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
+groups Wards / Might / Vigour / Wisdom / Wayfaring (same group = exclusive).
+No condition field exists, so the cost item is the only gate: bones, never
+coins. BoneFragments (Meadows) -> WitheredBone (Swamp) -> CharredBone (Ash),
+with trophy rungs between. Rungs, traps and block shape: cfg header,
+validator-enforced.
 
 **Hiscores** (`LeaderboardAchievements\osrsheim_hiscores.cfg`, 23 entries):
 kill milestones per biome, boss kill counts (1 and 10), The Knight's Sword
@@ -433,7 +436,7 @@ in-game rulebook.
 `log_<prefab>` on Halla the Skald, unlock `HasItem, <prefab>, 1`, target the
 same NPC, cooldown 36500, 1c, item kept. Dialogue pages per category list
 each entry gated by `Condition: QuestFinished, log_<prefab>` (lit = found).
-8 uniques, 7 elite uniques, 3 key parts, 6 keels, 8 pets, 24 capes, 7 gems,
+8 uniques, 7 elite uniques, 3 key parts, 6 keels, 10 pets, 2 curios, 24 capes, 7 gems,
 5 shards, 69 trophies. Audit: every wackydb clone, drops.csv item and shard
 needs a row.
 
@@ -468,8 +471,6 @@ coordinates from the in-game `pos` command on Gielheim.
 Evidence: `reference/config-audit-2026-09-21.json`; configs unchanged.
 **Unfixed:** 138 Talk targets retain quotes in 10.0.1-beta.1; remove quotes,
 preserve spaces; fix collection generator. Website example disagrees.
-Fixed 2026-09-21: buff multipliers (attack, health, stamina, XP) rewritten to
-1.x in the bone-cost rebuild; the validator now fails on any multiplier < 1.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
 Runtime unverified: icons/VFX, rich text, discovery gates, skip fee, fish quality,
 Pet/Harvest, custom-skill XP, multi-cost trades, gambling.
@@ -544,6 +545,9 @@ launch, `devcommands`, `god`, `setkey defeated_bonemass`; spawn Greydwarf 3
 unique, pet), `setkey defeated_frozenking_p3` + JotunWarrior 1 3 (superior).
 Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `resetkeys`, Logout. Console takes synthetic typing only right after F5.
 
+**Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
+shape, gambler lines, repo/profile parity, validator.
+
 **Log reading**: `LogOutput.log` is the source of truth. Find the first
 NullReferenceException and read down to the first frame that is not
 UnityEngine / ObjectDB / ZNetScene. `MissingMethodException` on a Harmony
@@ -616,7 +620,7 @@ MagicalMounts, MagicOverhaul, Skyheim.
 
 - KG Marketplace: https://kg-marketplace.pages.dev/
 - Spawn That: https://github.com/ASharpPen/Valheim.SpawnThat/tree/development/src/SpawnThat.Docs
-- Drop That: https://github.com/ASharpPen/Valheim.DropThat/wiki (CharacterDrop-Configuration has `ConditionMinLevel`, `ConditionBiomes`)
+- Drop That: https://github.com/ASharpPen/Valheim.DropThat/wiki
 - Dedicated server flags: https://www.valheimgame.com/support/a-guide-to-dedicated-servers/
 - Gale: https://github.com/Kesomannen/gale · Hexium: https://valheim.hexium.gg
 

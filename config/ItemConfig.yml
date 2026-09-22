@@ -27,6 +27,16 @@ Chain:
   weight: 0.1
   stack: 50
 
+# Skilling curios (2026-09-21): Amber clones off the object tables, sold to the gem trader.
+# Never give these worldLevelToLootAmount - CLLC's GetDropList postfix reads that key and
+# would duplicate every object drop in the game.
+OSRS_Geode:
+  weight: 0.1
+  stack: 100
+OSRS_Burl:
+  weight: 0.1
+  stack: 100
+
 # Crystal key parts (2026-09-21): light and stackable like the gems. Whether CLLC applies to wackydb clones is untested.
 OSRS_LoopHalfKey:
   weight: 0.1
@@ -35,5 +45,19 @@ OSRS_ToothHalfKey:
   weight: 0.1
   stack: 20
 OSRS_CrystalKey:
+  weight: 0.1
+  stack: 20
+
+# Riddle-stones (2026-09-21): light and stackable so a casket run can be banked and opened in batches.
+OSRS_RiddleStoneT1:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT2:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT3:
+  weight: 0.1
+  stack: 20
+OSRS_RiddleStoneT4:
   weight: 0.1
   stack: 20
