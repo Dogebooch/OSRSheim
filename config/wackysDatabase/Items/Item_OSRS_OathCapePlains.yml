@@ -1,0 +1,8 @@
+# OSRSheim biome-oath cape - authored 2026-09-21
+# Clone of CapeLinen (same base as the 24 skillcapes). Cosmetic proof of a diary.
+# No recipe and no WIRSL gate: the only source is the oath_plains_seal quest.
+name: OSRS_OathCapePlains
+clonePrefabName: CapeLinen
+m_name: Heathsworn cape
+m_description: Sworn to the open country and the long grass that hides everything.
+m_weight: 1

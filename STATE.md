@@ -1,22 +1,24 @@
 # STATE — 2026-09-22
 
 Stack loads on 1.0.15; mod list frozen (§3). Launched clean (0 exceptions);
-73 clones, unlaunched since. Config audit: unfixed KG Talk quotes (§11).
+84 clones, unlaunched since. Config audit: unfixed KG Talk quotes (§11).
 `drop_that.drop_table.cfg` is generated now (`gen-objects.py`); the old weights
 dropped Feathers at 100% on ten empty log tables.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
 Alchemy gates (WIRSL 320), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
-Oaths: 15 quests, 3 keys, waystones, `oath_supplies`, 3 capes. `chapel_oath`
-dropped in the merge: #24. OathCapes 5 of 8 uncommitted, unlogged: #10.
+Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
+8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost (closes #24
+and #10).
 Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 43 hunts, skip fees, 6 reward edits; §11).
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
-decide the whole Alchemy ladder · #20 bone prayers · #21 biome oaths, incl.
-placing 4 NPCs and reading `pos` at each waystone · #22 riddle-stones ·
-#23 collection log · #14 object drop rates · #9 handbook.
+decide the whole Alchemy ladder · #20 bone prayers · #21 biome oaths, which need
+9 NPCs placed and `pos` at 9 waystone spots (rules in the teleporter cfg;
+`set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
+#14 object drop rates · #9 handbook.
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), 7 elite uniques + crystal chest (§7), hull keels

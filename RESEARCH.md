@@ -378,8 +378,8 @@ other list empty, marketplace and mail off (open key unverified).
 - `supplies` (`= true`, shopkeeper second menu): arrows and bolts 20 a bundle
   60-400c; Wizardry eitr mead bases / soups / plates 20-150c. Vanilla bolts and
   mead bases need a dump. Meads and food are the per-trip drain never bought back.
-- `oath_supplies` (`= true` + `HasPlayerKey`, biome oaths): the same consumables
-  in 50-bundles at ~7% off. No gear and nothing WIRSL gates.
+- `oath_supplies` (`= true` + `HasPlayerKey`): consumables in 50-bundles at ~7%
+  off. No gear and nothing WIRSL gates.
 
 **Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
 ores, metals, riddle-stones, riddle rewards and oath capes included.
@@ -437,21 +437,22 @@ row. Row counts live in the csv; the generator writes into the profile.
 `OpenUI, <Type>, <profile>` reply. If a reply opens nothing, use bare
 `Command: OpenUI`. No commas inside reply text.
 
-**Biome oaths** (achievement diaries; `Quests\osrsheim_quests_oaths.cfg` 15 live,
-profile + dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). Per biome: 4 PARALLEL
-tasks then a `= HiddenOtherQuestCondition` seal Talk quest whose one condition line
-ANDs the four `QuestFinished`. The seal fires `QuestEvents\osrsheim_oaths.cfg`
-`OnCompleteQuest: AddPlayerKey, oath_<biome>` — `Player.AddUniqueKey`, per-character,
-NOT a global key, so Drop That / WIRSL / bounty gates never see it. Live: Meadows,
-Black Forest, Swamp; 4,400c and 3 capes. Every perk gates on `HasPlayerKey` on a
-dialogue reply: waystone travel, trader `oath_supplies`, buffer `chapel_oath`
-(the 4 cheap prayers at -40%; the price-gated three stay out).
+**Biome oaths** (achievement diaries; `Quests\osrsheim_quests_oaths.cfg`, profile +
+dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). 8 biomes: 40 quests, 36,380c,
+8 capes. Per biome 4 PARALLEL tasks on the previous boss key, then a
+`= HiddenOtherQuestCondition` seal Talk whose one condition line ANDs the four
+`QuestFinished`. The seal fires `QuestEvents\osrsheim_oaths.cfg`
+`OnCompleteQuest: AddPlayerKey, oath_<biome>` — `Player.AddUniqueKey`: per-character,
+NOT a global key, so Drop That / WIRSL / bounty gates never see it. Perks gate on
+`HasPlayerKey` on a dialogue reply: waystones, `oath_supplies`, `chapel_oath`
+(4 entry prayers at -40% bone cost; trophy-gated rungs stay out).
 
-**Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..3`, NPC Type
-Teleporter + Dialogue `waystone`): the file has NO gating and no cost — format and
-the one-level `@from:` rule are in its header. Gate and fee sit on the dialogue
-reply; 25 / 50 / 100c by tier. Closing the pin map unused still spends it.
-**Territories**: template only, `pos` coordinates as above.
+**Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..8`, Type
+Teleporter + Dialogue `waystone`): no gating and no cost in the file — format, the
+one-level `@from:` rule and placement rules are in its header. Gate and fee sit
+on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinates:
+`set-waystone.py`. Closing the map unused spends the fee.
+**Territories**: template only.
 **Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic).
 
 ### NPC placement
