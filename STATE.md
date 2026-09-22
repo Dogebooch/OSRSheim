@@ -21,8 +21,9 @@ decide the whole Alchemy ladder · #20 bone prayers · #21 biome oaths, which ne
 #14 object drop rates · #9 handbook.
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
-trinket + hatchet gates (§6), 7 elite uniques + crystal chest (§7), hull keels
+trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7), hull keels
 + 7 OdinShip recipes and Sailing gates (§6, §7), DistancedUI (§11).
+Drop bugs open: #30 Eikthyr double trophy · #31 hull keel requirement.
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
