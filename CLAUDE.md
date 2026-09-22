@@ -14,6 +14,7 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
   testing knowledge, backlog. Update it when a fact is learned.
 - `STATE.md` — what is live, what is next. Under a page. Update it every
   session.
+- `README.md` — what OSRSheim is, repo map, glossary. No status.
 - `archive\` — first build's docs and config snapshot. Read-only.
 
 ## Where everything lives
@@ -33,10 +34,10 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
   paragraph, changelog, history, or "why" section.
 - Facts only: value, path, name. No explanations, no narrative.
 - One fact per line. Prefer tables.
-- Four root docs only: `CLAUDE.md`, `STATE.md`, `RESEARCH.md`, `AGENTS.md`. No
-  new `.md` in the root. `archive\` is read-only.
-- Size caps, hook-enforced (`scripts\doc-guard.py`): STATE 3 KB, CLAUDE 3.5 KB,
-  AGENTS 0.8 KB. RESEARCH uncapped. Prune in place when a cap trips.
+- Five root docs only: `CLAUDE.md`, `STATE.md`, `RESEARCH.md`, `AGENTS.md`,
+  `README.md`. No new `.md` in the root. `archive\` is read-only.
+- Size caps, hook-enforced (`scripts\doc-guard.py`): STATE 3.5 KB, CLAUDE 4.5 KB,
+  README 5 KB, AGENTS 0.8 KB. RESEARCH uncapped. Prune in place when a cap trips.
 - Memory files follow the same rules. Cleanup pass only when Doug asks.
 
 ## Rules

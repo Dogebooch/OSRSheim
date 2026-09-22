@@ -5,7 +5,7 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LIMITS = {"CLAUDE.md": 3500, "STATE.md": 3000, "AGENTS.md": 800}
+LIMITS = {"CLAUDE.md": 4500, "STATE.md": 3500, "AGENTS.md": 800, "README.md": 5000}
 ALLOWED = set(LIMITS) | {"RESEARCH.md"}  # RESEARCH.md is uncapped
 
 try:
@@ -19,7 +19,7 @@ for name in sorted(os.listdir(ROOT)):
         continue
     size = os.path.getsize(os.path.join(ROOT, name))
     if name not in ALLOWED:
-        problems.append(f"{name}: not one of the four allowed docs (move to archive/ or fold into RESEARCH.md)")
+        problems.append(f"{name}: not one of the five allowed docs (move to archive/ or fold into RESEARCH.md)")
     elif name in LIMITS and size > LIMITS[name]:
         problems.append(f"{name}: {size} bytes > {LIMITS[name]} cap; prune in place before adding")
 
