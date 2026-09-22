@@ -8,8 +8,7 @@ Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
 Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
-8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost (closes #24
-and #10).
+8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
 Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 43 hunts, skip fees, 6 reward edits; §11).
 
