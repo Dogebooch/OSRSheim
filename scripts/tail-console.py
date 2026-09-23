@@ -123,6 +123,8 @@ def main():
     ap.add_argument('--command')
     ap.add_argument('--state', action='store_true')
     a = ap.parse_args()
+    # Piped output defaults to cp1252 on Windows; the host log carries a BOM.
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
     panel = Panel(load_env())
     if a.state:
