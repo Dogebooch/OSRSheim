@@ -120,6 +120,9 @@ Skill Experience Loss = 0
 Lumberjacking and Mining: `Skill Experience Gain Factor = 0.15` (rate model, pure
 grind: level 40 ~11 h, 70 ~50-60 h). SkillGainModifier `Global` does not reach
 Smoothbrain skills.
+Mining XP: +1 per pickaxe hit on any `MineRock`/`MineRock5`/pickaxe `Destructible` at or above its
+tool tier, plain stone included. Mining and Lumberjacking yield: every `GetDropList` item x
+`floor(1 + L/100 + U[0,1])`, OSRS pets, curios and gems included (Smoothbrain source).
 
 Evasion's keys are `Skill gain factor` / `Skill loss`. Skill caps default
 (100). Vanilla world skill-gain modifier untouched. Vanilla skills: 0.5x via

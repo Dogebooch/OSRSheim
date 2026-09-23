@@ -6,6 +6,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py trees    [--tool AxeStone] [--tree Beech1] [--no-logs] [--weapon-level 0]
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
+    python scripts\rate-model.py objects  [--write]  pet/curio/gem target per loot\objects.csv row at OBJ_SETUP
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
     combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
@@ -16,6 +17,8 @@ Formulas (decompiled 1.0.15 unless noted):
   skill roll        U[clamp(l-.15), clamp(l+.15)], l = lerp(.4, 1, L/100)            Skills.GetRandomSkillRange
   damage/hit        base(quality) x roll x mod factor x damage modifier; last combo hit x2   Attack.DoMeleeAttack
   Mining factor     1 + sf x (cfg - 1)          Lumberjacking factor  1 + sf x cfg      Smoothbrain DLLs
+  yield             every GetDropList item x floor(1 + sf x (cfg - 1) + U[0,1]) on rocks and trees; Mining XP
+                    +1 per pickaxe hit on any rock at or above its tool tier, ore or plain stone   Smoothbrain source
                     Lumberjacking swaps vanilla WoodCutting for a dummy at 0: tree rolls stay at skill 0
   stamina/swing     cost x (1 - .33 x sf(weapon skill)); no regen while attacking, 1 s delay, then
                     6 + 6 x (1 - s/max) per s; regen runs through fall, split and walk   Attack, Player
@@ -330,6 +333,147 @@ def trees(tool, tree, level, quality, max_stam, world, logs=True, weapon_level=0
             "Lumberjacking xp/hr": round(3600 / per * hits * LUMBER[1], 1)}
 
 
+# ---------- loot\objects.csv (#67) ----------
+# Tool and skill level a player brings to each object: the biome's tool, level mid-band of its gate (§6).
+OBJ_SETUP = {
+    "Beech1": ("AxeFlint", 8), "Oak1": ("AxeBronze", 18), "FirTree": ("AxeBronze", 18),
+    "FirTree_big": ("AxeBronze", 18), "Pinetree_01": ("AxeBronze", 18), "SwampTree1_log": ("AxeIron", 30),
+    "SnowFirTree": ("AxeIron", 30), "SnowFirTree 2": ("AxeIron", 30), "Pinetree_Snow": ("AxeIron", 30),
+    "Pinetree_Snow_dead": ("AxeIron", 30), "rock4_copper_frac": ("PickaxeBronze", 15),
+    "MineRock_Tin": ("PickaxeBronze", 15), "mudpile_frac": ("PickaxeIron", 25), "mudpile2_frac": ("PickaxeIron", 25),
+    "rock3_silver_frac": ("PickaxeIron", 35), "silvervein_frac": ("PickaxeIron", 35),
+    "MineRock_Obsidian": ("PickaxeIron", 35),
+}
+for _p in ("Birch1", "Birch1_aut", "Birch2", "Birch2_aut"):
+    OBJ_SETUP[_p] = ("AxeBronze", 18)
+for _p in ("YggaShoot1", "YggaShoot2", "YggaShoot3"):
+    OBJ_SETUP[_p] = ("AxeBlackMetal", 45)
+for _p in ("AshlandsTree1", "AshlandsTree3", "AshlandsTree4", "AshlandsTree5", "AshlandsTree6", "AshlandsTree6_big"):
+    OBJ_SETUP[_p] = ("AxeJotunBane", 60)
+DENSITY_PROXY = {"rock3_silver": "silvervein", "SnowFirTree 2": "SnowFirTree"}
+TRAVEL_FALLBACK = {"trees": 4.0, "mining": 27.0}  # s: rate-model Beech1/Fir/Pine and rock4_copper travel
+YIELD = {"Pickaxe": cfg_value("org.bepinex.plugins.mining.cfg", "Mining Yield Factor", 2.0),  # x every GetDropList item
+         "Axe": cfg_value("org.bepinex.plugins.lumberjacking.cfg", "Tree item yield modifier at level 100", 2.0)}
+PET_HOURS = 400.0           # OSRS skilling pets (rock golem, beaver) at a normal rate
+CURIO_PER_HR = 720 / 500    # Geode/Burl 35c each: the shipped 1/500 per segment at the old 720 segments/hr
+GEM_PER_HR = 720 / 256      # ore gems: the shipped 1/256 per segment at 720/hr
+
+
+def destructible_rate(tool, node, level, quality, max_stam):
+    """Destructible ore (Tin, Obsidian): one drop roll per node."""
+    it, rock = ITEMS[tool], NODES["Destructible"][node]
+    if it.get("m_toolTier", 0) < rock["m_minToolTier"]:
+        return None
+    lo, hi = roll_range(level)
+    per = hit_damage({"m_pickaxe": item_damage(it, quality).get("m_pickaxe", 0)}, rock.get("m_damages"),
+                     (lo + hi) / 2, 1 + level / 100 * (MINING[0] - 1))
+    swings = max(1.0, math.ceil(rock["m_health"] / per))
+    cycle = sum(combo(it)) / max(1, len(combo(it)))
+    rate, _ = sustained(cycle, it["m_attack"]["m_attackStamina"] * (1 - 0.33 * level / 100), max_stam)
+    rho, _ = density(node)
+    trav = travel_s(rho) if rho > 0 else TRAVEL_FALLBACK["mining"]
+    return 3600 / (swings / rate + trav)
+
+
+def object_rate(obj, quality, max_stam):
+    """Drop events/hr for one objects.csv object: trees felled (or logs), segments, or nodes. None = unmodelled."""
+    if obj not in OBJ_SETUP:
+        return None, ""
+    tool, level = OBJ_SETUP[obj]
+    if obj in NODES["Destructible"]:
+        r = destructible_rate(tool, obj, level, quality, max_stam)
+        return r, f"{tool} Mining {level}, per node"
+    if obj in NODES["TreeLog"]:  # SwampTree1: the log carries the table; the stump has no drops
+        log = NODES["TreeLog"][obj]
+        it = ITEMS[tool]
+        hits = hits_to_kill(log["m_health"], {"m_chop": item_damage(it, quality).get("m_chop", 0)}, log.get("m_damages"),
+                            0, 1 + level / 100 * LUMBER[0])
+        tree = obj.replace("_log", "")
+        base = NODES["TreeBase"].get(tree)
+        if base:
+            hits += hits_to_kill(base["m_health"], {"m_chop": item_damage(it, quality).get("m_chop", 0)},
+                                 base["m_damageModifiers"], 0, 1 + level / 100 * LUMBER[0])
+        rho, _ = density(tree)
+        trav = travel_s(rho) if rho > 0 else TRAVEL_FALLBACK["trees"]
+        t = run_state(states_for(it["m_attack"]["m_attackAnimation"], 1)[0], True, False, 1.0)[0]
+        per = chop_cycle([hits], [trav + CAL["fall_s"]], t, it["m_attack"]["m_attackStamina"], max_stam)
+        return 3600 / per, f"{tool} Lumberjacking {level}, per log"
+    if obj in NODES["TreeBase"]:
+        prox = DENSITY_PROXY.get(obj)
+        if prox and f"density.{obj}" not in MEAS:
+            MEAS[f"density.{obj}"] = MEAS.get(f"density.{prox}", density(prox)[0] * ZONE_M2)
+        if density(obj)[0] <= 0:
+            MEAS[f"density.{obj}"] = 0.5 / (TRAVEL_FALLBACK["trees"] * CAL["speed_ms"] / CAL["tortuosity"]) ** 2 * ZONE_M2
+        r = trees(tool, obj, level, quality, max_stam, None)
+        if "error" in r:
+            return None, r["error"]
+        return r["trees/hr"], f"{tool} Lumberjacking {level}, per tree"
+    if obj in NODES["MineRock5"]:
+        unbroken = obj.replace("_frac", "")
+        prox = DENSITY_PROXY.get(unbroken)
+        if f"density.{unbroken}" not in MEAS:
+            if prox:
+                MEAS[f"density.{unbroken}"] = MEAS.get(f"density.{prox}", density(prox)[0] * ZONE_M2)
+            if density(unbroken)[0] <= 0:
+                MEAS[f"density.{unbroken}"] = 0.5 / (TRAVEL_FALLBACK["mining"] * CAL["speed_ms"] / CAL["tortuosity"]) ** 2 * ZONE_M2
+        r = mining(tool, obj, level, quality, max_stam, None)
+        if "error" in r:
+            return None, r["error"]
+        return r["segments/hr"], f"{tool} Mining {level}, per segment"
+    return None, ""
+
+
+def share_cap(obj):
+    """Highest per-destruction chance an added entry may have: gen-objects.py MAX_SHARE (1%) of the vanilla picks,
+    less 5%. None when nodes.json has no drop table for the object (Destructible ore: DropOnDestroyed)."""
+    for kind, key in (("TreeBase", "m_dropWhenDestroyed"), ("TreeLog", "m_dropWhenDestroyed"), ("MineRock5", "m_dropItems")):
+        t = NODES[kind].get(obj, {}).get(key)
+        if t and t.get("m_drops"):
+            ns = range(t["m_dropMin"], t["m_dropMax"] + 1)
+            return 0.95 * t["m_dropChance"] * sum(1 - (1 - 0.01) ** n for n in ns) / len(ns)
+    return None
+
+
+def fraction(p):
+    """1/N, N rounded up (never above the solved chance or the share cap): to 10s, 100s, then 1000s."""
+    if p <= 0:
+        return "0"
+    step = 10 if p > 1 / 1000 else 100 if p > 1 / 100000 else 1000
+    return f"1/{math.ceil(1 / p / step) * step}"
+
+
+def objects(quality, max_stam, write=False):
+    """Solve every pet/curio/gem row in loot\objects.csv to a per-hour target at the modelled rate."""
+    path = ROOT / "loot" / "objects.csv"
+    lines = open(path, encoding="utf-8", newline="").read().splitlines()
+    head, out, rows, cache = lines[0].split(","), [lines[0]], [], {}
+    for line in lines[1:]:
+        row = next(csv.reader([line]))
+        rec = dict(zip(head, row))
+        obj, item = rec.get("object", ""), rec.get("item", "")
+        if obj not in cache:
+            cache[obj] = object_rate(obj, quality, max_stam)
+        rate, how = cache[obj]
+        if rate and not rec["target"].startswith("w="):
+            per_hr = {"OSRS_PetMining": 1 / PET_HOURS, "OSRS_PetWoodcutting": 1 / PET_HOURS,
+                      "OSRS_Geode": CURIO_PER_HR, "OSRS_Burl": CURIO_PER_HR}.get(item, GEM_PER_HR)
+            tool, level = OBJ_SETUP[obj]
+            y = 1 + level / 100 * (YIELD["Pickaxe" if tool.startswith("Pickaxe") else "Axe"] - 1)
+            p, cap = per_hr / (rate * y), share_cap(obj)
+            if cap and p > cap:
+                p, how = cap, how + f", share cap {cap * rate:.2f}/hr"
+            rec["target"] = fraction(p)
+            rec["note"] = f"rate-model {rate:.0f}/hr x yield {y:g}, {how}" + (f"; {rec['note']}" if rec["note"] and not rec["note"].startswith("rate-model") else "")
+        rows.append({"object": obj, "item": item, "events/hr": round(rate, 1) if rate else "unmodelled",
+                     "setup": how, "target": rec["target"]})
+        buf = __import__("io").StringIO()
+        csv.writer(buf, lineterminator="").writerow([rec[h] for h in head])
+        out.append(buf.getvalue())
+    if write:
+        open(path, "w", encoding="utf-8", newline="").write("\n".join(out) + "\n")
+    return rows
+
+
 def kill_sim(it, cr, level, quality, times, n=4000, seed=1):
     """Monte Carlo hits per kill: rolls, combo last-hit bonus, opening backstab (CAL share), stagger x2."""
     a, dmg, mods = it["m_attack"], item_damage(it, quality), cr.get("m_damageModifiers")
@@ -450,6 +594,9 @@ def main():
         tools = [arg("--tool", None)] if "--tool" in sys.argv else ["Club", "AxeFlint", "KnifeFlint", "SpearFlint"]
         mobs = [arg("--mob", None)] if "--mob" in sys.argv else ["Greydwarf", "Skeleton", "Boar", "Neck"]
         out.append(("combat (engaged)", [combat(t, m, levels[0], q, stam) for t in tools for m in mobs]))
+    if mode == "objects":
+        out.append(("loot\\objects.csv targets" + (" (written)" if "--write" in sys.argv else ""),
+                    objects(q, stam, "--write" in sys.argv)))
     if mode == "swings":
         rows = []
         for k, it in sorted(ITEMS.items()):
