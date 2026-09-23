@@ -5,9 +5,9 @@ Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 (#66): `-Push` both PCs. Launched clean (0 exceptions);
 84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
-Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
+Herb run: crops -> `Potion_Meadbase` -> potion, both at `opalchemy` 2, 17
 Alchemy gates (WIRSL 331), `herbwife`, 5 Harvest contracts.
-`check-alchemy-balance.py` 7/7.
+`check-alchemy-balance.py` 8/8.
 GoldOre (Petrified Tissue): not sold to `gem_trader`, rewards paid as coin (#64).
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
@@ -17,8 +17,7 @@ map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enc
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 
 ## Needs a live world (issues carry the checklists)
-#19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
-decide the whole Alchemy ladder · #21 biome oaths, which need
+#19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
 the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
 #9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
 #83 weapon XP per hit (one nest run) ·
