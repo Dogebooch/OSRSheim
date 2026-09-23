@@ -1,5 +1,6 @@
 class,valheim_kills_hr,osrs_kills_hr,members
-camped,100,400,nest and pile campers: Greydwarf Draugr Skeleton Charred; guess = spawn ceiling / 3
+camped,321,400,SpawnArea-fed (and their same-name variants): Greydwarf Skeleton Skeleton_Swamps Draugr Draugr_Ranged Charred Elaking BlobMork; measured Greydwarf nest 321/hr (spawn cap 360)
+world,100,400,world-spawn and placed commons (animals blobs leeches bats ghosts); guess
 roamer,25,300,night roamers: Goblin Wolf Seeker Shaman
 nest,25,80,nest and pile elites: Draugr_Elite Greydwarf_Elite; ceiling pile 103/hr nest 51/hr
 elite,5,80,Troll Golem Gjall Brute Abomination and the rare world elites

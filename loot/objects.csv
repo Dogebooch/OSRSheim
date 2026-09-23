@@ -1,78 +1,78 @@
 group,object,item,min,max,target,note
-woodcutting,Beech1,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Beech1,OSRS_Burl,1,1,1/500,
-woodcutting,Birch1,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Birch1,OSRS_Burl,1,1,1/500,
-woodcutting,Birch1_aut,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Birch1_aut,OSRS_Burl,1,1,1/500,
-woodcutting,Birch2,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Birch2,OSRS_Burl,1,1,1/500,
-woodcutting,Birch2_aut,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Birch2_aut,OSRS_Burl,1,1,1/500,
-woodcutting,Oak1,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Oak1,OSRS_Burl,1,1,1/500,
-woodcutting,FirTree,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,FirTree,OSRS_Burl,1,1,1/500,
-woodcutting,FirTree_big,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,FirTree_big,OSRS_Burl,1,1,1/500,
-woodcutting,SnowFirTree,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,SnowFirTree,OSRS_Burl,1,1,1/500,
-woodcutting,SnowFirTree 2,OSRS_PetWoodcutting,1,1,1/16000,prefab name really does contain a space
-woodcutting,SnowFirTree 2,OSRS_Burl,1,1,1/500,
-woodcutting,Pinetree_01,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Pinetree_01,OSRS_Burl,1,1,1/500,
-woodcutting,Pinetree_Snow,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Pinetree_Snow,OSRS_Burl,1,1,1/500,
-woodcutting,Pinetree_Snow_dead,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,Pinetree_Snow_dead,OSRS_Burl,1,1,1/500,
-woodcutting,YggaShoot1,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,YggaShoot1,OSRS_Burl,1,1,1/500,
-woodcutting,YggaShoot2,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,YggaShoot2,OSRS_Burl,1,1,1/500,
-woodcutting,YggaShoot3,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,YggaShoot3,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree1,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree1,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree3,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree3,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree4,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree4,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree5,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree5,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree6,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree6,OSRS_Burl,1,1,1/500,
-woodcutting,AshlandsTree6_big,OSRS_PetWoodcutting,1,1,1/16000,
-woodcutting,AshlandsTree6_big,OSRS_Burl,1,1,1/500,
-woodcutting,SwampTree1_log,OSRS_PetWoodcutting,1,1,1/16000,SwampTree1 TreeBase is empty; the log carries Wood + ElderBark
-woodcutting,SwampTree1_log,OSRS_Burl,1,1,1/500,
+woodcutting,Beech1,OSRS_PetWoodcutting,1,1,1/37500,"rate-model 87/hr x yield 1.08, AxeFlint Lumberjacking 8, per tree"
+woodcutting,Beech1,OSRS_Burl,1,1,1/110,"rate-model 87/hr x yield 1.08, AxeFlint Lumberjacking 8, per tree, share cap 0.82/hr"
+woodcutting,Birch1,OSRS_PetWoodcutting,1,1,1/44800,"rate-model 95/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Birch1,OSRS_Burl,1,1,1/110,"rate-model 95/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.90/hr"
+woodcutting,Birch1_aut,OSRS_PetWoodcutting,1,1,1/51500,"rate-model 109/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Birch1_aut,OSRS_Burl,1,1,1/150,"rate-model 109/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.77/hr"
+woodcutting,Birch2,OSRS_PetWoodcutting,1,1,1/39900,"rate-model 84/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Birch2,OSRS_Burl,1,1,1/150,"rate-model 84/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.60/hr"
+woodcutting,Birch2_aut,OSRS_PetWoodcutting,1,1,1/48600,"rate-model 103/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Birch2_aut,OSRS_Burl,1,1,1/150,"rate-model 103/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.73/hr"
+woodcutting,Oak1,OSRS_PetWoodcutting,1,1,1/18500,"rate-model 39/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Oak1,OSRS_Burl,1,1,1/90,"rate-model 39/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.46/hr"
+woodcutting,FirTree,OSRS_PetWoodcutting,1,1,1/51800,"rate-model 110/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,FirTree,OSRS_Burl,1,1,1/150,"rate-model 110/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.78/hr"
+woodcutting,FirTree_big,OSRS_PetWoodcutting,1,1,1/45300,"rate-model 96/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,FirTree_big,OSRS_Burl,1,1,1/150,"rate-model 96/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.68/hr"
+woodcutting,SnowFirTree,OSRS_PetWoodcutting,1,1,1/60700,"rate-model 117/hr x yield 1.3, AxeIron Lumberjacking 30, per tree"
+woodcutting,SnowFirTree,OSRS_Burl,1,1,1/150,"rate-model 117/hr x yield 1.3, AxeIron Lumberjacking 30, per tree, share cap 0.83/hr"
+woodcutting,SnowFirTree 2,OSRS_PetWoodcutting,1,1,1/60700,"rate-model 117/hr x yield 1.3, AxeIron Lumberjacking 30, per tree; prefab name really does contain a space"
+woodcutting,SnowFirTree 2,OSRS_Burl,1,1,1/150,"rate-model 117/hr x yield 1.3, AxeIron Lumberjacking 30, per tree, share cap 0.83/hr"
+woodcutting,Pinetree_01,OSRS_PetWoodcutting,1,1,1/49900,"rate-model 106/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree"
+woodcutting,Pinetree_01,OSRS_Burl,1,1,1/150,"rate-model 106/hr x yield 1.18, AxeBronze Lumberjacking 18, per tree, share cap 0.75/hr"
+woodcutting,Pinetree_Snow,OSRS_PetWoodcutting,1,1,1/66500,"rate-model 128/hr x yield 1.3, AxeIron Lumberjacking 30, per tree"
+woodcutting,Pinetree_Snow,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.3, AxeIron Lumberjacking 30, per tree, share cap 0.91/hr"
+woodcutting,Pinetree_Snow_dead,OSRS_PetWoodcutting,1,1,1/66500,"rate-model 128/hr x yield 1.3, AxeIron Lumberjacking 30, per tree"
+woodcutting,Pinetree_Snow_dead,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.3, AxeIron Lumberjacking 30, per tree, share cap 0.91/hr"
+woodcutting,YggaShoot1,OSRS_PetWoodcutting,1,1,1/73900,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,YggaShoot1,OSRS_Burl,1,1,1/130,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,YggaShoot2,OSRS_PetWoodcutting,1,1,1/73900,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,YggaShoot2,OSRS_Burl,1,1,1/130,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,YggaShoot3,OSRS_PetWoodcutting,1,1,1/73900,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,YggaShoot3,OSRS_Burl,1,1,1/130,"rate-model 127/hr x yield 1.45, AxeBlackMetal Lumberjacking 45, per tree"
+woodcutting,AshlandsTree1,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree1,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree3,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree3,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree4,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree4,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree5,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree5,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree6,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree6,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree6_big,OSRS_PetWoodcutting,1,1,1/81900,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,AshlandsTree6_big,OSRS_Burl,1,1,1/150,"rate-model 128/hr x yield 1.6, AxeJotunBane Lumberjacking 60, per tree"
+woodcutting,SwampTree1_log,OSRS_PetWoodcutting,1,1,1/83400,"rate-model 160/hr x yield 1.3, AxeIron Lumberjacking 30, per log; SwampTree1 TreeBase is empty; the log carries Wood + ElderBark"
+woodcutting,SwampTree1_log,OSRS_Burl,1,1,1/150,"rate-model 160/hr x yield 1.3, AxeIron Lumberjacking 30, per log"
 mining,MineRock_Copper,OSRS_PetMining,1,1,1/300000,
 mining,MineRock_Copper,OSRS_Geode,1,1,1/500,
 mining,MineRock_Copper,Amber,1,1,1/256,
-mining,rock4_copper_frac,OSRS_PetMining,1,1,1/300000,
-mining,rock4_copper_frac,OSRS_Geode,1,1,1/500,
-mining,rock4_copper_frac,Amber,1,1,1/256,
-mining,MineRock_Tin,OSRS_PetMining,1,1,1/85000,
-mining,MineRock_Tin,OSRS_Geode,1,1,1/500,
-mining,MineRock_Tin,Amber,1,1,1/256,
-mining,mudpile_frac,OSRS_PetMining,1,1,1/300000,swamp scrap; vanilla already has WitheredBone at 0.01
-mining,mudpile_frac,OSRS_Geode,1,1,1/500,
-mining,mudpile2_frac,OSRS_PetMining,1,1,1/300000,second swamp scrap pile; DropChance 20%
-mining,mudpile2_frac,OSRS_Geode,1,1,1/600,1/500 would take the full 1% share cap
+mining,rock4_copper_frac,OSRS_PetMining,1,1,1/169000,"rate-model 367/hr x yield 1.15, PickaxeBronze Mining 15, per segment"
+mining,rock4_copper_frac,OSRS_Geode,1,1,1/300,"rate-model 367/hr x yield 1.15, PickaxeBronze Mining 15, per segment"
+mining,rock4_copper_frac,Amber,1,1,1/160,"rate-model 367/hr x yield 1.15, PickaxeBronze Mining 15, per segment"
+mining,MineRock_Tin,OSRS_PetMining,1,1,1/87500,"rate-model 190/hr x yield 1.15, PickaxeBronze Mining 15, per node"
+mining,MineRock_Tin,OSRS_Geode,1,1,1/160,"rate-model 190/hr x yield 1.15, PickaxeBronze Mining 15, per node"
+mining,MineRock_Tin,Amber,1,1,1/80,"rate-model 190/hr x yield 1.15, PickaxeBronze Mining 15, per node"
+mining,mudpile_frac,OSRS_PetMining,1,1,1/1162000,"rate-model 2324/hr x yield 1.25, PickaxeIron Mining 25, per segment; swamp scrap; vanilla already has WitheredBone at 0.01"
+mining,mudpile_frac,OSRS_Geode,1,1,1/2100,"rate-model 2324/hr x yield 1.25, PickaxeIron Mining 25, per segment"
+mining,mudpile2_frac,OSRS_PetMining,1,1,1/1410000,"rate-model 2820/hr x yield 1.25, PickaxeIron Mining 25, per segment; second swamp scrap pile; DropChance 20%"
+mining,mudpile2_frac,OSRS_Geode,1,1,1/2500,"rate-model 2820/hr x yield 1.25, PickaxeIron Mining 25, per segment"
 mining,MineRock_Iron,OSRS_PetMining,1,1,1/300000,
 mining,MineRock_Iron,OSRS_Geode,1,1,1/500,
 mining,MineRock_Iron,AmberPearl,1,1,1/256,
-mining,rock3_silver_frac,OSRS_PetMining,1,1,1/300000,
-mining,rock3_silver_frac,OSRS_Geode,1,1,1/500,
-mining,rock3_silver_frac,Ruby,1,1,1/256,
-mining,silvervein_frac,OSRS_PetMining,1,1,1/300000,
-mining,silvervein_frac,OSRS_Geode,1,1,1/500,
-mining,silvervein_frac,Ruby,1,1,1/256,
+mining,rock3_silver_frac,OSRS_PetMining,1,1,1/407000,"rate-model 752/hr x yield 1.35, PickaxeIron Mining 35, per segment"
+mining,rock3_silver_frac,OSRS_Geode,1,1,1/710,"rate-model 752/hr x yield 1.35, PickaxeIron Mining 35, per segment"
+mining,rock3_silver_frac,Ruby,1,1,1/370,"rate-model 752/hr x yield 1.35, PickaxeIron Mining 35, per segment"
+mining,silvervein_frac,OSRS_PetMining,1,1,1/404000,"rate-model 747/hr x yield 1.35, PickaxeIron Mining 35, per segment"
+mining,silvervein_frac,OSRS_Geode,1,1,1/710,"rate-model 747/hr x yield 1.35, PickaxeIron Mining 35, per segment"
+mining,silvervein_frac,Ruby,1,1,1/360,"rate-model 747/hr x yield 1.35, PickaxeIron Mining 35, per segment"
 mining,goldvein_frac,OSRS_PetMining,1,1,1/300000,
 mining,goldvein_frac,OSRS_Geode,1,1,1/500,
 mining,goldvein_frac,Ruby,1,1,1/256,
-mining,MineRock_Obsidian,OSRS_PetMining,1,1,1/45000,
-mining,MineRock_Obsidian,OSRS_Geode,1,1,1/500,
-mining,MineRock_Obsidian,Ruby,1,1,1/256,
+mining,MineRock_Obsidian,OSRS_PetMining,1,1,1/287000,"rate-model 531/hr x yield 1.35, PickaxeIron Mining 35, per node"
+mining,MineRock_Obsidian,OSRS_Geode,1,1,1/500,"rate-model 531/hr x yield 1.35, PickaxeIron Mining 35, per node"
+mining,MineRock_Obsidian,Ruby,1,1,1/260,"rate-model 531/hr x yield 1.35, PickaxeIron Mining 35, per node"
 mining,MineRock_Meteorite,OSRS_PetMining,1,1,1/300000,
 mining,MineRock_Meteorite,OSRS_Geode,1,1,1/500,
 mining,MineRock_Meteorite,Ruby,1,1,1/256,
