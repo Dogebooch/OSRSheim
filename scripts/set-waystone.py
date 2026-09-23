@@ -71,7 +71,6 @@ def main():
     key = sys.argv[1].strip().lower()
     if key not in NODES:
         fail(f"unknown node '{key}'; expected one of {' '.join(NODES)}")
-    name = NODES[key]
 
     nums = NUM.findall(sys.argv[2])
     if len(nums) != 3:
@@ -80,8 +79,19 @@ def main():
     if x == 0 and z == 0:
         fail('x and z are both 0 — that is the placeholder, not a real position')
 
+    out = render(key, x, y, z)
+    CFG.write_text(out, encoding='utf-8', newline='\n')
+    tiers = [l for l in out.splitlines() if l.startswith('[oath_network_')]
+    print(f'ok    {NODES[key]} -> {x}, {y}, {z}')
+    print(f'      carried by every tier from its own upward; profiles: {len(tiers)}')
+    print('      next: python scripts\\validate-configs.py, then scripts\\sync-configs.ps1 -Push')
+
+
+def render(key, x, y, z, text=None):
+    """The cfg text with node `key` set to x, y, z (every tier line that carries it)."""
+    name = NODES[key]
     out, hits = [], 0
-    for line in lines():
+    for line in (text if text is not None else CFG.read_text(encoding='utf-8')).splitlines():
         if line.lstrip('# ').startswith(name + ','):
             indent = line[:len(line) - len(line.lstrip())]
             out.append(f'{indent}{name}, {x}, {y}, {z}')
@@ -90,12 +100,7 @@ def main():
             out.append(line)
     if hits == 0:
         fail(f"no line for '{name}' in {CFG.name}; did the destination get renamed?")
-
-    CFG.write_text('\n'.join(out) + '\n', encoding='utf-8')
-    tiers = [l[1:-1] for l in out if l.startswith('[oath_network_')]
-    print(f'ok    {name} -> {x}, {y}, {z} ({hits} line updated)')
-    print(f'      carried by every tier from its own upward; profiles: {len(tiers)}')
-    print('      next: python scripts\\validate-configs.py, then scripts\\sync-configs.ps1 -Push')
+    return '\n'.join(out) + '\n'
 
 
 if __name__ == '__main__':
