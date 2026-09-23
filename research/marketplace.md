@@ -22,7 +22,7 @@ other list empty, marketplace and mail off (open key unverified).
 **Traders** (`Traders\`) — line = `cost item, amount, result item, amount`.
 - `general_store`: buys basics at ~10x sell price (Wood 3c to FishingRod
   350c); sells wood, stone, hides 10-60c, trophies 5-200c, fish 3-50c.
-- `gem_trader`: gems 8-120c (25-45% of a kill's value); key forge
+- `gem_trader`: gems 8-80c (25-45% of a kill's value), no `GoldOre`; key forge
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
 - `skillcape_shop`: every cape 5,000c, max cape 25,000c.
 - `offerings` (`= true` discovery gate, Seeress): 150-500c a piece; a summon =
@@ -132,7 +132,8 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
 | Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
-Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`, `Gothi Eirik.yml`, `Gullveig.yml`, `Gambler.yml`.
+Hammer templates: `Marketplace_SavedNPCs\<Name Override>.yml`, one per row (Banker placed twice, Waystone 9 times). Speech set is not in the template: set it in the NPC panel.
+No file-driven placement: KG has no spawn command; devcommands `rpc` sends strings only (`KGMarket changeNpcType` takes an int). Full automation needs World Edit Commands / Expand World Data (not installed).
 NPC UI (10.0.1): the Buffer type tile is labelled "Enchanter".
 File name = Hammer piece name. `/mreloadnpcs` reloads.
 Client-only (`MarketplaceHammer` is a KG Client module): the placing admin's profile needs them; the host never reads them.

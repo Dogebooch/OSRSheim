@@ -88,6 +88,17 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
   sold by the skillcape shop.
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
+- Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
+- `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.
+- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat). Wizardry rings: Utility type, armor 10, WIRSL-ungated, shard-gated:
+
+| Ring | Effect |
+|---|---|
+| `RingBlackForest_TW` | Sneak +5 |
+| `RingSwamp_TW` | ElementalMagic +3 |
+| `RingMountain_TW` | eitr regen +4% |
+| `RingPlains_TW` | ElementalMagic damage +3% |
+| `RingMistlands_TW` | BloodMagic +7, health regen +2% |
 - Vanilla traders (Haldor, Hildir, Bog Witch) buy any item with `m_value > 0` at `m_value x stack`; a clone without `m_value` keeps its source's. Crafted items stay `m_value: 0`.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
