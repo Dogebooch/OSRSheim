@@ -47,5 +47,5 @@ Waiting on upstream: KG Marketplace stable 10.x.
 Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = 55fa2cd via
 `sync-server.ps1` (behind main), mods = `mods.tsv`. MWL live, host dumps off;
 2.5 GiB boot, 4.0 GiB after a 30 min solo fly (§15). First join can time out:
-rejoin (§15). Open: `Use Marketplace Locally = false`, Doug in `adminlist.txt`,
+rejoin (§15). Open: Doug in `adminlist.txt`,
 clone-drop and `DropOnePerPlayer` checks with both players present.

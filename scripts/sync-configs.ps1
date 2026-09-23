@@ -9,6 +9,8 @@ are downstream copies that get overwritten.
   -Status   show what differs, change nothing (default)
   -Push     repo config\  ->  profile BepInEx\config\   (then run the validator)
             refused when origin/main has config\ commits this checkout lacks; -AllowBehind overrides
+            -Solo sets KG 'Use Marketplace Locally = true' in the profile, for a world with no host
+            (ModTest); a plain -Push puts the repo's false back, which joining the host needs
   -Pull     profile BepInEx\config\  ->  repo config\   (stage local edits)
 
 Backups (*.bak*), mod-shipped examples and the KG binary asset folders are
@@ -51,6 +53,7 @@ param(
     [Parameter(ParameterSetName = 'Pull')][switch]$Pull,
     [Parameter(ParameterSetName = 'Status')][switch]$Status,
     [Parameter(ParameterSetName = 'Push')][switch]$AllowBehind,
+    [Parameter(ParameterSetName = 'Push')][switch]$Solo,
     [string]$ProfilePath = (Join-Path $env:APPDATA 'com.kesomannen.gale\valheim\profiles\OSRSheim')
 )
 
@@ -105,6 +108,16 @@ switch ($PSCmdlet.ParameterSetName) {
         Write-Host "  $RepoConfig"
         Write-Host "  $ProfConfig"
         Invoke-Sync -Source $RepoConfig -Dest $ProfConfig | Write-Host
+
+        if ($Solo) {
+            # true makes this PC run KG's server half too (bank, shops, quests); the headless host ignores it.
+            $kg = Join-Path $ProfConfig 'MarketplaceAndServerNPCs.cfg'
+            $text = [IO.File]::ReadAllText($kg)
+            $pattern = '(?m)^Use Marketplace Locally = \w+'
+            if ($text -notmatch $pattern) { throw "'Use Marketplace Locally' not found in $kg" }
+            [IO.File]::WriteAllText($kg, ($text -replace $pattern, 'Use Marketplace Locally = true'))
+            Write-Host "`nSolo: KG Use Marketplace Locally = true. A plain -Push resets it for the host." -ForegroundColor Cyan
+        }
 
         $validator = Join-Path $PSScriptRoot 'validate-configs.py'
         $havePython = [bool](Get-Command python -ErrorAction SilentlyContinue)
