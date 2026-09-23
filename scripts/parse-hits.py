@@ -15,7 +15,8 @@ Log lines used (decompiled 1.0.15; ZLog timestamps are whole seconds):
                                                     LogChops, MineHits, Mines (areas the player broke; not collapses)
 Trees: a tree starts at a trunk hit once the last trunk is down; cycle = start to next start (idle = cycle -
 swings x 1.28 s: fall, walk, stamina). Mining: an area is broken by damage when its logged damage reaches its
-HP; the rest collapsed. Combat: a kill is a run of hits on one creature name with gaps < 5 s.
+HP; the rest collapsed. Combat rows: runs of hits on one creature name with gaps < 5 s; the species table
+credits each EnemyKills stat to the creature hit last (exact when targets alternate).
 Per-tree rows split badly in real play (falling trees fell trees, stumps get hit); the stat summary is the count.
 """
 import importlib.util
@@ -74,7 +75,7 @@ def node_info(name):
 def read_swings(path, start, since, until):
     """Player swings in order: {t, weapon, n, hits: [(object, damage dict)], mine: [area], cdmg: [(name, d)]};
     Playerstat totals."""
-    swings, cur, stats = [], None, {}
+    swings, cur, stats, kills, last_mob = [], None, {}, [], None
     with open(path, encoding="utf-8", errors="replace") as f:
         for i, line in enumerate(f, 1):
             if i < start:
@@ -90,6 +91,8 @@ def read_swings(path, start, since, until):
             if (x := STAT.match(msg)):
                 if x.group(1) not in SKIP_STATS:
                     stats[x.group(1)] = stats.get(x.group(1), 0) + float(x.group(2))
+                if x.group(1) == "EnemyKills" and last_mob:
+                    kills.append((t, last_mob))
             elif (x := INIT.match(msg)):
                 cur = None
                 if x.group(1).startswith("Player"):
@@ -109,7 +112,8 @@ def read_swings(path, start, since, until):
             elif (x := CDMG.match(msg)):
                 if x.group(3) == "PlayerHit":
                     cur["cdmg"].append((x.group(1), float(x.group(2))))
-    return swings, stats
+                    last_mob = x.group(1)
+    return swings, stats, kills
 
 
 def trees(swings):
@@ -216,7 +220,7 @@ def main():
         print(f"mark: line {n + 1} of {path.name}, {datetime.now():%H:%M:%S}")
         return
     start = int(arg("--from", MARK.read_text() if MARK.exists() else 1))
-    swings, stats = read_swings(path, start, arg("--since"), arg("--until"))
+    swings, stats, kill_log = read_swings(path, start, arg("--since"), arg("--until"))
     if not swings:
         print(f"no player swings logged from line {start}: run `test` and `test damage` in the console")
         return
@@ -228,6 +232,16 @@ def main():
                "last": swings[-1]["t"].strftime("%H:%M:%S"), "swings": len(swings), "span s": span,
                "swings by objects hit": dict(sorted(by_n.items())), "stats": stats}
     tr, mi, co = trees(swings), mining(swings), combat(swings)
+    species = {}
+    for s in swings:
+        for name, d in s["cdmg"]:
+            r = species.setdefault(name, {"mob": name, "kills": 0, "hits": 0, "damage": 0.0})
+            r["hits"] += 1
+            r["damage"] += d
+    for _, name in kill_log:
+        species.setdefault(name, {"mob": name, "kills": 0, "hits": 0, "damage": 0.0})["kills"] += 1
+    sp = [{**r, "damage": round(r["damage"]), "hits/kill": round(r["hits"] / r["kills"], 2) if r["kills"] else None,
+           "damage/kill": round(r["damage"] / r["kills"]) if r["kills"] else None} for r in species.values()]
     done = [r for r in tr if r["cycle s"]]
     if tr:
         pieces = 1 + RM.CAL["log_halves"]
@@ -245,14 +259,16 @@ def main():
                              "hit fraction (Mines stat)": round(stats.get("Mines", 0) / max(1, areas), 3),
                              "hit fraction (damage)": round(sum(r["broken by damage"] for r in mi) / max(1, areas), 3)}
     if co:
-        summary["combat"] = {"kills": len(co), "mean hits": mean(co, "hits"), "mean swings": mean(co, "swings"),
-                             "mean s/kill": mean(co, "s"), "kills/hr": round(3600 * len(co) / span, 1)}
+        summary["combat"] = {"kills (stat)": len(kill_log), "kills/hr (stat)": round(3600 * len(kill_log) / span, 1),
+                             "swings hitting nothing": round(by_n.get(0, 0) / len(swings), 3), "hit runs": len(co), "mean hits": mean(co, "hits"), "mean swings": mean(co, "swings"),
+                             "mean s/run": mean(co, "s")}
     if "--json" in sys.argv:
-        print(json.dumps({"summary": summary, "trees": tr, "mining": mi, "combat": co}, indent=1, default=str))
+        print(json.dumps({"summary": summary, "trees": tr, "mining": mi, "combat": co, "species": sp}, indent=1, default=str))
         return
     table("trees", tr)
     table("mining (MineRock5)", mi)
-    table("combat (kills = hit runs, gap < 5 s)", co)
+    table("combat hit runs (gap < 5 s)", co)
+    table("combat by species (kills from EnemyKills stat)", sp)
     print(json.dumps(summary, indent=1, default=str))
 
 

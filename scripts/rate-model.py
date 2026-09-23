@@ -7,7 +7,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
-    combat: --backstab 0.5  share of kills opened unaware (default CAL)
+    combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
 Output is the ENGAGED rate (swinging at targets) plus travel from density. Every number the files
 cannot give is a named parameter below (CAL); in-game checks in #67 replace them via measured.csv.
@@ -59,6 +59,8 @@ CAL = {
     "refill": 1.0,              # stamina fraction a player waits for once empty
     "stagger_s": 2.0,           # creature stagger animation: hits landing inside it deal x2
     "backstab": 0.0,            # share of kills opened on an unalerted mob (x m_backstabBonus); normal play ~0
+    "chain_carry": 1.0,         # share of kills that start mid-combo (swinging on from the last target)
+    "melee_hit": 0.86,          # share of combat swings that connect
 }
 
 
@@ -337,12 +339,13 @@ def kill_sim(it, cr, level, quality, times, n=4000, seed=1):
         h = k = t = s = 0.0
         until = -1.0
         back = it.get("m_backstabBonus", 1.0) if rng.random() < CAL["backstab"] else 1.0
+        c0 = rng.randrange(len(chain)) if rng.random() < CAL["chain_carry"] else 0
         k = 0
         while h < hp:
             if k:
-                dt = times[(k - 1) % len(times)]
+                dt = times[(c0 + k - 1) % len(times)]
                 t, s = t + dt, max(0.0, s - thr / 5 * dt)
-            m = chain[k % len(chain)] * (back if k == 0 else 1.0) * (2.0 if t < until else 1.0)
+            m = chain[(c0 + k) % len(chain)] * (back if k == 0 else 1.0) * (2.0 if t < until else 1.0)
             roll = rng.uniform(lo, hi)
             h += hit_damage(dmg, mods, roll, m)
             if thr > 0:
@@ -365,7 +368,7 @@ def combat(tool, mob, level, quality, max_stam):
     cycle = sum(times) / len(times)
     cost = a["m_attackStamina"] * (1 - 0.33 * sf)
     rate, _ = sustained(cycle, cost, max_stam)
-    ttk = hits / rate
+    ttk = hits / CAL["melee_hit"] / rate
     return {"tool": tool, "mob": mob, "hp": cr["m_health"], "level": level, "hits/kill": round(hits, 2),
             "s/swing": round(cycle, 3), "TTK s": round(ttk, 1), "kills/hr engaged": round(3600 / (ttk + CAL["engage_s"]), 1),
             "weapon xp/hr": round(3600 / (ttk + CAL["engage_s"]) * hits * 1.5 * STEPS.get(it["m_skillType"], 1) * GAIN_GLOBAL, 1)}
@@ -424,6 +427,8 @@ def arg(name, default):
 def main():
     if "--backstab" in sys.argv:
         CAL["backstab"] = float(arg("--backstab", 0))
+    if "--chain-carry" in sys.argv:
+        CAL["chain_carry"] = float(arg("--chain-carry", 1))
     mode = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "summary"
     levels = [int(x) for x in arg("--levels", "0,25,50,100").split(",")]
     q, stam = int(arg("--quality", 1)), float(arg("--stamina", 75 + 20 + 15 + 10))  # base + 3 early foods
