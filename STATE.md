@@ -1,6 +1,7 @@
 # STATE — 2026-09-23
 
-Stack loads on 1.0.15; mod list frozen (§3). Launched clean (0 exceptions);
+Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
+(#46): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Launched clean (0 exceptions);
 84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
 camped class 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17

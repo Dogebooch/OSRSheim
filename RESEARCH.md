@@ -79,6 +79,7 @@ reads both.
 | sighsorry Trolling Fishing | TS | Fishing bite chance and bonus drops scale with skill (§18) |
 | Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) |
 | JereKuusela Server devcommands | TS | admin console (§16) |
+| Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
@@ -153,6 +154,18 @@ weight 0.1 stack 50.
   `MWL_MistTower2` tree drops. The host throws `DropTable.AddItemToList` NRE when TreeTowers1 spawns.
 
 - **AzuEPI slots**: reserved `m_itemType`; `BlockCraft` not `BlockEquip`.
+- **Quick Stack Store** 1.4.16 (`goldenrevolver.quick_stack_store.cfg`), all defaults:
+
+| Action | Key / UI |
+|---|---|
+| Sort (by type) | `O`, inventory + chest buttons |
+| Quick stack to open chest | `P` |
+| Restock ammo + consumables | `L` |
+| Trash held item | `Delete` or trash can; confirm dialog unless trash-flagged |
+| Favorite (sort/stack/trash skip it) | `LeftAlt` + click; AzuEPI favoriting yields to it |
+
+- Area stack/restock off in multiplayer (`AllowAreaStackingInMultiplayerWithoutMUC = false`, no MultiUserChest).
+- `ModRequired = false`: clients only; host optional.
 
 ## 15. Server setup
 
