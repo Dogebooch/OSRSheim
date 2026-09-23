@@ -181,6 +181,23 @@ Enchanting table off (`Enabled = false`, `Table Features Active = None`). Effect
 `rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 37.2 magic items/run,
 1 per 10 h, 2.6 Epic, 0.12 Legendary; superiors 1.9 of them. `--all-maps`: 190, 1 per 2 h.
 
+Chest gems (`rate-model.py magic` maps x gem share, frontier map, per player), against one set of 6 jewellery pieces
+(Amber 5, AmberPearl 2, Ruby 6, Crystal 3):
+
+| Gem | Chests | Cumulative by end of |
+|---|---|---|
+| Amber | Meadows 2.9, BF 2.9 | BF 5.8 |
+| AmberPearl | BF 2.9, Swamp 3.8 | Swamp 6.7 |
+| Ruby | Swamp 3.8, Mountain 4.3, then 5-6 per biome | Mountain 8.1 |
+| Crystal | Mountain 4.3, then 5-6 per biome | Mountain 4.3 |
+
+Unique shardstones (EpicLoot 0.14.11 decompile; `Unique` is exclusive: one per worn set; the chest rows are in `OSRSheim-NOTES.md`):
+
+| Shard | Effect | Epic / Leg / Myth / Anc |
+|---|---|---|
+| Stormcaller | each hit: value % chance of value x 6 lightning, 1 m radius | avg +1.5 / 3.8 / 8.6 / 15.4 per hit |
+| Firewalker | moving >= 1.5 m/s on ground: fire patch every 0.35 s, 2.5 m, 3 s, value fire per 0.5 s tick | 8 / 12 / 16 / 20 per tick |
+
 Uniques drop as EpicLoot Legendaries: gold beam on the ground, Legendary
 background in the inventory, 2 empty shard slots, durability 20-100%. Verified
 in game 2026-09-22 (Troll). Drop That item modifiers (`.EpicLoot`,

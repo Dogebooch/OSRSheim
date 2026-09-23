@@ -58,7 +58,7 @@ Magic items are found, never crafted. Replaces "EpicLoot restricted to clues + b
 
 | Source | Roll |
 |---|---|
-| `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops [[1,100]]`, one pick: gems weight 2 (plain, `Rarity null`), tier pair 1 total, shard rows unchanged (#107) |
+| `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops [[1,100]]`, one pick: gems weight 2 (plain, `Rarity null`), tier pair 1 total, shard weights 0.02-0.03, `ShardUnique` rarity per biome (table below) |
 | 2-star creatures (= superiors, bounty targets and adds) | `Tier0Mob`-`Tier9Mob` and `JotunWarrior` level 3: `Drops [[0,90],[1,10]]`, top-level `Drops []` |
 | 15 OSRSheim uniques | unchanged (generated tables) |
 | Enchanting table | `Enabled = false`, `Table Features Active = None` |
@@ -75,6 +75,16 @@ Rarity rows `[Magic, Rare, Epic, Legendary, Mythic, Ancient]`:
 | Mistlands | 55, 35, 9.5, 0.5, 0, 0 | Tier6Mob, Tier7Mob |
 | AshLands | 45, 40, 14.5, 0.5, 0, 0 | Tier8Mob |
 | DeepNorth | 40, 40, 19.5, 0.5, 0, 0 | Tier9Mob, JotunWarrior |
+
+Chest `ShardUnique` entry `Rarity` (overrides the ItemSet's 0, 0, 55, 35, 8, 2):
+
+| Chest | Row |
+|---|---|
+| Swamp | 0, 0, 100, 0, 0, 0 |
+| Mountain | 0, 0, 90, 10, 0, 0 |
+| Plains | 0, 0, 80, 20, 0, 0 |
+| Mistlands | 0, 0, 60, 35, 5, 0 |
+| AshLands, DeepNorth | 0, 0, 55, 35, 8, 2 |
 
 - EpicLoot rule (`LootRoller.GetDropsForLevel`): levels 1-3 read top-level `Drops`/`Loot` when non-empty, else `LeveledLoot`.
 - 2-star creatures exist only through Spawn That and bounties, so one level-3 rate (10%) covers superiors; no separate 1% two-star rate. Bounty targets and adds roll it too (accepted).
