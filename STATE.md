@@ -7,6 +7,7 @@ dropped Feathers at 100% on ten empty log tables.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
 Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
+GoldOre (Petrified Tissue): not sold to `gem_trader`, rewards paid as coin (#64).
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 4 fixed
