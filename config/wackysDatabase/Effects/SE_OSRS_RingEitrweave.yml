@@ -6,5 +6,5 @@ ClonedSE: SetEffect_TrollArmor
 Status_m_name: Eitrweave band
 Tooltip: Gold wound round a red stone. The mind refills faster.
 SeData:
-  m_eitrRegenMultiplier: 1.15
+  m_eitrRegenMultiplier: 1.05
   m_skillLevelModifier: 0

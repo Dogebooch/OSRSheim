@@ -85,6 +85,7 @@ Trophies: Black Forest,TrophySkeleton,Skeleton trophy
 Trophies: Black Forest,TrophySkeletonPoison,Rancid remains trophy
 Trophies: Black Forest,TrophyGhost,Ghost trophy
 Trophies: Black Forest,TrophyFrostTroll,Troll trophy
+Trophies: Black Forest,TrophyBjorn,Bjorn trophy
 Trophies: Swamp and Ocean,TrophyDraugr,Draugr trophy
 Trophies: Swamp and Ocean,TrophyDraugrElite,Draugr elite trophy
 Trophies: Swamp and Ocean,TrophyBlob,Blob trophy
@@ -105,6 +106,7 @@ Trophies: Plains,TrophyGoblinShaman,Fuling shaman trophy
 Trophies: Plains,TrophyDeathsquito,Deathsquito trophy
 Trophies: Plains,TrophyLox,Lox trophy
 Trophies: Plains,TrophyGrowth,Growth trophy
+Trophies: Plains,TrophyBjornUndead,Unbjorn trophy
 Trophies: Mistlands,TrophySeeker,Seeker trophy
 Trophies: Mistlands,TrophySeekerBrute,Seeker soldier trophy
 Trophies: Mistlands,TrophyGjall,Gjall trophy
@@ -124,8 +126,6 @@ Trophies: Deep North,TrophySeal,Seal trophy
 Trophies: Deep North,TrophyHare,Hare trophy
 Trophies: Deep North,TrophyMole,Mole trophy
 Trophies: Deep North,TrophyElaking,Elaking trophy
-Trophies: Deep North,TrophyBjorn,Bjorn trophy
-Trophies: Deep North,TrophyBjornUndead,Unbjorn trophy
 Trophies: Deep North,TrophyJotunWarrior,Jotun warrior trophy
 Trophies: Deep North,TrophyJotunWitch,Jotun witch trophy
 Trophies: Deep North,TrophyWrithan,Writhan trophy

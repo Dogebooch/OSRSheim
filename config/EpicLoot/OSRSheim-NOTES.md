@@ -58,7 +58,7 @@ Magic items are found, never crafted. Replaces "EpicLoot restricted to clues + b
 
 | Source | Roll |
 |---|---|
-| `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops` stays `[[0,100]]` until #107 |
+| `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops [[1,100]]`, one pick: gems weight 2 (plain, `Rarity null`), tier pair 1 total, shard rows unchanged (#107) |
 | 2-star creatures (= superiors, bounty targets and adds) | `Tier0Mob`-`Tier9Mob` and `JotunWarrior` level 3: `Drops [[0,90],[1,10]]`, top-level `Drops []` |
 | 15 OSRSheim uniques | unchanged (generated tables) |
 | Enchanting table | `Enabled = false`, `Table Features Active = None` |
