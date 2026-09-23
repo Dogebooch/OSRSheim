@@ -86,7 +86,9 @@ Crypt chest: vanilla only (Coins 10-30 at 1/5.35 a pick, ~11c a chest). The old 
 row paid ~100c a chest (~2,000c/hr at ~20 chests/hr, BF target 200) and cut Ruby,
 Amber, SilverNecklace and Upgrader odds 6.6x.
 
-`goldvein`: no pickaxe damages it (BlackMetal is the top tier), not in the location dump (#64).
+`GoldOre` = Petrified Tissue (Bloodgold ore). Source: petrified `TrollFrost`, broken by Ember Charge (`BombDynamite`), a Gammeltroll punch or `SwordCheat`; no pickaxe.
+ModTest 2026-09-22, one 0-star `TrollFrost`: 36 GoldOre, 108 Stone (~4,300c a troll at the old 120c).
+`goldvein`: same drop table, not placed by world generation (#64).
 
 Coin/hr target, best camped source: Meadows 150 · BF 200 · Swamp 440 · Mountain
 520 · Plains 700 · Mistlands 900 · Ashlands 1300 · DeepNorth 1600. Roamer purse =
