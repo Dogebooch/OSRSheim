@@ -1,12 +1,28 @@
-"""Apply the reviewed superior balance profile; preserve originals beside each config."""
+"""Apply the reviewed superior balance profile; preserve originals beside each config.
+
+    python scripts\\update-superiors.py            production rates
+    python scripts\\update-superiors.py --wiring   500-507 at 100% per 60 s check (in-game test; validator errors until a plain run)
+
+Vanilla SpawnSystem rolls min(MaxSpawned, elapsed / SpawnInterval) times when a player's zone updates;
+a zone never visited, or not visited for MaxSpawned x SpawnInterval, gets MaxSpawned rolls.
+Rates: rate-model.py roamers (CAL stale_zones_hr).
+"""
 import os
 import re
 import shutil
+import sys
 from pathlib import Path
 
 from main_guard import require_current
 
-CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
+CFG = Path(os.environ.get('APPDATA') or Path.home() / 'AppData/Roaming') / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
+# 500-507 production rate: ~0.12 superiors/hr per biome at CAL stale_zones_hr 40 (10 rolls each).
+SPAWN_INTERVAL, SPAWN_CHANCE, MAX_SPAWNED = 900, 0.03, 10
+WIRING_INTERVAL, WIRING_CHANCE = 60, 100
+# 510 troll ~0.6/hr of Meadows night (1 roll per stale zone); 511 scouts ~0.6 groups/hr of BF night (3 rolls).
+ROAMER_CHANCE = {510: 1.4, 511: 0.5}
+# Vanilla m_minAltitude of the same prefab's world spawner (Spawn That default -1000 spawns under water).
+ALTITUDE_MIN = {500: 0, 501: 0, 502: -1.5, 503: 0, 504: 0, 505: 0, 506: 1, 507: 0, 510: 0, 511: 0}
 # Station names: EpicLoot's recipe/station tables and the verified Wizardry roster.
 ANCHOR_LIST = ['forge', 'blackforge', 'piece_stonecutter', 'piece_artisanstation',
                'WizardTable_TW', 'ArcaneAnvil_TW', 'WeavingLoom_TW', 'PotionCauldron_TW']
@@ -30,17 +46,21 @@ def save(name, text):
     backup = path.with_name(path.name + '.bak-before-superior-balance')
     if not backup.exists():
         shutil.copy2(path, backup)
-    path.write_text(text, encoding='utf-8')
+    with open(path, 'w', encoding='utf-8', newline='\r\n') as f:
+        f.write(text)
 
 def main():
     require_current(__file__)
+    wiring = '--wiring' in sys.argv
+    interval, chance = (WIRING_INTERVAL, WIRING_CHANCE) if wiring else (SPAWN_INTERVAL, SPAWN_CHANCE)
     path = CFG / 'spawn_that.world_spawners_advanced.cfg'
     source = path.read_text(encoding='utf-8-sig')
     blocks = re.split(r'(?=^\[WorldSpawner\.\d+\]$)', source, flags=re.M)[1:]
     out = ['# OSRSheim custom encounters; runtime verification pending.\n'
-           '# Superiors unlock after their own biome boss; 3% per 900-second check.\n'
+           f'# Superiors unlock after their own biome boss; {chance:g}% per {interval}-second check.\n'
            '# MaxSpawned 10: vanilla counts every loaded instance of the shared prefab, so 1 let any\n'
-           '# loaded common block the roll; vanilla also rolls min(MaxSpawned, elapsed/interval) times.\n'
+           '# loaded common block the roll; vanilla also rolls min(MaxSpawned, elapsed/interval) times,\n'
+           '# so a stale zone gets 10 rolls (~0.3% a superior at 0.03%).\n'
            '# No spawn within 150 m horizontally of any listed station.\n'
            '# Base/outpost coverage requires a listed station (a forge is the earliest;\n'
            '# 510 also counts piece_workbench, the only station a Meadows base has).\n'
@@ -51,15 +71,18 @@ def main():
         sid = int(re.search(r'WorldSpawner\.(\d+)', block)[1])
         block = re.sub(r'^#.*\n', '', block, flags=re.M)
         if 500 <= sid <= 507:
-            block = re.sub(r'^SpawnInterval = .*$', 'SpawnInterval = 900', block, flags=re.M)
-            block = re.sub(r'^SpawnChance = .*$', 'SpawnChance = 3', block, flags=re.M)
-            block = re.sub(r'^MaxSpawned = .*$', 'MaxSpawned = 10', block, flags=re.M)
+            block = re.sub(r'^SpawnInterval = .*$', f'SpawnInterval = {interval}', block, flags=re.M)
+            block = re.sub(r'^SpawnChance = .*$', f'SpawnChance = {chance:g}', block, flags=re.M)
+            block = re.sub(r'^MaxSpawned = .*$', f'MaxSpawned = {MAX_SPAWNED}', block, flags=re.M)
             block = re.sub(r'^RequiredGlobalKey = .*$', 'RequiredGlobalKey = ' + ROWS[sid-500][1], block, flags=re.M)
-        block = re.sub(r'^(?:HuntPlayer|SetRelentless|ConditionPositionMustNotBeNearPrefabs|ConditionPositionMustNotBeNearPrefabsDistance) = .*\n', '', block, flags=re.M)
+        if sid in ROAMER_CHANCE:
+            block = re.sub(r'^SpawnChance = .*$', f'SpawnChance = {ROAMER_CHANCE[sid]:g}', block, flags=re.M)
+        block = re.sub(r'^(?:HuntPlayer|SetRelentless|ConditionPositionMustNotBeNearPrefabs|ConditionPositionMustNotBeNearPrefabsDistance|ConditionAltitudeMin) = .*\n', '', block, flags=re.M)
         anchors = EARLY_ANCHORS if sid in EARLY_ANCHOR_IDS else ANCHORS
         safety = ('HuntPlayer = false\nSetRelentless = false\n'
                   'ConditionPositionMustNotBeNearPrefabs = ' + anchors + '\n'
-                  'ConditionPositionMustNotBeNearPrefabsDistance = 150\n')
+                  'ConditionPositionMustNotBeNearPrefabsDistance = 150\n'
+                  f'ConditionAltitudeMin = {ALTITUDE_MIN[sid]:g}\n')
         block = block.replace('Enabled = true\n', 'Enabled = true\n' + safety)
         out.append(block.rstrip() + '\n\n')
     save(path.name, ''.join(out))

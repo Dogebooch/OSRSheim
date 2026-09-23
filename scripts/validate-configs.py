@@ -528,13 +528,18 @@ try:
             err(f'WorldSpawner.{sid}: missing base-station exclusion')
         if opts.getboolean('huntplayer', True) or opts.getboolean('setrelentless', True):
             err(f'WorldSpawner.{sid}: custom encounter hunts players')
+        if opts.getfloat('conditionaltitudemin', -1000) != superior_spec['ALTITUDE_MIN'][sid]:
+            err(f'WorldSpawner.{sid}: ConditionAltitudeMin not the vanilla value (Spawn That default -1000 spawns under water)')
+        if sid in superior_spec['ROAMER_CHANCE'] and opts.getfloat('spawnchance') != superior_spec['ROAMER_CHANCE'][sid]:
+            err(f'WorldSpawner.{sid}: SpawnChance differs from update-superiors.py ROAMER_CHANCE')
     for sid, row in enumerate(superior_rows, 500):
         creature, key, low, high, *_ = row
         opts = spawns[f'WorldSpawner.{sid}']
         if opts.get('requiredglobalkey') != key:
             err(f'WorldSpawner.{sid}: wrong boss gate')
-        if opts.getint('spawninterval') != 900 or opts.getfloat('spawnchance') != 8:
-            err(f'WorldSpawner.{sid}: superior test spawn rates still active')
+        if (opts.getint('spawninterval') != superior_spec['SPAWN_INTERVAL'] or opts.getfloat('spawnchance') != superior_spec['SPAWN_CHANCE']
+                or opts.getint('maxspawned') != superior_spec['MAX_SPAWNED']):
+            err(f'WorldSpawner.{sid}: superior rates differ from update-superiors.py (test rates still active?)')
         purse = [0, 0]
         for section in drops.sections():
             if not section.startswith(creature + '.'):
