@@ -19,8 +19,8 @@ Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
-#9 handbook · #42 superiors: `MaxSpawned = 1` on the shared prefab may block
-every roll · #83 weapon XP per hit (one nest run) · #66 perf A/B: Exploration skill
+#9 handbook · #42 superiors (`MaxSpawned 10`, 3%): do they appear in a BF night ·
+#83 weapon XP per hit (one nest run) · #66 perf A/B: Exploration skill
 0 vs 100 · #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
 Kills/hr for roamer/elite/boss still guesses (#70).
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
