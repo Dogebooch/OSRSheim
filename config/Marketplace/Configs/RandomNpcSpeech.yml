@@ -1,9 +1,9 @@
 # OSRSheim idle NPC barks — KG Marketplace RandomNpcSpeech
 # Docs: https://kg-marketplace.pages.dev/configs/random-npc-speech/
 # Schema (verified against the docs 2026-09-19 after KG rejected the list form):
-# RandomTexts is a MAPPING of named barks, not a list. Assign a set to an NPC
-# by name in its settings panel. Interval in seconds, +/- InvervalRandomOffset.
-banker_idle:
+# RandomTexts is a MAPPING of named barks, not a list. Set key = the NPC's Profile
+# (DLL 10.0.1 looks barks up by KGnpcProfile; there is no panel field). Interval in seconds, +/- InvervalRandomOffset.
+bank:
   RandomTexts:
     bark1:
       Text: "Please do not stand on the counter."
@@ -14,7 +14,7 @@ banker_idle:
       Text: "No we do not accept IOUs."
   Interval: 25
   InvervalRandomOffset: 8
-guide_idle:
+lumbridge_guide:
   RandomTexts:
     bark1:
       Text: "Remember to check your skill levels before crafting."
@@ -23,7 +23,7 @@ guide_idle:
       OnlyIfLookingAtPlayer: true
   Interval: 30
   InvervalRandomOffset: 10
-wise_old_man_idle:
+skillcape_shop:
   RandomTexts:
     bark1:
       Text: "I have woven a thousand fates. Yours is still loose thread."
@@ -32,7 +32,7 @@ wise_old_man_idle:
       OnlyIfLookingAtPlayer: true
   Interval: 35
   InvervalRandomOffset: 10
-slayer_idle:
+slayer_master:
   RandomTexts:
     bark1:
       Text: "Contract done? Back for another already?"
@@ -41,7 +41,7 @@ slayer_idle:
       OnlyIfLookingAtPlayer: true
   Interval: 30
   InvervalRandomOffset: 10
-gambler_idle:
+dice_bag:
   RandomTexts:
     bark1:
       Text: "Doubling coins! Trust me."

@@ -19,8 +19,7 @@ Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 ## Needs a live world (issues carry the checklists)
 #19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
 decide the whole Alchemy ladder · #21 biome oaths, which need
-Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
-`set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
+the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
 #9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
 #83 weapon XP per hit (one nest run) · #66 stutter A/B (§16) ·
 #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
@@ -35,7 +34,7 @@ Sailing gates (§6, §7), DistancedUI (§11).
    MWL density now; `genloc` cannot retrofit explored terrain (§13). Commit
    `..._LocationConfigs.yml` first; decide `MWL_TreeTowers1` / `MWL_MistTower2` (null loot, §13).
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
-   via `scripts\launch-modded.ps1`. Place the KG NPCs with the Hammer (16 templates, §11).
+   via `scripts\launch-modded.ps1`. Claude places the KG NPCs (`gen-npcs.py --town`, open meadow by the sea; admin char only; `--builder off` after, §11).
 3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 331`).
 4. Doug vetoes renames.
 

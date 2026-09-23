@@ -213,6 +213,10 @@ On a server, drops follow the server's Drop That cfgs, not the local profile.
 Computer-use screenshots mask Valheim; GDI `CopyFromScreen` captures it.
 Synthetic right-clicks never reach Valheim (no build menu); keys and left-clicks do.
 Typed text with spaces goes via clipboard and can drop focus: type words, send `space` as a key.
+Console: F5, wait 0.4 s, then type; it stays focused after Return. `goto x,z` prints ground y.
+`mouse_move` turns the camera; held movement keys do not move the character.
+The host log records every console command with the player's position.
+Dedicated `save` throws (`ZNet.HardSaveBlock` NRE); the world autosaves every 20 min.
 
 **Seen at shipping rates (server, 2026-09-22)**: 7 elite uniques, Rare T2-T4
 key halves + riddle-stones, Gem T1 riddle-stone; `defeated_bonemass` necklace
