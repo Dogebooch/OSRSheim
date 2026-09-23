@@ -267,7 +267,7 @@ if REPO:
     ok(f'--repo: generator checks run against a mirror of the repo config\\, not the Gale profile')
 
 for script, what in (('gen-loot.py', 'loot cfgs'), ('gen-collection-log.py', 'collection log'),
-                     ('gen-handbook.py', 'handbook')):
+                     ('gen-handbook.py', 'handbook'), ('gen-npcs.py', 'npc placement')):
     r = subprocess.run([sys.executable, str(ROOT / 'scripts' / script), '--check'],
                        capture_output=True, text=True, env=env)
     (ok if r.returncode == 0 else err)(f'{what}: {r.stdout.strip() or r.stderr.strip()}')

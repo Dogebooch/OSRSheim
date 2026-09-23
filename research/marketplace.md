@@ -114,20 +114,20 @@ one-level `@from:` rule and placement rules are in its header. Gate and fee sit
 on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinates:
 `set-waystone.py`. Closing the map unused spends the fee.
 **Territories**: template only.
-**Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic).
+**Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic). Set key = the NPC's Profile (DLL: lookup by `KGnpcProfile`).
 
 ### NPC placement
 
-| Name Override | Type | Profile | Dialogue | Speech set |
+| Name Override | Type | Profile | Dialogue | Barks |
 |---|---|---|---|---|
-| Ulfar the Guide | Quests | `lumbridge_guide` | `lumbridge_guide` | `guide_idle` |
-| Huntmaster Hrafn | Quests | `slayer_master` | `slayer_master` | `slayer_idle` |
-| Verdandi the Weaver | Trader | `skillcape_shop` | `wise_old_man` | `wise_old_man_idle` |
+| Ulfar the Guide | Quests | `lumbridge_guide` | `lumbridge_guide` | yes |
+| Huntmaster Hrafn | Quests | `slayer_master` | `slayer_master` | yes |
+| Verdandi the Weaver | Trader | `skillcape_shop` | `wise_old_man` | yes |
 | Shopkeeper | Trader | `general_store` | `shopkeeper` | — |
 | Gullveig | Trader | `gem_trader` | `gem_trader` | — |
 | Herbwife | Trader | `herbwife` | `herbwife` | — |
-| Banker (two, far apart) | Banker | `bank` | `banker` | `banker_idle` |
-| Gambler | Gambler | `dice_bag` | `gambler` | `gambler_idle` |
+| Banker (two, far apart) | Banker | `bank` | `banker` | yes |
+| Gambler | Gambler | `dice_bag` | `gambler` | yes |
 | Ragnar the Bold | Gambler | `flower_poker` | — | — |
 | Gothi Eirik | Buffer | `chapel` | `chapel` | — |
 | Seeress | Trader | `offerings` | `seeress` | — |
@@ -137,8 +137,12 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
 | Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
-Hammer templates: `Marketplace_SavedNPCs\<Name Override>.yml`, one per row (Banker placed twice, Waystone 9 times). Speech set is not in the template: set it in the NPC panel.
-No file-driven placement: KG has no spawn command; devcommands `rpc` sends strings only (`KGMarket changeNpcType` takes an int). Full automation needs World Edit Commands / Expand World Data (not installed).
+Templates: `Marketplace_SavedNPCs\<Name Override>.yml`; placement: `reference\npc-layout.csv` -> `scripts\gen-npcs.py` (Banker 2 rows, Waystone 9).
+File-driven placement: dialogue `Command: SpawnXYZWithData,MarketPlaceNPC,1,1,x,y,z,0,<key>` spawns at int x y z (rotation 0, no duplicate check) and writes `Configs\CustomSpawnData\<key>.yml` (Ints/Floats/Strings/Bools/Longs) onto the ZDO; all NPC fields incl. fashion are ZDO keys (`KGmarketNPC` int type, `KGnpcProfile`, `KGnpcDialogue`, `KGnpcNameOverride`, `KGnpcShowCondition`, `KGmarketPinned`). DistancedUI `Dialogues` opens a dialogue with no NPC. Verified ModTest 2026-09-23 (`world-scan.py npcs`).
+Far spawns: a new NPC reaches the server only while its placer is within sync range; spawned from afar or left at once, it waits in the client until the next visit (lost on logout). Place far rows on site (builder Go, then Place) and stay ~20 s.
+`find MarketPlaceNPC` (devcommands, server-side) finds 0: not a check.
+`KGnpcShowCondition`: dialogue condition syntax, checked per client every 2.5 s; false hides model, name and collider; `debugmode` shows all. Verified (oath key toggles the stone).
+Teleporter map: keeps the player's fog; shows only the profile's pins.
 NPC UI (10.0.1): the Buffer type tile is labelled "Enchanter".
 File name = Hammer piece name. `/mreloadnpcs` reloads.
 Client-only (`MarketplaceHammer` is a KG Client module): the placing admin's profile needs them; the host never reads them.
