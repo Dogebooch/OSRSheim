@@ -600,6 +600,13 @@ for t in lt["LootTables"]:
 r = rollable(rest)
 if r: err(f"EpicLoot loottables.json: {r} entries can still roll a magic item")
 else: ok(f"EpicLoot loottables.json: magic drops only from {len(uniq)} unique tables, 2-star tiers and map chests (#108)")
+# #108: fixed effect counts (Magic 1 ... Legendary 4); no carry weight on magic items (#17).
+cnt = lt["MagicEffectsCount"]
+bad = [r for n, r in enumerate(["Magic", "Rare", "Epic", "Legendary"], 1) if cnt.get(r) != [[n, 100]]]
+if bad: err(f"EpicLoot MagicEffectsCount {bad} not fixed at Magic 1 / Rare 2 / Epic 3 / Legendary 4 (#108)")
+me = {e["Type"]: e for e in json.loads(read(os.path.join(EL, "magiceffects.json")))["MagicItemEffects"]}
+if me.get("AddCarryWeight", {}).get("SelectionWeight") != 0: err("EpicLoot AddCarryWeight SelectionWeight must be 0 (#108, #17)")
+if not bad: ok("EpicLoot effect counts fixed 1/2/3/4; AddCarryWeight off")
 leg = {x["ID"]: x for x in json.loads(read(os.path.join(EL, "legendaries.json")))["LegendaryItems"]}
 for t in uniq:
     if t.get("RefObject"): err(f"EpicLoot unique table {t['Object']} still has RefObject {t['RefObject']} (aliased away)")

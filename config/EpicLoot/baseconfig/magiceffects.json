@@ -3807,7 +3807,7 @@
           "Increment": 5
         }
       },
-      "SelectionWeight": 5,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_addcarryweight_prefix1"
       ],

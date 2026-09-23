@@ -77,10 +77,11 @@ Rarity rows `[Magic, Rare, Epic, Legendary, Mythic, Ancient]`:
 | DeepNorth | 40, 40, 19.5, 0.5, 0, 0 | Tier9Mob, JotunWarrior |
 
 - EpicLoot rule (`LootRoller.GetDropsForLevel`): levels 1-3 read top-level `Drops`/`Loot` when non-empty, else `LeveledLoot`.
-- 2-star creatures exist only through Spawn That and bounties, so one level-3 rate (10%) covers superiors; no separate 1% two-star rate.
+- 2-star creatures exist only through Spawn That and bounties, so one level-3 rate (10%) covers superiors; no separate 1% two-star rate. Bounty targets and adds roll it too (accepted).
 - Drop That `.EpicLoot` modifiers do not apply to creature drops in this stack (§10).
 - Legendary pick = weighted over matching `legendaries.json` entries + a generic legendary (weight 1, 4-6 random effects). Weight 0 on every vanilla legendary leaves only the generic one; weights unchanged. Set items off (`Set Item Drop Chance = 0`).
-- Legendary effect count `[[4,80],[5,18],[6,2]]`; the OSRSheim uniques override it (`GuaranteedEffectCount = 1`).
+- `MagicEffectsCount` fixed: Magic 1, Rare 2, Epic 3, Legendary 4 (was 1-3 / 2-4 / 3-5 / 4-6); the OSRSheim uniques override it (`GuaranteedEffectCount = 1`).
+- `magiceffects.json` `AddCarryWeight` `SelectionWeight 0` (was 5): carry weight comes from the torcs only (#17). Utility shard socket still grants +2 to +12 (`shardstones.json`).
 
 ## 2026-09-19 (late night) — adventure economy converted to coins (UNTESTED)
 
