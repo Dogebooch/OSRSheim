@@ -2,7 +2,7 @@
 r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-data.py), config\, reference\measured.csv.
 
     python scripts\rate-model.py                 early-game summary (all three activities)
-    python scripts\rate-model.py mining   [--tool PickaxeAntler] [--node rock4_copper_frac]
+    python scripts\rate-model.py mining   [--tool PickaxeAntler] [--node rock4_copper_frac] [--weapon-level <Pickaxes>]
     python scripts\rate-model.py trees    [--tool AxeStone] [--tree Beech1] [--no-logs] [--weapon-level 0]
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
@@ -49,7 +49,8 @@ ALIAS = {"swing_longsword": "swing_sword {i}", "knife_stab": "knife slash {n}", 
 # Calibration parameters: files cannot give these. measured.csv keys of the same name override them.
 CAL = {
     "hit_fraction": 1.0,        # MineRock5 parts broken by damage; the rest collapse unsupported (free)
-    "rock_multi": 1 / 0.75,     # swing touching n>1 parts: roll / (0.75 n) each -> total x1.33 (Attack.DoMeleeAttack)
+    "rock_multi": 1 / 0.75,     # damage into broken areas per swing / unsplit swing: roll / (0.75 n) over every collider
+                                # touched incl. ground, less overkill and damage on areas that later collapse
     "log_halves": 2,            # TreeLog -> subLog pieces
     "fall_s": 4.0,              # per tree idle time (regen runs): fall, split, walk to log and halves, s
     "speed_ms": 4.0,            # travel speed between targets (jog 4, run 7), m/s
@@ -261,19 +262,20 @@ def travel_s(rho):
 
 
 # ---------- activities ----------
-def mining(tool, node, level, quality, max_stam, world):
+def mining(tool, node, level, quality, max_stam, world, weapon_level=None):
     it, rock = ITEMS[tool], NODES["MineRock5"].get(node) or NODES["MineRock"][node]
     if it.get("m_toolTier", 0) < rock["m_minToolTier"]:
         return {"error": f"{tool} tier {it.get('m_toolTier', 0)} < {node} tier {rock['m_minToolTier']}"}
     sf = level / 100
+    wl = level if weapon_level is None else weapon_level  # vanilla Pickaxes: damage roll and stamina discount
     mult = 1 + sf * (MINING[0] - 1)
     areas = MEAS.get(f"segments.{node}", rock.get("areas", 1))
-    lo, hi = roll_range(level)
+    lo, hi = roll_range(wl)
     per_swing = hit_damage({"m_pickaxe": item_damage(it, quality).get("m_pickaxe", 0)}, rock["m_damageModifiers"],
                            (lo + hi) / 2, mult * CAL["rock_multi"])
     swings = MEAS.get(f"swings.{node}.{tool}.{level}") or areas * CAL["hit_fraction"] * rock["m_health"] / per_swing
     cycle = sum(combo(it)) / max(1, len(combo(it)))
-    cost = it["m_attack"]["m_attackStamina"] * (1 - 0.33 * sf)
+    cost = it["m_attack"]["m_attackStamina"] * (1 - 0.33 * wl / 100)
     rate, _ = sustained(cycle, cost, max_stam)
     work = swings / rate
     unbroken = node.replace("_frac", "")
@@ -435,7 +437,8 @@ def main():
     world = world_counts(arg("--world", "")) if "--world" in sys.argv else None
     out = []
     if mode in ("mining", "summary"):
-        out.append(("mining", [mining(arg("--tool", "PickaxeAntler"), arg("--node", "rock4_copper_frac"), L, q, stam, world) for L in levels]))
+        out.append(("mining", [mining(arg("--tool", "PickaxeAntler"), arg("--node", "rock4_copper_frac"), L, q, stam, world,
+                                         int(arg("--weapon-level", 0)) if "--weapon-level" in sys.argv else None) for L in levels]))
     if mode in ("trees", "summary"):
         for t in ([arg("--tree", None)] if "--tree" in sys.argv else ["Beech1", "FirTree", "Pinetree_01"]):
             out.append((f"trees {t}", [trees(arg("--tool", "AxeFlint"), t, L, q, stam, world, "--no-logs" not in sys.argv,

@@ -1,5 +1,5 @@
 key,value,unit,source
-segments.rock4_copper_frac,79,areas broken per node,ModTest 2026-09-22 Club-per-segment count; Mining 0-6
+segments.rock4_copper_frac,71,areas broken per node,ModTest 2026-09-22 parse-hits: 71 area indices logged on one node (PickaxeIron; Mining 21); earlier Club count 79
 segments.mudpile_frac,20,areas broken per node,ModTest 2026-09-22
 segments.mudpile2_frac,28,areas broken per node,ModTest 2026-09-22
 segments.rock3_silver_frac,141,areas broken per node,ModTest 2026-09-22
@@ -20,3 +20,7 @@ hits.Greydwarf.SwordBronze.0,2.18,hits per kill,ModTest 2026-09-22 Calib: nest 5
 hits.Greydwarf_Elite.SwordBronze.0,8.43,hits per kill,ModTest 2026-09-22 Calib: nest 5 min; 7 kills; never staggered (model 8.54)
 hits.Greydwarf_Shaman.SwordBronze.0,3.0,hits per kill,ModTest 2026-09-22 Calib: nest 5 min; 2 kills (model 3.01)
 rate.Spawner_GreydwarfNest.SwordBronze.0,321,kills/hr normal play,ModTest 2026-09-22 Calib: 26 kills in 291 s (17 Greydwarf / 7 Brute / 2 Shaman); spawn-limited (cap 360: 1 per 10 s under 3 near)
+cal.rock_multi,0.70,damage into broken areas per swing / unsplit swing,ModTest 2026-09-22 Calib: rock4_copper PickaxeIron 209 swings; split over touched colliders 0.824 x overkill/collapse waste 0.848
+cal.hit_fraction,0.90,areas broken by player damage / areas,ModTest 2026-09-22 Calib: Mines stat 64 of 71 areas (rest collapsed)
+hits.rock4_copper_frac.PickaxeIron.21,208,swings per node,ModTest 2026-09-22 Calib: Mining 21; unsplit swing 21.9 pickaxe dmg
+rate.rock4_copper_frac.PickaxeIron.21,534,segments/hr normal play,ModTest 2026-09-22 Calib: god off 22:12:14-22:16:29; 38 areas / 99 swings in 256 s; 0.387 swings/s (stamina-limited; 99 stamina)
