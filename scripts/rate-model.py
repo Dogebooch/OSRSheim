@@ -7,6 +7,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
     python scripts\rate-model.py objects  [--write]  pet/curio/gem target per loot\objects.csv row at OBJ_SETUP
+    python scripts\rate-model.py magic    [--all-maps] [--chest-share 0.33] [--revisit 0.1]  magic items per run (#108)
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
     combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
@@ -65,6 +66,8 @@ CAL = {
     "backstab": 0.0,            # share of kills opened on an unalerted mob (x m_backstabBonus); normal play ~0
     "chain_carry": 1.0,         # share of kills that start mid-combo (swinging on from the last target)
     "melee_hit": 0.86,          # share of combat swings that connect
+    "day_s": 1800,              # in-game day, s (EnvMan day length; not in the game-data dumps)
+    "revisit_share": 0.1,       # share of the run after a biome's boss spent back in that biome (superiors live)
 }
 
 
@@ -541,6 +544,99 @@ def supply():
     return rows
 
 
+# ---------- magic items (#108) ----------
+BUDGET = [("Meadows", 15), ("BlackForest", 30), ("Swamp", 40), ("Mountain", 45), ("Plains", 55),
+          ("Mistlands", 60), ("AshLands", 65), ("DeepNorth", 65)]  # #81 main-run hours per biome phase
+
+
+def el(name):
+    return json.load(open(CFG / "EpicLoot" / "baseconfig" / name, encoding="utf-8-sig"))
+
+
+def el_roll(tables, obj, level):
+    """Expected magic gear per kill/open and its rarity mix, per LootRoller.GetDropsForLevel / GetLootForLevel:
+    levels 1-3 read top-level Drops/Loot when non-empty, else the highest LeveledLoot level <= level."""
+    def leveled(t, key):
+        return next((x[key] for L in range(level, 0, -1) for x in t.get("LeveledLoot") or []
+                     if x["Level"] == L and x.get(key)), [])
+    items, mix = 0.0, [0.0] * 6
+    for t in tables:
+        if t["Object"] != obj:
+            continue
+        if t.get("RefObject"):  # alias: the object rolls its tier's tables
+            t = next(x for x in tables if x["Object"] == t["RefObject"] and not x.get("RefObject"))
+        drops = t["Drops"] if level <= 3 and t.get("Drops") else leveled(t, "Drops")
+        loot = t["Loot"] if level <= 3 and t.get("Loot") else leveled(t, "Loot")
+        gear = [x for x in loot if str(x["Item"]).endswith("Everything")]  # uniques, shards, gems excluded
+        tw, lw, gw = sum(d[1] for d in drops), sum(x["Weight"] for x in loot), sum(x["Weight"] for x in gear)
+        if not (tw and gw):
+            continue
+        n = sum(d[0] * d[1] for d in drops) / tw * gw / lw
+        items += n
+        for x in gear:
+            r = x.get("Rarity") or [1]
+            for i, v in enumerate(r):
+                mix[i] += n * x["Weight"] / gw * v / sum(r)
+    return items, mix
+
+
+def spawn_that_rows(file):
+    secs, cur = {}, None
+    for line in open(CFG / file, encoding="utf-8-sig"):
+        s = line.strip()
+        if s.startswith("["):
+            cur = secs.setdefault(s.strip("[]"), {})
+        elif "=" in s and cur is not None and not s.startswith("#"):
+            k, v = s.split("=", 1)
+            cur[k.strip()] = v.strip()
+    return {k: v for k, v in secs.items() if k.count(".") == 1}
+
+
+def magic(all_maps=False, chest_share=None):
+    """Expected magic items per run by biome: treasure-map chests during the #81 phases, superiors after each boss."""
+    tables = el("loottables.json")["LootTables"]
+    interval = el("adventuredata.json")["TreasureMap"]["RefreshInterval"] * CAL["day_s"] / 3600  # h per map
+    sups = [s for s in spawn_that_rows("spawn_that.world_spawners_advanced.cfg").values()
+            if s.get("LevelMin") and s.get("Enabled", "true") == "true"]
+    names = [b for b, _ in BUDGET]
+    end = {b: sum(h for _, h in BUDGET[:i + 1]) for i, (b, _) in enumerate(BUDGET)}
+    total_h = end[names[-1]]
+    rows, tot = [], [0.0] * 6
+    for i, (b, h) in enumerate(BUDGET):
+        maps = sum(hj / interval for j, (_, hj) in enumerate(BUDGET) if (j >= i if all_maps else j == i))
+        per_chest, cmix = el_roll(tables, f"TreasureMapChest_{b}", 1)
+        if chest_share is not None:
+            share = [v / (per_chest or 1) for v in cmix] if per_chest else None
+            if not share:  # chests roll nothing yet (#107): take the rarity row off the gear entries
+                t = next(x for x in tables if x["Object"] == f"TreasureMapChest_{b}")
+                r = next((x["Rarity"] for x in t.get("Loot") or [] if str(x["Item"]).endswith("Everything")), [1])
+                share = [v / sum(r) for v in r]
+            per_chest, cmix = chest_share, [chest_share * v for v in share]
+        chest = maps * per_chest
+        live_h = (total_h - end[b]) * CAL["revisit_share"]
+        sup, smix, spawn_hr = 0.0, [0.0] * 6, 0.0
+        for s in sups:
+            if s.get("Biomes") != b:
+                continue
+            per_kill, m = el_roll(tables, s["PrefabName"], int(s["LevelMin"]))
+            hr = 3600 / float(s["SpawnInterval"]) * float(s["SpawnChance"]) / 100
+            spawn_hr += hr if per_kill else 0  # wanderers without a level-3 roll excluded
+            sup += live_h * hr * per_kill
+            smix = [a + live_h * hr * v for a, v in zip(smix, m)]
+        mix = [maps * c + s for c, s in zip(cmix, smix)]
+        tot = [a + v for a, v in zip(tot, mix)]
+        rows.append({"biome": b, "phase h": h, "maps": round(maps, 1), "magic/chest": round(per_chest, 3),
+                     "chest items": round(chest, 1), "superiors/hr": round(spawn_hr, 3),
+                     "revisit h": round(live_h, 1), "superior items": round(sup, 2),
+                     "items": round(chest + sup, 1), "rare": round(mix[1], 1), "epic": round(mix[2], 2),
+                     "legendary": round(mix[3], 3)})
+    n = sum(tot)
+    rows.append({"biome": "run", "phase h": total_h, "items": round(n, 1), "rare": round(tot[1], 1),
+                 "epic": round(tot[2], 2), "legendary": round(tot[3], 3),
+                 "h/item": round(total_h / n, 1) if n else "-"})
+    return rows
+
+
 def world_counts(folder):
     import importlib.util
     spec = importlib.util.spec_from_file_location("cw", ROOT / "scripts" / "count-world.py")
@@ -607,6 +703,12 @@ def main():
                     rows.append({"item": k, "anim": a["m_attackAnimation"], "combo s": [round(x, 3) for x in c],
                                  "mean s/hit": round(sum(c) / len(c), 3), "stamina": a.get("m_attackStamina")})
         out.append(("swings (hit connects)", rows))
+    if mode == "magic":
+        if "--revisit" in sys.argv:
+            CAL["revisit_share"] = float(arg("--revisit", 0.1))
+        cs = float(arg("--chest-share", 0)) if "--chest-share" in sys.argv else None
+        out.append(("magic items per run (#108)" + (", all unlocked maps" if "--all-maps" in sys.argv else ", frontier map"),
+                    magic("--all-maps" in sys.argv, cs)))
     if mode in ("supply", "summary"):
         out.append(("spawn supply", [{"source": a, "kind": b, "spawns/hr": c, "note": d} for a, b, c, d in supply()]))
     if "--json" in sys.argv:
