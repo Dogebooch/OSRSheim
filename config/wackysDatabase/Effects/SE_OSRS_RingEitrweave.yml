@@ -7,4 +7,4 @@ Status_m_name: Eitrweave band
 Tooltip: Gold wound round a red stone. The mind refills faster.
 SeData:
   m_eitrRegenMultiplier: 1.15
-  m_sneakStaminaUseModifier: 0
+  m_skillLevelModifier: 0

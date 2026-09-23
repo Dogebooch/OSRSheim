@@ -7,4 +7,4 @@ Status_m_name: Delver's band
 Tooltip: Crystal set flush to the silver. Long drops hurt less.
 SeData:
   m_fallDamageModifier: -0.5
-  m_sneakStaminaUseModifier: 0
+  m_skillLevelModifier: 0

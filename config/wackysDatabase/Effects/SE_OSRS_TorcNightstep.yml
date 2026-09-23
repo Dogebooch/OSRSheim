@@ -1,11 +1,10 @@
 # OSRSheim jewellery wave - authored 2026-09-21
-# Base SetEffect_TrollArmor is an SE_Stats; its own sneak bonus is zeroed below
-# so only the fields set here apply. Icon is inherited (polish: CustomIcon).
+# Base SetEffect_TrollArmor is an SE_Stats; its Sneak +15 is kept, the
+# fields set here are added. Icon is inherited (polish: CustomIcon).
 Name: SE_OSRS_TorcNightstep
 ClonedSE: SetEffect_TrollArmor
 Status_m_name: Nightstep torc
 Tooltip: Blackened links that drink the light. Footfalls go unheard.
 SeData:
-  m_stealthModifier: 0.2
+  m_stealthModifier: -0.2
   m_noiseModifier: -0.2
-  m_sneakStaminaUseModifier: 0

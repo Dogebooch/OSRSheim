@@ -7,4 +7,4 @@ Status_m_name: Ember band
 Tooltip: A warm ring of beaten copper. The breath comes back quicker.
 SeData:
   m_staminaRegenMultiplier: 1.1
-  m_sneakStaminaUseModifier: 0
+  m_skillLevelModifier: 0
