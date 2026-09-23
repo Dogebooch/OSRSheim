@@ -184,9 +184,9 @@ weight 0.1 stack 50.
 - MWL 5.1.1: if the root `_ggs` copy loads, the fallback `assetBundleManifest_Full` is
   missing on Linux: 259 errors. Fix: `_Full` copy beside `_full`.
 - Drop That + Spawn That `Write*` dumps load every location prefab at boot (MWL on:
-  10.6 GiB, 2.5 without). `sync-server.ps1` turns them off on the host.
-- A client on the host takes the host's `false`: pre-sync dumps still write (drop tables,
-  locations, local spawners), post-sync ones do not (character drops, loaded cfgs, world spawners).
+  10.6 GiB, 2.5 without). Off in repo; `sync-server.ps1` also forces them off on the host.
+  Dump session: set `Write*` true in repo, `-Push`, load a world, revert.
+- A client on the host takes the host's `false` for post-sync dumps (character drops, loaded cfgs, world spawners).
 - First join after a game launch: the client stalls 32-36 s (ServerSync configs, then
   world-gen setup); the host's 30 s `ZRpc timeout` drops it. Rejoin in the same session: 15-19 s.
 - Host RAM: 2.54 GiB at boot, 4.01 GiB after one player flew 30 min (ZDOs 18k -> 201k); idle does not release it.
@@ -239,6 +239,19 @@ Server-only wiring: copy `config\` under a scratch `APPDATA` profile path, run
 **`ZNetScene.RemoveObjects` NRE every frame** (client on the host, 2026-09-22, fast debug
 flight, 8 s after `GoblinCamp2` loaded): distant objects stop unloading, 15.8 GB, 4 FPS.
 Relog clears it; no repeat on revisit.
+
+**New-ground stutter (#66, code read, unmeasured)**: every 2 s, only when a map pixel is new:
+
+| Step | Source |
+|---|---|
+| Fog texture 2048² R8G8 (8 MiB) re-uploaded whole (`Minimap.Explore` -> `Apply()`) | vanilla |
+| Explore radius 100 m -> 350 m at skill 100 (~10x pixel checks, one Harmony postfix each); ship x3 more | Exploration, Sailing |
+| `RaiseSkill` -> BetterUI XP toast + Debug line; SkillGainModifier string build | Exploration |
+
+- Client on a dedicated host never places zone content (Client mode); the host does, no time budget. Local play generates the whole zone in one frame.
+- Clients: BepInEx console off, disk log Info, Drop That / Spawn That dumps + debug logging off. Host keeps its console (`sync-server.ps1` override).
+- A/B on ModTest (frame-time overlay, same new-ground route): baseline; `exploremap`; `raiseskill Exploration` 0 vs 100.
+- 9/21 log: `Missing prefab hash: 1043306733` ~100/s for 10 min (hash unresolved against dumps).
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
 shape, gambler lines, repo/profile parity, validator.
