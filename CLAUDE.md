@@ -69,5 +69,7 @@ Gate ship it? Run-length target: issue #81.
 - wackydb reads only `Item_*.yml`; never `wackydb_save_item` onto an authored file.
 - Doug handles all Steam UI himself.
 - Never kill valheim.exe with a world loaded (Valheim discards the save).
+- Time and rate estimates come from `scripts\rate-model.py`: `reference\measured.csv`
+  > model > kirilloid; name the source. New checks: `parse-hits.py`.
 - Test on ModTest. The real world (Gielheim) is created on the host only after
   the stack is stable.
