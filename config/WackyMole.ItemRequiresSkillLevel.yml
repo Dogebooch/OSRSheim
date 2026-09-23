@@ -431,7 +431,7 @@ Requirements:
 - PrefabName: OSRS_DragonAxe
   Requirements:
   - Skill: Lumberjacking
-    Level: 15
+    Level: 18
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -440,7 +440,7 @@ Requirements:
 - PrefabName: OSRS_DragonfireShield
   Requirements:
   - Skill: Blocking
-    Level: 30
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -449,7 +449,7 @@ Requirements:
 - PrefabName: OSRS_BandosGodsword
   Requirements:
   - Skill: Swords
-    Level: 40
+    Level: 45
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1886,7 +1886,7 @@ Requirements:
 - PrefabName: OSRS_AbyssalWhip
   Requirements:
   - Skill: Swords
-    Level: 50
+    Level: 55
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1895,7 +1895,7 @@ Requirements:
 - PrefabName: OSRS_ScytheOfVitur
   Requirements:
   - Skill: Polearms
-    Level: 70
+    Level: 75
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3172,12 +3172,12 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
-# ELITE UNIQUE CLONES (2026-09-21): equip-gated at the base weapon tier; no recipe, so BlockCraft false.
-# OSRS_DragonBattleaxe sits at Axes 50, the gate of its base AxeJotunBane.
+# ELITE UNIQUE CLONES (2026-09-21): equip-gated half a tier above the drop biome (#86); no recipe, so BlockCraft false.
+# OSRS_DragonBattleaxe sits at Axes 75: #86 puts each rare half a tier above its drop biome.
 - PrefabName: OSRS_HillGiantClub
   Requirements:
   - Skill: Clubs
-    Level: 15
+    Level: 18
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3186,7 +3186,7 @@ Requirements:
 - PrefabName: OSRS_RuneScimitar
   Requirements:
   - Skill: Swords
-    Level: 20
+    Level: 27
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3195,7 +3195,7 @@ Requirements:
 - PrefabName: OSRS_GraniteMaul
   Requirements:
   - Skill: Clubs
-    Level: 25
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3204,7 +3204,7 @@ Requirements:
 - PrefabName: OSRS_DragonHalberd
   Requirements:
   - Skill: Polearms
-    Level: 40
+    Level: 45
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3213,7 +3213,7 @@ Requirements:
 - PrefabName: OSRS_CrystalBow
   Requirements:
   - Skill: Bows
-    Level: 50
+    Level: 55
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3222,7 +3222,7 @@ Requirements:
 - PrefabName: OSRS_AbyssalBludgeon
   Requirements:
   - Skill: Clubs
-    Level: 60
+    Level: 65
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3231,7 +3231,7 @@ Requirements:
 - PrefabName: OSRS_DragonBattleaxe
   Requirements:
   - Skill: Axes
-    Level: 50
+    Level: 75
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false

@@ -7,7 +7,7 @@ m_name: Yagluth's warblade
 m_description: A war-god's blade. Slow to swing, and nothing stands after it lands.
 m_weight: 0.8
 Damage:
-  Slash: 100
+  Slash: 108   # #86: half a tier above Plains (95 / Mistwalker 115)
 Primary_Attack:
   Custom_AttackSpeed: 0.9
   StaggerMultiplier: 1.5

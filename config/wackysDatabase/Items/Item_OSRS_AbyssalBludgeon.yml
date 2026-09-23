@@ -6,6 +6,9 @@ m_name: Morgen's cudgel
 m_description: A morgen's heart bound into a club. It beats when swung, and swings quicker for it.
 m_weight: 2             # MaceEldner base; wackydb skips a yml with no m_weight.
 Primary_Attack:
+  DmgMultiplier: 1.13
   Custom_AttackSpeed: 1.1
 Secondary_Attack:
+  DmgMultiplier: 1.13
   Custom_AttackSpeed: 1.1
+# #86: blunt 135 -> 152, half a tier above Ashlands (Eldner 135 / Gold 170).
