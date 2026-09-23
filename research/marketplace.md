@@ -59,7 +59,8 @@ HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7)
 `= Autocomplete`, cooldown `60s`, biome boss key on line 8; profile
 `slayer_master`). Per-task kill counts and pay live in the cfg: 80c (Meadows
 Greylings) to 4,500c (Deep North witches), a gem on the harder ones; starred
-tasks (`creature, 1, 2`, superiors §12) 500-2,500c. Skip fee
+tasks (`creature, 1, 2`, superiors §12) 500-2,500c. Camped tasks (Greydwarf, Skeleton, Draugr,
+Charred): >= ~14 min at 321 kills/hr, pay 1.25x the §7 coin/hr target for that time. Skip fee
 (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
