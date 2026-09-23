@@ -29,11 +29,11 @@ table with no vanilla entries. `drop_that.cfg`: dump flags on,
 
 ### Rates
 Valheim chance = OSRS chance x (OSRS kills/hr / Valheim kills/hr). Valheim
-kills/hr is spawn supply, not kill speed: `python scripts\spawn-rates.py`
-prints spawns/hr ceilings from the Spawn That dumps.
+kills/hr is spawn supply (camped: `spawn-rates.py` ceilings) or spawns met while
+roaming (`rate-model.py hunt`), not kill speed.
 
-Classes (`loot\classes.csv`). Valheim /hr: camped measured, the rest a guess (ceiling / 3) until
-measured with `--marker`. A shared list rolls at the creature's class
+Classes (`loot\classes.csv`). Valheim /hr: camped and nest measured; roamer and elite from
+`rate-model.py hunt` (SpawnSystem replay, checked against logged bursts; #70); boss a guess. A shared list rolls at the creature's class
 (`gen-loot.py` writes a copy per class, e.g. `GemTableTier3Roamer`); pets stay
 a literal 0.02 (1/5000):
 
@@ -41,8 +41,8 @@ a literal 0.02 (1/5000):
 |---|---|---|---|---|
 | camped (SpawnArea-fed: Greydwarf, Skeleton, Draugr, Charred, Elaking, BlobMork) | 321 (nest, measured) | 400 | 1.25 | 0.24 (~1/411, ~1.3 h) |
 | world (animals, blobs, leeches, bats, ghosts) | 100 | 400 | 4 | 0.78 (~1/128, ~1.3 h) |
-| roamer (Goblin, Wolf, Seeker, Shaman, Dvergr, Wizardry mages) | 25 | 300 | 12 | 2.34 |
-| nest (Draugr_Elite, Greydwarf_Elite) | 25 | 80 | 3.2 | 0.63 |
+| roamer (Goblin, Wolf, Seeker, Shaman, Dvergr, Wizardry mages) | 55 (hunt, 1 in 10 spawns killed) | 300 | 5.45 | 1.06 |
+| nest (Draugr_Elite, Greydwarf_Elite) | 46 (nest 321 x weight 1/7) | 80 | 1.74 | 0.34 |
 | elite (Troll, Golem, Gjall, Brute, Abomination) | 5 | 80 | 16 | 3.13 |
 | boss | 2 | 30 | 15 | 2.93 (~1/34, ~17 h) |
 

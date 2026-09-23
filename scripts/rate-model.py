@@ -10,6 +10,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py magic    [--all-maps] [--chest-share 0.33] [--revisit 0.1]  magic items per run (#108)
     python scripts\rate-model.py ladder   [--fight 0.25] [--kph 100]  weapon skill at each biome entry vs vanilla (#83)
     python scripts\rate-model.py roamers  spawns/hr of the Spawn That encounters 500+ (#42)
+    python scripts\rate-model.py hunt     [--hours 40] [--turn 0.1] [--engage 0.1]  roamer/elite kills/hr, SpawnSystem replay (#70)
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
     combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
@@ -70,6 +71,7 @@ CAL = {
     "melee_hit": 0.86,          # share of combat swings that connect
     "day_s": 1800,              # in-game day, s (EnvMan day length; not in the game-data dumps)
     "revisit_share": 0.1,       # share of the run after a biome's boss spent back in that biome (superiors live)
+    "engage_share": 1.0,        # share of world spawns the hunter finds and kills (#70 wolf walk)
     "stale_zones_hr": 40,       # zones entered per hour of biome play with a full roll bank (never visited, or not updated
                                 # for MaxSpawned x SpawnInterval): vanilla SpawnSystem rolls min(MaxSpawned, elapsed /
                                 # SpawnInterval) there; ~5 km/hr of travel, half the zones stale (guess, #42)
@@ -650,6 +652,139 @@ def roamers():
     return rows
 
 
+HUNT = [("roamer", "Mountain", 4, 503, "SwordSilver", 30, "Wolf"), ("roamer", "Plains", 16, 504, "SwordBlackmetal", 40, "Goblin"),
+        ("roamer", "Mistlands", 512, 505, "SwordMistwalker", 50, "Seeker"),
+        ("roamer", "BlackForest", 8, 500, "SwordBronze", 15, "Greydwarf_Shaman"),
+        ("elite", "BlackForest", 8, 500, "SwordBronze", 15, "Troll"), ("elite", "Mountain", 4, 503, "SwordSilver", 30, "StoneGolem"),
+        ("elite", "Plains", 16, 504, "SwordBlackmetal", 40, "GoblinBrute"),
+        ("elite", "Mistlands", 512, 505, "SwordMistwalker", 50, "Gjall"),
+        ("elite", "Mistlands", 512, 505, "SwordMistwalker", 50, "SeekerBrute")]
+# class, biome, biome bit, Spawn That template whose spawn_map marks the biome red, gear, weapon skill (#83 gate), mob
+DEBUG = Path.home() / r"AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim\BepInEx\Debug"
+
+
+def biome_zones(template):
+    """Zones of one biome: red pixels of spawn_map_<template>_*.png (count-world.py zone convention)."""
+    from PIL import Image
+    im = Image.open(next(DEBUG.glob(f"spawn_map_{template}_*.png"))).convert("RGB")
+    w, h = im.size
+    px = im.load()
+    return {(i - w // 2, h - 1 - j - h // 2) for i in range(w) for j in range(h) if px[i, j] == (255, 0, 0)}
+
+
+def hunt_sim(bit, template, mob, t_kill, hours=40, seed=1, turn=0.1, dusk=False):
+    """Second-tick replay of SpawnSystem.UpdateSpawnList (decompiled 1.0.15) for one hunter roaming one biome.
+    Per spawner and zone: rolls = min(max, elapsed / interval) only while the player stands in that zone; the
+    timestamp resets even when day/night then blocks the roll; the MaxSpawned cap counts the ZDO list taken before
+    the rolls, so one tick's burst ignores it (log 2026-09-22 20:12:30: 17 Greydwarf in one tick, max 6); a group
+    is skipped when its centre is within m_spawnDistance of one spawned earlier that tick; spawn point 40-80 m out,
+    20 tries, in the biome, and in its median when m_biomeArea excludes Edge (zone approximated: 4 neighbours in
+    the biome). Placed spawners (measured.csv density.Spawner_<mob>) fire once on a zone's first entry. A spawn is
+    fought with probability CAL engage_share (t_kill s each, the player stands); the rest stay where they spawned,
+    count toward MaxSpawned while within 2 zones, and get the same chance each time the player enters a zone next
+    to theirs. dusk=True starts at nightfall (fit runs). Otherwise the player walks CAL speed_ms on a heading that
+    drifts N(0, turn) rad/s and turns back at the biome edge. Not modelled: altitude/tilt/forest filters."""
+    mask = biome_zones(template)
+    median = {k for k in mask if all((k[0] + a, k[1] + b) in mask for a, b in ((1, 0), (-1, 0), (0, 1), (0, -1)))}
+    sps = [sp for lst in SPAWN["SpawnSystemList"].values() for sp in lst.get("m_spawners", [])
+           if sp.get("m_enabled") and sp.get("m_prefab") == f"@{mob}" and sp.get("m_biome", 0) & bit
+           and not sp.get("m_requiredGlobalKey")]
+    placed = MEAS.get(f"density.Spawner_{mob}", 0.0)
+    rng = random.Random(seed)
+    zone = lambda x, z: (int((x + 32) // 64), int((z + 32) // 64))
+    zx, zz = rng.choice(sorted(mask))
+    x, z, th = zx * 64.0, zz * 64.0, rng.uniform(0, 2 * math.pi)
+    day = CAL["day_s"]
+    phase = 0.75 * day if dusk else rng.uniform(0, day)
+    last, seen = {}, set()
+    alive, timer, kills, night_kills, night_s, entries, fresh, cur = 0, 0.0, 0, 0, 0, 0, 0, None
+    idle, spawned, night_spawned, e = [], 0, 0, CAL["engage_share"]
+    for t in range(int(hours * 3600)):
+        f = ((t + phase) % day) / day
+        is_night = f <= 0.25 or f >= 0.75
+        night_s += is_night
+        if alive:
+            timer -= 1
+            if timer <= 0:
+                alive, kills, night_kills = alive - 1, kills + 1, night_kills + is_night
+                timer = t_kill if alive else 0
+        else:
+            th += rng.gauss(0, turn)
+            for _ in range(16):
+                nx, nz = x + math.cos(th) * CAL["speed_ms"], z + math.sin(th) * CAL["speed_ms"]
+                if zone(nx, nz) in mask:
+                    x, z = nx, nz
+                    break
+                th = rng.uniform(0, 2 * math.pi)
+        zk = zone(x, z)
+        if zk != cur:
+            cur, entries = zk, entries + 1
+            near = [k for k in idle if max(abs(k[0] - zk[0]), abs(k[1] - zk[1])) <= 1]
+            met = sum(rng.random() < e for _ in near)
+            if met:
+                for k in near[:met]:
+                    idle.remove(k)
+                if not alive:
+                    timer = t_kill
+                alive += met
+            if zk not in seen:
+                seen.add(zk)
+                fresh += 1
+                if rng.random() < placed:
+                    alive += 1
+        alive0 = alive + sum(max(abs(k[0] - zk[0]), abs(k[1] - zk[1])) <= 2 for k in idle)
+        centres = []
+        for i, sp in enumerate(sps):
+            mx = sp["m_maxSpawned"]
+            ok_zones = mask if sp.get("m_biomeArea", -1) & 1 else median
+            lt = last.get((zk, i))
+            n = min(mx or 1, int((t - lt) / sp["m_spawnInterval"])) if lt is not None else (mx or 1)
+            if n > 0:
+                last[(zk, i)] = t
+            for _ in range(n):
+                if rng.uniform(0, 100) > sp["m_spawnChance"]:
+                    continue
+                if (not sp["m_spawnAtDay"] and not is_night) or (not sp["m_spawnAtNight"] and is_night):
+                    break
+                if mx > 0 and alive0 >= mx:
+                    break
+                c = None
+                for _ in range(20):
+                    a, r = rng.uniform(0, 2 * math.pi), rng.uniform(40, 80)
+                    if zone(x + math.cos(a) * r, z + math.sin(a) * r) in ok_zones:
+                        c = (x + math.cos(a) * r, z + math.sin(a) * r)
+                        break
+                if c is None or any(math.dist(c, o) < sp["m_spawnDistance"] for o in centres):
+                    continue
+                centres.append(c)
+                g = min(rng.randint(sp["m_groupSizeMin"], sp["m_groupSizeMax"]), mx - alive0 if mx > 0 else 100)
+                spawned, night_spawned = spawned + g, night_spawned + g * is_night
+                fought = sum(rng.random() < e for _ in range(g))
+                idle += [zone(*c)] * (g - fought)
+                if fought and not alive:
+                    timer = t_kill
+                alive += fought
+    h = hours
+    return {"kills/hr": kills / h, "kills/night hr": night_kills / (night_s / 3600) if night_s else 0,
+            "spawns/night hr": night_spawned / (night_s / 3600) if night_s else 0, "spawned": spawned, "kills": kills,
+            "zone entries/hr": entries / h, "fresh zones/hr": fresh / h, "fight share": kills * t_kill / (h * 3600)}
+
+
+def hunt(hours=40, seeds=3, turn=0.1):
+    """Kills/hr per HUNT row: mean of `seeds` hunt_sim runs (#70)."""
+    rows = []
+    for cls, biome, bit, tpl, tool, lvl, mob in HUNT:
+        t = combat(tool, mob, lvl, 3, 120)["TTK s"] + CAL["engage_s"]
+        runs = [hunt_sim(bit, tpl, mob, t, hours, s, turn) for s in range(1, seeds + 1)]
+        m = {k: sum(r[k] for r in runs) / seeds for k in runs[0]}
+        rows.append({"class": cls, "biome": biome, "mob": mob, "gear": f"{tool} q3, skill {lvl}",
+                     "TTK+engage s": round(t, 1), "kills/hr": round(m["kills/hr"], 1),
+                     "kills/night hr": round(m["kills/night hr"], 1), "spawns/night hr": round(m["spawns/night hr"]),
+                     "zone entries/hr": round(m["zone entries/hr"]),
+                     "fresh/hr": round(m["fresh zones/hr"]), "fight share": f"{m['fight share']:.0%}"})
+    return rows
+
+
 def magic(all_maps=False, chest_share=None):
     """Expected magic items per run by biome: treasure-map chests during the #81 phases, superiors after each boss."""
     tables = el("loottables.json")["LootTables"]
@@ -773,6 +908,11 @@ def main():
     if mode == "roamers":
         out.append((f"Spawn That encounters, per hour of biome play (night-only: per night hour), "
                     f"stale_zones_hr {CAL['stale_zones_hr']:g}", roamers()))
+    if mode == "hunt":
+        hrs, turn = float(arg("--hours", 40)), float(arg("--turn", 0.1))
+        CAL["engage_share"] = float(arg("--engage", CAL["engage_share"]))
+        out.append((f"hunting kills/hr (#70), SpawnSystem replay, {hrs:g} h x 3 seeds, speed {CAL['speed_ms']:g} m/s, "
+                    f"turn {turn:g} rad/s", hunt(hrs, 3, turn)))
     if mode in ("supply", "summary"):
         out.append(("spawn supply", [{"source": a, "kind": b, "spawns/hr": c, "note": d} for a, b, c, d in supply()]))
     if "--json" in sys.argv:
