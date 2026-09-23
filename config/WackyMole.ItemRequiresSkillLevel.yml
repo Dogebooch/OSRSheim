@@ -2281,7 +2281,8 @@ Requirements:
 #   against UTF-16 literals in Wizardry.dll (README spells Mountain/Stamina
 #   wrong). Ungated on purpose: StaffBlackforest_TW (Elemental entry) and
 #   StaffSurtling_TW (Blood entry; Blood XP comes only from summon hits).
-#   Rings ungated (effects unknown). Armor: EQUIP Blocking, CRAFT
+#   Rings: CRAFT Blacksmithing at metal tier, equip ungated (AzuEPI finger
+#   slot, see JEWELLERY). Armor: EQUIP Blocking, CRAFT
 #   Blacksmithing, same split as every other set.
 - PrefabName: StaffSwamp_TW
   Requirements:
@@ -2725,6 +2726,51 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 - PrefabName: HelmetCircletCarapace_Sneak_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 50
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: RingBlackForest_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 15
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: RingSwamp_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 20
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: RingMountain_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 30
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: RingPlains_TW
+  Requirements:
+  - Skill: Blacksmithing
+    Level: 40
+    BlockCraft: true
+    BlockEquip: false
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: RingMistlands_TW
   Requirements:
   - Skill: Blacksmithing
     Level: 50

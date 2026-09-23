@@ -48,7 +48,7 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
   Wizardry: `StaffBlackforest_TW`, `StaffSurtling_TW` ungated, `StaffSwamp_TW` 20,
   `StaffMountain_TW` 30, `StaffPlains_TW` 40 and `StaffGolem_TW` Blood 40,
   `StaffMistlands_TW` 50. Spellslinger sets and circlets 15 / 20 / 30 / 40 /
-  50 on the armor split. Rings ungated.
+  50 on the armor split. Rings craft Blacksmithing 15 / 20 / 30 / 40 / 50, equip ungated.
 - Unarmed ladder 30-70.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
 - Skillcapes: skill 100 (max cape ANDs all 23 skills).
@@ -104,15 +104,15 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
 - Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
 - `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.
-- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat). Wizardry rings: Utility type, armor 10, WIRSL-ungated, shard-gated:
+- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat). Wizardry rings: Utility type, armor 10, craft Blacksmithing (BlockEquip false), ArcaneAnvil_TW:
 
-| Ring | Effect |
-|---|---|
-| `RingBlackForest_TW` | Sneak +5 |
-| `RingSwamp_TW` | ElementalMagic +3 |
-| `RingMountain_TW` | eitr regen +4% |
-| `RingPlains_TW` | ElementalMagic damage +3% |
-| `RingMistlands_TW` | BloodMagic +7, health regen +2% |
+| Ring | Effect | Bsmith | Anvil | Shard |
+|---|---|---|---|---|
+| `RingBlackForest_TW` | Sneak +5 | 15 | 1 | Elder 4 |
+| `RingSwamp_TW` | ElementalMagic +3 | 20 | 2 | Bonemass 4 |
+| `RingMountain_TW` | eitr regen +4% | 30 | 3 | Moder 4 |
+| `RingPlains_TW` | ElementalMagic damage +3% | 40 | 4 | Yagluth 4 |
+| `RingMistlands_TW` | BloodMagic +7 (English description: +5), health regen +2% | 50 | 4 | none |
 - Vanilla traders (Haldor, Hildir, Bog Witch) buy any item with `m_value > 0` at `m_value x stack`; a clone without `m_value` keeps its source's. Crafted items stay `m_value: 0`.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
