@@ -1,5 +1,6 @@
 # For internal mod use only
 # OSRSheim edit 2026-09-19 (HANDOFF T6): Blacksmith Stones removed, trainer lists emptied.
+# OSRSheim edit 2026-09-23 (#82): ores, Plains materials and BF foods gated on their biome boss.
 # Untouched generated copy: warpalicious.More_World_Locations_TraderItems.yml.bak-generated
 version: 1
 
@@ -8,19 +9,19 @@ MWL_PlainsTavern1_Vendor:
   - prefabName: QueensJam
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
   - prefabName: CarrotSoup
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
   - prefabName: DeerStew
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
   - prefabName: MinceMeatSauce
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
   - prefabName: Sausages
     stack: 1
     price: 30
@@ -131,19 +132,19 @@ MWL_PlainsCamp1_Vendor:
   - prefabName: Tar
     stack: 1
     price: 5
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: BlackMetalScrap
     stack: 1
     price: 15
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: Needle
     stack: 1
     price: 5
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: Cloudberry
     stack: 1
     price: 2
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: Feathers
     stack: 1
     price: 5
@@ -151,23 +152,23 @@ MWL_PlainsCamp1_Vendor:
   - prefabName: LoxPelt
     stack: 1
     price: 30
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: LinenThread
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: CookedLoxMeat
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: SaddleLox
     stack: 1
     price: 500
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: BoltBlackmetal
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_goblinking"
   - prefabName: Tar
     stack: 10
     price: 40
@@ -190,28 +191,28 @@ MWL_BlackForestBlacksmith1_Vendor:
   - prefabName: CopperOre
     stack: 1
     price: 10
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
 
 # Black Forest Blacksmith 2
 MWL_BlackForestBlacksmith2_Vendor:
   - prefabName: CopperOre
     stack: 1
     price: 10
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_gdking"
 
 # Mountains Blacksmith 1
 MWL_MountainsBlacksmith1_Vendor:
   - prefabName: Obsidian
     stack: 1
     price: 15
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_dragon"
 
 # Mistlands Blacksmith 1
 MWL_MistlandsBlacksmith1_Vendor:
   - prefabName: BlackMarble
     stack: 1
     price: 20
-    requiredGlobalKey: ""
+    requiredGlobalKey: "defeated_queen"
 
 # Ocean Tavern 1 - Fish and seafood vendor
 MWL_OceanTavern1_Vendor:
