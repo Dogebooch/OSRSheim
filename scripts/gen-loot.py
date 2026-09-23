@@ -35,7 +35,7 @@ from main_guard import require_current
 
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
-CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
+CFG = ROOT / 'config'
 MAIN = 'drop_that.character_drop.cfg'
 LISTS = 'drop_that.character_drop_list.shared_tables.cfg'
 EL_TABLES = 'EpicLoot/baseconfig/loottables.json'
@@ -231,7 +231,7 @@ def el_tables(uniques):
     Level 4 LeveledLoot covers CLLC levels above 3; levels 1-3 read the top-level Drops/Loot."""
     text = on_disk(EL_TABLES)
     if not text:
-        fail(f'{EL_TABLES} missing from the profile: run sync-configs.ps1 -Push first')
+        fail(f'{EL_TABLES} missing from config\\')
     data = json.loads(text)
     legs = json.loads(on_disk(EL_LEGENDARIES))['LegendaryItems']
     for owner, item, p, lid in uniques:

@@ -15,7 +15,7 @@ from pathlib import Path
 
 from main_guard import require_current
 
-CFG = Path(os.environ.get('APPDATA') or Path.home() / 'AppData/Roaming') / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
+CFG = Path(__file__).resolve().parent.parent / 'config'
 # 500-507 production rate: ~0.12 superiors/hr per biome at CAL stale_zones_hr 40 (10 rolls each).
 SPAWN_INTERVAL, SPAWN_CHANCE, MAX_SPAWNED = 900, 0.03, 10
 WIRING_INTERVAL, WIRING_CHANCE = 60, 100
