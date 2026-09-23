@@ -6,5 +6,5 @@ ClonedSE: SetEffect_TrollArmor
 Status_m_name: Warden's torc
 Tooltip: Pearl and silver, worn by those who carried the dead home.
 SeData:
-  m_addMaxCarryWeight: 80
+  m_healthRegenMultiplier: 1.15
   m_skillLevelModifier: 0
