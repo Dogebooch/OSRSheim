@@ -80,7 +80,6 @@ reads both.
 | Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) |
 | JereKuusela Server devcommands | TS | admin console (§16) |
 | JereKuusela World Edit Commands (WEC) | TS | `spawn_object` / `object`: place, list, remove objects (§16, #124) |
-| JereKuusela Upgrade World (UW) | TS | world-wide object counts; blind to MarketPlaceNPC (§16) |
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
@@ -219,10 +218,9 @@ Console: F5, wait 0.4 s, then type; it stays focused after Return. `goto x,z` pr
 `mouse_move` turns the camera; held movement keys do not move the character.
 The host log records every console command with the player's position.
 WEC `spawn_object <prefab> from=x,z,y refRot=0 rot=<yaw> data=<entry>`: exact position + heading; y omitted = the player's height.
-WEC data entries: `BepInEx\config\data\*.yaml`, `- name:` + `ints`/`floats`/`bools`/`strings` lists of `- key, value`; loaded in-world, hot-reloaded.
-WEC `object id=<prefab> center=x,z radius=<m> info|remove`: loaded objects only.
+WEC data entries: `BepInEx\config\data\*.yaml`, `- name:` + `ints`/`floats`/`bools`/`strings` lists of `- key, value`; a value with commas: `- 'key, "a, b"'`; loaded in-world, hot-reloaded.
+WEC `object id=<prefab> center=x,z radius=<m> info|remove`: loaded objects only; no count limit (two NPCs on one spot: remove both, respawn one).
 `server spawn_object` into an unloaded zone prints Spawned but is never saved; spawn on site.
-UW `objects_count <prefab>` / `objects_list ... log`: server-side, whole world (`Beech1` 7136 on ModTest).
 Aliases: `BepInEx\config\alias*.yaml` (`name: 'cmd; wait 2000; cmd'`), hot-reloaded. Join `Auto exec` fires before admin: remote commands say Unauthorized.
 Dedicated `save` throws (`ZNet.HardSaveBlock` NRE); the world autosaves every 20 min.
 
@@ -328,5 +326,5 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 - Weirdgloop wiki: https://valheim.weirdgloop.org: spawn zones, creature spawners, damage/skill/stamina formulas, measured swing times
 - Jötunn data: https://valheim-modding.github.io/Jotunn/data/intro.html: prefab names, vegetation list (1.0.7)
 - valheim.source.gs: per-quality weapon damage, node HP, tool tiers (1.0.7, HTML only)
-- Upgrade World (JereKuusela): `zones_generate`, `objects_count <ids> biomes=<b>`: whole-world density; not installed (mod freeze)
+- Upgrade World (JereKuusela): `zones_generate`, `objects_count <ids> biomes=<b>`: whole-world density; not installed (tried #124: sees 0 MarketPlaceNPC)
 - Spawn That `spawn_that.cfg` `[Debug] PrintBiomeMap` / `PrintAreaMap`: zone biome map PNG in `BepInEx\Debug`
