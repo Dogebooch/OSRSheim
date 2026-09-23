@@ -255,6 +255,7 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 | Eikthyr dropped two trophies | `TrophyEikthyr` row in `drops.csv` on top of vanilla | row removed (6 kills, 6 trophies) |
 | Roamer/elite gem odds 3-4x low | lists rolled at the list's class | lists roll at the creature's class |
 | 7 elite uniques never loaded | Item yml without `m_weight` | dumped base weight; validator errors |
+| `skill_none : 0 %` popup on every tree hit | axes still raise vanilla WoodCutting; Lumberjacking's `GetSkill(13)` returns a `None` dummy; BetterUI `XPNotification` prints it | accepted (cosmetic); only lever is `showXPNotifications = false` |
 
 ## 20. Sources
 
