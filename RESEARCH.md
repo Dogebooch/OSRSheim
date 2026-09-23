@@ -33,7 +33,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
-| Rate model | `scriptsate-model.py`; in-game results in `reference\measured.csv` |
+| Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
