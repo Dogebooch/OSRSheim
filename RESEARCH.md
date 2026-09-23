@@ -264,7 +264,7 @@ Relog clears it; no repeat on revisit.
 - Code-read suspects (fog texture re-upload, Exploration radius, XP toast) ruled out: pass 3 = pass 2 = pass 4.
 - Not on the 2 s explore beat (median spacing 1.0-1.5 s). New ground adds ~30% >40 ms frames (first zone send).
 - Not in the log: dungeons load in 0-2 ms, localization reloads only at menu/join, KG custom-value syncs ~2/min.
-- Open: vanilla vs modded on one route (the game folder has its own BepInEx + `winhttp.dll`, so a plain exe launch is not vanilla); local-world run (zone generation).
+- Closed 2026-09-23: accepted as is (no vanilla A/B).
 - Client on a dedicated host never places zone content (Client mode); the host does, no time budget. Local play generates the whole zone in one frame.
 - Clients: BepInEx console off, disk log Info, Drop That / Spawn That dumps + debug logging off. Host keeps its console (`sync-server.ps1` override).
 - Frame-time capture, test-only: `scripts\perf-capture.bat [label]` (Valheim running; F11 = start/stop one
