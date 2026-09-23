@@ -25,7 +25,7 @@ other list empty, marketplace and mail off (open key unverified).
 - `gem_trader`: gems 8-80c (25-45% of a kill's value), no `GoldOre`; key forge
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
 - `skillcape_shop`: every cape 5,000c, max cape 25,000c.
-- `offerings` (`= true` discovery gate, Seeress): 150-500c a piece; a summon =
+- `offerings` (`= true`, Seeress): 150-500c a piece; a summon =
   2.5-2.8x the boss purse. DragonEgg and DvergrKeyFragment wait on a wackydb
   dump. Fader, Kall never.
 - `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
@@ -36,6 +36,10 @@ other list empty, marketplace and mail off (open key unverified).
   mead bases need a dump. Meads and food are the per-trip drain never bought back.
 - `oath_supplies` (`= true` + `HasPlayerKey`): consumables in 50-bundles at ~7%
   off. No gear and nothing WIRSL gates.
+- Boss tiers: `offerings`, `supplies`, `oath_supplies`, `herbwife` are cumulative pages
+  `<profile>_2..` (each line waits for its biome's boss); the dialogue shows one reply,
+  `Condition: GlobalKey, <key>` + `NotGlobalKey` on every later key, `AlwaysVisible: false`.
+  Offerings start at `defeated_eikthyr`; Turnip `defeated_bonemass`, Onion `defeated_dragon`.
 
 **Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
 ores, metals, riddle-stones, riddle rewards and oath capes included.
