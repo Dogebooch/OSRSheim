@@ -12,17 +12,17 @@ Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 4 fixed
 effects, §10); Troll verified, bosses unseen. Uniques lose one-per-player.
 Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
-43 hunts, skip fees, 6 reward edits; §11).
+43 hunts, skip fees, 6 reward edits; §11); it writes repo `config\`.
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
 decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
-#9 handbook. · #67 rate model: `scripts\rate-model.py` from game data;
-trees pass at Lumberjacking 0/40/80 (`reference\measured.csv`); `scripts\parse-hits.py`
-reads checks from the log (`test damage`); trees, combat, mining, density measured
-at ModTest; scaling above 21 unmeasured. Lumberjacking/Mining gain 0.15 (§5), host not deployed.
+#9 handbook · #42 superiors: `MaxSpawned = 1` on the shared prefab may block
+every roll · #83 weapon XP per hit (one nest run) · #66 perf A/B: Exploration skill
+0 vs 100 · #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
+Kills/hr for roamer/elite/boss still guesses (#70).
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
