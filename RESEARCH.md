@@ -156,7 +156,7 @@ weight 0.1 stack 50.
 
 - **AzuEPI slots**: reserved `m_itemType`; `BlockCraft` not `BlockEquip`.
 - **Vanilla 1.0 inventory**: Haldor pockets, +1 row after Moder, +1 after the Queen (8x6 max); chest `Place stacks` into the open chest only. No sort, trash or nearby-chest deposit.
-- **Quick Stack Store** 1.4.16 (1.0 fixes 2026-09-12; `goldenrevolver.quick_stack_store.cfg`), defaults except area stacking:
+- **Quick Stack Store** 1.4.15 (1.0 fixes 2026-09-12; `goldenrevolver.quick_stack_store.cfg`), defaults except area stacking:
 
 | Action | Key / UI |
 |---|---|
