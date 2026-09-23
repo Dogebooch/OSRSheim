@@ -35,3 +35,6 @@ secrets.*
 
 # extract-game-data.py bundle index (rebuilt from the game install)
 .cache/
+
+# Test-only frame-time capture (#66): PresentMon.exe + captures
+perf/

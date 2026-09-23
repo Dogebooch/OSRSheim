@@ -250,7 +250,18 @@ Relog clears it; no repeat on revisit.
 
 - Client on a dedicated host never places zone content (Client mode); the host does, no time budget. Local play generates the whole zone in one frame.
 - Clients: BepInEx console off, disk log Info, Drop That / Spawn That dumps + debug logging off. Host keeps its console (`sync-server.ps1` override).
-- A/B on ModTest (frame-time overlay, same new-ground route): baseline; `exploremap`; `raiseskill Exploration` 0 vs 100.
+- Frame-time capture, test-only: `scripts\perf-capture.bat` (Valheim running; F11 = start/stop one
+  recording) -> `perf\captures\*.csv` -> `scripts\perf-frames.py` summary. PresentMon 2.5.1 (Intel,
+  reads Windows frame timing; not a mod, installs nothing) in `perf\` (gitignored; the bat prints the download).
+- A/B on ModTest: `devcommands`, `god`, `debugmode`, `tod 0.5`, `raiseskill Exploration 100`; fly (Z, W only)
+  one straight line ~45 s per pass from the same `pos` (`goto` back):
+
+| Pass | Before | Measures |
+|---|---|---|
+| 1 | - | new zones + fog + Exploration |
+| 2 | `resetmap` | fog + Exploration at 100 |
+| 3 | `exploremap` | baseline |
+| 4 | `resetmap`, `resetskill Exploration` | vanilla fog |
 - 9/21 log: `Missing prefab hash: 1043306733` ~100/s for 10 min (hash unresolved against dumps).
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
