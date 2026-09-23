@@ -2,7 +2,7 @@
 r"""OSRSheim Alchemy balance check — run after any edit to the herb-run chain.
 
     python scripts\check-alchemy-balance.py
-    python scripts\check-alchemy-balance.py --cauldron-batch 8 --stone 2.0
+    python scripts\check-alchemy-balance.py --stone 2.0
 
 Read-only. Checks the repo's config\ (the source of truth), not the profile.
 
@@ -19,8 +19,9 @@ Then prints the grind budget: crafts, real crop units and garden cycles to each
 gate, so a recipe edit that quietly triples the grind shows up as a number.
 
 Curve (vanilla Skills.Skill): level L->L+1 costs (L+1)^1.5 * 0.5 + 0.5 XP.
-PotionPlus pays 1 XP per craft at opalchemy and (batch) XP per pull at
-opcauldron. A Philosopher's Stone is ADDITIVE on the vanilla multiplier
+PotionPlus pays 1 XP per craft at a station named opalchemy* and nothing
+else: opcauldron is a plain CraftingStation (no Incinerator in the 4.3.4
+bundle), so a Potion_Meadbase pays 0 XP. A Philosopher's Stone is ADDITIVE on the vanilla multiplier
 (SE_Stats.ModifyRaiseSkill does value += factor), so cfg 2.0 means 3x.
 """
 import argparse
@@ -250,9 +251,6 @@ def cum_xp(level):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--cauldron-batch", type=int, default=1,
-                    help="items produced per opcauldron pull; 1 = pessimistic, "
-                         "measure it in the throwaway world")
     ap.add_argument("--stone", type=float, default=None,
                     help="Philosophers Stone cfg factor; default reads the cfg")
     ap.add_argument("--cap", type=int, default=50,
@@ -405,7 +403,7 @@ def main():
              ", ".join("%s:%d" % c for c in base_costs) or "none", base_units))
     print("  Philosophers Stone cfg %.2f -> %.2fx Alchemy XP (additive)"
           % (stone, mult))
-    print("  opcauldron batch assumed %d item(s) per pull\n" % args.cauldron_batch)
+    print("  XP = 1 per opalchemy craft; bases at opcauldron pay 0\n")
 
     # average crop units in a finished potion, gated tiers only
     gated = [(p, l) for p, (l, _, _) in gates.items() if p in recipes]
@@ -421,19 +419,16 @@ def main():
           % ("gate", "XP", "crafts", "w/ stone", "crop units", "cycles"))
     for lvl in sorted({l for _, l in gated} | {args.cap, 100}):
         xp = cum_xp(lvl)
-        # half the XP comes from bases at the cauldron, half from finished
-        # crafts at the table; a batch>1 makes the base half that much cheaper
-        finished = xp / (1.0 + args.cauldron_batch) * 1.0
+        # every XP is one finished potion, and each potion eats one base
         crafts = xp
         with_stone = xp / mult
-        potions = with_stone / (1.0 + args.cauldron_batch)
-        units = potions * (avg + base_units)
+        units = with_stone * (avg + base_units)
         cycles = units / float(args.garden)
         print("  %-7d %9.0f %9.0f %9.0f %12.0f %9.1f"
               % (lvl, xp, crafts, with_stone, units, cycles))
-    print("\n  crafts = clicks with no stone and no bulk cauldron (worst case)."
-          "\n  crop units / cycles assume the stone and the batch above,"
-          " %d plants per cycle." % args.garden)
+    print("\n  crafts = opalchemy clicks with no stone."
+          "\n  crop units / cycles assume the stone, %d plants per cycle"
+          " (a cycle is 67-83 min at Farming 0, 22-28 at 100)." % args.garden)
 
     print("\n%d error(s), %d warning(s)" % (len(errors), len(warns)))
     return 1 if errors else 0
