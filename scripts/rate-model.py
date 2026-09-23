@@ -9,6 +9,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py objects  [--write]  pet/curio/gem target per loot\objects.csv row at OBJ_SETUP
     python scripts\rate-model.py magic    [--all-maps] [--chest-share 0.33] [--revisit 0.1]  magic items per run (#108)
     python scripts\rate-model.py ladder   [--fight 0.25] [--kph 100]  weapon skill at each biome entry vs vanilla (#83)
+    python scripts\rate-model.py roamers  spawns/hr of the Spawn That encounters 500+ (#42)
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
     combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
@@ -69,6 +70,9 @@ CAL = {
     "melee_hit": 0.86,          # share of combat swings that connect
     "day_s": 1800,              # in-game day, s (EnvMan day length; not in the game-data dumps)
     "revisit_share": 0.1,       # share of the run after a biome's boss spent back in that biome (superiors live)
+    "stale_zones_hr": 40,       # zones entered per hour of biome play with a full roll bank (never visited, or not updated
+                                # for MaxSpawned x SpawnInterval): vanilla SpawnSystem rolls min(MaxSpawned, elapsed /
+                                # SpawnInterval) there; ~5 km/hr of travel, half the zones stale (guess, #42)
 }
 
 
@@ -623,6 +627,29 @@ def spawn_that_rows(file):
     return {k: v for k, v in secs.items() if k.count(".") == 1}
 
 
+def world_spawn_hr(s):
+    """Spawns/hr of one Spawn That world spawner: stale-zone roll banks plus the camped zone's own rolls."""
+    p = float(s.get("SpawnChance", 100)) / 100
+    rolls = max(int(s.get("MaxSpawned", 1)), 1)
+    group = (int(s.get("GroupSizeMin", 1)) + int(s.get("GroupSizeMax", 1))) / 2
+    stale = 1 - (1 - p) ** rolls
+    camped = 3600 / float(s.get("SpawnInterval", 90)) * p
+    return stale, camped * group, (CAL["stale_zones_hr"] * stale + camped) * group
+
+
+def roamers():
+    rows = []
+    for sid, s in spawn_that_rows("spawn_that.world_spawners_advanced.cfg").items():
+        stale, camped, hr = world_spawn_hr(s)
+        day, night = s.get("SpawnDuringDay", "true") == "true", s.get("SpawnDuringNight", "true") == "true"
+        rows.append({"id": sid.split(".")[1], "prefab": s.get("PrefabName"), "biome": s.get("Biomes"),
+                     "when": "any" if day and night else "night" if night else "day", "level": s.get("LevelMin", 1),
+                     "chance %": s.get("SpawnChance"), "rolls/stale zone": s.get("MaxSpawned", 1),
+                     "P/stale zone": f"{stale:.2%}", "camped/hr": round(camped, 3), "/hr": round(hr, 3),
+                     "h each": round(1 / hr, 1) if hr else "-"})
+    return rows
+
+
 def magic(all_maps=False, chest_share=None):
     """Expected magic items per run by biome: treasure-map chests during the #81 phases, superiors after each boss."""
     tables = el("loottables.json")["LootTables"]
@@ -650,7 +677,7 @@ def magic(all_maps=False, chest_share=None):
             if s.get("Biomes") != b:
                 continue
             per_kill, m = el_roll(tables, s["PrefabName"], int(s["LevelMin"]))
-            hr = 3600 / float(s["SpawnInterval"]) * float(s["SpawnChance"]) / 100
+            hr = world_spawn_hr(s)[2]
             spawn_hr += hr if per_kill else 0  # wanderers without a level-3 roll excluded
             sup += live_h * hr * per_kill
             smix = [a + live_h * hr * v for a, v in zip(smix, m)]
@@ -743,6 +770,9 @@ def main():
     if mode == "ladder":
         f, k = float(arg("--fight", 0.25)), float(arg("--kph", 100))
         out.append((f"weapon skill at biome entry (#83), {f:.0%} of play fighting at {k:g} kills/hr", ladder(f, k, stam)))
+    if mode == "roamers":
+        out.append((f"Spawn That encounters, per hour of biome play (night-only: per night hour), "
+                    f"stale_zones_hr {CAL['stale_zones_hr']:g}", roamers()))
     if mode in ("supply", "summary"):
         out.append(("spawn supply", [{"source": a, "kind": b, "spawns/hr": c, "note": d} for a, b, c, d in supply()]))
     if "--json" in sys.argv:

@@ -20,7 +20,7 @@ Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
-#9 handbook · #42 superiors (`MaxSpawned 10`, 3%): do they appear in a BF night ·
+#9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
 #83 weapon XP per hit (one nest run) · #66 perf A/B: Exploration skill
 0 vs 100 · #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
 Kills/hr for roamer/elite/boss still guesses (#70).
