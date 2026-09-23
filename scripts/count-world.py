@@ -4,12 +4,17 @@ r"""Count objects in a Valheim 1.0 world save (chunked format, world version 41)
     python scripts\count-world.py <world folder>                     prefab counts, top 60
     python scripts\count-world.py <world folder> --match copper,tin  only prefabs containing these
     python scripts\count-world.py <world folder> --zones             also: zones generated, per-zone mean
+    python scripts\count-world.py <world folder> --biomes [dir]      per biome: objects per generated zone
+                                  (biome per zone from Spawn That spawn_map_*.png in [dir], default the
+                                  profile's BepInEx\Debug; written at world load, so load this world first)
 
 <world folder> holds _main.<n>.chunks/.db2 and *.chunk, e.g.
 %USERPROFILE%\AppData\LocalLow\IronGate\Valheim\worlds_local\<World>. Copy it first if the game
 or a server has it open. Prefab names come from reference\..\.cache\game-data-index.json
 (scripts\extract-game-data.py), hashed with Valheim's GetStableHashCode.
 
+Zones are Valheim's: floor((x + 32) / 64). Spawn map pixel (x + 165, 329 - (z + 165)); greys decoded
+from vegetation (ModTest 2026-09-22): 120 Meadows, 180 Black Forest; other greys print as grey<n>.
 Counts only what exists now: generated zones hold every placed node/tree until it is destroyed,
 so a fresh fly-over gives realised density; a played area gives what is left.
 """
@@ -23,6 +28,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / ".cache" / "game-data-index.json"
 ZONE = 64.0
+DEBUG = Path(os.environ.get("APPDATA", "")) / "com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/Debug"
+GREYS = {120: "Meadows", 180: "BlackForest"}
+
+
+def biome_grid(folder):
+    """{(zone x, zone z): biome} from the grey layer of Spawn That spawn maps (red marks a template's zones)."""
+    from PIL import Image
+    grid = {}
+    for f in sorted(Path(folder).glob("spawn_map_*.png")):
+        im = Image.open(f).convert("RGB")
+        w, h = im.size
+        px = im.load()
+        for i in range(w):
+            for j in range(h):
+                r, g, b = px[i, j]
+                zone = (i - w // 2, h - 1 - j - h // 2)
+                if r == g == b and zone not in grid:
+                    grid[zone] = GREYS.get(r, f"grey{r}")
+    return grid
 
 
 def stable_hash(s):
@@ -126,11 +150,22 @@ def main():
             h, (x, z) = read_zdo(r)
             name = names.get(h, f"#{h}")
             counts[name] += 1
-            zones[(int(x // ZONE), int(z // ZONE))][name] += 1
+            zones[(int((x + ZONE / 2) // ZONE), int((z + ZONE / 2) // ZONE))][name] += 1
             total += 1
     rows = [(k, v) for k, v in counts.items() if not match or any(m in k.lower() for m in match)]
     rows.sort(key=lambda kv: -kv[1])
     print(f"{total} objects, {len(zones)} zones with objects")
+    if "--biomes" in sys.argv:
+        i = sys.argv.index("--biomes") + 1
+        grid = biome_grid(sys.argv[i] if i < len(sys.argv) and not sys.argv[i].startswith("--") else DEBUG)
+        gen = collections.Counter(grid.get(k, "?") for k in zones)
+        print("generated zones: " + ", ".join(f"{b} {n}" for b, n in gen.most_common()))
+        for k, _ in rows[: None if match else 30]:
+            per = collections.Counter()
+            for z, c in zones.items():
+                per[grid.get(z, "?")] += c.get(k, 0)
+            print(f"  {k:24s} " + "  ".join(f"{b} {per[b] / gen[b]:.2f}" for b, _ in gen.most_common() if per[b]))
+        return
     for k, v in rows[: None if match else 60]:
         present = sum(1 for c in zones.values() if c.get(k))
         extra = f"  in {present} zones, {v / present:.1f}/zone where present" if "--zones" in sys.argv and present else ""

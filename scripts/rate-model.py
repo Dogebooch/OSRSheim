@@ -244,7 +244,10 @@ def chop_cycle(segments, gaps, cycle_s, cost, max_stam, n=30):
 
 # ---------- density ----------
 def density(prefab, world_counts=None):
-    """Targets per m2 inside their biome. World save if given, else vegetation attempts x placement."""
+    """Targets per m2 inside their biome: measured.csv density.<prefab> (count-world.py --biomes), world save,
+    else vegetation attempts x placement (sums every biome's entries: an upper bound)."""
+    if f"density.{prefab}" in MEAS:
+        return MEAS[f"density.{prefab}"] / ZONE_M2, "measured per biome"
     if world_counts and prefab in world_counts:
         n, zones = world_counts[prefab]
         return n / zones / ZONE_M2, "world save"

@@ -24,3 +24,10 @@ cal.rock_multi,0.70,damage into broken areas per swing / unsplit swing,ModTest 2
 cal.hit_fraction,0.90,areas broken by player damage / areas,ModTest 2026-09-22 Calib: Mines stat 64 of 71 areas (rest collapsed)
 hits.rock4_copper_frac.PickaxeIron.21,208,swings per node,ModTest 2026-09-22 Calib: Mining 21; unsplit swing 21.9 pickaxe dmg
 rate.rock4_copper_frac.PickaxeIron.21,534,segments/hr normal play,ModTest 2026-09-22 Calib: god off 22:12:14-22:16:29; 38 areas / 99 swings in 256 s; 0.387 swings/s (stamina-limited; 99 stamina)
+density.Beech1,17.49,per zone in Meadows,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.Birch1,2.0,per zone in Meadows,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.Oak1,0.13,per zone in Meadows,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.FirTree,5.26,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.Pinetree_01,7.46,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.MineRock_Tin,0.59,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+density.rock4_copper,0.17,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
