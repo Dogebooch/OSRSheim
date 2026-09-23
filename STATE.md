@@ -29,13 +29,10 @@ trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).
 
 ## Gielheim (Doug plays and reports)
-1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
-   MWL density now; `genloc` cannot retrofit explored terrain (§13). Commit
-   `..._LocationConfigs.yml` first; decide `MWL_TreeTowers1` / `MWL_MistTower2` (null loot, §13).
-2. Create Gielheim locally: new character, death penalty Casual (§15), launch
+1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Claude places the KG NPCs (`gen-npcs.py --town`, open meadow by the sea; admin char only; `--builder off` after, §11).
-3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 331`).
-4. Doug vetoes renames.
+2. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 331`).
+3. Doug vetoes renames.
 
 ## First Gielheim sessions
 - Day one: craft, block and helm once each at skill 0. Bars near 50% expected;

@@ -150,9 +150,11 @@ weight 0.1 stack 50.
   emptied; ores, Plains materials and BF foods gated on their biome boss) and
 `..._LocationConfigs.yml` (192 location types). Locations bake at
   world-gen: tune before Gielheim exists.
-- `..._LocationConfigs.yml` is not in the repo; profile and host hold identical MWL defaults.
-- MWL 5.1.1 null loot: `MWL_TreeTowers1` chest (all 10 entries) and one destructible,
-  `MWL_MistTower2` tree drops. The host throws `DropTable.AddItemToList` NRE when TreeTowers1 spawns.
+- `..._LocationConfigs.yml` in repo `config\`: MWL defaults, `MWL_TreeTowers1: 0`.
+- MWL 5.1.1 null loot, 2 of 355 MWL drop tables: `MWL_TreeTowers1` chest (all 10 entries, NRE on
+  spawn; off) and one destructible; `MWL_MistTower2` YggaShoot drops only, chest fine (kept).
+- Throwaway world gen (dedicated server): MWL placed 2094 of 2493 asked, ~15% of 14.1k locations.
+  Meadows 57%, Black Forest 85%, Swamp 77%, Plains 93%, rest 100%; shortfall = no valid spot.
 
 - **AzuEPI slots**: reserved `m_itemType`; `BlockCraft` not `BlockEquip`.
 - **Vanilla 1.0 inventory**: Haldor pockets, +1 row after Moder, +1 after the Queen (8x6 max); chest `Place stacks` into the open chest only. No sort, trash or nearby-chest deposit.
