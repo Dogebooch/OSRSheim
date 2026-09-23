@@ -51,6 +51,16 @@ Generated, never hand-edited: `config/drop_that.character_drop*.cfg`,
 `config/drop_that.drop_table.cfg`, the collection-log cfgs, `reference/mods.tsv`.
 Generators and enforced limits: [`CLAUDE.md` Rules](CLAUDE.md#rules).
 
+## Balance estimates
+
+| Command | Gives |
+|---|---|
+| `python scripts\rate-model.py trees\|mining\|combat --levels 0,40,80` | actions/hr from `reference/game-data/` + `reference/measured.csv`; usage in its docstring |
+| `python scripts\parse-hits.py mark`, play, `python scripts\parse-hits.py` | a check measured from the client log (console `test`, `test damage`; `--log <path>`) |
+| `python scripts\count-world.py <world folder> --biomes` | objects per zone per biome from a save (needs `extract-game-data.py` once, Pillow) |
+
+Method and results: issue #67.
+
 ## How a change flows
 
 | Step | Where |
