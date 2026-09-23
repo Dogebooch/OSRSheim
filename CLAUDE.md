@@ -13,7 +13,7 @@ OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 **Balance:** each biome fights, gears and pays like vanilla, as if Iron Gate
 had built it this way; only total playtime grows. Skill gates unlock new
 things to do (magic, abilities, rares), not bigger numbers. Test: would Iron
-Gate ship it? Run-length target: issue #81.
+Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 
 **Rares:** small power over their tier, never a stat stick. Each one:
 1. drops before its skill gate is reached (the gate times it, not the biome);
