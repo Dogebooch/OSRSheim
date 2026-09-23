@@ -139,8 +139,9 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 
 Templates: `Marketplace_SavedNPCs\<Name Override>.yml`; placement: `reference\npc-layout.csv` -> `scripts\gen-npcs.py` (Banker 2 rows, Waystone 9).
 File-driven placement: dialogue `Command: SpawnXYZWithData,MarketPlaceNPC,1,1,x,y,z,0,<key>` spawns at int x y z (rotation 0, no duplicate check) and writes `Configs\CustomSpawnData\<key>.yml` (Ints/Floats/Strings/Bools/Longs) onto the ZDO; all NPC fields incl. fashion are ZDO keys (`KGmarketNPC` int type, `KGnpcProfile`, `KGnpcDialogue`, `KGnpcNameOverride`, `KGnpcShowCondition`, `KGmarketPinned`). DistancedUI `Dialogues` opens a dialogue with no NPC. Verified ModTest 2026-09-23 (`world-scan.py npcs`).
-Far spawns: a new NPC reaches the server only while its placer is within sync range; spawned from afar or left at once, it waits in the client until the next visit (lost on logout). Place far rows on site (builder Go, then Place) and stay ~20 s.
-`find MarketPlaceNPC` (devcommands, server-side) finds 0: not a check.
+Far spawns: a new NPC reaches the server only while its placer is within sync range; spawned from afar or left at once, it waits in the client until the next visit (lost on logout). Place far rows on site (builder Go, then Place) and stay ~20 s. `server spawn_object` from afar is also lost.
+WEC alternative, verified ModTest 2026-09-23 (name, bank barks, saved): `spawn_object MarketPlaceNPC from=x,z,y refRot=0 rot=<heading> data=<entry>`, entry = the CustomSpawnData keys as a WEC data entry (§16). Needs the admin on site.
+`find MarketPlaceNPC` and UW `objects_count MarketPlaceNPC` (server-side) find 0: not a check. `object id=MarketPlaceNPC radius=<m> info` lists loaded ones; `world-scan.py npcs` reads the save.
 `KGnpcShowCondition`: dialogue condition syntax, checked per client every 2.5 s; false hides model, name and collider; `debugmode` shows all. Verified (oath key toggles the stone).
 Teleporter map: keeps the player's fog; shows only the profile's pins.
 NPC UI (10.0.1): the Buffer type tile is labelled "Enchanter".

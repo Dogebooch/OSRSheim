@@ -79,6 +79,8 @@ reads both.
 | sighsorry Trolling Fishing | TS | Fishing bite chance and bonus drops scale with skill (§18) |
 | Marlthon OdinShip | TS | 7 hulls, keel-gated (§6, §7, §18) |
 | JereKuusela Server devcommands | TS | admin console (§16) |
+| JereKuusela World Edit Commands (WEC) | TS | `spawn_object` / `object`: place, list, remove objects (§16, #124) |
+| JereKuusela Upgrade World (UW) | TS | world-wide object counts; blind to MarketPlaceNPC (§16) |
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
@@ -210,12 +212,18 @@ admin client's `dropthat:reload` reloads the server and re-syncs (client log
 `GetAffixBoss(attacker)` unguarded, so any attacker-less hit on a boss throws;
 boss-affix toggles do not help. Kill bosses by hand. Kills set `killedtroll` / `jotun_killed`; `removekey`.
 On a server, drops follow the server's Drop That cfgs, not the local profile.
-Computer-use screenshots mask Valheim; GDI `CopyFromScreen` captures it.
+Computer-use screenshots show Valheim once `valheim.exe` is granted.
 Synthetic right-clicks never reach Valheim (no build menu); keys and left-clicks do.
 Typed text with spaces goes via clipboard and can drop focus: type words, send `space` as a key.
 Console: F5, wait 0.4 s, then type; it stays focused after Return. `goto x,z` prints ground y.
 `mouse_move` turns the camera; held movement keys do not move the character.
 The host log records every console command with the player's position.
+WEC `spawn_object <prefab> from=x,z,y refRot=0 rot=<yaw> data=<entry>`: exact position + heading; y omitted = the player's height.
+WEC data entries: `BepInEx\config\data\*.yaml`, `- name:` + `ints`/`floats`/`bools`/`strings` lists of `- key, value`; loaded in-world, hot-reloaded.
+WEC `object id=<prefab> center=x,z radius=<m> info|remove`: loaded objects only.
+`server spawn_object` into an unloaded zone prints Spawned but is never saved; spawn on site.
+UW `objects_count <prefab>` / `objects_list ... log`: server-side, whole world (`Beech1` 7136 on ModTest).
+Aliases: `BepInEx\config\alias*.yaml` (`name: 'cmd; wait 2000; cmd'`), hot-reloaded. Join `Auto exec` fires before admin: remote commands say Unauthorized.
 Dedicated `save` throws (`ZNet.HardSaveBlock` NRE); the world autosaves every 20 min.
 
 **Seen at shipping rates (server, 2026-09-22)**: 7 elite uniques, Rare T2-T4
