@@ -101,7 +101,7 @@ dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). 8 biomes: 40 quests, 36,380c
 `OnCompleteQuest: AddPlayerKey, oath_<biome>` — `Player.AddUniqueKey`: per-character,
 NOT a global key, so Drop That / WIRSL / bounty gates never see it. Perks gate on
 `HasPlayerKey` on a dialogue reply: waystones, `oath_supplies`, `chapel_oath`
-(4 entry prayers at -40% bone cost; trophy-gated rungs stay out).
+(4 entry prayers at -40% bone cost, Resolve of Tyr -50%; trophy-gated rungs stay out).
 
 **Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..8`, Type
 Teleporter + Dialogue `waystone`): no gating and no cost in the file — format, the

@@ -6,3 +6,22 @@ clonePrefabName: CapeLinen
 m_name: Peaksworn cape
 m_description: Sworn to the high cold where the air is thin and the wargs are not.
 m_weight: 1
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+Armor:
+  armor: 0
+  armorPerLevel: 0
+SE_Equip: 
+Moddifiers:
+  m_movementModifier: 0
+  m_EitrRegen: 0
+  m_homeItemsStaminaModifier: 0
+  m_heatResistanceModifier: 0
+  m_jumpStaminaModifier: 0
+  m_attackStaminaModifier: 0
+  m_blockStaminaModifier: 0
+  m_dodgeStaminaModifier: 0
+  m_swimStaminaModifier: 0
+  m_sneakStaminaModifier: 0
+  m_runStaminaModifier: 0

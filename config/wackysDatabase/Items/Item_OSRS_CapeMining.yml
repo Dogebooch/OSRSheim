@@ -1,9 +1,28 @@
 # OSRSheim p9-11 skillcape — authored 2026-09-19
 # Clone of CapeLinen (prefab name verified in EpicLoot 1.0 iteminfo.json).
-# Cosmetic trophy: no stat twist beyond weight. Gated at level 100 in
+# Cosmetic trophy: stats stripped like the riddle-stone cloaks. Gated at level 100 in
 # WackyMole.ItemRequiresSkillLevel.yml; no recipe (sold by a KG NPC).
 name: OSRS_CapeMining
 clonePrefabName: CapeLinen
 m_name: Mining cape
 m_description: Every vein in the world, and you have swung at most of them.
 m_weight: 1
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+Armor:
+  armor: 0
+  armorPerLevel: 0
+SE_Equip: 
+Moddifiers:
+  m_movementModifier: 0
+  m_EitrRegen: 0
+  m_homeItemsStaminaModifier: 0
+  m_heatResistanceModifier: 0
+  m_jumpStaminaModifier: 0
+  m_attackStaminaModifier: 0
+  m_blockStaminaModifier: 0
+  m_dodgeStaminaModifier: 0
+  m_swimStaminaModifier: 0
+  m_sneakStaminaModifier: 0
+  m_runStaminaModifier: 0
