@@ -38,7 +38,9 @@ def main():
     source = path.read_text(encoding='utf-8-sig')
     blocks = re.split(r'(?=^\[WorldSpawner\.\d+\]$)', source, flags=re.M)[1:]
     out = ['# OSRSheim custom encounters; runtime verification pending.\n'
-           '# Superiors unlock after their own biome boss; 8% per 900-second check.\n'
+           '# Superiors unlock after their own biome boss; 3% per 900-second check.\n'
+           '# MaxSpawned 10: vanilla counts every loaded instance of the shared prefab, so 1 let any\n'
+           '# loaded common block the roll; vanilla also rolls min(MaxSpawned, elapsed/interval) times.\n'
            '# No spawn within 150 m horizontally of any listed station.\n'
            '# Base/outpost coverage requires a listed station (a forge is the earliest;\n'
            '# 510 also counts piece_workbench, the only station a Meadows base has).\n'
@@ -50,7 +52,8 @@ def main():
         block = re.sub(r'^#.*\n', '', block, flags=re.M)
         if 500 <= sid <= 507:
             block = re.sub(r'^SpawnInterval = .*$', 'SpawnInterval = 900', block, flags=re.M)
-            block = re.sub(r'^SpawnChance = .*$', 'SpawnChance = 8', block, flags=re.M)
+            block = re.sub(r'^SpawnChance = .*$', 'SpawnChance = 3', block, flags=re.M)
+            block = re.sub(r'^MaxSpawned = .*$', 'MaxSpawned = 10', block, flags=re.M)
             block = re.sub(r'^RequiredGlobalKey = .*$', 'RequiredGlobalKey = ' + ROWS[sid-500][1], block, flags=re.M)
         block = re.sub(r'^(?:HuntPlayer|SetRelentless|ConditionPositionMustNotBeNearPrefabs|ConditionPositionMustNotBeNearPrefabsDistance) = .*\n', '', block, flags=re.M)
         anchors = EARLY_ANCHORS if sid in EARLY_ANCHOR_IDS else ANCHORS

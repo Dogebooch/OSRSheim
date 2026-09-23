@@ -19,7 +19,7 @@
 - **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0, Monstrum.
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
 - **Knobs to tune by feel**: skillcape price, gem prices, trophy prices,
-  Slayer rewards, superior rarity (8% / 900 s), treasure map payout (1.5x),
+  Slayer rewards, superior rarity (3% / 900 s, MaxSpawned 10), treasure map payout (1.5x),
   gambler edge, market tax, waystone fee (25 / 50 / 100c), Goblin double coins,
   clone attack speeds, Fishing
   XP factor, fish sale prices, bite chance at 100,
