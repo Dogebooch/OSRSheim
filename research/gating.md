@@ -86,7 +86,7 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
   no `SE_Equip` or modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
-  sold by the skillcape shop.
+  sold by the skillcape shop. Skillcapes and 8 oath capes: stats stripped like the riddle rewards.
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
 - Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
 - `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.
