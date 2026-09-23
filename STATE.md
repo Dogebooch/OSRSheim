@@ -24,12 +24,16 @@ Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).
+<<<<<<< HEAD
 Loot rebalance (§7: lists at creature class, coin curve, nest class) and #14 object
 rates (skilling pets at OSRS hours, crypt chest vanilla) not on the host yet.
+=======
+>>>>>>> origin/main
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
-   MWL density now; `genloc` cannot retrofit explored terrain (§13).
+   MWL density now; `genloc` cannot retrofit explored terrain (§13). Commit
+   `..._LocationConfigs.yml` first; decide `MWL_TreeTowers1` / `MWL_MistTower2` (null loot, §13).
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table.
 3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 326`).
@@ -45,7 +49,8 @@ rates (skilling pets at OSRS hours, crypt chest vanilla) not on the host yet.
 Waiting on upstream: KG Marketplace stable 10.x.
 
 ## Server
-Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = main via
-`sync-server.ps1`, mods = `mods.tsv`. MWL live, 2.5 GiB boot, host dumps off
-(§15). Open: `Use Marketplace Locally = false`, Doug in `adminlist.txt`,
+Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = 55fa2cd via
+`sync-server.ps1` (behind main), mods = `mods.tsv`. MWL live, host dumps off;
+2.5 GiB boot, 4.0 GiB after a 30 min solo fly (§15). First join can time out:
+rejoin (§15). Open: `Use Marketplace Locally = false`, Doug in `adminlist.txt`,
 clone-drop and `DropOnePerPlayer` checks with both players present.

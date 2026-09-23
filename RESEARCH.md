@@ -35,6 +35,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
 | Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19` |
+| Sven's game | `F:\Steam\steamapps\common\Valheim` |
 
 ## 3. Mod stack
 
@@ -134,8 +135,11 @@ weight 0.1 stack 50.
 - **More World Locations AIO**: `Enable Trainers = Off`, `Use Custom Trader
   Configs = On`, `Use Custom Location YAML = On`. First launch writes
   `..._TraderItems.yml` (Skill Books and Blacksmith Stones removed, trainer lists
-  emptied) and `..._LocationConfigs.yml` (188 location types). Locations bake at
+  emptied) and `..._LocationConfigs.yml` (192 location types). Locations bake at
   world-gen: tune before Gielheim exists.
+- `..._LocationConfigs.yml` is not in the repo; profile and host hold identical MWL defaults.
+- MWL 5.1.1 null loot: `MWL_TreeTowers1` chest (all 10 entries) and one destructible,
+  `MWL_MistTower2` tree drops. The host throws `DropTable.AddItemToList` NRE when TreeTowers1 spawns.
 
 - **AzuEPI slots**: reserved `m_itemType`; `BlockCraft` not `BlockEquip`.
 
@@ -156,6 +160,9 @@ weight 0.1 stack 50.
   10.6 GiB, 2.5 without). `sync-server.ps1` turns them off on the host.
 - A client on the host takes the host's `false`: pre-sync dumps still write (drop tables,
   locations, local spawners), post-sync ones do not (character drops, loaded cfgs, world spawners).
+- First join after a game launch: the client stalls 32-36 s (ServerSync configs, then
+  world-gen setup); the host's 30 s `ZRpc timeout` drops it. Rejoin in the same session: 15-19 s.
+- Host RAM: 2.54 GiB at boot, 4.01 GiB after one player flew 30 min (ZDOs 18k -> 201k); idle does not release it.
 - `gen-mods.py --verify` checks host versions. ServerSync'd: Smoothbrain skills, CLLC,
   WIRSL, EpicLoot, AzuEPI, WackysDatabase, MWL, Trolling Fishing; Drop That clients
   pull the host's configs.
@@ -201,6 +208,10 @@ Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `removekey` each key set, 
 (`resetkeys` also wipes the world's own keys). Console takes synthetic typing only right after F5.
 Server-only wiring: copy `config\` under a scratch `APPDATA` profile path, run
 `gen-loot.py --wiring` with that `APPDATA`, copy the drop cfgs to the server; the Gale profile stays untouched.
+
+**`ZNetScene.RemoveObjects` NRE every frame** (client on the host, 2026-09-22, fast debug
+flight, 8 s after `GoblinCamp2` loaded): distant objects stop unloading, 15.8 GB, 4 FPS.
+Relog clears it; no repeat on revisit.
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
 shape, gambler lines, repo/profile parity, validator.
