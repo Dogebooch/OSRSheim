@@ -50,21 +50,21 @@ OSRS_CrystalKey a roll, 8 uniform prizes; `riddle_simple` / `_cryptic` /
 `_elaborate` / `_master` one riddle-stone a roll (§7). All opened from the
 Gambler dialogue.
 
-**Story quests** (`Quests\osrsheim_quests_free.cfg` 22 live + `osrsheim_quests_story.cfg`
-57 staged in `staging\quest-pass\`, applied by `apply-quest-pass.ps1`; one-time via
+**Story quests** (`Quests\osrsheim_quests_free.cfg` 22 + `osrsheim_quests_story.cfg` 57; one-time via
 cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
 Types: Collect, Kill, Craft, Talk, Harvest. Per biome: a kill, a collect, a
 craft of the tier's sword or shield, a fish quest, a boss kill on the previous
 boss key; `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
-tames Boar, Wolf (1 star), Lox. Coins 25c to 8,000c, 107k total. Gated `=
+tames Boar, Wolf (1 star), Lox. Coins 25c to 8,600c, 108k total. Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
 
-**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 14 live + 43 staged,
+**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43,
 `= Autocomplete`, cooldown `60s`, biome boss key on line 8; profile
-`slayer_master`). Per-task kill counts and pay live in the cfg: 80c (Meadows
-Greylings) to 4,500c (Deep North witches), a gem on the harder ones; starred
-tasks (`creature, 1, 2`, superiors §12) 500-2,500c. Camped tasks (Greydwarf, Skeleton, Draugr,
-Charred): >= ~14 min at 321 kills/hr, pay 1.25x the §7 coin/hr target for that time. Skip fee
+`slayer_master`). Per-task kill counts and pay live in the cfg: 60c (Black Forest
+Skeletons) to 4,500c (Deep North witches), a gem on the harder ones; starred
+tasks (`creature, 1, 2`, superiors §12, on the spawner's key) 500-2,500c. Camped tasks (Greydwarf, Skeleton, Draugr,
+Charred): >= ~14 min at 321 kills/hr x the target's SpawnArea weight share (Greydwarf 5/7, Draugr 4/7,
+Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6), pay 1.25x the §7 coin/hr target for that time. Skip fee
 (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 

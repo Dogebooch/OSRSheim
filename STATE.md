@@ -5,7 +5,7 @@ Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
 camped class 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
-Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
+Alchemy gates (WIRSL 331), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.
 GoldOre (Petrified Tissue): not sold to `gem_trader`, rewards paid as coin (#64).
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
@@ -13,8 +13,7 @@ Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 10%,
 map chests: coins + gem 2/3 or magic item 1/3 (#107), enchanting table off (#108). Uniques lose one-per-player.
-Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
-43 hunts, skip fees, 6 reward edits; §11); it writes repo `config\`.
+Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run — measure the opcauldron batch and the crop grow time FIRST, they
@@ -36,7 +35,7 @@ Sailing gates (§6, §7), DistancedUI (§11).
    `..._LocationConfigs.yml` first; decide `MWL_TreeTowers1` / `MWL_MistTower2` (null loot, §13).
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Place the KG NPCs with the Hammer (16 templates, §11).
-3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 326`).
+3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 331`).
 4. Doug vetoes renames.
 
 ## First Gielheim sessions
