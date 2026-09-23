@@ -29,8 +29,8 @@ table with no vanilla entries. `drop_that.cfg`: dump flags on,
 
 ### Rates
 Valheim chance = OSRS chance x (OSRS kills/hr / Valheim kills/hr). Valheim
-kills/hr is spawn supply, not kill speed: `python scripts\spawn-rates.py`
-prints spawns/hr ceilings from the Spawn That dumps.
+kills/hr is spawn supply (camped: `spawn-rates.py` ceilings) or spawns met while
+roaming (`rate-model.py hunt`), not kill speed.
 
 Classes (`loot\classes.csv`). Valheim /hr: camped and nest measured; roamer and elite from
 `rate-model.py hunt` (SpawnSystem replay, checked against logged bursts; #70); boss a guess. A shared list rolls at the creature's class
