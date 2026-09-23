@@ -1,9 +1,8 @@
-# STATE — 2026-09-22
+# STATE — 2026-09-23
 
 Stack loads on 1.0.15; mod list frozen (§3). Launched clean (0 exceptions);
-84 clones, unlaunched since. Config audit: unfixed KG Talk quotes (§11).
-`drop_that.drop_table.cfg` is generated now (`gen-objects.py`); the old weights
-dropped Feathers at 100% on ten empty log tables.
+84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
+camped class 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
 Alchemy gates (WIRSL 326), `herbwife`, 5 Harvest contracts.
 `check-alchemy-balance.py` 7/7.

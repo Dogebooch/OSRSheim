@@ -3173,7 +3173,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ELITE UNIQUE CLONES (2026-09-21): equip-gated at the base weapon tier; no recipe, so BlockCraft false.
-# OSRS_DragonBattleaxe sits at the Deep North tier (70) although its base AxeJotunBane is gated 50 above.
+# OSRS_DragonBattleaxe sits at Axes 50, the gate of its base AxeJotunBane.
 - PrefabName: OSRS_HillGiantClub
   Requirements:
   - Skill: Clubs

@@ -140,8 +140,7 @@ Client-only (`MarketplaceHammer` is a KG Client module): the placing admin's pro
 
 ### Config audit (2026-09-21)
 Evidence: `reference/config-audit-2026-09-21.json`.
-**Unfixed:** 138 Talk targets retain quotes; remove them and keep the spaces, fix
-the collection generator. DLL-confirmed: `ParseTargets` strips neither spaces nor
-quotes for Talk / Move and compares against the raw NPC name override.
+Talk / Move targets are bare NPC names, spaces kept, no quotes: DLL-confirmed `ParseTargets`
+strips neither and compares against the raw NPC name override.
 BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` seconds.
 Everything needing a live world to confirm: the GitHub issue list.
