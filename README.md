@@ -41,7 +41,7 @@ Run length and balance issues: [#81](https://github.com/Dogebooch/OSRSheim/issue
 |---|---|
 | [`config/`](config) | mod configs; source of truth for the Gale profile and the host |
 | [`loot/`](loot) | drop-rate CSVs; input to the loot and collection-log generators |
-| [`reference/`](reference) | mod manifest, verified prefab names, wackydb base dumps, game data (`game-data/`), measured rates, audits |
+| [`reference/`](reference) | mod manifest, verified prefab names, wackydb dumps, `game-data/`, measured rates, audits |
 | [`research/`](research) | reference topic files (loot, marketplace, gating, ...); map in `RESEARCH.md` |
 | [`scripts/`](scripts) | generators, validators, sync, doc hooks |
 | [`staging/`](staging) | changes built but not yet applied to `config/` |
@@ -51,13 +51,14 @@ Generated, never hand-edited: `config/drop_that.character_drop*.cfg`,
 `config/drop_that.drop_table.cfg`, the collection-log cfgs, `reference/mods.tsv`.
 Generators and enforced limits: [`CLAUDE.md` Rules](CLAUDE.md#rules).
 
-## Balance estimates
+## Measurement
 
 | Command | Gives |
 |---|---|
-| `python scripts\rate-model.py trees\|mining\|combat --levels 0,40,80` | actions/hr from `reference/game-data/` + `reference/measured.csv`; usage in its docstring |
+| `python scripts\rate-model.py trees\|mining\|combat --levels 0,40,80` | actions/hr from `reference/game-data/` + `reference/measured.csv` |
 | `python scripts\parse-hits.py mark`, play, `python scripts\parse-hits.py` | a check measured from the client log (console `test`, `test damage`; `--log <path>`) |
 | `python scripts\count-world.py <world folder> --biomes` | objects per zone per biome from a save (needs `extract-game-data.py` once, Pillow) |
+| `scripts\perf-capture.bat`, F11 per run | frame times per run; test-only, PresentMon in `perf/` (§16) |
 
 Method and results: issue #67.
 
