@@ -24,11 +24,6 @@ Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).
-<<<<<<< HEAD
-Loot rebalance (§7: lists at creature class, coin curve, nest class) and #14 object
-rates (skilling pets at OSRS hours, crypt chest vanilla) not on the host yet.
-=======
->>>>>>> origin/main
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
