@@ -1,0 +1,7 @@
+key,value,unit,source
+segments.rock4_copper_frac,79,areas broken per node,ModTest 2026-09-22 Club-per-segment count; Mining 0-6
+segments.mudpile_frac,20,areas broken per node,ModTest 2026-09-22
+segments.mudpile2_frac,28,areas broken per node,ModTest 2026-09-22
+segments.rock3_silver_frac,141,areas broken per node,ModTest 2026-09-22
+segments.silvervein_frac,106,areas broken per node,ModTest 2026-09-22
+segments.goldvein_frac,97,areas broken per node,ModTest 2026-09-22
