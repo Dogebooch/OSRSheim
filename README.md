@@ -8,6 +8,11 @@ players (Doug and Sven) on a rented dedicated server.
 **Design principle:** copy OSRS mechanics. Do not copy OSRS names, characters,
 items, quest text or audio ([`CLAUDE.md`](CLAUDE.md)).
 
+**Balance:** each biome fights, gears and pays like vanilla Valheim; the run is
+longer, not easier or richer. Vanilla's loop is "new biome, new gear, same
+fight". Here, skill gates make magic, abilities and rares something you unlock.
+Run length and balance issues: [#81](https://github.com/Dogebooch/OSRSheim/issues/81).
+
 ## The loops
 
 | Loop (OSRS analogue) | Valheim version | Ref |

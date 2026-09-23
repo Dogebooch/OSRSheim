@@ -10,6 +10,11 @@ feel. Copy OSRS mechanics (skills, gating, drop tables, Slayer, clues, bank).
 Do not copy OSRS names, characters, items, quest text or audio; those are
 OSRS-inspired but Valheim-flavoured. When in doubt, ask Doug.
 
+**Balance:** each biome fights, gears and pays like vanilla, as if Iron Gate
+had built it this way; only total playtime grows. Skill gates unlock new
+things to do (magic, abilities, rares), not bigger numbers. Test: would Iron
+Gate ship it? Run-length target: issue #81.
+
 - `RESEARCH.md` — reference hub; topic files in `research\` (section map at
   its top, §N global). Update the file that owns the section when a fact is learned.
 - `STATE.md` — what is live, what is next. Under a page. Update it every
