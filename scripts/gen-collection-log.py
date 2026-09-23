@@ -80,7 +80,7 @@ def generate():
     for r in data:
         q.append(f'[{qid(r["prefab"])}]\nTalk\nLog: {r["display"]}\n'
                  f'Show Halla your {r["display"]} and she will write it into the saga.\n'
-                 f'"{NPC}"\nItem: Coins, 1\n36500\nHasItem, {r["prefab"]}, 1\n\n')
+                 f'{NPC}\nItem: Coins, 1\n36500\nHasItem, {r["prefab"]}, 1\n\n')
     p = [HEAD, f'[{PROFILE}]\n' + ', '.join(qid(r['prefab']) for r in data) + '\n']
     cats = []
     for r in data:
