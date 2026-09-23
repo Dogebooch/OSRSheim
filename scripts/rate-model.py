@@ -3,7 +3,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
 
     python scripts\rate-model.py                 early-game summary (all three activities)
     python scripts\rate-model.py mining   [--tool PickaxeAntler] [--node rock4_copper_frac]
-    python scripts\rate-model.py trees    [--tool AxeStone] [--tree Beech1] [--no-logs]
+    python scripts\rate-model.py trees    [--tool AxeStone] [--tree Beech1] [--no-logs] [--weapon-level 0]
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
@@ -17,7 +17,8 @@ Formulas (decompiled 1.0.15 unless noted):
   Mining factor     1 + sf x (cfg - 1)          Lumberjacking factor  1 + sf x cfg      Smoothbrain DLLs
                     Lumberjacking swaps vanilla WoodCutting for a dummy at 0: tree rolls stay at skill 0
   stamina/swing     cost x (1 - .33 x sf(weapon skill)); no regen while attacking, 1 s delay, then
-                    6 + 6 x (1 - s/max) per s                                          Attack, Player
+                    6 + 6 x (1 - s/max) per s; regen runs through fall, split and walk   Attack, Player
+                    tree hits never raise Axes (Calib Axes 0 at Lumberjacking 80): tree cost uses --weapon-level 0
   swing time        Player_animator state speed x clip events (Speed, hit freeze .15 s, Chain), exit time
   XP/level          .5 x (L+1)^1.5 + .5; weapon +1 per swing that hits (x1.5 on creatures) x step x gain;
                     Mining +1 per rock hit x .5 step; vanilla gain x Global 0.5 (SkillGainModifier)
@@ -46,7 +47,7 @@ CAL = {
     "hit_fraction": 1.0,        # MineRock5 parts broken by damage; the rest collapse unsupported (free)
     "rock_multi": 1 / 0.75,     # swing touching n>1 parts: roll / (0.75 n) each -> total x1.33 (Attack.DoMeleeAttack)
     "log_halves": 2,            # TreeLog -> subLog pieces
-    "fall_s": 4.0,              # per tree beyond swinging: fall, walk to log and halves, reposition, s
+    "fall_s": 4.0,              # per tree idle time (regen runs): fall, split, walk to log and halves, s
     "speed_ms": 4.0,            # travel speed between targets (jog 4, run 7), m/s
     "tortuosity": 1.3,          # path length / straight line
     "placement": 0.52,          # realised / attempted vegetation (Beech1 ModTest 20.9 of 40 per zone)
@@ -203,6 +204,35 @@ def sustained(cycle_s, cost, max_stam):
     return burst / (burst * cycle_s + t), t
 
 
+def regen(s, max_stam):
+    return (6 + 6 * (1 - s / max_stam)) * DT
+
+
+def chop_cycle(segments, gaps, cycle_s, cost, max_stam, n=30):
+    """Mean s per target, steady state: swing each segment (no regen while attacking), idle gaps[i] after
+    segment i (regen after 1 s delay); once empty, stand until stamina reaches refill x max."""
+    s, timer, t, acc = max_stam, 0.0, 0.0, [0.0] * len(segments)
+    target = max(cost + 0.1, max_stam * CAL["refill"])
+    for _ in range(n):
+        for i, (seg, gap) in enumerate(zip(segments, gaps)):
+            acc[i] += seg
+            k, acc[i] = int(acc[i]), acc[i] - int(acc[i])
+            for _ in range(k):
+                while s < cost + 0.1:
+                    while s < target:
+                        timer -= DT
+                        if timer <= 0:
+                            s = min(max_stam, s + regen(s, max_stam))
+                        t += DT
+                s, timer, t = s - cost, 1.0, t + cycle_s
+            for _ in range(int(round(gap / DT))):
+                timer -= DT
+                if timer <= 0 and s < max_stam:
+                    s = min(max_stam, s + regen(s, max_stam))
+            t += gap
+    return t / n
+
+
 # ---------- density ----------
 def density(prefab, world_counts=None):
     """Targets per m2 inside their biome. World save if given, else vegetation attempts x placement."""
@@ -250,7 +280,7 @@ def mining(tool, node, level, quality, max_stam, world):
             "Mining xp/hr >=": round(3600 / per_node * xp_mining)}
 
 
-def trees(tool, tree, level, quality, max_stam, world, logs=True):
+def trees(tool, tree, level, quality, max_stam, world, logs=True, weapon_level=0):
     it, tb = ITEMS[tool], NODES["TreeBase"][tree]
     if it.get("m_toolTier", 0) < tb["m_minToolTier"]:
         return {"error": f"{tool} tier {it.get('m_toolTier', 0)} < {tree} tier {tb['m_minToolTier']}"}
@@ -264,24 +294,25 @@ def trees(tool, tree, level, quality, max_stam, world, logs=True):
         chain[-1] = a.get("m_lastChainDamageMultiplier", 2.0)
     # Lumberjacking replaces vanilla WoodCutting with a dummy skill fixed at 0: the roll never improves
     roll_level = 0
-    hits = hits_to_kill(tb["m_health"], chop, tb["m_damageModifiers"], roll_level, mult, chain)
+    segs = [hits_to_kill(tb["m_health"], chop, tb["m_damageModifiers"], roll_level, mult, chain)]
     if logs:
         log = NODES["TreeLog"].get((tb.get("m_logPrefab") or "@")[1:])
         if log:
-            hits += hits_to_kill(log["m_health"], chop, log.get("m_damages"), roll_level, mult, chain)
+            segs.append(hits_to_kill(log["m_health"], chop, log.get("m_damages"), roll_level, mult, chain))
             half = NODES["TreeLog"].get((log.get("m_subLogPrefab") or "@")[1:])
             if half:
-                hits += CAL["log_halves"] * hits_to_kill(half["m_health"], chop, half.get("m_damages"), roll_level, mult, chain)
+                segs.append(CAL["log_halves"] * hits_to_kill(half["m_health"], chop, half.get("m_damages"), roll_level, mult, chain))
+    hits = sum(segs)
     times = [run_state(states_for(a["m_attackAnimation"], 1)[0], True, False, 1.0)[0]] if reset else combo(it)
     cycle = sum(times) / len(times)
-    cost = a["m_attackStamina"] * (1 - 0.33 * sf)
-    rate, _ = sustained(cycle, cost, max_stam)
-    work = hits / rate + CAL["fall_s"]
+    cost = a["m_attackStamina"] * (1 - 0.33 * weapon_level / 100)
     rho, src = density(tree, world)
     trav = travel_s(rho)
-    per = work + trav
+    gaps = [CAL["fall_s"] / max(1, len(segs) - 1)] * (len(segs) - 1) + [trav]
+    per = chop_cycle(segs, gaps, cycle, cost, max_stam)
+    work = per - trav
     return {"tool": tool, "tree": tree, "level": level, "logs": logs, "hits/tree": round(hits, 1),
-            "s/swing": round(cycle, 3), "swings/s": round(rate, 3), "work s/tree": round(work, 1),
+            "s/swing": round(cycle, 3), "swings/s": round(hits / work, 3), "work s/tree": round(work, 1),
             "travel s/tree": round(trav, 1), "density src": src, "trees/hr": round(3600 / per, 1),
             "Lumberjacking xp/hr": round(3600 / per * hits * LUMBER[1], 1)}
 
@@ -364,7 +395,8 @@ def main():
         out.append(("mining", [mining(arg("--tool", "PickaxeAntler"), arg("--node", "rock4_copper_frac"), L, q, stam, world) for L in levels]))
     if mode in ("trees", "summary"):
         for t in ([arg("--tree", None)] if "--tree" in sys.argv else ["Beech1", "FirTree", "Pinetree_01"]):
-            out.append((f"trees {t}", [trees(arg("--tool", "AxeFlint"), t, L, q, stam, world, "--no-logs" not in sys.argv) for L in levels]))
+            out.append((f"trees {t}", [trees(arg("--tool", "AxeFlint"), t, L, q, stam, world, "--no-logs" not in sys.argv,
+                                                     int(arg("--weapon-level", 0))) for L in levels]))
     if mode in ("combat", "summary"):
         tools = [arg("--tool", None)] if "--tool" in sys.argv else ["Club", "AxeFlint", "KnifeFlint", "SpearFlint"]
         mobs = [arg("--mob", None)] if "--mob" in sys.argv else ["Greydwarf", "Skeleton", "Boar", "Neck"]

@@ -5,7 +5,9 @@ segments.mudpile2_frac,28,areas broken per node,ModTest 2026-09-22
 segments.rock3_silver_frac,141,areas broken per node,ModTest 2026-09-22
 segments.silvervein_frac,106,areas broken per node,ModTest 2026-09-22
 segments.goldvein_frac,97,areas broken per node,ModTest 2026-09-22
-cal.fall_s,24,s per tree,ModTest 2026-09-22 Calib: 3 Beech1 AxeStone Lumberjacking 0-8; tree time minus modelled swing+stamina time (27/26/24 s) minus ~2 s chat lag
+cal.fall_s,14,s idle per tree (regen runs),ModTest 2026-09-22 Calib: fit to normal play Beech1 AxeStone LJ 8 (55/hr) and LJ 80 (122/hr) -> +5% / -5%; isolated single trees measure 17 (17.4 / 17.7 / 18.8 / 15.0)
 hits.Beech1.AxeStone,29.3,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 33/27/28 at Lumberjacking 0-8 (model 33/31/29)
-rate.Beech1.AxeStone.8,42,trees/hr normal play,ModTest 2026-09-22 Calib: 3.5 trees in 5 min at Lumberjacking ~8 (model 42.7); Stone axe (100 durability) broke after ~3.5 trees
-hits.Beech1.AxeStone.40,19,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 1 tree at Lumberjacking 40 (model 16.9)
+rate.Beech1.AxeStone.8,55,trees/hr normal play,ModTest 2026-09-22 Calib: 3.5 trees in 228 s (Stone axe broke at 3:48 of a 5 min run) at Lumberjacking ~8 (model 58.2)
+hits.Beech1.AxeStone.40,17.3,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 19/15/18 at Lumberjacking 40; 42/38/38 s isolated (model 16.9 hits)
+hits.Beech1.AxeStone.80,11.8,swings per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: parse-hits 5 min normal play at Lumberjacking 80 (120 swings / 10.2 trees; 26% of swings split over 2+ objects; falling logs self-damage); 3 isolated trees 14.0 (model 11.7)
+rate.Beech1.AxeStone.80,122,trees/hr normal play,ModTest 2026-09-22 Calib: 10 felled + 31 pieces in 300 s at Lumberjacking 80 incl. 1 death and 1 axe break (model 115)
