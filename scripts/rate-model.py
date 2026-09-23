@@ -15,6 +15,7 @@ Formulas (decompiled 1.0.15 unless noted):
   skill roll        U[clamp(l-.15), clamp(l+.15)], l = lerp(.4, 1, L/100)            Skills.GetRandomSkillRange
   damage/hit        base(quality) x roll x mod factor x damage modifier; last combo hit x2   Attack.DoMeleeAttack
   Mining factor     1 + sf x (cfg - 1)          Lumberjacking factor  1 + sf x cfg      Smoothbrain DLLs
+                    Lumberjacking swaps vanilla WoodCutting for a dummy at 0: tree rolls stay at skill 0
   stamina/swing     cost x (1 - .33 x sf(weapon skill)); no regen while attacking, 1 s delay, then
                     6 + 6 x (1 - s/max) per s                                          Attack, Player
   swing time        Player_animator state speed x clip events (Speed, hit freeze .15 s, Chain), exit time
@@ -45,7 +46,7 @@ CAL = {
     "hit_fraction": 1.0,        # MineRock5 parts broken by damage; the rest collapse unsupported (free)
     "rock_multi": 1 / 0.75,     # swing touching n>1 parts: roll / (0.75 n) each -> total x1.33 (Attack.DoMeleeAttack)
     "log_halves": 2,            # TreeLog -> subLog pieces
-    "fall_s": 4.0,              # tree fall + log settle before the next target, s
+    "fall_s": 4.0,              # per tree beyond swinging: fall, walk to log and halves, reposition, s
     "speed_ms": 4.0,            # travel speed between targets (jog 4, run 7), m/s
     "tortuosity": 1.3,          # path length / straight line
     "placement": 0.52,          # realised / attempted vegetation (Beech1 ModTest 20.9 of 40 per zone)
@@ -261,14 +262,16 @@ def trees(tool, tree, level, quality, max_stam, world, logs=True):
     chain = [1.0] * (1 if reset else max(1, a.get("m_attackChainLevels", 0)))
     if len(chain) > 1:
         chain[-1] = a.get("m_lastChainDamageMultiplier", 2.0)
-    hits = hits_to_kill(tb["m_health"], chop, tb["m_damageModifiers"], level, mult, chain)
+    # Lumberjacking replaces vanilla WoodCutting with a dummy skill fixed at 0: the roll never improves
+    roll_level = 0
+    hits = hits_to_kill(tb["m_health"], chop, tb["m_damageModifiers"], roll_level, mult, chain)
     if logs:
         log = NODES["TreeLog"].get((tb.get("m_logPrefab") or "@")[1:])
         if log:
-            hits += hits_to_kill(log["m_health"], chop, log.get("m_damages"), level, mult, chain)
+            hits += hits_to_kill(log["m_health"], chop, log.get("m_damages"), roll_level, mult, chain)
             half = NODES["TreeLog"].get((log.get("m_subLogPrefab") or "@")[1:])
             if half:
-                hits += CAL["log_halves"] * hits_to_kill(half["m_health"], chop, half.get("m_damages"), level, mult, chain)
+                hits += CAL["log_halves"] * hits_to_kill(half["m_health"], chop, half.get("m_damages"), roll_level, mult, chain)
     times = [run_state(states_for(a["m_attackAnimation"], 1)[0], True, False, 1.0)[0]] if reset else combo(it)
     cycle = sum(times) / len(times)
     cost = a["m_attackStamina"] * (1 - 0.33 * sf)
@@ -280,7 +283,7 @@ def trees(tool, tree, level, quality, max_stam, world, logs=True):
     return {"tool": tool, "tree": tree, "level": level, "logs": logs, "hits/tree": round(hits, 1),
             "s/swing": round(cycle, 3), "swings/s": round(rate, 3), "work s/tree": round(work, 1),
             "travel s/tree": round(trav, 1), "density src": src, "trees/hr": round(3600 / per, 1),
-            "WoodCutting xp/hr": round(3600 / per * hits * STEPS.get(13, 1) * GAIN_GLOBAL, 1)}
+            "Lumberjacking xp/hr": round(3600 / per * hits * LUMBER[1], 1)}
 
 
 def combat(tool, mob, level, quality, max_stam):
