@@ -203,9 +203,9 @@ in game 2026-09-22 (Troll). Drop That item modifiers (`.EpicLoot`,
 | Giantsbane axe | PhysicalDmg +8, StaggerDmg +10, LowHealthDmg +15, Axes +8 |
 
 `baseconfig\adventuredata.json` (coins-only economy, untested in game):
-- Treasure maps: payouts 0 (2026-09-21) - a pure sink at every tier, the dug
-  chest is the whole reward. Cost 100 (Meadows) to 800 (Deep North); Meadows
-  chest ~40c; cost is the knob. Runestone items removed.
+- Treasure maps: cost 100 (Meadows) to 800 (Deep North), chest pays `Coins`
+  1.5x cost (150-1200); chest item tables `Drops [[0,100]]` = no items.
+  Runestone items removed. `RefreshInterval 7`.
 - Bounties (rare/hard/big): tokens 0, `RewardCoins` x6 (150 -> 4800); Iron
   lvl 3 @3x HP, Gold @4.5x, adds lvl 2-3 @2x HP.
 - Bounty cfg: `Gated Bounty Mode = BossKillUnlocksCurrentBiomeBounties`,
@@ -225,8 +225,8 @@ the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 | ID | Spawn | Biome / key |
 |---|---|---|
 | 500-507 | Superior Greydwarf, Skeleton, Draugr, Wolf, Goblin, Seeker, Charred_Melee, JotunWarrior: `LevelMin/Max = 3`, `UseDefaultLevels = true`, `SetExtraEffect` (e.g. Regenerating), 8% per 900 s check, cap 1 | each biome, gated by the previous boss key |
-| 510 | Wandering Meadows night troll, 20% per 1200 s (~one per 5 h of nights), >300 m from center, no HuntPlayer | Meadows, `defeated_eikthyr` |
-| 511 | Fuling scouts, 2-3, night only, 20% per 1200 s, >500 m from center | Black Forest, `defeated_bonemass` |
+| 510 | Wandering Meadows night troll, 20% per 1200 s (~one per 1.7 h of nights), >300 m from center, no HuntPlayer | Meadows, `defeated_eikthyr` |
+| 511 | Fuling scouts, 2-3, night only, 20% per 1200 s, >500 m from center | Black Forest, `defeated_dragon` (Plains loot, BlackMetalScrap) |
 
 Biome enum: Meadows, BlackForest, Swamp, Mountain, Plains, Mistlands,
 AshLands, DeepNorth. Their loot is the superiors file (§7), which fails closed
