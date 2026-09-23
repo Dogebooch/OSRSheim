@@ -132,7 +132,8 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Sigrun the Oathkeeper | Quests | `oath_keeper` | `oath_keeper` | — |
 | Waystone (town + 1 per sworn biome) | Teleporter | `oath_network_1` | `waystone` | — |
 
-Hammer templates: `Marketplace_SavedNPCs\Sigrun the Oathkeeper.yml`, `Waystone.yml`, `Gothi Eirik.yml`, `Gullveig.yml`, `Gambler.yml`.
+Hammer templates: `Marketplace_SavedNPCs\<Name Override>.yml`, one per row (Banker placed twice, Waystone 9 times). Speech set is not in the template: set it in the NPC panel.
+No file-driven placement: KG has no spawn command; devcommands `rpc` sends strings only (`KGMarket changeNpcType` takes an int). Full automation needs World Edit Commands / Expand World Data (not installed).
 NPC UI (10.0.1): the Buffer type tile is labelled "Enchanter".
 File name = Hammer piece name. `/mreloadnpcs` reloads.
 Client-only (`MarketplaceHammer` is a KG Client module): the placing admin's profile needs them; the host never reads them.

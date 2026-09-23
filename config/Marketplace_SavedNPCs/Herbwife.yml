@@ -1,0 +1,37 @@
+isPinned: false
+main:
+  Type: Trader
+  NameOverride: Herbwife
+  Profile: herbwife
+  Prefab: ''
+  Dialogue: herbwife
+  PinIcon: ''
+  IMAGE: ''
+fashion:
+  LeftItem: ''
+  RightItem: ''
+  HelmetItem: ''
+  ChestItem: ''
+  LegsItem: ''
+  CapeItem: ''
+  HairItem: ''
+  HairColor: ''
+  ModelScale: 1
+  LeftItemHidden: ''
+  RightItemHidden: ''
+  InteractAnimation: ''
+  GreetAnimation: ''
+  ByeAnimation: ''
+  GreetText: ''
+  ByeText: ''
+  SkinColor: ''
+  CraftingAnimation: ''
+  BeardItem: ''
+  BeardColor: ''
+  InteractAudioClip: ''
+  TextSize: 3
+  TextHeight: 0
+  PeriodicAnimation: ''
+  PeriodicAnimationTime: 0
+  PeriodicSound: ''
+  PeriodicSoundTime: 0
