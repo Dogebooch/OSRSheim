@@ -1,7 +1,8 @@
 # STATE — 2026-09-23
 
 Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
-(#46): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Launched clean (0 exceptions);
+(#46): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Logs/dumps off
+(#66): `-Push` both PCs. Launched clean (0 exceptions);
 84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
 camped class 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: crops -> `Potion_Meadbase` (opcauldron) -> potion (opalchemy), 17
@@ -21,10 +22,10 @@ decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
 #9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
-#83 weapon XP per hit (one nest run) · #66 perf A/B: Exploration skill
-0 vs 100 · #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
-Kills/hr for roamer/elite/boss still guesses (#70).
-Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
+#83 weapon XP per hit (one nest run) · #66 stutter A/B (§16) ·
+#41 `Skill_EXP: Farming` hits the Smoothbrain skill.
+Roamer/elite/boss kills/hr are guesses (#70).
+Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).

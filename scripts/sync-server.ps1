@@ -80,7 +80,9 @@ $ClientDirs = @('Marketplace_SavedNPCs')
 $HostOverrides = @(
     # Debug dumps load every location prefab at boot: 10.6 GiB peak with MWL, 2.5 GiB without them.
     @{ File = 'drop_that.cfg';  Section = '*'; Key = 'Write*'; Value = 'false' },
-    @{ File = 'spawn_that.cfg'; Section = '*'; Key = 'Write*'; Value = 'false' }
+    @{ File = 'spawn_that.cfg'; Section = '*'; Key = 'Write*'; Value = 'false' },
+    # Clients run without the BepInEx console (frame stalls); the panel console needs it.
+    @{ File = 'BepInEx.cfg'; Section = 'Logging.Console'; Key = 'Enabled'; Value = 'true' }
 )
 $Stage  = Join-Path $env:TEMP 'osrsheim-server-stage'
 $Staged = @{}
