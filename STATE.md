@@ -31,7 +31,7 @@ Sailing gates (§6, §7), DistancedUI (§11).
    MWL density now; `genloc` cannot retrofit explored terrain (§13). Commit
    `..._LocationConfigs.yml` first; decide `MWL_TreeTowers1` / `MWL_MistTower2` (null loot, §13).
 2. Create Gielheim locally: new character, death penalty Casual (§15), launch
-   via `scripts\launch-modded.ps1`. Place the KG NPCs from the §11 table.
+   via `scripts\launch-modded.ps1`. Place the KG NPCs with the Hammer (16 templates, §11).
 3. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 326`).
 4. Doug vetoes renames.
 
