@@ -145,7 +145,8 @@ weight 0.1 stack 50.
 - **More World Locations AIO**: `Enable Trainers = Off`, `Use Custom Trader
   Configs = On`, `Use Custom Location YAML = On`. First launch writes
   `..._TraderItems.yml` (Skill Books and Blacksmith Stones removed, trainer lists
-  emptied) and `..._LocationConfigs.yml` (192 location types). Locations bake at
+  emptied; ores, Plains materials and BF foods gated on their biome boss) and
+`..._LocationConfigs.yml` (192 location types). Locations bake at
   world-gen: tune before Gielheim exists.
 - `..._LocationConfigs.yml` is not in the repo; profile and host hold identical MWL defaults.
 - MWL 5.1.1 null loot: `MWL_TreeTowers1` chest (all 10 entries) and one destructible,
