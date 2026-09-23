@@ -250,28 +250,26 @@ Server-only wiring: copy `config\` under a scratch `APPDATA` profile path, run
 flight, 8 s after `GoblinCamp2` loaded): distant objects stop unloading, 15.8 GB, 4 FPS.
 Relog clears it; no repeat on revisit.
 
-**New-ground stutter (#66, code read, unmeasured)**: every 2 s, only when a map pixel is new:
+**Stutter while moving (#66, measured 2026-09-23, client on the ModTest local server, 141 fps base)**: ~60 ms CPU-bound frames (CPU busy 27 ms vs GPU 5 ms median) while crossing zones; fog / Exploration add nothing.
 
-| Step | Source |
-|---|---|
-| Fog texture 2048² R8G8 (8 MiB) re-uploaded whole (`Minimap.Explore` -> `Apply()`) | vanilla |
-| Explore radius 100 m -> 350 m at skill 100 (~10x pixel checks, one Harmony postfix each); ship x3 more | Exploration, Sailing |
-| `RaiseSkill` -> BetterUI XP toast + Debug line; SkillGainModifier string build | Exploration |
+| Pass (same 900 m Black Forest line, debug fly ~20 m/s) | Spikes/min | >40 ms /min | p99.9 ms |
+|---|---|---|---|
+| 0 stand still | 18 | 0 | 24 |
+| 1 new ground, Exploration 100 | 52 | 13.2 | 58 |
+| 2 revisit, `resetmap` (fog + Exploration 100) | 52 | 9.6 | 43 |
+| 3 revisit, `exploremap` (no fog work) | 50 | 8.4 | 40 |
+| 4 revisit, `resetmap` + `resetskill Exploration` | 52 | 10.8 | 57 |
+| run speed (~7 m/s, pulsed fly) | 40 | 6.0 | 37 |
 
+- Code-read suspects (fog texture re-upload, Exploration radius, XP toast) ruled out: pass 3 = pass 2 = pass 4.
+- Not on the 2 s explore beat (median spacing 1.0-1.5 s). New ground adds ~30% >40 ms frames (first zone send).
+- Not in the log: dungeons load in 0-2 ms, localization reloads only at menu/join, KG custom-value syncs ~2/min.
+- Open: vanilla vs modded on one route (the game folder has its own BepInEx + `winhttp.dll`, so a plain exe launch is not vanilla); local-world run (zone generation).
 - Client on a dedicated host never places zone content (Client mode); the host does, no time budget. Local play generates the whole zone in one frame.
 - Clients: BepInEx console off, disk log Info, Drop That / Spawn That dumps + debug logging off. Host keeps its console (`sync-server.ps1` override).
 - Frame-time capture, test-only: `scripts\perf-capture.bat [label]` (Valheim running; F11 = start/stop one
   recording) -> `perf\captures\STAMP-label-N.csv` -> `scripts\perf-frames.py [--label x]` summary (incl. CPU vs GPU busy on spike frames). PresentMon 2.5.1 (Intel,
   reads Windows frame timing; not a mod, installs nothing) in `perf\` (gitignored; the bat prints the download).
-- A/B on ModTest: `devcommands`, `god`, `debugmode`, `tod 0.5`, `raiseskill Exploration 100`; fly (Z, W only)
-  one straight line ~45 s per pass from the same `pos` (`goto` back):
-
-| Pass | Before | Measures |
-|---|---|---|
-| 1 | - | new zones + fog + Exploration |
-| 2 | `resetmap` | fog + Exploration at 100 |
-| 3 | `exploremap` | baseline |
-| 4 | `resetmap`, `resetskill Exploration` | vanilla fog |
 - 9/21 log: `Missing prefab hash: 1043306733` ~100/s for 10 min (hash unresolved against dumps).
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
