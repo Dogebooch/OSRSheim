@@ -15,6 +15,12 @@ had built it this way; only total playtime grows. Skill gates unlock new
 things to do (magic, abilities, rares), not bigger numbers. Test: would Iron
 Gate ship it? Run-length target: issue #81.
 
+**Rares:** small power over their tier, never a stat stick. Each one:
+1. drops before its skill gate is reached (the gate times it, not the biome);
+2. does one thing no other item does (effect, special, utility);
+3. stays useful into the next biome;
+4. is rare and visible (beam, collection log).
+
 - `RESEARCH.md` — reference hub; topic files in `research\` (section map at
   its top, §N global). Update the file that owns the section when a fact is learned.
 - `STATE.md` — what is live, what is next. Under a page. Update it every
