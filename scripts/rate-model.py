@@ -8,6 +8,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
     python scripts\rate-model.py objects  [--write]  pet/curio/gem target per loot\objects.csv row at OBJ_SETUP
     python scripts\rate-model.py magic    [--all-maps] [--chest-share 0.33] [--revisit 0.1]  magic items per run (#108)
+    python scripts\rate-model.py ladder   [--fight 0.25] [--kph 100]  weapon skill at each biome entry vs vanilla (#83)
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
     combat: --backstab 0.5  share of kills opened unaware; --chain-carry 0  isolated kills (default CAL)
 
@@ -549,6 +550,36 @@ BUDGET = [("Meadows", 15), ("BlackForest", 30), ("Swamp", 40), ("Mountain", 45),
           ("Mistlands", 60), ("AshLands", 65), ("DeepNorth", 65)]  # #81 main-run hours per biome phase
 
 
+LADDER = [("Meadows", "AxeFlint", "Greydwarf", 1, 0), ("BlackForest", "SwordBronze", "Greydwarf", 3, 15),
+          ("Swamp", "SwordIron", "Draugr", 3, 22), ("Mountain", "SwordSilver", "Wolf", 3, 30),
+          ("Plains", "SwordBlackmetal", "Goblin", 3, 40), ("Mistlands", "SwordMistwalker", "Seeker", 3, 50),
+          ("AshLands", "SwordNiedhogg", "Charred_Melee", 3, 60), ("DeepNorth", "SwordNiedhogg", "Fenring", 3, 70)]
+# biome, weapon, mob, quality, gear gate (#83 rule: entry skill near the gate)
+
+
+def level_at(xp):
+    L = 0
+    while L < 100 and xp_to_reach(L + 1) <= xp:
+        L += 1
+    return L
+
+
+def ladder(fight, kph, max_stam):
+    """One weapon skill through the #81 budget: fight share of play time x kph kills/hr, vs vanilla (1x gain, 1/3 the hours)."""
+    xp, vxp, rows = 0.0, 0.0, []
+    hours = dict(BUDGET)
+    for b, w, m, q, gate in LADDER:
+        L, V = level_at(xp), level_at(vxp)
+        rows.append({"biome": b, "gate": gate, "OSRSheim entry": L, "vanilla entry": V,
+                     "mean roll": round(0.4 + 0.6 * L / 100, 3), "vanilla roll": round(0.4 + 0.6 * V / 100, 3),
+                     "damage vs vanilla": f"{(0.4 + 0.6 * L / 100) / (0.4 + 0.6 * V / 100) - 1:+.0%}"})
+        per_kill = lambda lvl: (lambda r: r["weapon xp/hr"] / r["kills/hr engaged"])(combat(w, m, max(lvl, 1), q, max_stam))
+        xp += per_kill(L) * kph * hours[b] * fight
+        vxp += per_kill(V) / GAIN_GLOBAL * kph * hours[b] / 3 * fight
+    rows.append({"biome": "end", "OSRSheim entry": level_at(xp), "vanilla entry": level_at(vxp)})
+    return rows
+
+
 def el(name):
     return json.load(open(CFG / "EpicLoot" / "baseconfig" / name, encoding="utf-8-sig"))
 
@@ -709,6 +740,9 @@ def main():
         cs = float(arg("--chest-share", 0)) if "--chest-share" in sys.argv else None
         out.append(("magic items per run (#108)" + (", all unlocked maps" if "--all-maps" in sys.argv else ", frontier map"),
                     magic("--all-maps" in sys.argv, cs)))
+    if mode == "ladder":
+        f, k = float(arg("--fight", 0.25)), float(arg("--kph", 100))
+        out.append((f"weapon skill at biome entry (#83), {f:.0%} of play fighting at {k:g} kills/hr", ladder(f, k, stam)))
     if mode in ("supply", "summary"):
         out.append(("spawn supply", [{"source": a, "kind": b, "spawns/hr": c, "note": d} for a, b, c, d in supply()]))
     if "--json" in sys.argv:

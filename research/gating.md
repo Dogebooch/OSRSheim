@@ -23,6 +23,20 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 | Ashlands (flametal) | 60 | |
 | Deep North | 70 | |
 
+**Weapon skill at biome entry** (`rate-model.py ladder`, one weapon skill, 25% of play fighting at 100 kills/hr; #83)
+
+| Biome | Gate | OSRSheim | Vanilla | Damage vs vanilla |
+|---|---|---|---|---|
+| Black Forest | 15 | 28 | 24 | +4% |
+| Swamp | 22 | 38 | 32 | +6% |
+| Mountains | 30 | 49 | 42 | +6% |
+| Plains | 40 | 56 | 48 | +7% |
+| Mistlands | 50 | 64 | 55 | +7% |
+| Ashlands | 60 | 74 | 64 | +8% |
+| Deep North | 70 | 86 | 74 | +9% |
+
+50% fighting: +5% to +9%. Skill roll spread ±15%. `Global = 0.5` kept; fallback lever: per-weapon `[Skill Gain]` keys (semantics unverified).
+
 **Skill split**
 
 - Weapons: their weapon skill.
