@@ -181,26 +181,26 @@ background in the inventory, 2 empty shard slots, durability 20-100%. Verified
 in game 2026-09-22 (Troll). Drop That item modifiers (`.EpicLoot`,
 `Durability`, `QualityLevel`) never apply to creature drops in this stack.
 `baseconfig\legendaries.json`: `OSRSheim_<unique>`, `Name` = item name,
-`AllowedItemNames` = item name, `GuaranteedEffectCount = 4`, `SelectionWeight =
-1000000`, fixed values:
+`AllowedItemNames` = item name, `GuaranteedEffectCount = 1` (one signature effect, #87;
+guaranteed effects skip slot rules, `LootRoller.cs`), `SelectionWeight = 1000000`, fixed value:
 
-| Unique | Effects |
+| Unique | Effect |
 |---|---|
-| Windrunner cape | SprintStamina -12, JumpStamina -10, StaminaRegen +12, MoveSpeed +4 |
-| Rootcleaver | TreeDrop 4, AttackStamina -12, AttackSpeed +6, Durability +100 |
-| Bog visage | PoisonRes +12, Armor +10, HealthRegen +12, QuickLearner 6 |
-| Drakeskull shield | BlockPower +12, BlockForce +14, BlockStamina -10, FireRes +12 |
-| Yagluth's warblade | PhysicalDmg +8, StaggerDmg +10, StaggerDuration +9, Swords +8 |
-| Queen's lash | AttackSpeed +6, AttackStamina -12, Parry +12, Swords +8 |
-| Cinder cape | HeatRes 20, FireRes +12, Health +13, Armor +10 |
-| Frost King's scythe | PhysicalDmg +8, Frost +8, Slow 13, Polearms +8 |
-| Troll's knucklebone | Blunt +8, StaggerDmg +10, StaggerDuration +9, Clubs +8 |
-| Barrow blade | AttackSpeed +6, PhysicalDmg +6, AttackStamina -10, Swords +8 |
-| Golemheart hammer | StaggerDmg +12, StaggerOnDamageTaken 6, Blunt +8, Clubs +8 |
-| Warlord's glaive | PhysicalDmg +8, Pierce +8, StaggerDmg +10, Polearms +8 |
-| Gjall-gut bow | AmmoConservation 25, ProjectileSpeed +18, DrawStamina -10, Bows +8 |
-| Morgen's cudgel | AttackSpeed +6, LifeSteal 5, Blunt +8, Clubs +8 |
-| Giantsbane axe | PhysicalDmg +8, StaggerDmg +10, LowHealthDmg +15, Axes +8 |
+| Windrunner cape | ModifySprintStaminaUse 24 |
+| Rootcleaver | IncreaseTreeDrop 6 |
+| Bog visage | QuickLearner 10 |
+| Drakeskull shield | ReflectDamage 14 |
+| Yagluth's warblade | AddFireDamage 14 |
+| Queen's lash | ModifyParryWindow 100 |
+| Cinder cape | Warmth |
+| Frost King's scythe | Slow 24 |
+| Troll's knucklebone | ModifyStaggerDuration 18 |
+| Barrow blade | ModifyAttackSpeed 12 |
+| Golemheart hammer | StaggerOnDamageTaken 12 |
+| Warlord's glaive | ModifyStaggerDamage 21 |
+| Gjall-gut bow | ExplosiveArrows 18 |
+| Morgen's cudgel | LifeSteal 13 |
+| Giantsbane axe | ModifyDamageLowHealth 24 |
 
 `baseconfig\adventuredata.json` (coins-only economy, untested in game):
 - Treasure maps: cost 100 (Meadows) to 800 (Deep North), chest pays `Coins`

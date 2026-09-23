@@ -398,8 +398,8 @@
     {
       "ID": "OSRSheim_GracefulCape",
       "Name": "Windrunner cape",
-      "Description": "Light as a rooftop breeze. Running and leaping cost less.",
-      "GuaranteedEffectCount": 4,
+      "Description": "Light as a rooftop breeze. Running costs far less.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -410,32 +410,8 @@
         {
           "Type": "ModifySprintStaminaUse",
           "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyJumpStaminaUse",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyStaminaRegen",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyMovementSpeed",
-          "Values": {
-            "MinValue": 4,
-            "MaxValue": 4,
+            "MinValue": 24,
+            "MaxValue": 24,
             "Increment": 0
           }
         }
@@ -445,7 +421,7 @@
       "ID": "OSRSheim_DragonAxe",
       "Name": "Rootcleaver",
       "Description": "Bites deeper into wood than any smith's axe. Combat is not its trade.",
-      "GuaranteedEffectCount": 4,
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -456,29 +432,93 @@
         {
           "Type": "IncreaseTreeDrop",
           "Values": {
-            "MinValue": 4,
-            "MaxValue": 4,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyAttackStaminaUse",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyAttackSpeed",
-          "Values": {
             "MinValue": 6,
             "MaxValue": 6,
             "Increment": 0
           }
-        },
+        }
+      ]
+    },
+    {
+      "ID": "OSRSheim_DraugrVisage",
+      "Name": "Bog visage",
+      "Description": "A face pulled from the bog, still wearing its last expression. It remembers every lesson.",
+      "GuaranteedEffectCount": 1,
+      "SelectionWeight": 1000000,
+      "Requirements": {
+        "AllowedItemNames": [
+          "Bog visage"
+        ]
+      },
+      "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyDurability",
+          "Type": "QuickLearner",
+          "Values": {
+            "MinValue": 10,
+            "MaxValue": 10,
+            "Increment": 0
+          }
+        }
+      ]
+    },
+    {
+      "ID": "OSRSheim_DragonfireShield",
+      "Name": "Drakeskull shield",
+      "Description": "Forged around a drake's skull. Blows glance back at their giver.",
+      "GuaranteedEffectCount": 1,
+      "SelectionWeight": 1000000,
+      "Requirements": {
+        "AllowedItemNames": [
+          "Drakeskull shield"
+        ]
+      },
+      "GuaranteedMagicEffects": [
+        {
+          "Type": "ReflectDamage",
+          "Values": {
+            "MinValue": 14,
+            "MaxValue": 14,
+            "Increment": 0
+          }
+        }
+      ]
+    },
+    {
+      "ID": "OSRSheim_BandosGodsword",
+      "Name": "Yagluth's warblade",
+      "Description": "A war-god's blade, still hot from the pyre.",
+      "GuaranteedEffectCount": 1,
+      "SelectionWeight": 1000000,
+      "Requirements": {
+        "AllowedItemNames": [
+          "Yagluth's warblade"
+        ]
+      },
+      "GuaranteedMagicEffects": [
+        {
+          "Type": "AddFireDamage",
+          "Values": {
+            "MinValue": 14,
+            "MaxValue": 14,
+            "Increment": 0
+          }
+        }
+      ]
+    },
+    {
+      "ID": "OSRSheim_AbyssalWhip",
+      "Name": "Queen's lash",
+      "Description": "Torn from something with no bottom to it. It finds the gap in any blow.",
+      "GuaranteedEffectCount": 1,
+      "SelectionWeight": 1000000,
+      "Requirements": {
+        "AllowedItemNames": [
+          "Queen's lash"
+        ]
+      },
+      "GuaranteedMagicEffects": [
+        {
+          "Type": "ModifyParryWindow",
           "Values": {
             "MinValue": 100,
             "MaxValue": 100,
@@ -488,194 +528,10 @@
       ]
     },
     {
-      "ID": "OSRSheim_DraugrVisage",
-      "Name": "Bog visage",
-      "Description": "A face pulled from the bog, still wearing its last expression.",
-      "GuaranteedEffectCount": 4,
-      "SelectionWeight": 1000000,
-      "Requirements": {
-        "AllowedItemNames": [
-          "Bog visage"
-        ]
-      },
-      "GuaranteedMagicEffects": [
-        {
-          "Type": "AddPoisonResistancePercentage",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyArmor",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyHealthRegen",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "QuickLearner",
-          "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        }
-      ]
-    },
-    {
-      "ID": "OSRSheim_DragonfireShield",
-      "Name": "Drakeskull shield",
-      "Description": "Forged around a drake's skull. Turns a heavy blow into a shrug.",
-      "GuaranteedEffectCount": 4,
-      "SelectionWeight": 1000000,
-      "Requirements": {
-        "AllowedItemNames": [
-          "Drakeskull shield"
-        ]
-      },
-      "GuaranteedMagicEffects": [
-        {
-          "Type": "ModifyBlockPower",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyBlockForce",
-          "Values": {
-            "MinValue": 14,
-            "MaxValue": 14,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyBlockStaminaUse",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddFireResistancePercentage",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        }
-      ]
-    },
-    {
-      "ID": "OSRSheim_BandosGodsword",
-      "Name": "Yagluth's warblade",
-      "Description": "A war-god's blade. Slow to swing, and nothing stands after it lands.",
-      "GuaranteedEffectCount": 4,
-      "SelectionWeight": 1000000,
-      "Requirements": {
-        "AllowedItemNames": [
-          "Yagluth's warblade"
-        ]
-      },
-      "GuaranteedMagicEffects": [
-        {
-          "Type": "ModifyPhysicalDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyStaggerDamage",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyStaggerDuration",
-          "Values": {
-            "MinValue": 9,
-            "MaxValue": 9,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddSwordsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        }
-      ]
-    },
-    {
-      "ID": "OSRSheim_AbyssalWhip",
-      "Name": "Queen's lash",
-      "Description": "Torn from something with no bottom to it. Lashes faster than a blade.",
-      "GuaranteedEffectCount": 4,
-      "SelectionWeight": 1000000,
-      "Requirements": {
-        "AllowedItemNames": [
-          "Queen's lash"
-        ]
-      },
-      "GuaranteedMagicEffects": [
-        {
-          "Type": "ModifyAttackSpeed",
-          "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyAttackStaminaUse",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyParry",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddSwordsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        }
-      ]
-    },
-    {
       "ID": "OSRSheim_InfernalCape",
       "Name": "Cinder cape",
-      "Description": "Woven in the pit. The heat never left it.",
-      "GuaranteedEffectCount": 4,
+      "Description": "Woven in the pit. The heat never left it, not even in the far north.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -684,44 +540,15 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "IncreaseHeatResistance",
-          "Values": {
-            "MinValue": 20,
-            "MaxValue": 20,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddFireResistancePercentage",
-          "Values": {
-            "MinValue": 12,
-            "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "IncreaseHealth",
-          "Values": {
-            "MinValue": 13,
-            "MaxValue": 13,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyArmor",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
+          "Type": "Warmth"
         }
       ]
     },
     {
       "ID": "OSRSheim_ScytheOfVitur",
       "Name": "Frost King's scythe",
-      "Description": "The sweep of it reaps a whole rank at once.",
-      "GuaranteedEffectCount": 4,
+      "Description": "The sweep of it leaves the living sluggish and cold.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -730,34 +557,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyPhysicalDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddFrostDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
           "Type": "Slow",
           "Values": {
-            "MinValue": 13,
-            "MaxValue": 13,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddPolearmsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 24,
+            "MaxValue": 24,
             "Increment": 0
           }
         }
@@ -766,8 +569,8 @@
     {
       "ID": "OSRSheim_HillGiantClub",
       "Name": "Troll's knucklebone",
-      "Description": "A troll's knuckle on a haft. Slow to swing, and what it hits stays hit.",
-      "GuaranteedEffectCount": 4,
+      "Description": "A troll's knuckle on a haft. What it hits stays reeling.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -776,34 +579,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "AddBluntDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyStaggerDamage",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
           "Type": "ModifyStaggerDuration",
           "Values": {
-            "MinValue": 9,
-            "MaxValue": 9,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddClubsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 18,
+            "MaxValue": 18,
             "Increment": 0
           }
         }
@@ -813,7 +592,7 @@
       "ID": "OSRSheim_RuneScimitar",
       "Name": "Barrow blade",
       "Description": "Pulled from a draugr lord's grip. It swings quicker than a blade its weight should.",
-      "GuaranteedEffectCount": 4,
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -824,32 +603,8 @@
         {
           "Type": "ModifyAttackSpeed",
           "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyPhysicalDamage",
-          "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyAttackStaminaUse",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddSwordsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 12,
+            "MaxValue": 12,
             "Increment": 0
           }
         }
@@ -858,8 +613,8 @@
     {
       "ID": "OSRSheim_GraniteMaul",
       "Name": "Golemheart hammer",
-      "Description": "A golem's core set in iron. Everything it lands on is thrown back.",
-      "GuaranteedEffectCount": 4,
+      "Description": "A golem's core set in iron. Whatever strikes you is thrown back.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -868,34 +623,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyStaggerDamage",
+          "Type": "StaggerOnDamageTaken",
           "Values": {
             "MinValue": 12,
             "MaxValue": 12,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "StaggerOnDamageTaken",
-          "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddBluntDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddClubsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
             "Increment": 0
           }
         }
@@ -904,8 +635,8 @@
     {
       "ID": "OSRSheim_DragonHalberd",
       "Name": "Warlord's glaive",
-      "Description": "A fuling warlord's glaive. Heavier than the smith's pattern and it shows on the hit.",
-      "GuaranteedEffectCount": 4,
+      "Description": "A fuling warlord's glaive. Every thrust knocks the wind out of its mark.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -914,34 +645,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyPhysicalDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddPiercingDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
           "Type": "ModifyStaggerDamage",
           "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddPolearmsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 21,
+            "MaxValue": 21,
             "Increment": 0
           }
         }
@@ -950,8 +657,8 @@
     {
       "ID": "OSRSheim_CrystalBow",
       "Name": "Gjall-gut bow",
-      "Description": "Strung with gjall sinew. The string bites harder than any dvergr cord.",
-      "GuaranteedEffectCount": 4,
+      "Description": "Strung with gjall sinew. Its arrows burst where they land.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -960,34 +667,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "AmmoConservation",
-          "Values": {
-            "MinValue": 25,
-            "MaxValue": 25,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyProjectileSpeed",
+          "Type": "ExplosiveArrows",
           "Values": {
             "MinValue": 18,
             "MaxValue": 18,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyDrawStaminaUse",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddBowsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
             "Increment": 0
           }
         }
@@ -996,8 +679,8 @@
     {
       "ID": "OSRSheim_AbyssalBludgeon",
       "Name": "Morgen's cudgel",
-      "Description": "A morgen's heart bound into a club. It beats when swung, and swings quicker for it.",
-      "GuaranteedEffectCount": 4,
+      "Description": "A morgen's heart bound into a club. It drinks what it strikes.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -1006,34 +689,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyAttackSpeed",
-          "Values": {
-            "MinValue": 6,
-            "MaxValue": 6,
-            "Increment": 0
-          }
-        },
-        {
           "Type": "LifeSteal",
           "Values": {
-            "MinValue": 5,
-            "MaxValue": 5,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddBluntDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddClubsSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 13,
+            "MaxValue": 13,
             "Increment": 0
           }
         }
@@ -1042,8 +701,8 @@
     {
       "ID": "OSRSheim_DragonBattleaxe",
       "Name": "Giantsbane axe",
-      "Description": "A jotun warrior's own axe, cut down to a man's grip. It still hits like a giant.",
-      "GuaranteedEffectCount": 4,
+      "Description": "A jotun warrior's own axe. It hits hardest when you are nearly dead.",
+      "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
         "AllowedItemNames": [
@@ -1052,34 +711,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyPhysicalDamage",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "ModifyStaggerDamage",
-          "Values": {
-            "MinValue": 10,
-            "MaxValue": 10,
-            "Increment": 0
-          }
-        },
-        {
           "Type": "ModifyDamageLowHealth",
           "Values": {
-            "MinValue": 15,
-            "MaxValue": 15,
-            "Increment": 0
-          }
-        },
-        {
-          "Type": "AddAxesSkill",
-          "Values": {
-            "MinValue": 8,
-            "MaxValue": 8,
+            "MinValue": 24,
+            "MaxValue": 24,
             "Increment": 0
           }
         }
