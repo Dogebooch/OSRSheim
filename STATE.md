@@ -20,7 +20,8 @@ Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
-#9 handbook.
+#9 handbook. · #67 rate model: `scripts\rate-model.py` from game data;
+trees calibrated (`reference\measured.csv`), combat / mining / density next.
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),

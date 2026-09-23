@@ -32,6 +32,9 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
+| Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
+| Rate model | `scriptsate-model.py`; in-game results in `reference\measured.csv` |
+| World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
 | Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19` |
@@ -260,3 +263,9 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 - Drop That: https://github.com/ASharpPen/Valheim.DropThat/wiki
 - Dedicated server flags: https://www.valheimgame.com/support/a-guide-to-dedicated-servers/
 - Gale: https://github.com/Kesomannen/gale · Hexium: https://valheim.hexium.gg
+- kirilloid calculator: https://valheim.kirilloid.ru, data `src/data/` at https://github.com/kirilloid/valheim: default baseline for any time estimate without a measurement; cross-check for `rate-model.py` (no license, build unstated)
+- Weirdgloop wiki: https://valheim.weirdgloop.org: spawn zones, creature spawners, damage/skill/stamina formulas, measured swing times
+- Jötunn data: https://valheim-modding.github.io/Jotunn/data/intro.html: prefab names, vegetation list (1.0.7)
+- valheim.source.gs: per-quality weapon damage, node HP, tool tiers (1.0.7, HTML only)
+- Upgrade World (JereKuusela): `zones_generate`, `objects_count <ids> biomes=<b>`: whole-world density; not installed (mod freeze)
+- Spawn That `spawn_that.cfg` `[Debug] PrintBiomeMap` / `PrintAreaMap`: zone biome map PNG in `BepInEx\Debug`

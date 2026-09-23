@@ -36,7 +36,7 @@ items, quest text or audio ([`CLAUDE.md`](CLAUDE.md)).
 |---|---|
 | [`config/`](config) | mod configs; source of truth for the Gale profile and the host |
 | [`loot/`](loot) | drop-rate CSVs; input to the loot and collection-log generators |
-| [`reference/`](reference) | mod manifest, verified prefab names, wackydb base dumps, audits |
+| [`reference/`](reference) | mod manifest, verified prefab names, wackydb base dumps, game data (`game-data/`), measured rates, audits |
 | [`research/`](research) | reference topic files (loot, marketplace, gating, ...); map in `RESEARCH.md` |
 | [`scripts/`](scripts) | generators, validators, sync, doc hooks |
 | [`staging/`](staging) | changes built but not yet applied to `config/` |

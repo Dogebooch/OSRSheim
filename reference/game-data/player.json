@@ -1,0 +1,177 @@
+{
+ "Player": {
+  "m_acceleration": 0.8,
+  "m_autoPickupRange": 2.0,
+  "m_blockStaminaDrain": 10.0,
+  "m_crouchSpeed": 2.0,
+  "m_dodgeStaminaUsage": 15.0,
+  "m_eiterRegen": 2.0,
+  "m_eitrRegenDelay": 1.0,
+  "m_encumberedStaminaDrain": 5.0,
+  "m_jumpForce": 8.0,
+  "m_jumpStaminaUsage": 10.0,
+  "m_maxCarryWeight": 300.0,
+  "m_maxInteractDistance": 3.5,
+  "m_runSpeed": 7.0,
+  "m_runStaminaDrain": 8.0,
+  "m_sneakStaminaDrain": 5.0,
+  "m_speed": 4.0,
+  "m_staminaRegen": 6.0,
+  "m_staminaRegenDelay": 1.0,
+  "m_swimSpeed": 2.0,
+  "m_swimStaminaDrainMaxSkill": 3.0,
+  "m_swimStaminaDrainMinSkill": 6.0,
+  "m_walkSpeed": 1.6
+ },
+ "Skills": {
+  "m_DeathLowerFactor": 0.05,
+  "m_skills": [
+   {
+    "m_description": "$skill_swords_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 1
+   },
+   {
+    "m_description": "$skill_bows_description",
+    "m_icon": null,
+    "m_increseStep": 1.5,
+    "m_skill": 8
+   },
+   {
+    "m_description": "$skill_axes_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 7
+   },
+   {
+    "m_description": "$skill_woodcutting_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 13
+   },
+   {
+    "m_description": "$skill_unarmed_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 11
+   },
+   {
+    "m_description": "$skill_knives_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 2
+   },
+   {
+    "m_description": "$skill_clubs_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 3
+   },
+   {
+    "m_description": "$skill_polearms_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 4
+   },
+   {
+    "m_description": "$skill_spears_description",
+    "m_icon": null,
+    "m_increseStep": 1.5,
+    "m_skill": 5
+   },
+   {
+    "m_description": "$skill_blocking_description",
+    "m_icon": null,
+    "m_increseStep": 0.5,
+    "m_skill": 6
+   },
+   {
+    "m_description": "$skill_pickaxes_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 12
+   },
+   {
+    "m_description": "$skill_jump_description",
+    "m_icon": null,
+    "m_increseStep": 0.5,
+    "m_skill": 100
+   },
+   {
+    "m_description": "$skill_sneak_description",
+    "m_icon": null,
+    "m_increseStep": 0.5,
+    "m_skill": 101
+   },
+   {
+    "m_description": "$skill_run_description",
+    "m_icon": null,
+    "m_increseStep": 0.2,
+    "m_skill": 102
+   },
+   {
+    "m_description": "$skill_swim_description",
+    "m_icon": null,
+    "m_increseStep": 0.3,
+    "m_skill": 103
+   },
+   {
+    "m_description": "$skill_ride_description",
+    "m_icon": null,
+    "m_increseStep": 0.2,
+    "m_skill": 110
+   },
+   {
+    "m_description": "$skill_elementalmagic_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 9
+   },
+   {
+    "m_description": "$skill_bloodmagic_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 10
+   },
+   {
+    "m_description": "$skill_crossbows_description",
+    "m_icon": null,
+    "m_increseStep": 1.0,
+    "m_skill": 14
+   },
+   {
+    "m_description": "$skill_fishing_description",
+    "m_icon": null,
+    "m_increseStep": 0.25,
+    "m_skill": 104
+   },
+   {
+    "m_description": "$skill_cooking_description",
+    "m_icon": null,
+    "m_increseStep": 0.25,
+    "m_skill": 105
+   },
+   {
+    "m_description": "$skill_farming_description",
+    "m_icon": null,
+    "m_increseStep": 0.25,
+    "m_skill": 106
+   },
+   {
+    "m_description": "$skill_crafting_description",
+    "m_icon": null,
+    "m_increseStep": 0.25,
+    "m_skill": 107
+   },
+   {
+    "m_description": "$skill_dodge_description",
+    "m_icon": null,
+    "m_increseStep": 0.25,
+    "m_skill": 108
+   }
+  ],
+  "m_totalSkillCap": 500.0,
+  "m_useSkillCap": 0
+ }
+}

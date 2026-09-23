@@ -1,0 +1,11 @@
+key,value,unit,source
+segments.rock4_copper_frac,79,areas broken per node,ModTest 2026-09-22 Club-per-segment count; Mining 0-6
+segments.mudpile_frac,20,areas broken per node,ModTest 2026-09-22
+segments.mudpile2_frac,28,areas broken per node,ModTest 2026-09-22
+segments.rock3_silver_frac,141,areas broken per node,ModTest 2026-09-22
+segments.silvervein_frac,106,areas broken per node,ModTest 2026-09-22
+segments.goldvein_frac,97,areas broken per node,ModTest 2026-09-22
+cal.fall_s,24,s per tree,ModTest 2026-09-22 Calib: 3 Beech1 AxeStone Lumberjacking 0-8; tree time minus modelled swing+stamina time (27/26/24 s) minus ~2 s chat lag
+hits.Beech1.AxeStone,29.3,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 33/27/28 at Lumberjacking 0-8 (model 33/31/29)
+rate.Beech1.AxeStone.8,42,trees/hr normal play,ModTest 2026-09-22 Calib: 3.5 trees in 5 min at Lumberjacking ~8 (model 42.7); Stone axe (100 durability) broke after ~3.5 trees
+hits.Beech1.AxeStone.40,19,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 1 tree at Lumberjacking 40 (model 16.9)
