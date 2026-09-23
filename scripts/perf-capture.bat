@@ -5,6 +5,7 @@ rem (Intel, open source) reads Windows' own frame timing for valheim.exe.
 rem Start it with Valheim already running. F11 starts a recording, F11 again
 rem stops it; each recording is its own CSV in perf\captures\. Quitting Valheim
 rem ends the capture and prints the summary (scripts\perf-frames.py).
+rem Optional label: perf-capture.bat server -> perf\captures\STAMP-server-N.csv.
 setlocal
 set "ROOT=%~dp0.."
 set "PM=%ROOT%\perf\PresentMon.exe"
@@ -22,6 +23,7 @@ tasklist /FI "IMAGENAME eq valheim.exe" | find /I "valheim.exe" >nul || (
   exit /b 1
 )
 for /f %%t in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmm"') do set "STAMP=%%t"
+if not "%~1"=="" set "STAMP=%STAMP%-%~1"
 if not exist "%ROOT%\perf\captures" mkdir "%ROOT%\perf\captures"
 echo Capturing valheim.exe. F11 = start/stop a recording. Quit Valheim to finish.
 echo Files: perf\captures\%STAMP%-N.csv
