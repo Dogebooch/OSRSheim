@@ -43,9 +43,7 @@ customized your loottables.json..."). For every table:
 - `Adventure Mode Enabled = true` — unchanged, as designed.
 
 **Side effect, accepted.** Shardstones also come from the loot tables
-(README line 32), so they no longer drop either. That is on-design: sockets
-and shard buffs are the same Diablo-flavoured layer as random affixes, and
-the locked decision is "EpicLoot restricted to clues + bounties".
+(README line 32), so they no longer drop either.
 
 **Backup.** `baseconfig/loottables.json.bak-osrsheim` is the untouched
 original.
@@ -53,6 +51,36 @@ original.
 **If EpicLoot updates.** It may prompt to refresh `baseconfig`. Accepting the
 prompt restores vanilla loot tables and magic drops come back — re-run the
 zeroing, or restore this file from the profile backup.
+
+## Magic item sources (#108, 2026-09-23)
+
+Magic items are found, never crafted. Replaces "EpicLoot restricted to clues + bounties".
+
+| Source | Roll |
+|---|---|
+| `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops` stays `[[0,100]]` until #107 |
+| 2-star creatures (= superiors, bounty targets and adds) | `Tier0Mob`-`Tier9Mob` and `JotunWarrior` level 3: `Drops [[0,90],[1,10]]`, top-level `Drops []` |
+| 15 OSRSheim uniques | unchanged (generated tables) |
+| Enchanting table | `Enabled = false`, `Table Features Active = None` |
+
+Rarity rows `[Magic, Rare, Epic, Legendary, Mythic, Ancient]`:
+
+| Biome | Row | Tier tables |
+|---|---|---|
+| Meadows | 95, 5, 0, 0, 0, 0 | Tier0Mob |
+| BlackForest | 85, 15, 0, 0, 0, 0 | Tier1Mob, Tier2Mob |
+| Swamp | 75, 25, 0, 0, 0, 0 | Tier3Mob |
+| Mountain | 70, 30, 0, 0, 0, 0 | Tier4Mob |
+| Plains | 65, 34.5, 0, 0.5, 0, 0 | Tier5Mob |
+| Mistlands | 55, 35, 9.5, 0.5, 0, 0 | Tier6Mob, Tier7Mob |
+| AshLands | 45, 40, 14.5, 0.5, 0, 0 | Tier8Mob |
+| DeepNorth | 40, 40, 19.5, 0.5, 0, 0 | Tier9Mob, JotunWarrior |
+
+- EpicLoot rule (`LootRoller.GetDropsForLevel`): levels 1-3 read top-level `Drops`/`Loot` when non-empty, else `LeveledLoot`.
+- 2-star creatures exist only through Spawn That and bounties, so one level-3 rate (10%) covers superiors; no separate 1% two-star rate.
+- Drop That `.EpicLoot` modifiers do not apply to creature drops in this stack (§10).
+- Legendary pick = weighted over matching `legendaries.json` entries + a generic legendary (weight 1, 4-6 random effects). Weight 0 on every vanilla legendary leaves only the generic one; weights unchanged. Set items off (`Set Item Drop Chance = 0`).
+- Legendary effect count `[[4,80],[5,18],[6,2]]`; the OSRSheim uniques override it (`GuaranteedEffectCount = 1`).
 
 ## 2026-09-19 (late night) — adventure economy converted to coins (UNTESTED)
 

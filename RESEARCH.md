@@ -65,7 +65,7 @@ reads both.
 | Drop That | TS | creature + object loot |
 | Spawn That | TS | superior spawns |
 | CreatureLevelAndLootControl (CLLC) | TS | levels display, item yaml |
-| EpicLoot | TS | treasure maps + bounties only |
+| EpicLoot | TS | treasure maps, bounties, magic items from chests + 2-star creatures (#108) |
 | KG Marketplace (Marketplace And Server NPCs Revamped) | HX | economy, NPCs, quests |
 | AzuExtendedPlayerInventory | HX | equipment tab + quick slots |
 | XPortal | TS | named portals |

@@ -9,7 +9,7 @@ Read-only. Checks the authoring copy in the Gale profile:
   2. Drop That append-only rule: per-creature IDs >= 100, shared-list IDs >= 110; cfgs match loot\\*.csv.
   3. WIRSL yml parses, entry count, no duplicate PrefabNames.
   4. KG Marketplace cfg cross-references: quest profiles -> quests, dialogues and saved NPCs -> nodes/profiles; handbook cfg matches loot\\*.csv.
-  5. Every JSON / YAML we touched still parses; EpicLoot loot tables still roll zero items.
+  5. Every JSON / YAML we touched still parses; EpicLoot rolls magic items only from the #108 sources.
   6. reference\\mods.tsv still matches the profile's installed mods (the frozen mod list).
 Exit code 1 when any ERROR is printed (WARNs are advisory: names we could not verify on disk).
 """
@@ -578,9 +578,28 @@ def unique_table(t):
     loot = t.get("Loot") or []
     return len(loot) == 1 and loot[0].get("Item") in clones and loot[0].get("Rarity") == [0, 0, 0, 1, 0, 0]
 uniq = [t for t in lt["LootTables"] if unique_table(t)]
-r = rollable({**lt, "LootTables": [t for t in lt["LootTables"] if not unique_table(t)]})
+# #108 magic-item sources: 2-star (superior) roll on the tier tables + JotunWarrior, and the treasure-map chests (#107).
+EL_2STAR = {f"Tier{i}Mob" for i in range(10)} | {"JotunWarrior"}
+def allowed(t):
+    if t["Object"].startswith("TreasureMapChest_"):
+        return all(p[0] <= 1 for p in t.get("Drops") or [])
+    return False
+rest = []
+for t in lt["LootTables"]:
+    if unique_table(t) or allowed(t): continue
+    if t["Object"] in EL_2STAR and not t.get("Loot"):
+        for x in t.get("LeveledLoot") or []:
+            if x["Level"] == 3 and x["Drops"] == [[0, 90], [1, 10]]:
+                if any((l.get("Rarity") or [0])[4:] != [0, 0] for l in x["Loot"]):
+                    err(f"EpicLoot {t['Object']} level 3: Mythic/Ancient must be 0")
+                x = {**x, "Drops": []}
+            rest.append(x)
+        rest.append({**t, "LeveledLoot": []})
+        continue
+    rest.append(t)
+r = rollable(rest)
 if r: err(f"EpicLoot loottables.json: {r} entries can still roll a magic item")
-else: ok(f"EpicLoot loottables.json: 0 rollable magic drops outside {len(uniq)} generated unique tables")
+else: ok(f"EpicLoot loottables.json: magic drops only from {len(uniq)} unique tables, 2-star tiers and map chests (#108)")
 leg = {x["ID"]: x for x in json.loads(read(os.path.join(EL, "legendaries.json")))["LegendaryItems"]}
 for t in uniq:
     if t.get("RefObject"): err(f"EpicLoot unique table {t['Object']} still has RefObject {t['RefObject']} (aliased away)")

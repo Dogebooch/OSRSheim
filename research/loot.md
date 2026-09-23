@@ -174,7 +174,9 @@ First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
 `randyknapp.mods.epicloot.cfg`: `Global Drop Rate Modifier = 1`, `Shard Stone`
 / `Items Unidentified` / `Materials Drop Ratio = 0`, `Set Item Drop Chance = 0`,
 `Adventure Mode Enabled = true`. `baseconfig\loottables.json`: every table's
-`Drops` is `[[0, 100]]` except the 19 generated unique tables.
+`Drops` is `[[0, 100]]` except the 19 generated unique tables and the #108 sources
+(2-star tier tables at 10%, treasure-map chest rarity rows; `EpicLoot\OSRSheim-NOTES.md`).
+Enchanting table off (`Enabled = false`, `Table Features Active = None`).
 
 Uniques drop as EpicLoot Legendaries: gold beam on the ground, Legendary
 background in the inventory, 2 empty shard slots, durability 20-100%. Verified
