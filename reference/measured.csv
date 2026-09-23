@@ -31,3 +31,4 @@ density.FirTree,5.26,per zone in Black Forest,ModTest 2026-09-22 count-world.py 
 density.Pinetree_01,7.46,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
 density.MineRock_Tin,0.59,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
 density.rock4_copper,0.17,per zone in Black Forest,ModTest 2026-09-22 count-world.py --biomes: 275 Meadows / 118 Black Forest zones
+cal.speed_ms,3.8,m/s moving (median 2.5 s tick),ModTest 2026-09-22 Calib: 3 min Black Forest free roam from Playerstat Distance*; 610 m (72% walk/jog 26% run 2% air); quartiles 3.1 / 3.8 / 4.2; 3.4 incl. fights and looting
