@@ -22,8 +22,8 @@ Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the t
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
 #9 handbook. · #67 rate model: `scripts\rate-model.py` from game data;
 trees pass at Lumberjacking 0/40/80 (`reference\measured.csv`); `scripts\parse-hits.py`
-reads checks from the log (`test damage`); shipped 2026-09-22 (CLAUDE.md rule); trees, combat, mining, density
-measured at ModTest; weapon/Mining scaling above 21 unmeasured.
+reads checks from the log (`test damage`); trees, combat, mining, density measured
+at ModTest; scaling above 21 unmeasured. Lumberjacking/Mining gain 0.15 (§5), host not deployed.
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),

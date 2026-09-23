@@ -117,6 +117,10 @@ Skill Experience Gain Factor = 0.5
 Skill Experience Loss = 0
 ```
 
+Lumberjacking and Mining: `Skill Experience Gain Factor = 0.15` (rate model, pure
+grind: level 40 ~11 h, 70 ~50-60 h). SkillGainModifier `Global` does not reach
+Smoothbrain skills.
+
 Evasion's keys are `Skill gain factor` / `Skill loss`. Skill caps default
 (100). Vanilla world skill-gain modifier untouched. Vanilla skills: 0.5x via
 SkillGainModifier `Global = 0.5`, death loss `Modifier = 0` (§18).
