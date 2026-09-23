@@ -1,0 +1,2655 @@
+{
+ "CookingStation": {
+  "piece_FrostFoundry": {
+   "m_conversion": [
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@SwordGoldUncooked",
+     "m_to": "@SwordGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@AtgeirGoldUncooked",
+     "m_to": "@AtgeirGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@BattleaxeGoldUncooked",
+     "m_to": "@BattleaxeGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@AxeGoldUncooked",
+     "m_to": "@AxeGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@BowGoldUncooked",
+     "m_to": "@BowGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@CrossbowGoldUncooked",
+     "m_to": "@CrossbowGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@FistGoldUncooked",
+     "m_to": "@FistGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@KnifeGoldUncooked",
+     "m_to": "@KnifeGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@SledgeGoldUncooked",
+     "m_to": "@SledgeGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@MaceGoldUncooked",
+     "m_to": "@MaceGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@SpearGoldUncooked",
+     "m_to": "@SpearGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@THSwordGoldUncooked",
+     "m_to": "@THSwordGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldHeavyChestUncooked",
+     "m_to": "@ArmorDeepNorthHeavyChest"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldHeavyLegsUncooked",
+     "m_to": "@ArmorDeepNorthHeavylegs"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldHeavyHelmetUncooked",
+     "m_to": "@HelmetDNHeavy"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMediumHelmetUncooked",
+     "m_to": "@HelmetDNMediumHood"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMediumChestUncooked",
+     "m_to": "@ArmorDeepNorthMediumChest"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMediumLegsUncooked",
+     "m_to": "@ArmorDeepNorthMediumlegs"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMageLegsUncooked",
+     "m_to": "@ArmorDeepNorthMagelegs"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMageChestUncooked",
+     "m_to": "@ArmorDeepNorthMageChest"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ArmorGoldMageHelmetUncooked",
+     "m_to": "@HelmetDNMage"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ShieldBucklerGoldUncooked",
+     "m_to": "@ShieldGoldBuckler"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ShieldRoundGoldUncooked",
+     "m_to": "@ShieldGold"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@ShieldTowerGoldUncooked",
+     "m_to": "@ShieldGoldTower"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@KeysGoldUncooked",
+     "m_to": "@BloodGoldKey"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@StaffSpiritCallerUncooked",
+     "m_to": "@StaffSpiritCaller"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@StaffSpiritCallerUncooked",
+     "m_to": "@StaffSpiritCaller"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@StaffOrbofAhriUncooked",
+     "m_to": "@StaffOrbofAhri"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@StaffFrostOrbsUncooked",
+     "m_to": "@StaffFrostOrbs"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@StaffThunderbloodUncooked",
+     "m_to": "@StaffThunderBlood"
+    }
+   ],
+   "m_fuelItem": "@FrozenFuel",
+   "m_maxFuel": 20,
+   "m_name": "$piece_frostfoundry",
+   "m_requireFire": 0,
+   "m_secPerFuel": 10,
+   "m_slots": [
+    null
+   ],
+   "m_useFuel": 1
+  },
+  "piece_cookingstation": {
+   "m_conversion": [
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@RawMeat",
+     "m_to": "@CookedMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@NeckTail",
+     "m_to": "@NeckTailGrilled"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@FishRaw",
+     "m_to": "@FishCooked"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@DeerMeat",
+     "m_to": "@CookedDeerMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@WolfMeat",
+     "m_to": "@CookedWolfMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@ChickenMeat",
+     "m_to": "@CookedChickenMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@HareMeat",
+     "m_to": "@CookedHareMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@BjornMeat",
+     "m_to": "@CookedBjornMeat"
+    }
+   ],
+   "m_fuelItem": null,
+   "m_maxFuel": 10,
+   "m_name": "$piece_cookingstation",
+   "m_requireFire": 1,
+   "m_secPerFuel": 5000,
+   "m_slots": [
+    null,
+    null
+   ],
+   "m_useFuel": 0
+  },
+  "piece_cookingstation_iron": {
+   "m_conversion": [
+    {
+     "m_cookTime": 60.0,
+     "m_from": "@SerpentMeat",
+     "m_to": "@SerpentMeatCooked"
+    },
+    {
+     "m_cookTime": 60.0,
+     "m_from": "@LoxMeat",
+     "m_to": "@CookedLoxMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@FishRaw",
+     "m_to": "@FishCooked"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@RawMeat",
+     "m_to": "@CookedMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@NeckTail",
+     "m_to": "@NeckTailGrilled"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@DeerMeat",
+     "m_to": "@CookedDeerMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@WolfMeat",
+     "m_to": "@CookedWolfMeat"
+    },
+    {
+     "m_cookTime": 60.0,
+     "m_from": "@BugMeat",
+     "m_to": "@CookedBugMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@ChickenMeat",
+     "m_to": "@CookedChickenMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@HareMeat",
+     "m_to": "@CookedHareMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@VoltureMeat",
+     "m_to": "@CookedVoltureMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@AsksvinMeat",
+     "m_to": "@CookedAsksvinMeat"
+    },
+    {
+     "m_cookTime": 60.0,
+     "m_from": "@BoneMawSerpentMeat",
+     "m_to": "@CookedBoneMawSerpentMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@BjornMeat",
+     "m_to": "@CookedBjornMeat"
+    },
+    {
+     "m_cookTime": 25.0,
+     "m_from": "@MooseMeat",
+     "m_to": "@CookedMooseMeat"
+    }
+   ],
+   "m_fuelItem": null,
+   "m_maxFuel": 10,
+   "m_name": "$piece_cookingstation_iron",
+   "m_requireFire": 1,
+   "m_secPerFuel": 5000,
+   "m_slots": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "m_useFuel": 0
+  },
+  "piece_oven": {
+   "m_conversion": [
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@LoxPieUncooked",
+     "m_to": "@LoxPie"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@BreadDough",
+     "m_to": "@Bread"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@FishAndBreadUncooked",
+     "m_to": "@FishAndBread"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@MeatPlatterUncooked",
+     "m_to": "@MeatPlatter"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@HoneyGlazedChickenUncooked",
+     "m_to": "@HoneyGlazedChicken"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@MisthareSupremeUncooked",
+     "m_to": "@MisthareSupreme"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@MagicallyStuffedShroomUncooked",
+     "m_to": "@MagicallyStuffedShroom"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@RoastedCrustPieUncooked",
+     "m_to": "@RoastedCrustPie"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@PiquantPieUncooked",
+     "m_to": "@PiquantPie"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@VikingCupcakeUncooked",
+     "m_to": "@VikingCupcake"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@SealBlubber",
+     "m_to": "@CookedSealBlubber"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@OvenPancakeUncooked",
+     "m_to": "@OvenPancake"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@KaleChipsUncooked",
+     "m_to": "@KaleChips"
+    },
+    {
+     "m_cookTime": 50.0,
+     "m_from": "@BakedPoteitrUncooked",
+     "m_to": "@BakedPoteitr"
+    }
+   ],
+   "m_fuelItem": "@Wood",
+   "m_maxFuel": 10,
+   "m_name": "$piece_oven",
+   "m_requireFire": 0,
+   "m_secPerFuel": 2000,
+   "m_slots": [
+    null,
+    null,
+    null,
+    null
+   ],
+   "m_useFuel": 1
+  }
+ },
+ "Fermenter": {
+  "fermenter": {
+   "m_conversion": [
+    {
+     "m_from": "@MeadBaseHealthMinor",
+     "m_producedItems": 6,
+     "m_to": "@MeadHealthMinor"
+    },
+    {
+     "m_from": "@MeadBaseHealthMedium",
+     "m_producedItems": 6,
+     "m_to": "@MeadHealthMedium"
+    },
+    {
+     "m_from": "@MeadBaseStaminaMinor",
+     "m_producedItems": 6,
+     "m_to": "@MeadStaminaMinor"
+    },
+    {
+     "m_from": "@MeadBaseStaminaMedium",
+     "m_producedItems": 6,
+     "m_to": "@MeadStaminaMedium"
+    },
+    {
+     "m_from": "@MeadBasePoisonResist",
+     "m_producedItems": 6,
+     "m_to": "@MeadPoisonResist"
+    },
+    {
+     "m_from": "@MeadBaseFrostResist",
+     "m_producedItems": 6,
+     "m_to": "@MeadFrostResist"
+    },
+    {
+     "m_from": "@BarleyWineBase",
+     "m_producedItems": 6,
+     "m_to": "@BarleyWine"
+    },
+    {
+     "m_from": "@MeadBaseTasty",
+     "m_producedItems": 6,
+     "m_to": "@MeadTasty"
+    },
+    {
+     "m_from": "@MeadBaseHealthMajor",
+     "m_producedItems": 6,
+     "m_to": "@MeadHealthMajor"
+    },
+    {
+     "m_from": "@MeadBaseStaminaLingering",
+     "m_producedItems": 6,
+     "m_to": "@MeadStaminaLingering"
+    },
+    {
+     "m_from": "@MeadBaseEitrMinor",
+     "m_producedItems": 6,
+     "m_to": "@MeadEitrMinor"
+    },
+    {
+     "m_from": "@MeadBaseEitrLingering",
+     "m_producedItems": 6,
+     "m_to": "@MeadEitrLingering"
+    },
+    {
+     "m_from": "@MeadBaseHealthLingering",
+     "m_producedItems": 6,
+     "m_to": "@MeadHealthLingering"
+    },
+    {
+     "m_from": "@MeadBaseBzerker",
+     "m_producedItems": 3,
+     "m_to": "@MeadBzerker"
+    },
+    {
+     "m_from": "@MeadBaseStrength",
+     "m_producedItems": 6,
+     "m_to": "@MeadStrength"
+    },
+    {
+     "m_from": "@MeadBaseHasty",
+     "m_producedItems": 6,
+     "m_to": "@MeadHasty"
+    },
+    {
+     "m_from": "@MeadBaseLightFoot",
+     "m_producedItems": 6,
+     "m_to": "@MeadLightfoot"
+    },
+    {
+     "m_from": "@MeadBaseSwimmer",
+     "m_producedItems": 6,
+     "m_to": "@MeadSwimmer"
+    },
+    {
+     "m_from": "@MeadBaseTamer",
+     "m_producedItems": 6,
+     "m_to": "@MeadTamer"
+    },
+    {
+     "m_from": "@MeadBaseBugRepellent",
+     "m_producedItems": 6,
+     "m_to": "@MeadBugRepellent"
+    }
+   ],
+   "m_fermentationDuration": 2400.0,
+   "m_name": "$piece_fermenter"
+  }
+ },
+ "Pickable": {
+  "BlueberryBush": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Blueberries",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 300.0
+  },
+  "CloudberryBush": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Cloudberry",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 300.0
+  },
+  "LingonberryBush": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Lingonberry",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 300.0
+  },
+  "LuredFaderEmber": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@FaderEmber",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "LuredWisp": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Wisp",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye1": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@AncientGemstoneBlack",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye2": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@AncientGemstoneGreen",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye3": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@AncientGemstoneOrange",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye4": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@AncientGemstonePurple",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye5_gemstone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@GemstoneBlue",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye6_gemstone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@GemstoneGreen",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Morkhalla_Eye7_gemstone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@GemstoneRed",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Ashstone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Grausten",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Barley": {
+   "m_amount": 2,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Barley",
+   "m_minAmountScaled": 2,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Barley_Wild": {
+   "m_amount": 2,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Barley",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_BlackCoreStand": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BlackCore",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_BogIronOre": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@IronOre",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Branch": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Wood",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Branch_Snow": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Frostwood",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Carrot": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Carrot",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Charredskull": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Charredskull",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Dandelion": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Dandelion",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_DragonEgg": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@DragonEgg",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 480.0
+  },
+  "Pickable_DvergerThing": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Turnip",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_DvergrLantern": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Lantern",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_DvergrMineTreasure": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 4,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@Coins",
+      "m_stackMax": 99,
+      "m_stackMin": 11,
+      "m_weight": 1.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Coins",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_DvergrStein": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Tankard_dvergr",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Fiddlehead": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 2,
+    "m_dropMin": 2,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@Fiddleheadfern",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Fiddleheadfern",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 300.0
+  },
+  "Pickable_Fishingrod": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 1,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@FishingBait",
+      "m_stackMax": 4,
+      "m_stackMin": 2,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@FishingRod",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Flax": {
+   "m_amount": 2,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Flax",
+   "m_minAmountScaled": 2,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Flax_Wild": {
+   "m_amount": 2,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Flax",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Flint": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Flint",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_ForestCryptRemains01": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.75,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BoneFragments",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_ForestCryptRemains02": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.75,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BoneFragments",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_ForestCryptRemains03": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BoneFragments",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_ForestCryptRemains04": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BoneFragments",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_FrostCoreHanger": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@FrostCore",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_GlowWorm": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 1,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@GlowWorm",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Hairstrands01": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@WolfHairBundle",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Hairstrands02": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@WolfHairBundle",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_HardRockOffspring": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 1,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Stone",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Kale": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Kale",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_MeatPile": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.5,
+    "m_dropMax": 3,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@Coins",
+      "m_stackMax": 41,
+      "m_stackMin": 9,
+      "m_weight": 0.5
+     },
+     {
+      "m_dontScale": 0,
+      "m_item": "@Entrails",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.5
+     },
+     {
+      "m_dontScale": 0,
+      "m_item": "@SilverNecklace",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.1
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Entrails",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Meteorite": {
+   "m_amount": 6,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@IronOre",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_MoltenCoreStand": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@MoltenCore",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_MountainCaveCrystal": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Crystal",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_MountainCaveObsidian": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@Obsidian",
+      "m_stackMax": 2,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Obsidian",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_MountainRemains01_buried": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.506,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@SilverNecklace",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@BoneFragments",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Mushroom": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Mushroom",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Mushroom_JotunPuffs": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 2,
+    "m_dropMin": 2,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@MushroomJotunPuffs",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@MushroomJotunPuffs",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Mushroom_Magecap": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 2,
+    "m_dropMin": 2,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@MushroomMagecap",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@MushroomMagecap",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Mushroom_blue": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@MushroomBlue",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Mushroom_yellow": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@MushroomYellow",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Oat": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@OatSeeds",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Obsidian": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Obsidian",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Onion": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 0,
+    "m_dropMin": 0,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Onion",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Pot_Shard": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Pot_Shard_Green",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Poteitr": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@PoteitrSeeds",
+      "m_stackMax": 2,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Poteitr",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_RoyalJelly": {
+   "m_amount": 5,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@RoyalJelly",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_SeedCarrot": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@CarrotSeeds",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SeedKale": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@KaleSeeds",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SeedOnion": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@OnionSeeds",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SeedTurnip": {
+   "m_amount": 3,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@TurnipSeeds",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SmokePuff": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@MushroomSmokePuff",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Snowball": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Snowball",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Stone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Stone",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_StoneRock": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 1,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@StoneRock",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SulfurRock": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 3,
+    "m_dropMin": 2,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@SulfurStone",
+      "m_stackMax": 1,
+      "m_stackMin": 1,
+      "m_weight": 0.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@SulfurStone",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_SurtlingCoreStand": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@SurtlingCore",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Swordpiece1": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@DyrnwynHiltFragment",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Swordpiece2": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@DyrnwynBladeFragment",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Swordpiece3": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@DyrnwynTipFragment",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Tar": {
+   "m_amount": 4,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Tar",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_TarBig": {
+   "m_amount": 15,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Tar",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Thistle": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Thistle",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 240.0
+  },
+  "Pickable_Tin": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@TinOre",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_Turnip": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 1,
+   "m_itemPrefab": "@Turnip",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Pickable_VoltureEgg": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@VoltureEgg",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "Placeable_Stone": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Stone",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "RaspberryBush": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Raspberry",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 300.0
+  },
+  "VineAsh": {
+   "m_amount": 3,
+   "m_defaultPicked": 1,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.2,
+    "m_dropMax": 3,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@VineberrySeeds",
+      "m_stackMax": 3,
+      "m_stackMin": 1,
+      "m_weight": 1.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Vineberry",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 150.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 200.0
+  },
+  "VineGreen": {
+   "m_amount": 3,
+   "m_defaultPicked": 1,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 0.2,
+    "m_dropMax": 3,
+    "m_dropMin": 1,
+    "m_drops": [
+     {
+      "m_dontScale": 0,
+      "m_item": "@VineGreenSeeds",
+      "m_stackMax": 3,
+      "m_stackMin": 1,
+      "m_weight": 1.0
+     }
+    ],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@Vineberry",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 150.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 200.0
+  },
+  "goblin_totempole": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@GoblinTotem",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  },
+  "hanging_hairstrands": {
+   "m_amount": 1,
+   "m_defaultPicked": 0,
+   "m_dontScale": 0,
+   "m_extraDrops": {
+    "m_dropChance": 1.0,
+    "m_dropMax": 1,
+    "m_dropMin": 1,
+    "m_drops": [],
+    "m_oneOfEach": 0
+   },
+   "m_harvestable": 0,
+   "m_itemPrefab": "@WolfHairBundle",
+   "m_minAmountScaled": 1,
+   "m_respawnTimeInitMax": 0.0,
+   "m_respawnTimeInitMin": 0.0,
+   "m_respawnTimeMinutes": 0.0
+  }
+ },
+ "Plant": {
+  "Beech_Sapling": {
+   "m_biome": 25,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 2.0,
+   "m_growTime": 3000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Beech1"
+   ],
+   "m_maxScale": 1.5,
+   "m_minScale": 0.8,
+   "m_name": "$prop_beech_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "Birch_Sapling": {
+   "m_biome": 25,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 2.0,
+   "m_growTime": 5000.0,
+   "m_growTimeMax": 7000.0,
+   "m_grownPrefabs": [
+    "@Birch1",
+    "@Birch2"
+   ],
+   "m_maxScale": 1.0,
+   "m_minScale": 0.5,
+   "m_name": "$prop_birch_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "FirTree_Sapling": {
+   "m_biome": 29,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 2.0,
+   "m_growTime": 3000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@FirTree"
+   ],
+   "m_maxScale": 2.5,
+   "m_minScale": 1.0,
+   "m_name": "$prop_fir_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 1,
+   "m_tolerateHeat": 0
+  },
+  "FirTree_big_Sapling": {
+   "m_biome": 29,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 2.0,
+   "m_growTime": 3000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@FirTree_big"
+   ],
+   "m_maxScale": 2.5,
+   "m_minScale": 1.0,
+   "m_name": "$prop_fir_big_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 1,
+   "m_tolerateHeat": 0
+  },
+  "Oak_Sapling": {
+   "m_biome": 25,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 3.0,
+   "m_growTime": 6000.0,
+   "m_growTimeMax": 8000.0,
+   "m_grownPrefabs": [
+    "@Oak1"
+   ],
+   "m_maxScale": 0.9,
+   "m_minScale": 0.7,
+   "m_name": "$prop_oak_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "PineTree_Sapling": {
+   "m_biome": 25,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 2.0,
+   "m_growTime": 3000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pinetree_01"
+   ],
+   "m_maxScale": 2.5,
+   "m_minScale": 1.5,
+   "m_name": "$prop_pine_sapling",
+   "m_needCultivatedGround": 0,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "VineAsh_sapling": {
+   "m_biome": 827,
+   "m_destroyIfCantGrow": 0,
+   "m_growRadius": 0.5,
+   "m_growTime": 200.0,
+   "m_growTimeMax": 300.0,
+   "m_grownPrefabs": [
+    "@VineAsh"
+   ],
+   "m_maxScale": 1.0,
+   "m_minScale": 1.0,
+   "m_name": "$piece_sapling_vineash",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 1
+  },
+  "VineGreen_sapling": {
+   "m_biome": 863,
+   "m_destroyIfCantGrow": 0,
+   "m_growRadius": 0.5,
+   "m_growTime": 200.0,
+   "m_growTimeMax": 300.0,
+   "m_grownPrefabs": [
+    "@VineGreen"
+   ],
+   "m_maxScale": 1.0,
+   "m_minScale": 1.0,
+   "m_name": "$piece_sapling_vinegreen",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 1
+  },
+  "sapling_Kale": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Kale"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_kale",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_barley": {
+   "m_biome": 16,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Barley"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_barley",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_carrot": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Carrot"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_carrot",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_flax": {
+   "m_biome": 16,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Flax"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_flax",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_jotunpuffs": {
+   "m_biome": 512,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Mushroom_JotunPuffs"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_jotunpuffs",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_magecap": {
+   "m_biome": 512,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.8,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Mushroom_Magecap"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_magecap",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_oat": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Oat"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_oat",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_onion": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Onion"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_onion",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_poteitr": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Poteitr"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_poteitr",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_seedcarrot": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_SeedCarrot"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_seedcarrot",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_seedkale": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_SeedKale"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_seedkale",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_seedonion": {
+   "m_biome": 57,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_SeedOnion"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_seedonion",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_seedturnip": {
+   "m_biome": 571,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_SeedTurnip"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_seedturnip",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  },
+  "sapling_turnip": {
+   "m_biome": 571,
+   "m_destroyIfCantGrow": 1,
+   "m_growRadius": 0.5,
+   "m_growTime": 4000.0,
+   "m_growTimeMax": 5000.0,
+   "m_grownPrefabs": [
+    "@Pickable_Turnip"
+   ],
+   "m_maxScale": 1.1,
+   "m_minScale": 0.9,
+   "m_name": "$piece_sapling_turnip",
+   "m_needCultivatedGround": 1,
+   "m_tolerateCold": 0,
+   "m_tolerateHeat": 0
+  }
+ },
+ "Smelter": {
+  "blastfurnace": {
+   "m_conversion": [
+    {
+     "m_from": "@FlametalOreNew",
+     "m_to": "@FlametalNew"
+    },
+    {
+     "m_from": "@BlackMetalScrap",
+     "m_to": "@BlackMetal"
+    },
+    {
+     "m_from": "@FlametalOreNew",
+     "m_to": "@FlametalNew"
+    },
+    {
+     "m_from": "@GoldOre",
+     "m_to": "@Gold"
+    }
+   ],
+   "m_fuelItem": "@Coal",
+   "m_fuelPerProduct": 2,
+   "m_maxFuel": 20,
+   "m_maxOre": 10,
+   "m_name": "$piece_blastfurnace",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 30.0
+  },
+  "charcoal_kiln": {
+   "m_conversion": [
+    {
+     "m_from": "@Wood",
+     "m_to": "@Coal"
+    },
+    {
+     "m_from": "@FineWood",
+     "m_to": "@Coal"
+    },
+    {
+     "m_from": "@RoundLog",
+     "m_to": "@Coal"
+    }
+   ],
+   "m_fuelItem": null,
+   "m_fuelPerProduct": 0,
+   "m_maxFuel": 0,
+   "m_maxOre": 25,
+   "m_name": "$piece_charcoalkiln",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 15.0
+  },
+  "eitrrefinery": {
+   "m_conversion": [
+    {
+     "m_from": "@Softtissue",
+     "m_to": "@Eitr"
+    }
+   ],
+   "m_fuelItem": "@Sap",
+   "m_fuelPerProduct": 1,
+   "m_maxFuel": 20,
+   "m_maxOre": 20,
+   "m_name": "$piece_eitrrefinery",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 40.0
+  },
+  "piece_FrostKiln": {
+   "m_conversion": [
+    {
+     "m_from": null,
+     "m_to": "@FrozenFuel"
+    }
+   ],
+   "m_fuelItem": "@Ice",
+   "m_fuelPerProduct": 5,
+   "m_maxFuel": 25,
+   "m_maxOre": 0,
+   "m_name": "$piece_frostkiln",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 30.0
+  },
+  "piece_bathtub": {
+   "m_conversion": [],
+   "m_fuelItem": "@Wood",
+   "m_fuelPerProduct": 1,
+   "m_maxFuel": 10,
+   "m_maxOre": 0,
+   "m_name": "$piece_bathtub",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 5000.0
+  },
+  "piece_spinningwheel": {
+   "m_conversion": [
+    {
+     "m_from": "@Flax",
+     "m_to": "@LinenThread"
+    }
+   ],
+   "m_fuelItem": null,
+   "m_fuelPerProduct": 0,
+   "m_maxFuel": 0,
+   "m_maxOre": 40,
+   "m_name": "$piece_spinningwheel",
+   "m_requiresRoof": 1,
+   "m_secPerProduct": 30.0
+  },
+  "smelter": {
+   "m_conversion": [
+    {
+     "m_from": "@CopperOre",
+     "m_to": "@Copper"
+    },
+    {
+     "m_from": "@IronOre",
+     "m_to": "@Iron"
+    },
+    {
+     "m_from": "@IronScrap",
+     "m_to": "@Iron"
+    },
+    {
+     "m_from": "@BronzeScrap",
+     "m_to": "@Bronze"
+    },
+    {
+     "m_from": "@TinOre",
+     "m_to": "@Tin"
+    },
+    {
+     "m_from": "@SilverOre",
+     "m_to": "@Silver"
+    },
+    {
+     "m_from": "@CopperScrap",
+     "m_to": "@Copper"
+    }
+   ],
+   "m_fuelItem": "@Coal",
+   "m_fuelPerProduct": 2,
+   "m_maxFuel": 20,
+   "m_maxOre": 10,
+   "m_name": "$piece_smelter",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 30.0
+  },
+  "windmill": {
+   "m_conversion": [
+    {
+     "m_from": "@Barley",
+     "m_to": "@BarleyFlour"
+    },
+    {
+     "m_from": "@OatSeeds",
+     "m_to": "@Oat"
+    },
+    {
+     "m_from": "@Oat",
+     "m_to": "@OatFlour"
+    }
+   ],
+   "m_fuelItem": null,
+   "m_fuelPerProduct": 0,
+   "m_maxFuel": 0,
+   "m_maxOre": 50,
+   "m_name": "$piece_windmill",
+   "m_requiresRoof": 0,
+   "m_secPerProduct": 10.0
+  }
+ }
+}

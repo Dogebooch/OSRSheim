@@ -32,3 +32,6 @@ config/EpicLoot/BountySaves/
 # Never commit credentials
 *.env
 secrets.*
+
+# extract-game-data.py bundle index (rebuilt from the game install)
+.cache/
