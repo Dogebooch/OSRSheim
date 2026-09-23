@@ -44,11 +44,11 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 - Alchemy brews (craft + use): Medium flasks 10, Grands 20, Stealth 25,
   Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
   Gods and the 4 stones 50. Lesser vials ungated.
-- Clone uniques: DragonAxe Lumberjacking 15, DragonfireShield Blocking 30,
-  BandosGodsword Swords 40, AbyssalWhip Swords 50, ScytheOfVitur Polearms 70;
-  DraugrVisage ungated (armor). Elite uniques (equip, base item's level): HillGiantClub Clubs 15,
-  RuneScimitar Swords 20, GraniteMaul Clubs 25, DragonHalberd Polearms 40,
-  CrystalBow Bows 50, AbyssalBludgeon Clubs 60, DragonBattleaxe Axes 50.
+- Uniques (#86: damage and gate half a tier above the drop biome): DragonAxe Lumberjacking 18,
+  DragonfireShield Blocking 35, BandosGodsword Swords 45, AbyssalWhip Swords 55,
+  ScytheOfVitur Polearms 75; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 18,
+  RuneScimitar Swords 27, GraniteMaul Clubs 35, DragonHalberd Polearms 45, CrystalBow Bows 55,
+  AbyssalBludgeon Clubs 65, DragonBattleaxe Axes 75.
 - Fishing (bait, craft + equip):
   `FishingBaitForest` 10 Trollfish · `Swamp` 20 Giant herring · `Ocean` 25 Tuna,
   Coral cod · `Cave` 30 Tetra · `Plains` 40 Grouper · `Mistlands`

@@ -6,6 +6,9 @@ m_name: Barrow blade
 m_description: Pulled from a draugr lord's grip. It swings quicker than a blade its weight should.
 m_weight: 0.8            # SwordIron base; wackydb skips a yml with no m_weight.
 Primary_Attack:
+  DmgMultiplier: 1.18
   Custom_AttackSpeed: 1.1
 Secondary_Attack:
+  DmgMultiplier: 1.18
   Custom_AttackSpeed: 1.1
+# #86: slash 55 -> 65, half a tier above Swamp.

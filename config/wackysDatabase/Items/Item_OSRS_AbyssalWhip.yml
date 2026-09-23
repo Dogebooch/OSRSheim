@@ -13,7 +13,7 @@ m_description: Torn from something with no bottom to it. Lashes faster than a bl
 m_weight: 0.8
 Damage:
   Frost: 0
-  Slash: 64
+  Slash: 104   # #86: 64 -> 104, ~125 effective at speed 1.2 (Mistwalker 115 / Niedhogg 135)
 Damage_Per_Level:
   Frost: 0
   Spirit: 5

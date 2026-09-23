@@ -5,6 +5,8 @@ clonePrefabName: AxeJotunBane
 m_name: Giantsbane axe
 m_description: A jotun warrior's own axe, cut down to a man's grip. It still hits like a giant.
 m_weight: 2             # AxeJotunBane base; wackydb skips a yml with no m_weight.
+Damage:
+  Slash: 170   # #86: x1.1 = 187, above the Deep North tier (base slash 80)
 Primary_Attack:
   DmgMultiplier: 1.1
   StaggerMultiplier: 1.3
