@@ -14,6 +14,7 @@ Invariants (ERROR):
   A5 every WIRSL Alchemy gate names a real PotionPlus prefab, craft AND use blocked
   A6 every gated recipe has a farm leg, so coins can never buy the whole potion
   A7 every Harvest contract targets a Pickable_ prefab and is on a quest profile
+  A8 no PotionPlus recipe asks a station level its station can never reach
 
 Then prints the grind budget: crafts, real crop units and garden cycles to each
 gate, so a recipe edit that quietly triples the grind shows up as a number.
@@ -21,7 +22,8 @@ gate, so a recipe edit that quietly triples the grind shows up as a number.
 Curve (vanilla Skills.Skill): level L->L+1 costs (L+1)^1.5 * 0.5 + 0.5 XP.
 PotionPlus pays 1 XP per craft at a station named opalchemy* and nothing
 else: opcauldron is a plain CraftingStation (no Incinerator in the 4.3.4
-bundle), so a Potion_Meadbase pays 0 XP. A Philosopher's Stone is ADDITIVE on the vanilla multiplier
+bundle). A Potion_Meadbase pays 1 XP only if it is brewed at opalchemy.
+A Philosopher's Stone is ADDITIVE on the vanilla multiplier
 (SE_Stats.ModifyRaiseSkill does value += factor), so cfg 2.0 means 3x.
 """
 import argparse
@@ -38,6 +40,9 @@ KG = os.path.join(CFG, "Marketplace", "Configs")
 CROPS = {"Carrot", "Turnip", "Onion", "Barley", "Flax",
          "Kale", "Oat", "Poteitr", "Vineberry"}
 FARM_LEG = CROPS | {"Potion_Meadbase"}
+# station -> max level: Odins_Alchemy_Book is the bundle's only StationExtension
+# and it extends opalchemy; nothing extends opcauldron (PotionsPlus 4.3.4)
+MAX_LEVEL = {"opalchemy": 2, "opcauldron": 1}
 ENTRY_TIER = {"Lesser_Healing_Tide_Vial", "Lesser_Spiritual_Healing_Vial",
               "Lesser_Stamina_Vial"}
 
@@ -388,6 +393,21 @@ def main():
             ok("A7 %d Harvest contracts target Pickable_ prefabs and are listed"
                % len(harvest))
 
+    # -- A8 ------------------------------------------------------------------
+    bad = []
+    for section, variants in pp.items():
+        for variant, slot in variants.items():
+            top = MAX_LEVEL.get(slot.get("station"))
+            lvl = slot.get("level", "1")
+            if top and lvl.isdigit() and int(lvl) > top:
+                bad.append("%s%s needs %s level %s (max %d)"
+                           % (section, " (%s)" % variant if variant else "",
+                              slot["station"], lvl, top))
+    if bad:
+        err("A8 " + "; ".join(bad))
+    else:
+        ok("A8 every PotionPlus recipe asks a station level it can reach")
+
     # -- budget --------------------------------------------------------------
     stone = args.stone
     if stone is None:
@@ -403,7 +423,8 @@ def main():
              ", ".join("%s:%d" % c for c in base_costs) or "none", base_units))
     print("  Philosophers Stone cfg %.2f -> %.2fx Alchemy XP (additive)"
           % (stone, mult))
-    print("  XP = 1 per opalchemy craft; bases at opcauldron pay 0\n")
+    base_xp = 1 if base.get("station", "").startswith("opalchemy") else 0
+    print("  XP = 1 per opalchemy craft; a base pays %d\n" % base_xp)
 
     # average crop units in a finished potion, gated tiers only
     gated = [(p, l) for p, (l, _, _) in gates.items() if p in recipes]
@@ -419,10 +440,10 @@ def main():
           % ("gate", "XP", "crafts", "w/ stone", "crop units", "cycles"))
     for lvl in sorted({l for _, l in gated} | {args.cap, 100}):
         xp = cum_xp(lvl)
-        # every XP is one finished potion, and each potion eats one base
+        # each potion eats one base; a base brewed at opalchemy pays XP too
         crafts = xp
         with_stone = xp / mult
-        units = with_stone * (avg + base_units)
+        units = with_stone / (1 + base_xp) * (avg + base_units)
         cycles = units / float(args.garden)
         print("  %-7d %9.0f %9.0f %9.0f %12.0f %9.1f"
               % (lvl, xp, crafts, with_stone, units, cycles))
