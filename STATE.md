@@ -24,7 +24,6 @@ Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).
-Client `ZNetScene.RemoveObjects` NRE loop seen once (§16): relog clears; log a repeat.
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
@@ -46,7 +45,7 @@ Waiting on upstream: KG Marketplace stable 10.x.
 
 ## Server
 Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = 55fa2cd via
-`sync-server.ps1` (#60 not deployed), mods = `mods.tsv`. MWL live, host dumps off;
+`sync-server.ps1` (behind main), mods = `mods.tsv`. MWL live, host dumps off;
 2.5 GiB boot, 4.0 GiB after a 30 min solo fly (§15). First join can time out:
 rejoin (§15). Open: `Use Marketplace Locally = false`, Doug in `adminlist.txt`,
 clone-drop and `DropOnePerPlayer` checks with both players present.

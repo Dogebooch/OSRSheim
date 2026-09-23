@@ -35,7 +35,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
 | Backups | `Desktop\Valheim-backup-2026-09-19`, `Desktop\OSRSheim-profile-backup-2026-09-19` |
-| Sven's machine | game `F:\Steam\steamapps\common\Valheim`; local test server `F:\ValheimServerTest` (`run-memtest.ps1`, join `127.0.0.1:2456`) |
+| Sven's game | `F:\Steam\steamapps\common\Valheim` |
 
 ## 3. Mod stack
 
@@ -197,7 +197,7 @@ Then `gen-loot.py`, `dropthat:reload`, `removedrops`, `resetkeys`, Logout. Conso
 
 **`ZNetScene.RemoveObjects` NRE every frame** (client on the host, 2026-09-22, fast debug
 flight, 8 s after `GoblinCamp2` loaded): distant objects stop unloading, 15.8 GB, 4 FPS.
-Relog clears it; no repeat on revisit. IL scan: no plugin destroys a live `ZNetView` outside `ZNetScene`.
+Relog clears it; no repeat on revisit.
 
 **Post-build**: `scripts\post-build-check.py` - EOL against HEAD, clone ymls, csv
 shape, gambler lines, repo/profile parity, validator.
