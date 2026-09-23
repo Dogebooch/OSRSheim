@@ -193,8 +193,7 @@ def build(wiring=False):
             rate = f'{row["target"]} per destruction' if target else 'literal weight'
             lines += ['', f'# {item}: {rate}' + (f'; {note}' if note else '')]
             if not target:
-                # Literal weights are deliberate and can be common (the crypt chest is meant to
-                # pay coins). Mark them so validate-configs.py's rate cap skips them on purpose
+                # Literal weights are deliberate and can be common. Mark them so validate-configs.py's rate cap skips them on purpose
                 # rather than by accident.
                 lines.append(f'# rate-exempt: authored weight, not solved from a target')
             lines += [

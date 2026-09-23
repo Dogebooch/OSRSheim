@@ -187,7 +187,7 @@ gate holds.
 **Seen at wiring (server, 2026-09-22)**: Rare T5, all 7 rows; superiors
 `.200`-`.213` on all 8 rows + Meadows Troll; 1-star JotunWarrior drops no superior row.
 Objects (`gen-objects.py --wiring`): Beech1 pet + Burl; MineRock_Copper pet + Geode + Amber;
-MineRock_Iron AmberPearl; goldvein_frac pet + Geode + Ruby. Unseen: `SnowFirTree 2` (space breaks `spawn`), crypt Coins.
+MineRock_Iron AmberPearl; goldvein_frac pet + Geode + Ruby. Unseen: `SnowFirTree 2` (space breaks `spawn`).
 
 **Segment count**: drop table with `SetDropMin/Max = 1`, `.0` = `Club`, other vanilla
 indices `Enable = false`; `find Club` after the node. `spawn <item> 1 1 e` spawns and equips.
