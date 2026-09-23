@@ -252,27 +252,12 @@ for f in KG.glob('Dialogues/*.cfg'):
 ok(f'dialogues: {opens} OpenUI targets resolve')
 
 # ------------------------------------------------------------------ 5. sync
-env = dict(os.environ)
-mirror = None
-if REPO:
-    # The Gale profile is shared by every worktree; another session mid-push makes the generator
-    # --checks meaningless. --repo runs them against a throwaway mirror of the repo's own config\.
-    import shutil, tempfile
-    mirror = Path(tempfile.mkdtemp(prefix='osrsheim-check-'))
-    bep = mirror / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx'
-    shutil.copytree(CFG, bep / 'config')
-    if (PROFILE.parent / 'Debug').is_dir():
-        shutil.copytree(PROFILE.parent / 'Debug', bep / 'Debug')
-    env['APPDATA'] = str(mirror)
-    ok(f'--repo: generator checks run against a mirror of the repo config\\, not the Gale profile')
-
+# every generator reads and writes the repo's config\, so these checks never touch the profile
 for script, what in (('gen-loot.py', 'loot cfgs'), ('gen-collection-log.py', 'collection log'),
                      ('gen-handbook.py', 'handbook'), ('gen-npcs.py', 'npc placement')):
     r = subprocess.run([sys.executable, str(ROOT / 'scripts' / script), '--check'],
-                       capture_output=True, text=True, env=env)
+                       capture_output=True, text=True)
     (ok if r.returncode == 0 else err)(f'{what}: {r.stdout.strip() or r.stderr.strip()}')
-if mirror:
-    shutil.rmtree(mirror, ignore_errors=True)
 
 if PROFILE.is_dir():
     drift = []

@@ -22,7 +22,7 @@ that are not rate-driven. Two guards, both of which the hand-authored file tripp
   - vanilla total weight 0 means there is no denominator and the entry fires at 100%. ERROR.
   - an entry taking more than MAX_SHARE of the picks is stealing vanilla yield. ERROR.
 
-Writes to the Gale profile, like gen-loot.py; run scripts\sync-configs.ps1 -Pull to stage it.
+Writes the repo's config\, like gen-loot.py; scripts\sync-configs.ps1 -Push sends it to the profile.
 """
 import csv
 import os
@@ -35,7 +35,7 @@ from main_guard import require_current
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
 PROFILE = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx'
-CFG = PROFILE / 'config'
+CFG = ROOT / 'config'
 DUMP = PROFILE / 'Debug/drop_that.drop_table.prefabs.txt'
 OUT = 'drop_that.drop_table.cfg'
 FIRST_ID = 100

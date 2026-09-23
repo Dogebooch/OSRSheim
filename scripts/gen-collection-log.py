@@ -28,7 +28,7 @@ from main_guard import require_current
 
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
-CFG = Path(os.environ['APPDATA']) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
+CFG = ROOT / 'config'
 KG = CFG / 'Marketplace/Configs'
 NPC = 'Halla the Skald'
 PROFILE = 'collection_log'

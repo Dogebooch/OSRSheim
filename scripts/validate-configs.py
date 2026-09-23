@@ -22,8 +22,8 @@ import sys
 APPDATA = os.environ.get("APPDATA") or os.path.expanduser(r"~\AppData\Roaming")
 BEP = os.path.join(APPDATA, "com.kesomannen.gale", "valheim", "profiles", "OSRSheim", "BepInEx")
 # --repo validates the repo's config\ in place, without pushing to the profile first. Use it from a
-# worktree, or whenever another session may be writing the profile. Dumps, and the gen-loot /
-# gen-collection-log --check calls, still read the profile: those two generators write there.
+# worktree, or whenever another session may be writing the profile. Dumps still read the profile;
+# the generators' --check calls always compare loot\*.csv against the repo's config\.
 DBG = os.path.join(BEP, "Debug")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CFG = os.path.join(ROOT, "config") if "--repo" in sys.argv else os.path.join(BEP, "config")

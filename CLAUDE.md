@@ -30,8 +30,8 @@ Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 
 ## Where everything lives
 - Gale profile **OSRSheim**: `%APPDATA%\com.kesomannen.gale\valheim\profiles\OSRSheim`
-- Configs: the repo's `config\` is the source of truth. Edit there, run
-  `scripts\sync-configs.ps1 -Push`, then deploy to the host. Profile and host
+- Configs: the repo's `config\` is the source of truth. Edit (and generate) there, run
+  `scripts\sync-configs.ps1 -Push`; Sven deploys to the host. Profile and host
   are downstream: never edit them first, they get overwritten.
 - Load log: `<profile>\BepInEx\LogOutput.log`. Prefab dumps: `<profile>\BepInEx\Debug\`.
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
