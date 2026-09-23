@@ -11,3 +11,7 @@ rate.Beech1.AxeStone.8,55,trees/hr normal play,ModTest 2026-09-22 Calib: 3.5 tre
 hits.Beech1.AxeStone.40,17.3,hits per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: 19/15/18 at Lumberjacking 40; 42/38/38 s isolated (model 16.9 hits)
 hits.Beech1.AxeStone.80,11.8,swings per tree incl. log + 2 halves,ModTest 2026-09-22 Calib: parse-hits 5 min normal play at Lumberjacking 80 (120 swings / 10.2 trees; 26% of swings split over 2+ objects; falling logs self-damage); 3 isolated trees 14.0 (model 11.7)
 rate.Beech1.AxeStone.80,122,trees/hr normal play,ModTest 2026-09-22 Calib: 10 felled + 31 pieces in 300 s at Lumberjacking 80 incl. 1 death and 1 axe break (model 115)
+cal.stagger_s,2.0,s staggered (hits inside deal x2),ModTest 2026-09-22 Calib: replay of 40 logged Club hits on Boar/Neck/Greydwarf matches 38/40 multipliers at 1.8-2.2 s
+hits.Boar.Club.0,2.4,hits per kill,ModTest 2026-09-22 Calib: parse-hits 3/1/3/2/3; 1 of 5 opened with a backstab (model 2.17 at that share)
+hits.Neck.Club.0,1.2,hits per kill,ModTest 2026-09-22 Calib: parse-hits 2/1/1/1/1; 4 of 5 backstabbed (model 1.12)
+hits.Greydwarf.Club.0,4.4,hits per kill,ModTest 2026-09-22 Calib: parse-hits 4/3/6/6/3; 3 of 5 backstabbed (model 4.38; 5.68 with no backstab)

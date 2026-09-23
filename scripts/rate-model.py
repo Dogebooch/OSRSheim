@@ -7,6 +7,7 @@ r"""Actions/hr from game data (#67). Reads reference\game-data\ (extract-game-da
     python scripts\rate-model.py combat   [--tool Club] [--mob Greydwarf]
     python scripts\rate-model.py swings   seconds per attack for every mapped animation
     common: --levels 0,25,50,100  --quality 1  --stamina 75  --world <save folder>  --json
+    combat: --backstab 0.5  share of kills opened unaware (default CAL)
 
 Output is the ENGAGED rate (swinging at targets) plus travel from density. Every number the files
 cannot give is a named parameter below (CAL); in-game checks in #67 replace them via measured.csv.
@@ -22,6 +23,9 @@ Formulas (decompiled 1.0.15 unless noted):
   swing time        Player_animator state speed x clip events (Speed, hit freeze .15 s, Chain), exit time
   XP/level          .5 x (L+1)^1.5 + .5; weapon +1 per swing that hits (x1.5 on creatures) x step x gain;
                     Mining +1 per rock hit x .5 step; vanilla gain x Global 0.5 (SkillGainModifier)
+  creature hit      first hit on an unalerted mob x m_backstabBonus (once per 300 s); staggering mob x2;
+                    stagger when (blunt+slash+pierce+lightning) x attack stagger mult reaches HP x
+                    m_staggerDamageFactor, then capped there, decaying over 5 s              Character
 """
 import csv
 import json
@@ -53,6 +57,8 @@ CAL = {
     "placement": 0.52,          # realised / attempted vegetation (Beech1 ModTest 20.9 of 40 per zone)
     "engage_s": 3.0,            # per kill: approach, face, dodge, loot
     "refill": 1.0,              # stamina fraction a player waits for once empty
+    "stagger_s": 2.0,           # creature stagger animation: hits landing inside it deal x2
+    "backstab": 0.0,            # share of kills opened on an unalerted mob (x m_backstabBonus); normal play ~0
 }
 
 
@@ -317,15 +323,45 @@ def trees(tool, tree, level, quality, max_stam, world, logs=True, weapon_level=0
             "Lumberjacking xp/hr": round(3600 / per * hits * LUMBER[1], 1)}
 
 
+def kill_sim(it, cr, level, quality, times, n=4000, seed=1):
+    """Monte Carlo hits per kill: rolls, combo last-hit bonus, opening backstab (CAL share), stagger x2."""
+    a, dmg, mods = it["m_attack"], item_damage(it, quality), cr.get("m_damageModifiers")
+    chain = [1.0] * max(1, a.get("m_attackChainLevels", 0))
+    if len(chain) > 1:
+        chain[-1] = a.get("m_lastChainDamageMultiplier", 2.0)
+    hp, thr = cr["m_health"], cr["m_health"] * cr.get("m_staggerDamageFactor", 0)
+    stag_types = ("m_blunt", "m_slash", "m_pierce", "m_lightning")
+    lo, hi = roll_range(level)
+    rng, total = random.Random(seed), 0
+    for _ in range(n):
+        h = k = t = s = 0.0
+        until = -1.0
+        back = it.get("m_backstabBonus", 1.0) if rng.random() < CAL["backstab"] else 1.0
+        k = 0
+        while h < hp:
+            if k:
+                dt = times[(k - 1) % len(times)]
+                t, s = t + dt, max(0.0, s - thr / 5 * dt)
+            m = chain[k % len(chain)] * (back if k == 0 else 1.0) * (2.0 if t < until else 1.0)
+            roll = rng.uniform(lo, hi)
+            h += hit_damage(dmg, mods, roll, m)
+            if thr > 0:
+                s += hit_damage({x: v for x, v in dmg.items() if x in stag_types}, mods, roll, m) * a.get("m_staggerMultiplier", 1.0)
+                if s >= thr:
+                    s = thr
+                    if t >= until:
+                        until = t + CAL["stagger_s"]
+            k += 1
+        total += k
+    return total / n
+
+
 def combat(tool, mob, level, quality, max_stam):
     it, cr = ITEMS[tool], CREATURES[mob]
     sf = level / 100
     a = it["m_attack"]
-    chain = [1.0] * max(1, a.get("m_attackChainLevels", 0))
-    if len(chain) > 1:
-        chain[-1] = a.get("m_lastChainDamageMultiplier", 2.0)
-    hits = hits_to_kill(cr["m_health"], item_damage(it, quality), cr.get("m_damageModifiers"), level, 1.0, chain)
     times = combo(it) or [math.nan]
+    hits = kill_sim(it, cr, level, quality, times)
     cycle = sum(times) / len(times)
     cost = a["m_attackStamina"] * (1 - 0.33 * sf)
     rate, _ = sustained(cycle, cost, max_stam)
@@ -386,6 +422,8 @@ def arg(name, default):
 
 
 def main():
+    if "--backstab" in sys.argv:
+        CAL["backstab"] = float(arg("--backstab", 0))
     mode = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else "summary"
     levels = [int(x) for x in arg("--levels", "0,25,50,100").split(",")]
     q, stam = int(arg("--quality", 1)), float(arg("--stamina", 75 + 20 + 15 + 10))  # base + 3 early foods
