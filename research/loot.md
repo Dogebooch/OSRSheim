@@ -175,11 +175,11 @@ First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
 / `Items Unidentified` / `Materials Drop Ratio = 0`, `Set Item Drop Chance = 0`,
 `Adventure Mode Enabled = true`. `baseconfig\loottables.json`: every table's
 `Drops` is `[[0, 100]]` except the 19 generated unique tables and the #108 sources
-(2-star tier tables at 10%, treasure-map chest rarity rows; `EpicLoot\OSRSheim-NOTES.md`).
+(2-star tier tables at 10%, treasure-map chests `[[1,100]]`, gem 2 / tier pair 1 (#107); `EpicLoot\OSRSheim-NOTES.md`).
 Enchanting table off (`Enabled = false`, `Table Features Active = None`). Effect counts fixed 1/2/3/4
 (Magic..Legendary), `AddCarryWeight` weight 0.
-`rate-model.py magic --chest-share 0.333` (#107 row, frontier map, `revisit_share` 0.1): 37.6 magic items/run,
-1 per 10 h, 2.7 Epic, 0.12 Legendary; superiors 1.9 of them. `--all-maps`: 191, 1 per 2 h.
+`rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 37.2 magic items/run,
+1 per 10 h, 2.6 Epic, 0.12 Legendary; superiors 1.9 of them. `--all-maps`: 190, 1 per 2 h.
 
 Uniques drop as EpicLoot Legendaries: gold beam on the ground, Legendary
 background in the inventory, 2 empty shard slots, durability 20-100%. Verified

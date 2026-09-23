@@ -11336,14 +11336,19 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
+          "Item": "Amber",
+          "Weight": 2.0,
+          "Rarity": null
+        },
+        {
           "Item": "Tier0Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             95.0,
             5.0,
@@ -11355,7 +11360,7 @@
         },
         {
           "Item": "Tier1Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             95.0,
             5.0,
@@ -11373,14 +11378,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier1Everything",
+          "Item": "Amber",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "AmberPearl",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier1Everything",
+          "Weight": 0.5,
           "Rarity": [
             85.0,
             15.0,
@@ -11392,7 +11407,7 @@
         },
         {
           "Item": "Tier2Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             85.0,
             15.0,
@@ -11410,14 +11425,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier2Everything",
+          "Item": "AmberPearl",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Ruby",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier2Everything",
+          "Weight": 0.5,
           "Rarity": [
             75.0,
             25.0,
@@ -11429,7 +11454,7 @@
         },
         {
           "Item": "Tier3Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             75.0,
             25.0,
@@ -11452,14 +11477,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier3Everything",
+          "Item": "Ruby",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Crystal",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier3Everything",
+          "Weight": 0.5,
           "Rarity": [
             70.0,
             30.0,
@@ -11471,7 +11506,7 @@
         },
         {
           "Item": "Tier4Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             70.0,
             30.0,
@@ -11494,14 +11529,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier4Everything",
+          "Item": "Ruby",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Crystal",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier4Everything",
+          "Weight": 0.5,
           "Rarity": [
             65.0,
             34.5,
@@ -11513,7 +11558,7 @@
         },
         {
           "Item": "Tier5Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             65.0,
             34.5,
@@ -11536,14 +11581,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier5Everything",
+          "Item": "Ruby",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Crystal",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier5Everything",
+          "Weight": 0.5,
           "Rarity": [
             55.0,
             35.0,
@@ -11555,7 +11610,7 @@
         },
         {
           "Item": "Tier6Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             55.0,
             35.0,
@@ -11583,14 +11638,24 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
         {
-          "Item": "Tier6Everything",
+          "Item": "Ruby",
           "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Crystal",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Tier6Everything",
+          "Weight": 0.5,
           "Rarity": [
             45.0,
             40.0,
@@ -11602,7 +11667,7 @@
         },
         {
           "Item": "Tier7Everything",
-          "Weight": 1.0,
+          "Weight": 0.5,
           "Rarity": [
             45.0,
             40.0,
@@ -11630,11 +11695,21 @@
       "RefObject": null,
       "Drops": [
         [
-          0.0,
+          1.0,
           100.0
         ]
       ],
       "Loot": [
+        {
+          "Item": "Ruby",
+          "Weight": 1.0,
+          "Rarity": null
+        },
+        {
+          "Item": "Crystal",
+          "Weight": 1.0,
+          "Rarity": null
+        },
         {
           "Item": "Tier7Everything",
           "Weight": 1.0,
