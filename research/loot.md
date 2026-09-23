@@ -224,7 +224,7 @@ the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 
 | ID | Spawn | Biome / key |
 |---|---|---|
-| 500-507 | Superior Greydwarf, Skeleton, Draugr, Wolf, Goblin, Seeker, Charred_Melee, JotunWarrior: `LevelMin/Max = 3`, `UseDefaultLevels = true`, `SetExtraEffect` (e.g. Regenerating), 8% per 900 s check, cap 1 | each biome, gated by the previous boss key |
+| 500-507 | Superior Greydwarf, Skeleton, Draugr, Wolf, Goblin, Seeker, Charred_Melee, JotunWarrior: `LevelMin/Max = 3`, `UseDefaultLevels = true`, `SetExtraEffect` (e.g. Regenerating), 3% per 900 s check, `MaxSpawned = 10` (vanilla counts every loaded instance of the prefab; rolls `min(MaxSpawned, elapsed / interval)` on zone entry) | each biome, gated by the previous boss key |
 | 510 | Wandering Meadows night troll, 20% per 1200 s (~one per 1.7 h of nights), >300 m from center, no HuntPlayer | Meadows, `defeated_eikthyr` |
 | 511 | Fuling scouts, 2-3, night only, 20% per 1200 s, >500 m from center | Black Forest, `defeated_dragon` (Plains loot, BlackMetalScrap) |
 
