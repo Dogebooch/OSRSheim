@@ -33,7 +33,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
-| Rate model | `scriptsate-model.py`; in-game results in `reference\measured.csv` |
+| Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
@@ -255,6 +255,7 @@ four). Item pickups log `Queue unlock msg` on first-ever pickup only.
 | Eikthyr dropped two trophies | `TrophyEikthyr` row in `drops.csv` on top of vanilla | row removed (6 kills, 6 trophies) |
 | Roamer/elite gem odds 3-4x low | lists rolled at the list's class | lists roll at the creature's class |
 | 7 elite uniques never loaded | Item yml without `m_weight` | dumped base weight; validator errors |
+| `skill_none : 0 %` popup on every tree hit | axes still raise vanilla WoodCutting; Lumberjacking's `GetSkill(13)` returns a `None` dummy; BetterUI `XPNotification` prints it | accepted (cosmetic); only lever is `showXPNotifications = false` |
 
 ## 20. Sources
 
