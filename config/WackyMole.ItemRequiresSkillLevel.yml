@@ -1895,7 +1895,7 @@ Requirements:
 - PrefabName: OSRS_ScytheOfVitur
   Requirements:
   - Skill: Polearms
-    Level: 75
+    Level: 70
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3173,7 +3173,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ELITE UNIQUE CLONES (2026-09-21): equip-gated half a tier above the drop biome (#86); no recipe, so BlockCraft false.
-# OSRS_DragonBattleaxe sits at Axes 75: #86 puts each rare half a tier above its drop biome.
+# OSRS_DragonBattleaxe sits at Axes 70: #86 half-tier rule, capped at the 70 main-run line (#81).
 - PrefabName: OSRS_HillGiantClub
   Requirements:
   - Skill: Clubs
@@ -3231,7 +3231,7 @@ Requirements:
 - PrefabName: OSRS_DragonBattleaxe
   Requirements:
   - Skill: Axes
-    Level: 75
+    Level: 70
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
