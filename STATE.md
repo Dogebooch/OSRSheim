@@ -19,12 +19,13 @@ Quest pass STAGED: `staging\quest-pass\apply-quest-pass.ps1` (57 story quests,
 decide the whole Alchemy ladder · #21 biome oaths, which need
 Sigrun + 9 waystones placed (Hammer templates) and `pos` at each (rules in the teleporter cfg;
 `set-waystone.py` fills them in) · #22 riddle-stones · #23 collection log ·
-#14 segments measured (§7), rate call open · #9 handbook.
+#9 handbook.
 Still unseen and unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
 Sailing gates (§6, §7), DistancedUI (§11).
-Loot rebalance (§7: lists at creature class, coin curve, nest class) not on the host yet.
+Loot rebalance (§7: lists at creature class, coin curve, nest class) and #14 object
+rates (skilling pets at OSRS hours, crypt chest vanilla) not on the host yet.
 
 ## Gielheim (Doug plays and reports)
 1. **Throwaway world first** (~20 s in-world): extract location YAML. Review
