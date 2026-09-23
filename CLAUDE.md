@@ -53,7 +53,8 @@ Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 - Memory files follow the same rules. Cleanup pass only when Doug asks.
 
 ## Rules
-- Mod list frozen until Gielheim exists: no installs. Pin mod versions in
+- Mod list frozen until Gielheim exists: no installs
+  (exception: Quick Stack Store, #46). Pin mod versions in
   Gale; never mass-update. After a Valheim patch: BepInEx,
   then Jötunn, then mods one at a time, launching between each. Install
   updates through Gale, never by swapping DLLs.
