@@ -358,6 +358,7 @@ class World:
                 k, v = (x.strip() for x in s.split(':', 1))
                 if k in ('Level', 'BlockCraft', 'BlockEquip'):
                     cur['reqs'][-1][k] = v
+        self.capes = {g['prefab']: [r['skill'] for r in g['reqs']] for g in gates if g['prefab'].startswith('OSRS_Cape')}
         out = []
         for g in gates:
             for r in g['reqs']:
@@ -868,13 +869,13 @@ class Run:
                     pl.events.append((t + 1.0, 2, f'bounty {bb}'))
                     self.roll(x['TargetID'], 1, frozenset(keys), 3, t + 1.0, 0.0, [pl], bb)
                     self.magic_roll(x['TargetID'], 3, t + 1.0, pl)
-            # skillcapes at 100
+            # skillcapes: every WIRSL requirement at 100, KG trader price
             if self.p('rule.capes'):
-                for s in list(pl.xp):
-                    cape = f'OSRS_Cape{s}'
-                    if pl.level(s) >= 100 and not pl.has.get(cape) and pl.coins >= 5000:
-                        pl.coins -= 5000
-                        pl.flow['out: skillcapes'] += 5000
+                for cape, skills in W.capes.items():
+                    price = W.prices['buy'].get(cape, 5000)
+                    if not pl.has.get(cape) and pl.coins >= price and all(pl.level(s) >= 100 for s in skills):
+                        pl.coins -= price
+                        pl.flow['out: skillcapes'] += price
                         pl.gain(cape, 1, t, W, tier=4)
             # gambling above the reserve
             g = self.p('rule.gamble_share')
