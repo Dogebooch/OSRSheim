@@ -69,7 +69,7 @@ Method and results: issue #67.
 | 1. Edit | repo `config/` (or `loot/` + generator) |
 | 2. Push to the Gale profile | `scripts\sync-configs.ps1 -Push` |
 | 3. Pre-flight | `python scripts\post-build-check.py` |
-| 4. Test | ModTest world |
+| 4. Test | ModTest (`-Push -Solo`) |
 | 5. Deploy | host ([§15](RESEARCH.md#15-server-setup)) |
 
 Profile and host are downstream; edits there get overwritten.

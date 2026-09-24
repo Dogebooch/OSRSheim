@@ -629,7 +629,7 @@ if yaml:
 # ---------------------------------------------------------------- reminders
 mp = read(os.path.join(CFG, "MarketplaceAndServerNPCs.cfg"))
 m = re.search(r"^Use Marketplace Locally = (\w+)", mp, re.M)
-print(f"note   KG 'Use Marketplace Locally' = {m.group(1) if m else '?'} (true for solo ModTest, false once the server exists)")
+print(f"note   KG 'Use Marketplace Locally' = {m.group(1) if m else '?'} (false joins the host; sync-configs -Push -Solo sets true for ModTest)")
 cl = read(os.path.join(CFG, "org.bepinex.plugins.creaturelevelcontrol.cfg"))
 print("note   CLLC item yaml:", re.search(r"^Use item configuration yaml = (\w+)", cl, re.M).group(1))
 

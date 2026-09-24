@@ -206,7 +206,7 @@ weight 0.1 stack 50.
 - `gen-mods.py --verify` checks host versions. ServerSync'd: Smoothbrain skills, CLLC,
   WIRSL, EpicLoot, AzuEPI, WackysDatabase, MWL, Trolling Fishing; Drop That clients
   pull the host's configs.
-- Open: KG `Use Marketplace Locally = false`; `adminlist.txt` has `V_76561198092453267`
+- Open: `adminlist.txt` has `V_76561198092453267`
   only, add Doug (76561198855908341).
 - Backups: host `worlds_local\` + Gale profile; stop via the panel.
 

@@ -13,7 +13,9 @@ Only the physical NPC needs the in-game Marketplace Hammer (admin).
 `Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`,
 `AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `CanTeleportWithOre =
 false` (the waystones must not carry metal either, §15), `Use Marketplace Locally
-= true` (flip to false only once the server exists). Banker interest off.
+= false` (clients of the host; `sync-configs.ps1 -Push -Solo` writes true for ModTest). Banker interest off.
+KG mode (DLL-read): headless = Server, flag unread; else true = Both (own server half,
+own `SavedData\DB.db`), false = Client.
 `DistancedUI` on: `Dialogues = handbook`, `InfoProfiles = gielheim_guide`, every
 other list empty, marketplace and mail off (open key unverified).
 
