@@ -21,9 +21,8 @@ https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins
 ## Needs a live world (issues carry the checklists)
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
 the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
-#9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
-#83 weapon XP per hit (one nest run) ·
-#41 `Skill_EXP: Farming` hits the Smoothbrain skill.
+#118 superiors and wanderers · #114 weapon skill at each boss kill · #141 balance checks
+(Farming XP, handbook, stars, Deep North smithing).
 Coin purses 2-4x targets (coin pass).
 09-23 log errors: #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
