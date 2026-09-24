@@ -691,8 +691,11 @@ class Run:
         total = sum(kills.values())
         # natural two-stars roll the EpicLoot level-3 table like superiors do
         for c, n in kills.items():
-            for _ in range(poisson(self.rng, n * W.star2)):
+            k = poisson(self.rng, n * W.star2)
+            for _ in range(k):
                 self.magic_roll(c, 3, t0 + self.rng.random() * h, self.rng.choice(pls))
+            for pl in pls:                             # two-star contracts accept these too (Kill level >= 3)
+                pl.kills['*' + c] += k
         # weapon, blocking, evasion XP (each player lands 1/len(pls) of the hits)
         for pl in pls:
             hits = sum(n * W.hits(biome, c, pl.level('Swords')) for c, n in kills.items()) * hp_mult / len(pls)
@@ -1009,7 +1012,7 @@ class Run:
                 if f'slayer:{q.qid}' in pl.contracts or not all(k in self.keys for k in q.keys):
                     continue
                 name, n, stars = q.targets[0]
-                if stars and name not in {s['PrefabName'] for s in W.sup_rows}:
+                if stars and name not in killable and name not in {s['PrefabName'] for s in W.sup_rows}:
                     continue
                 if not stars and name not in killable:
                     continue

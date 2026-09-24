@@ -119,7 +119,7 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 | Dropper | Prefab (display) | Base, twist | OSRS rate |
 |---|---|---|---|
 | Troll | OSRS_HillGiantClub (Troll's knucklebone) | MaceBronze, dmg 1.29 (secondary 3.225), speed 0.9, stagger 1.5 (secondary 3.0) | 1/256 |
-| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, dmg 1.18 (secondary 3.54), speed 1.1 | 1/256 (nest class) |
+| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, dmg 1.18 (secondary 3.54); speed from its legendary only | 1/256 (nest class) |
 | StoneGolem | OSRS_GraniteMaul (Golemheart hammer) | SledgeIron, dmg 1.55, stagger 1.5 (primary 3.0), force 1.5 | 1/256 |
 | GoblinBrute | OSRS_DragonHalberd (Warlord's glaive) | AtgeirBlackmetal, dmg 1.1, speed 0.95 | 1/256 |
 | Gjall | OSRS_CrystalBow (Gjall-gut bow) | BowSpineSnap, dmg 1.1 | 1/256 |

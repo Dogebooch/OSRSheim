@@ -22,7 +22,7 @@ https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
 the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
 #118 superiors and wanderers · #114 weapon skill at each boss kill · #141 balance checks
-(Farming XP, handbook, stars, Deep North smithing).
+(Farming XP, handbook, stars, Deep North smithing) · waystone rows, Wolf pet, cloak dumps.
 Coin purses 2-4x targets (coin pass).
 09-23 log errors: #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames

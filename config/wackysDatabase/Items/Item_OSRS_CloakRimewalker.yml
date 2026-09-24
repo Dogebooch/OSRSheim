@@ -1,5 +1,5 @@
 # OSRSheim riddle-stone reward (2026-09-21): casket-only cosmetic, never sold, never craftable.
-# Stats stripped: armor 0, no SE_Equip, all modifiers 0, no durability, quality 1. No WIRSL gate.
+# Stats stripped: armor 0, no SE_Equip, all modifiers 0, damageModifiers cleared, no durability, quality 1. No WIRSL gate.
 # Wearable over real armor through the AzuEPI vanity panel.
 name: OSRS_CloakRimewalker
 clonePrefabName: CapeWolf
@@ -25,3 +25,4 @@ Moddifiers:
   m_swimStaminaModifier: 0
   m_sneakStaminaModifier: 0
   m_runStaminaModifier: 0
+damageModifiers: []
