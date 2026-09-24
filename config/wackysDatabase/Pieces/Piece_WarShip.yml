@@ -8,6 +8,5 @@ build:
   - ClothShip:4:0:true
   - CaulkedWood:50:0:true
   - IronNails:120:0:true
-  - ShipRope:2:0:true
   - OSRS_KeelYagluth:1:0:false
   - OSRS_KeelQueen:1:0:false
