@@ -7,7 +7,7 @@ m_description: A golem's core set in iron. Everything it lands on is thrown back
 m_weight: 4             # SledgeIron base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   DmgMultiplier: 1.55
-  StaggerMultiplier: 1.5
+  StaggerMultiplier: 3.0   # absolute in wackydb: base 2.0 x 1.5
   ForceMultiplier: 1.5
 Secondary_Attack:
   DmgMultiplier: 1.55

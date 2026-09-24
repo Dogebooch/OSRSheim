@@ -9,6 +9,6 @@ Primary_Attack:
   DmgMultiplier: 1.13
   Custom_AttackSpeed: 1.1
 Secondary_Attack:
-  DmgMultiplier: 1.13
+  DmgMultiplier: 2.825   # absolute in wackydb: base 2.5 x 1.13
   Custom_AttackSpeed: 1.1
 # #86: blunt 135 -> 152, half a tier above Ashlands (Eldner 135 / Gold 170).
