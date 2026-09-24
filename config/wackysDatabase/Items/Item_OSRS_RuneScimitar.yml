@@ -9,6 +9,6 @@ Primary_Attack:
   DmgMultiplier: 1.18
   Custom_AttackSpeed: 1.1
 Secondary_Attack:
-  DmgMultiplier: 1.18
+  DmgMultiplier: 3.54   # absolute in wackydb: base 3.0 x 1.18
   Custom_AttackSpeed: 1.1
 # #86: slash 55 -> 65, half a tier above Swamp.

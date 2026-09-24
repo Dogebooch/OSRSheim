@@ -77,6 +77,24 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     if re.search(r"^Primary_Attack:", t, re.M) and not re.search(r"^Secondary_Attack:", t, re.M):
         err(f"wackydb {os.path.basename(f)}: Primary_Attack without Secondary_Attack "
             f"(WackysDatabase dereferences Secondary_Attack unguarded; the item's data is dropped)")
+# wackydb attack multipliers are absolute (they replace the base's m_*Multiplier), so a
+# relative twist must be written as base x twist. Below the base = the special got nerfed.
+_base = json.load(open(os.path.join(REF, "game-data", "items.json"), encoding="utf-8"))
+_mults = {"DmgMultiplier": "m_damageMultiplier", "StaggerMultiplier": "m_staggerMultiplier",
+          "ForceMultiplier": "m_forceMultiplier"}
+for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
+    t = read(f)
+    m = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
+    if not m or m.group(1) not in _base: continue
+    for blk, key in (("Primary_Attack", "m_attack"), ("Secondary_Attack", "m_secondaryAttack")):
+        body = re.search(rf"^{blk}:[ \t]*\r?\n((?:[ \t]+.*\r?\n?)*)", t, re.M)
+        atk = _base[m.group(1)].get(key)
+        if not body or not atk: continue
+        for k, bk in _mults.items():
+            v = re.search(rf"^[ \t]+{k}:\s*([\d.]+)", body.group(1), re.M)
+            if v and float(v.group(1)) < atk.get(bk, 0):
+                err(f"wackydb {os.path.basename(f)}: {blk} {k} {v.group(1)} is below "
+                    f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
 if len(clones) != 84:

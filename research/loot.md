@@ -118,16 +118,16 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 ### Elite uniques (EpicLoot Legendary, elite class x16) and crystal chest
 | Dropper | Prefab (display) | Base, twist | OSRS rate |
 |---|---|---|---|
-| Troll | OSRS_HillGiantClub (Troll's knucklebone) | MaceBronze, speed 0.9, stagger 1.5 | 1/256 |
-| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, speed 1.1 | 1/256 (nest class) |
-| StoneGolem | OSRS_GraniteMaul (Golemheart hammer) | SledgeIron, stagger 1.5, force 1.5 | 1/256 |
+| Troll | OSRS_HillGiantClub (Troll's knucklebone) | MaceBronze, dmg 1.29 (secondary 3.225), speed 0.9, stagger 1.5 (secondary 3.0) | 1/256 |
+| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, dmg 1.18 (secondary 3.54), speed 1.1 | 1/256 (nest class) |
+| StoneGolem | OSRS_GraniteMaul (Golemheart hammer) | SledgeIron, dmg 1.55, stagger 1.5 (primary 3.0), force 1.5 | 1/256 |
 | GoblinBrute | OSRS_DragonHalberd (Warlord's glaive) | AtgeirBlackmetal, dmg 1.1, speed 0.95 | 1/256 |
 | Gjall | OSRS_CrystalBow (Gjall-gut bow) | BowSpineSnap, dmg 1.1 | 1/256 |
-| Morgen | OSRS_AbyssalBludgeon (Morgen's cudgel) | MaceEldner, speed 1.1 | 1/256 |
+| Morgen | OSRS_AbyssalBludgeon (Morgen's cudgel) | MaceEldner, dmg 1.13 (secondary 2.825), speed 1.1 | 1/256 |
 | JotunWarrior | OSRS_DragonBattleaxe (Giantsbane axe) | AxeJotunBane, slash 170, poison 0, dmg 1.1 (secondary 1.65), stagger 1.3 | 1/256 |
 
 Sleeping / DualWield / NonSleeping variants carry the same row. Twists are
-relative multipliers (no base dumps for these bases). Crystal chest:
+relative; wackydb multipliers are absolute (base x twist). Crystal chest:
 `OSRS_LoopHalfKey` (Chain clone) + `OSRS_ToothHalfKey` (Needle clone) forge
 at Gullveig into `OSRS_CrystalKey` (Crystal clone); the Gambler's
 `crystal_chest` takes one key and pays one of 8 uniform prizes (§11).

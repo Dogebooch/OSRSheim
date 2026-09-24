@@ -10,7 +10,7 @@ Primary_Attack:
   Custom_AttackSpeed: 0.9
   StaggerMultiplier: 1.5
 Secondary_Attack:
-  DmgMultiplier: 1.29
+  DmgMultiplier: 3.225   # absolute in wackydb: base 2.5 x 1.29
   Custom_AttackSpeed: 0.9
-  StaggerMultiplier: 1.5
+  StaggerMultiplier: 3.0   # absolute in wackydb: base 2.0 x 1.5
 # #86: blunt 35 -> 45, half a tier above Black Forest (Bronze 35 / Iron 55).
