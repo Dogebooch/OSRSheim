@@ -1023,7 +1023,8 @@ class Run:
         pls = self.players
         extra = int(self.p('rule.boss_extra', biome))
         for k in range(1 + extra):
-            tt = t + k * self.p('rate.boss_fight_h')
+            # the last boss's repeat kills land inside the run, not after RUN_H
+            tt = t + (k - extra * (idx_phase == len(BIOMES) - 1)) * self.p('rate.boss_fight_h')
             self.roll(b, 1, frozenset(self.keys), 1, tt, 0.0, pls, biome)
             self.boss_kills[b] += 1
             for pl in pls:

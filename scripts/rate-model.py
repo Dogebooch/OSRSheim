@@ -453,7 +453,7 @@ def fraction(p):
 
 
 def objects(quality, max_stam, write=False):
-    """Solve every pet/curio/gem row in loot\objects.csv to a per-hour target at the modelled rate."""
+    r"""Solve every pet/curio/gem row in loot\objects.csv to a per-hour target at the modelled rate."""
     path = ROOT / "loot" / "objects.csv"
     lines = open(path, encoding="utf-8", newline="").read().splitlines()
     head, out, rows, cache = lines[0].split(","), [lines[0]], [], {}
