@@ -81,8 +81,9 @@ capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
 WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
 `GetSkillLevel`, buffs included (Wizardry Skillful potion +8 all skills, 15 min).
-**Unverified:** skill name `Alchemy`. Which skill each vanilla staff uses
-(`StaffOrbofAhri`: wikis disagree); check `m_skillType` in a wackydb dump.
+`GlobalKeyReq` without WAP = `ZoneSystem.CheckKey(key, GameKeyType.Player)`: the player's own key (KG `AddPlayerKey`).
+Staff skill = game-data `m_skillType` (9 Elemental, 10 Blood): GreenRoots, ThunderBlood Elemental; FrostOrbs, OrbofAhri Blood.
+**Unverified:** skill name `Alchemy`.
 
 ## 8. Custom items (WackysDatabase)
 
@@ -105,7 +106,7 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
 - Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
 - `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.
-- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat) + EpicLoot `Andvaranaut` (Secret Stash) and `GoldRubyRing`/`SilverRing` (magic drops; forge recipes off). Wizardry rings: Utility type, armor 10, craft Blacksmithing (BlockEquip false), ArcaneAnvil_TW:
+- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat) + EpicLoot `Andvaranaut` (Secret Stash) and `GoldRubyRing`/`SilverRing` (no live source: forge recipes off, loot set `ModUtility` unused). Wizardry rings: Utility type, armor 10, craft Blacksmithing (BlockEquip false), ArcaneAnvil_TW:
 
 | Ring | Effect | Bsmith | Anvil | Shard |
 |---|---|---|---|---|

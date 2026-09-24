@@ -1833,39 +1833,40 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
-## ?? UNVERIFIED — could be ElementalMagic
+# game-data m_skillType 9 = ElementalMagic
 - PrefabName: StaffGreenRoots
   Requirements:
-  - Skill: BloodMagic
+  - Skill: ElementalMagic
     Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+# game-data m_skillType 10 = BloodMagic
 - PrefabName: StaffFrostOrbs
   Requirements:
-  - Skill: ElementalMagic
+  - Skill: BloodMagic
     Level: 70
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
-## ?? UNVERIFIED
+# game-data m_skillType 10 = BloodMagic
 - PrefabName: StaffOrbofAhri
   Requirements:
-  - Skill: ElementalMagic
+  - Skill: BloodMagic
     Level: 70
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
-## ?? UNVERIFIED — name says Blood, effect says Lightning
+# game-data m_skillType 9 = ElementalMagic
 - PrefabName: StaffThunderBlood
   Requirements:
-  - Skill: BloodMagic
+  - Skill: ElementalMagic
     Level: 70
     BlockCraft: true
     BlockEquip: true

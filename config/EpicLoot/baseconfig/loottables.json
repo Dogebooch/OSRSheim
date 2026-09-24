@@ -2373,18 +2373,6 @@
             0.0,
             0.0
           ]
-        },
-        {
-          "Item": "Odins_Alchemy_Wand",
-          "Weight": 1.0,
-          "Rarity": [
-            80.0,
-            14.0,
-            4.0,
-            2.0,
-            0.0,
-            0.0
-          ]
         }
       ]
     },
@@ -3667,18 +3655,6 @@
             5.0,
             0.0
           ]
-        },
-        {
-          "Item": "Odins_Dragon_Staff",
-          "Weight": 1.0,
-          "Rarity": [
-            0.0,
-            15.0,
-            60.0,
-            20.0,
-            5.0,
-            0.0
-          ]
         }
       ]
     },
@@ -3799,30 +3775,6 @@
         },
         {
           "Item": "ArmorSpellslingerLegs_Plains_TW",
-          "Weight": 1.0,
-          "Rarity": [
-            0.0,
-            15.0,
-            60.0,
-            20.0,
-            5.0,
-            0.0
-          ]
-        },
-        {
-          "Item": "Odins_Wizard_Hat",
-          "Weight": 1.0,
-          "Rarity": [
-            0.0,
-            15.0,
-            60.0,
-            20.0,
-            5.0,
-            0.0
-          ]
-        },
-        {
-          "Item": "Odins_Warlock_Hat",
           "Weight": 1.0,
           "Rarity": [
             0.0,
