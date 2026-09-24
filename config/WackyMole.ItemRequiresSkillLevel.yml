@@ -1986,6 +1986,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill: Alchemy
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
 - PrefabName: OSRS_CapeAgility
   Requirements:
   - Skill: Evasion
@@ -2172,6 +2179,13 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
   - Skill: Foraging
+    Level: 100
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+  - Skill: Alchemy
     Level: 100
     BlockCraft: false
     BlockEquip: true

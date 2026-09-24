@@ -51,7 +51,7 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
   50 on the armor split. Rings craft Blacksmithing 15 / 20 / 30 / 40 / 50, equip ungated.
 - Unarmed ladder 30-70.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
-- Skillcapes: skill 100 (max cape ANDs all 23 skills).
+- Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills.
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
   Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
   `_Charge` from the DLL only.
