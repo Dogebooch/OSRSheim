@@ -175,11 +175,11 @@ First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
 / `Items Unidentified` / `Materials Drop Ratio = 0`, `Set Item Drop Chance = 0`,
 `Adventure Mode Enabled = true`. `baseconfig\loottables.json`: every table's
 `Drops` is `[[0, 100]]` except the 19 generated unique tables and the #108 sources
-(2-star tier tables at 10%, treasure-map chests `[[1,100]]`, gem 2 / tier pair 1 (#107); `EpicLoot\OSRSheim-NOTES.md`).
+(2-star tier tables at 4%, treasure-map chests `[[1,100]]`, gem 2 / tier pair 1 (#107); `EpicLoot\OSRSheim-NOTES.md`).
 Enchanting table off (`Enabled = false`, `Table Features Active = None`). Effect counts fixed 1/2/3/4
 (Magic..Legendary), `AddCarryWeight` and `CoinHoarder` weight 0; Haldor's Megingjord is the vanilla exception to #17.
-`rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 37.2 magic items/run,
-1 per 10 h, 2.6 Epic, 0.12 Legendary; superiors 1.9 of them. `--all-maps`: 190, 1 per 2 h.
+`rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 36.1 magic items/run,
+1 per 10 h, 2.6 Epic, 0.12 Legendary; superiors 0.76 of them. Natural two-stars (CLLC 1%) add ~0.04% a kill (`sim-run.py`). `--all-maps`: 190, 1 per 2 h.
 
 Chest gems (`rate-model.py magic` maps x gem share, frontier map, per player), against one set of 6 jewellery pieces
 (Amber 5, AmberPearl 2, Ruby 6, Crystal 3):
@@ -252,8 +252,8 @@ the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 
 Biome enum: Meadows, BlackForest, Swamp, Mountain, Plains, Mistlands,
 AshLands, DeepNorth. Their loot is the superiors file (§7), which fails closed
-if CLLC clamps the level. Fallback if superiors spawn at zero stars: CLLC
-`Maximum stars = Two` with all star chances 0.
+if CLLC clamps the level. Every superior loot row has a `[<Creature>.2xx.SpawnThat]`
+`ConditionTemplateId = osrsheim_superior` subsection (500-507 `TemplateId`), so natural two-stars drop none of it.
 
 `ConditionAltitudeMin` = the prefab's vanilla world-spawner value (0; Draugr -1.5, Charred_Melee 1); Spawn That's default -1000 spawns under water.
 `SpawnDistance` = no other spawn of the same prefab within range. 0 on 500-507

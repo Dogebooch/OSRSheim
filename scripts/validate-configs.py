@@ -170,6 +170,8 @@ for f in glob.glob(os.path.join(CFG, "drop_that.character_drop*.cfg")):
         if m:
             sec = m.group(1)
             head, _, idx = sec.partition(".")
+            # [Creature.N.SpawnThat]: Drop That's Spawn That condition subsection (superior template)
+            if idx.endswith(".SpawnThat"): continue
             if idx:
                 try: n = int(idx)
                 except ValueError: err(f"{base}: bad section {sec}"); continue
@@ -560,6 +562,8 @@ try:
         opts = spawns[f'WorldSpawner.{sid}']
         if opts.get('requiredglobalkey') != key:
             err(f'WorldSpawner.{sid}: wrong boss gate')
+        if opts.get('templateid') != superior_spec['TEMPLATE']:
+            err(f'WorldSpawner.{sid}: TemplateId is not {superior_spec["TEMPLATE"]}')
         if (opts.getint('spawninterval') != superior_spec['SPAWN_INTERVAL'] or opts.getfloat('spawnchance') != superior_spec['SPAWN_CHANCE']
                 or opts.getint('maxspawned') != superior_spec['MAX_SPAWNED']):
             err(f'WorldSpawner.{sid}: superior rates differ from update-superiors.py (test rates still active?)')
@@ -568,6 +572,13 @@ try:
             if not section.startswith(creature + '.'):
                 continue
             d = drops[section]
+            if section.endswith('.SpawnThat'):
+                if d.get('conditiontemplateid') != superior_spec['TEMPLATE']:
+                    err(f'{section}: ConditionTemplateId is not {superior_spec["TEMPLATE"]}')
+                continue
+            # natural two-stars exist (CLLC Custom 9/1): only the Spawn That template may drop superior loot
+            if f'{section}.SpawnThat' not in drops.sections():
+                err(f'{section}: no [{section}.SpawnThat] ConditionTemplateId subsection')
             if int(section.split('.')[1]) < 200 or d.get('conditionglobalkeys') != key or d.getint('conditionminlevel', 0) != 3 or d.getint('conditionmaxlevel', 0) != 3 or d.get('conditionnotcreaturestates') != 'Tamed':
                 err(f'{section}: missing superior eligibility condition or reserved ID')
             if d.getboolean('scalebylevel', True) or d.getboolean('droponeperplayer', True) or not 1 <= d.getint('amountmin') <= d.getint('amountmax') <= 100 or not 0 < d.getfloat('chancetodrop') <= 100:
@@ -606,7 +617,7 @@ def unique_table(t):
     loot = t.get("Loot") or []
     return len(loot) == 1 and loot[0].get("Item") in clones and loot[0].get("Rarity") == [0, 0, 0, 1, 0, 0]
 uniq = [t for t in lt["LootTables"] if unique_table(t)]
-# #108 magic-item sources: 2-star (superior) roll on the tier tables + JotunWarrior, and the treasure-map chests (#107).
+# #108 magic-item sources: 2-star roll (4%: superiors and CLLC's natural 1%) on the tier tables + JotunWarrior, and the treasure-map chests (#107).
 EL_2STAR = {f"Tier{i}Mob" for i in range(10)} | {"JotunWarrior"}
 def allowed(t):
     if t["Object"].startswith("TreasureMapChest_"):
@@ -617,7 +628,7 @@ for t in lt["LootTables"]:
     if unique_table(t) or allowed(t): continue
     if t["Object"] in EL_2STAR and not t.get("Loot"):
         for x in t.get("LeveledLoot") or []:
-            if x["Level"] == 3 and x["Drops"] == [[0, 90], [1, 10]]:
+            if x["Level"] == 3 and x["Drops"] == [[0, 96], [1, 4]]:
                 if any((l.get("Rarity") or [0])[4:] != [0, 0] for l in x["Loot"]):
                     err(f"EpicLoot {t['Object']} level 3: Mythic/Ancient must be 0")
                 x = {**x, "Drops": []}
