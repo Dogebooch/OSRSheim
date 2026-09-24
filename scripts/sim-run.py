@@ -311,6 +311,10 @@ class World:
                     sell[a] = max(sell.get(a, 0), m / n)
                 elif a == 'Coins':
                     buy.setdefault(b, n / m)
+        # dialogue sales (skillcapes at Verdandi): `RemoveItem, Coins, N | GiveItem, <item>, 1, 1`
+        for f in sorted((KG / 'Dialogues').glob('*.cfg')):
+            for m in re.finditer(r'RemoveItem, Coins, (\d+) \| Command: GiveItem, (\w+), 1, 1', read(f)):
+                buy.setdefault(m.group(2), float(m.group(1)))
         return {'sell': sell, 'buy': buy}
 
     def load_gamblers(self):
@@ -879,6 +883,15 @@ class Run:
                         pl.coins -= price
                         pl.flow['out: skillcapes'] += price
                         pl.gain(cape, 1, t, W, tier=4)
+            # vanity tailor (Verdandi): one piece once the purse holds rule.vanity_margin x its price
+            m = self.p('rule.vanity_margin')
+            if m > 0:
+                for item, price in W.prices['buy'].items():
+                    if item.startswith('OSRS_Vanity') and not pl.has.get(item) and pl.coins >= price * m:
+                        pl.coins -= price
+                        pl.flow['out: vanity'] += price
+                        pl.has[item] += 1
+                        break
             # gambling above the reserve
             g = self.p('rule.gamble_share')
             if g > 0 and pl.coins > self.p('rule.coin_reserve'):

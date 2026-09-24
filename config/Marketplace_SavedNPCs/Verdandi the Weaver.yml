@@ -2,7 +2,7 @@ isPinned: false
 main:
   Type: Trader
   NameOverride: Verdandi the Weaver
-  Profile: skillcape_shop
+  Profile: vanity_tailor
   Prefab: ''
   Dialogue: wise_old_man
   PinIcon: ''

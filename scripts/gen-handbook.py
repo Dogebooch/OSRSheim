@@ -4,20 +4,30 @@ r"""Generate the in-game handbook (a KG Marketplace dialogue tree) from loot\*.c
     python scripts\gen-handbook.py            write Dialogues\osrsheim_handbook.cfg
     python scripts\gen-handbook.py --check    exit 0 = cfg matches the tables, 1 = stale
 
-Pages: [handbook] root (Gielheim Guide NPC, also DistancedUI) -> bestiary -> biome -> creature.
+Pages: [handbook] root (Gielheim Guide NPC, also DistancedUI) -> bestiary -> biome -> creature,
+and -> skills -> skill -> level (the skill guide).
 A creature page lists every modded drop with the chance the player actually gets: csv chance x the
 owner's class multiplier, the same maths as gen-loot.py. Shared gem / rare tables are merged in, superior
 bonus loot (update-superiors.py ROWS) gets a sub-page. Vanilla drops are untouched and not listed.
 Every drop line is tinted by rarity (TIERS); the bestiary page carries the key.
 Names: creatures.csv `display` (variants with identical drops share one page), collection-log.csv
 `display`, VANILLA below; an unnamed item fails the run.
+Skill guide: every WIRSL gate (config\WackyMole.ItemRequiresSkillLevel.yml) grouped by skill and level, the
+Smoothbrain level perks (PERKS) and every quest whose condition line holds `SkillMore`. A level row is lit
+by `SkillMore, <skill>, <level>` (KG resolves Smoothbrain names by hash) and red with KG's reason when not;
+KG localises reply text, so an item with no English name here shows its `$item_` token translated in game.
+Skillcapes: [skillcape_buy] (Verdandi only, not DistancedUI) sells each cape at 100 in every skill its WIRSL
+entry names: `RemoveItem, Coins, N | GiveItem, <cape>, 1, 1` (GiveItem needs all four fields).
 Writes to the repo config\ (source of truth); push with scripts\sync-configs.ps1 -Push.
 """
 import csv
 import importlib.util
+import json
 import re
 import sys
 from pathlib import Path
+
+import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 LOOT = ROOT / 'loot'
@@ -108,6 +118,125 @@ def drop_rows(names, rows, mult, loot):
     return out
 
 
+WIRSL = ROOT / 'config/WackyMole.ItemRequiresSkillLevel.yml'
+QUESTS = ROOT / 'config/Marketplace/Configs/Quests'
+GAME_ITEMS = ROOT / 'reference/game-data/items.json'
+CAPE_PRICE, MAX_CAPE_PRICE = 5000, 25000
+SKILL_ORDER = ['Swords', 'Clubs', 'Axes', 'Polearms', 'Spears', 'Knives', 'Unarmed', 'Blocking', 'Bows', 'Crossbows',
+               'ElementalMagic', 'BloodMagic', 'Mining', 'Lumberjacking', 'Fishing', 'Cooking', 'Farming', 'Foraging',
+               'Alchemy', 'Blacksmithing', 'Building', 'Sailing', 'Ranching', 'Exploration', 'Evasion']
+SKILL_LABEL = {'ElementalMagic': 'Elemental magic', 'BloodMagic': 'Blood magic', 'Alchemy': 'Alchemy (Herblore)'}
+# Smoothbrain level thresholds (config\org.bepinex.plugins.<skill>.cfg) and hull helms (sailing.cfg, research §6).
+PERKS = {
+    'Sailing': [(5, 'Karve paddle'), (10, 'Karve half sail'),
+                (15, 'Karve full sail / Longship paddle / Merchant and Cargo paddle'),
+                (20, 'Longship half sail / Merchant and Cargo half sail / Big Cargo paddle'), (25, 'War Ship paddle'),
+                (30, 'Longship full sail / Drakkar paddle / Merchant and Cargo full sail / Big Cargo half sail'),
+                (35, 'War Ship half sail'), (40, 'Drakkar half sail / Big Cargo full sail'), (45, 'War Ship full sail'),
+                (50, 'Drakkar full sail')],
+    'Exploration': [(20, 'write to a cartography table'), (40, 'read a cartography table')],
+    'Farming': [(30, 'see crop growth'), (50, 'plant crops in any biome')],
+    'Ranching': [(10, 'see tame hunger'), (20, 'animals stay calm while taming'), (40, 'see pregnancy'),
+                 (50, 'offspring can be one level higher')],
+    'Blacksmithing': [(10, 'counts as a workbench upgrade'), (20, 'counts as a second workbench upgrade'),
+                      (30, 'counts as a forge upgrade'), (40, 'counts as a second forge upgrade'),
+                      (50, 'counts as a black forge and galdr upgrade'),
+                      (60, 'counts as a second black forge and galdr upgrade'),
+                      (70, 'repair from the inventory'), (80, 'one extra upgrade level')],
+    'Cooking': [(50, 'a chance of perfect food')],
+    'Mining': [(50, 'deposits can burst apart')],
+    'Foraging': [(30, 'see when a bush regrows')],
+    'Building': [(30, 'hammer wear -30%'), (50, 'a chance of free building pieces')],
+}
+
+
+def skill_label(s):
+    return SKILL_LABEL.get(s, s)
+
+
+def game_name(prefab, names, tokens):
+    if prefab in names:
+        return names[prefab]
+    if prefab in tokens:
+        return tokens[prefab]
+    return re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', re.sub(r'_TW$', '', prefab)).replace('_', ' ')
+
+
+def wirsl():
+    return yaml.safe_load(WIRSL.read_text(encoding='utf-8-sig'))['Requirements']
+
+
+def quest_gates():
+    """(skill, level, quest title) for every quest whose condition line needs a skill level."""
+    out = []
+    for f in sorted(QUESTS.glob('*.cfg')):
+        for b in re.split(r'\n(?=\[)', f.read_text(encoding='utf-8-sig').replace('\r\n', '\n')):
+            lines = [l.strip() for l in b.split('\n') if l.strip() and not l.lstrip().startswith('#')]
+            if not lines or not lines[0].startswith('[') or len(lines) < 8:
+                continue
+            for s, lvl in re.findall(r'SkillMore\s*,\s*(\w+)\s*,\s*(\d+)', lines[7]):
+                out.append((s, int(lvl), lines[2]))
+    return out
+
+
+def skill_guide(names):
+    tokens = {k: v['m_name'] for k, v in json.load(open(GAME_ITEMS, encoding='utf-8')).items()
+              if str(v.get('m_name', '')).startswith('$')}
+    unlocks, capes = {}, []
+    for e in wirsl():
+        prefab = e['PrefabName']
+        reqs = [r for r in e.get('Requirements', []) if r.get('Skill')]
+        if prefab.startswith('OSRS_Cape'):
+            capes.append((prefab, [r['Skill'] for r in reqs]))
+            continue
+        for r in reqs:
+            if r.get('BlockCraft') or r.get('BlockEquip'):
+                unlocks.setdefault(r['Skill'], {}).setdefault(int(r['Level']), []).append(game_name(prefab, names, tokens))
+    for s, perks in PERKS.items():
+        for lvl, what in perks:
+            unlocks.setdefault(s, {}).setdefault(lvl, []).append(what)
+    for s, lvl, title in quest_gates():
+        unlocks.setdefault(s, {}).setdefault(lvl, []).append('quest: ' + title)
+    skills = [s for s in SKILL_ORDER if s in unlocks] + sorted(s for s in unlocks if s not in SKILL_ORDER)
+    g = [f'[{P}_skills]\nWhat each skill opens. A lit row is yours; a red one names the level still needed.\n']
+    for s in skills:
+        n = sum(len(v) for v in unlocks[s].values())
+        g.append(f'Text: {text(skill_label(s))} ({n}) | Transition: {P}_s_{slug(s)}\n')
+    g.append(f'Text: Back | Transition: {P}\n\n')
+    for s in skills:
+        node = f'{P}_s_{slug(s)}'
+        levels = sorted(unlocks[s])
+        long = any(len(v) > 3 for v in unlocks[s].values())
+        g.append(f'[{node}]\n{skill_label(s)}. Reach the level and the row lights.\n')
+        for lvl in levels:
+            parts = unlocks[s][lvl]
+            head = ' / '.join(parts[:3]) + (f' +{len(parts) - 3} more' if len(parts) > 3 else '')
+            g.append(f'Text: {text(f"{lvl} - {head}")} | Condition: SkillMore, {s}, {lvl} | AlwaysVisible: true\n')
+        if long:
+            g.append(f'Text: Everything by level | Transition: {node}_all\n')
+        g.append(f'Text: Back | Transition: {P}_skills\n\n')
+        if long:
+            g.append(f'[{node}_all]\n{skill_label(s)}: every unlock by level.\n')
+            for lvl in levels:
+                g.append(f'Text: {lvl} ({len(unlocks[s][lvl])}) | Transition: {node}_{lvl}\n')
+            g.append(f'Text: Back | Transition: {node}\n\n')
+            for lvl in levels:
+                g.append(f'[{node}_{lvl}]\n{skill_label(s)} {lvl}.\n')
+                for part in unlocks[s][lvl]:
+                    g.append(f'Text: {text(part)}\n')
+                g.append(f'Text: Back | Transition: {node}_all\n\n')
+    # Verdandi's counter: a cape for 100 in every skill its WIRSL entry names, paid in coins.
+    g.append('[skillcape_buy]\nEach cape is proof of mastery. Reach 100 and it is yours for the price of the weaving.\n')
+    for prefab, reqs in capes:
+        price = MAX_CAPE_PRICE if len(reqs) > 2 else CAPE_PRICE
+        name = names.get(prefab) or fail(f'no display name for {prefab} (collection-log.csv)')
+        conds = ''.join(f' | Condition: SkillMore, {s}, 100' for s in reqs)
+        g.append(f'Text: {text(f"{name} ({price} coins)")}{conds} | Condition: HasItem, Coins, {price}'
+                 f' | Command: RemoveItem, Coins, {price} | Command: GiveItem, {prefab}, 1, 1 | AlwaysVisible: true\n')
+    g.append('Text: Back | Transition: wise_old_man\n\n')
+    return g
+
+
 def generate():
     loot = module('gen-loot')
     sup = {r[0]: r for r in module('update-superiors').ROWS}
@@ -136,6 +265,7 @@ def generate():
          f'[{P}]\nI am the Gielheim Guide. Ask and I will tell you how this world works.\n',
          'Text: The rules of Gielheim | Command: OpenUI, Info, gielheim_guide\n',
          f'Text: The bestiary | Transition: {P}_bestiary\n',
+         f'Text: Skills and what they open | Transition: {P}_skills\n',
          f'Text: Farewell | Transition: {P}_bye\n\n',
          f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see. Uniques roll once per kill, pets once per player.\n']
     for t in TIERS if COLOUR else []:
@@ -170,6 +300,7 @@ def generate():
             d.append(row(names, extra, 1, 2, 20))
             d.append(row(names, rare, 1, 1, rate))
             d.append(f'Text: Back | Transition: {node[k]}\n\n')
+    d += skill_guide(names)
     d.append(f'[{P}_bye]\nThe book is always open.\n')
     return ''.join(d)
 

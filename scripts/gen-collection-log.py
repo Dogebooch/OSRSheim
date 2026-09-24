@@ -113,7 +113,8 @@ def collectibles():
     for f in glob.glob(str(CFG / 'wackysDatabase/Items/Item_*.yml')):
         m = re.search(r'^name:\s*(\S+)', open(f, encoding='utf-8-sig').read(), re.M)
         if m:
-            found[m.group(1)] = 'wackydb clone'
+            if not m.group(1).startswith('OSRS_Vanity'):      # tailor's vanity: bought, not found
+                found[m.group(1)] = 'wackydb clone'
     with open(LOOT / 'drops.csv', newline='', encoding='utf-8') as f:
         for r in csv.DictReader(f):
             item = (r['item'] or '').strip()
