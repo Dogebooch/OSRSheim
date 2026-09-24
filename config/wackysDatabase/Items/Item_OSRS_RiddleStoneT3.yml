@@ -7,3 +7,6 @@ m_name: Bound riddle-stone
 m_description: Wound in old wire. Whoever sealed it did not want it read.
 m_weight: 0.1
 m_maxStackSize: 20
+# Gold "Ancient" name (keel pattern, loot.md 7): a tier-3+ find looks special in the bag.
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'

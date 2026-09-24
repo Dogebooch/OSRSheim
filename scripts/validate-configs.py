@@ -100,10 +100,10 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
                     f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 89:
-    warn(f"expected 89 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
+if len(clones) != 93:
+    warn(f"expected 93 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
          f"+ 6 hull keels + 6 riddle rewards + 6 jewellery + 4 riddle-stones "
-         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 5 vanity cloaks), found {len(clones)}")
+         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 5 vanity cloaks + 4 saga ranks), found {len(clones)}")
 
 # wackydb Recipes and status effects. Filename prefixes are load-bearing: ReadFiles.cs
 # globs "?ecipe_*.yml" and "SE_*.yml" over the whole config tree, so a misnamed file
