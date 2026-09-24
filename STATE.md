@@ -19,7 +19,7 @@ Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py`
 https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins still ~405k held: bounties 116k, sinks).
 
 ## Needs a live world
-All in-game checks: #156 (pinned; ModTest, two players, Gielheim). Open bug: #136 ring bases.
+All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
 
 ## Gielheim (Doug plays and reports)
 1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
