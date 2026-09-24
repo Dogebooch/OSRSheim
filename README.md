@@ -82,8 +82,8 @@ Profile and host are downstream; edits there get overwritten.
 | 2 | [`STATE.md`](STATE.md): status |
 | 3 | [`RESEARCH.md`](RESEARCH.md): the reference hub, then the [`research/`](research) file for the topic |
 
-The AI records and proposes; Doug decides. In-game test checklists live in
-[GitHub issues](https://github.com/Dogebooch/OSRSheim/issues).
+The AI records and proposes; Doug decides. In-game test checklist: pinned issue
+[#156](https://github.com/Dogebooch/OSRSheim/issues/156).
 
 ## Glossary
 
