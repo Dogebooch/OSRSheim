@@ -97,7 +97,7 @@ ModTest 2026-09-22, one 0-star `TrollFrost`: 36 GoldOre, 108 Stone (~4,300c a tr
 Coin/hr target, best camped source: Meadows 150 · BF 200 · Swamp 440 · Mountain
 520 · Plains 700 · Mistlands 900 · Ashlands 1300 · DeepNorth 1600. Roamer purse =
 0.03 x target a kill; camped purse = target / 321; elite purse >= 2x the biome's roamer mean, nest >= 1x.
-Animals and Dvergr keep flat purses. Bosses 200-1200c, bounties 150-4800c. Riddle caskets add under 25% a tier.
+Animals and Dvergr keep flat purses. Bosses 200-400c (Eikthyr) to 1,000-2,000c (Kall), bounties 150-4800c. Riddle caskets add under 25% a tier.
 
 Gem tiers: T1 Meadows/BlackForest · T2 Swamp/Mountain/Ocean · T3
 Plains/Mistlands · T4 Ashlands/DeepNorth. Rare: T2 Swamp elites (bonemass
@@ -226,7 +226,7 @@ guaranteed effects skip slot rules, `LootRoller.cs`), `SelectionWeight = 1000000
 
 `baseconfig\adventuredata.json` (coins-only economy, untested in game):
 - Treasure maps: cost 100 (Meadows) to 800 (Deep North), chest pays `Coins`
-  1.5x cost (150-1200); chest item tables `Drops [[0,100]]` = no items.
+  1.5x cost (150-1200) + one pick: gem 2/3, magic item 1/3 (#107).
   Runestone items removed. `RefreshInterval 7`.
 - Bounties (rare/hard/big): tokens 0, `RewardCoins` x6 (150 -> 4800); Iron
   lvl 3 @3x HP, Gold @4.5x, adds lvl 2-3 @2x HP.

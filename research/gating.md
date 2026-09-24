@@ -79,8 +79,9 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 **Ungated on purpose:** Shovel, HelmetLox, HelmetCrownofValheim, vanilla
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
-**Unverified:** skill name `Alchemy` (would fail open; the vanilla names are
-`Skills.SkillType` members). Which skill each vanilla staff uses
+WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
+`GetSkillLevel`, buffs included (Wizardry Skillful potion +8 all skills, 15 min).
+**Unverified:** skill name `Alchemy`. Which skill each vanilla staff uses
 (`StaffOrbofAhri`: wikis disagree); check `m_skillType` in a wackydb dump.
 
 ## 8. Custom items (WackysDatabase)

@@ -26,7 +26,7 @@ other list empty, marketplace and mail off (open key unverified).
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
 - `skillcape_shop`: every cape 5,000c, max cape 25,000c.
 - `offerings` (`= true`, Seeress): 150-500c a piece; a summon =
-  2.5-2.8x the boss purse. DragonEgg and DvergrKeyFragment wait on a wackydb
+  2.7-2.8x the boss purse, Bonemass 6.7x (10 WitheredBone). DragonEgg and DvergrKeyFragment wait on a wackydb
   dump. Fader, Kall never.
 - `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
   TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
@@ -44,8 +44,8 @@ other list empty, marketplace and mail off (open key unverified).
 **Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
 ores, metals, riddle-stones, riddle rewards and oath capes included.
 
-**Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~5% house edge);
-`flower_poker` 1,000c (~11% edge, up to 3 queued rolls); `crystal_chest` 1
+**Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~30% house edge at Gullveig prices);
+`flower_poker` 1,000c (~25% edge, up to 3 queued rolls); `crystal_chest` 1
 OSRS_CrystalKey a roll, 8 uniform prizes; `riddle_simple` / `_cryptic` /
 `_elaborate` / `_master` one riddle-stone a roll (§7). All opened from the
 Gambler dialogue.

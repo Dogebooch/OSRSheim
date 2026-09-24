@@ -1,4 +1,4 @@
-# STATE — 2026-09-23
+# STATE — 2026-09-24
 
 Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Logs/dumps off
@@ -15,6 +15,8 @@ Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 10%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108). Uniques lose one-per-player.
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
+Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py` (`validate` 15/15), report
+https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; proposals only, nothing applied.
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
@@ -22,7 +24,8 @@ the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) �
 #9 handbook · #42 superiors (`MaxSpawned 10`, 0.03%): do they appear in a BF night ·
 #83 weapon XP per hit (one nest run) ·
 #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
-Roamer 55, nest 46 kills/hr (#70); coin purses 2-4x targets (coin pass).
+Coin purses 2-4x targets (coin pass).
+09-23 log errors: #134 Frozen Forge item, #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
