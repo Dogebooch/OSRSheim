@@ -1502,8 +1502,42 @@ def cmd_validate(P):
     # 8. cross-model: magic items (rate-model magic) - chest + superior streams
     mag = RM.magic()
     check('rate-model magic() runs', mag[-1]['items'] > 0, f"{mag[-1]['items']} items/run (frontier maps, revisit 0.1)")
+    # 9. real play: session-log.py rows (no console use) vs the default scenario, per phase; a check from 10 h a phase
+    sessions_vs_sim(P, check)
     print(f"\n{len(fails)} failure(s)")
     return 1 if fails else 0
+
+
+def sessions_vs_sim(P, check, min_h=10.0, path=REF / 'sessions.csv'):
+    rows = [r for r in csv.DictReader(path.open(encoding='utf-8'))] if path.exists() else []
+    rows = [r for r in rows if not r.get('console') and float(r['hours']) >= 0.25]
+    if not rows:
+        print('info  sessions.csv: no real-play rows yet (scripts\\session-log.py snap / diff)')
+        return
+    by = defaultdict(list)
+    for r in rows:
+        by[BIOMES[min(len(BIOME_OF_KEY.keys() & set(r['bosses'].split())), len(BIOMES) - 1)]].append(r)
+    _, _, S = run_scenario(P, 'balanced', 'mixed', 40, 1)
+    lv = {row['at']: row for row in S['levels']}
+    for b, rs in by.items():
+        h = sum(float(r['hours']) for r in rs)
+        i = BIOMES.index(b)
+        prev = lv[f'end of {BIOMES[i - 1]}'] if i else None
+        for col in ['kills_per_h'] + sorted({k for r in rs for k in r if k.startswith('xp_per_h.')}):
+            real = sum(float(r.get(col) or 0) * float(r['hours']) for r in rs) / h
+            if col == 'kills_per_h':
+                sim = S['kills_per_h']
+            else:
+                sk = col.split('.', 1)[1]
+                if sk not in lv[f'end of {b}']:
+                    continue
+                sim = (CUM[int(lv[f'end of {b}'][sk])] - CUM[int(prev[sk]) if prev else 0]) / (END[b] - START[b])
+            ratio = real / sim if sim else INF
+            detail = f"{b} {h:.1f} h real {real:.1f} sim {sim:.1f}{' (whole run)' if col == 'kills_per_h' else ''} (x{ratio:.2f})"
+            if h >= min_h:
+                check(f'sessions {col}', 0.5 <= ratio <= 2, detail)
+            else:
+                print(f'info  sessions {col}: {detail}; check from {min_h:.0f} h')
 
 
 SENS_KEYS = ('share.camp', 'share.roam', 'share.elite', 'share.mine', 'share.chop', 'share.farm', 'share.craft',
