@@ -124,7 +124,7 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 | GoblinBrute | OSRS_DragonHalberd (Warlord's glaive) | AtgeirBlackmetal, dmg 1.1, speed 0.95 | 1/256 |
 | Gjall | OSRS_CrystalBow (Gjall-gut bow) | BowSpineSnap, dmg 1.1 | 1/256 |
 | Morgen | OSRS_AbyssalBludgeon (Morgen's cudgel) | MaceEldner, speed 1.1 | 1/256 |
-| JotunWarrior | OSRS_DragonBattleaxe (Giantsbane axe) | AxeJotunBane, slash 170, poison 0, dmg 1.1, stagger 1.3 | 1/256 |
+| JotunWarrior | OSRS_DragonBattleaxe (Giantsbane axe) | AxeJotunBane, slash 170, poison 0, dmg 1.1 (secondary 1.65), stagger 1.3 | 1/256 |
 
 Sleeping / DualWield / NonSleeping variants carry the same row. Twists are
 relative multipliers (no base dumps for these bases). Crystal chest:
