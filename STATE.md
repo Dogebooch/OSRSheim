@@ -18,16 +18,8 @@ Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py` (`validate` 15/15), report
 https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins still ~405k held: bounties 116k, sinks).
 
-## Needs a live world (issues carry the checklists)
-#19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
-the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
-#118 superiors and wanderers · #114 weapon skill at each boss kill · #141 balance checks
-(Farming XP, handbook, stars, Deep North smithing) · waystone rows, Wolf pet, cloak dumps.
-09-23 log errors: #135 boot warnings, #136 ring bases.
-Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
-(§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
-trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
-Sailing gates (§6, §7), DistancedUI (§11).
+## Needs a live world
+All in-game checks: #156 (pinned; ModTest, two players, Gielheim). Open bug: #136 ring bases.
 
 ## Gielheim (Doug plays and reports)
 1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
