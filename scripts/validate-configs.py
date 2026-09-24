@@ -135,6 +135,10 @@ if os.path.exists(odin):
                 err(f"wackydb {base}: build prefab {r[0]} unknown")
         pieces[m.group(1)] = [(r[0].lower(), r[1], r[3].lower()) for r in reqs if len(r) == 4]
     for hull, cost in hull_cost.items():
+        # The build HUD has 6 requirement slots and puts the station after the costs (Hud.SetupPieceInfo):
+        # a 6th cost overflows and throws every frame the piece is selected (#135).
+        if len(cost) > 5:
+            err(f"OdinShip {hull}: {len(cost)} Crafting Costs; the build HUD fits 5 plus the station")
         if any(p.startswith("osrs_") for p, *_ in cost):
             if hull not in pieces:
                 err(f"OdinShip {hull} needs an OSRS_ item but has no Piece_{hull}.yml; the requirement is dropped at load")
