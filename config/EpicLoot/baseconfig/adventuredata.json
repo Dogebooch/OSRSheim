@@ -2482,7 +2482,7 @@
         "TargetID": "Deer",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 150,
+        "RewardCoins": 40,
         "Adds": []
       },
       {
@@ -2490,7 +2490,7 @@
         "TargetID": "Boar",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 150,
+        "RewardCoins": 40,
         "Adds": []
       },
       {
@@ -2498,7 +2498,7 @@
         "TargetID": "Boar",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 180,
+        "RewardCoins": 40,
         "Adds": [
           {
             "ID": "Boar",
@@ -2511,7 +2511,7 @@
         "TargetID": "Neck",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 150,
+        "RewardCoins": 40,
         "Adds": []
       },
       {
@@ -2519,7 +2519,7 @@
         "TargetID": "Neck",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 180,
+        "RewardCoins": 40,
         "Adds": [
           {
             "ID": "Neck",
@@ -2532,7 +2532,7 @@
         "TargetID": "Greydwarf",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 450,
+        "RewardCoins": 110,
         "Adds": []
       },
       {
@@ -2540,7 +2540,7 @@
         "TargetID": "Greydwarf",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 450,
+        "RewardCoins": 110,
         "Adds": []
       },
       {
@@ -2548,7 +2548,7 @@
         "TargetID": "Skeleton",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 450,
+        "RewardCoins": 110,
         "Adds": []
       },
       {
@@ -2556,7 +2556,7 @@
         "TargetID": "Skeleton",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 450,
+        "RewardCoins": 110,
         "Adds": []
       },
       {
@@ -2564,7 +2564,7 @@
         "TargetID": "Ghost",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 480,
+        "RewardCoins": 120,
         "Adds": []
       },
       {
@@ -2572,7 +2572,7 @@
         "TargetID": "Skeleton",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 510,
+        "RewardCoins": 130,
         "Adds": [
           {
             "ID": "Skeleton",
@@ -2585,7 +2585,7 @@
         "TargetID": "Greydwarf_Elite",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 480,
+        "RewardCoins": 120,
         "Adds": []
       },
       {
@@ -2593,7 +2593,7 @@
         "TargetID": "Troll",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 540,
+        "RewardCoins": 140,
         "Adds": []
       },
       {
@@ -2601,7 +2601,7 @@
         "TargetID": "Greydwarf_Shaman",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 510,
+        "RewardCoins": 130,
         "Adds": [
           {
             "ID": "Greydwarf",
@@ -2614,7 +2614,7 @@
         "TargetID": "Bjorn",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 480,
+        "RewardCoins": 120,
         "Adds": []
       },
       {
@@ -2622,7 +2622,7 @@
         "TargetID": "Blob",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 930,
+        "RewardCoins": 230,
         "Adds": []
       },
       {
@@ -2630,7 +2630,7 @@
         "TargetID": "Skeleton",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 900,
+        "RewardCoins": 220,
         "Adds": []
       },
       {
@@ -2638,7 +2638,7 @@
         "TargetID": "Leech",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 900,
+        "RewardCoins": 220,
         "Adds": []
       },
       {
@@ -2646,7 +2646,7 @@
         "TargetID": "Draugr",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 960,
+        "RewardCoins": 240,
         "Adds": []
       },
       {
@@ -2654,7 +2654,7 @@
         "TargetID": "Surtling",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 900,
+        "RewardCoins": 220,
         "Adds": []
       },
       {
@@ -2662,7 +2662,7 @@
         "TargetID": "Wraith",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 990,
+        "RewardCoins": 250,
         "Adds": []
       },
       {
@@ -2670,7 +2670,7 @@
         "TargetID": "Draugr_Elite",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 990,
+        "RewardCoins": 250,
         "Adds": []
       },
       {
@@ -2678,7 +2678,7 @@
         "TargetID": "Abomination",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1020,
+        "RewardCoins": 260,
         "Adds": []
       },
       {
@@ -2686,7 +2686,7 @@
         "TargetID": "Draugr_Elite",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1020,
+        "RewardCoins": 260,
         "Adds": [
           {
             "ID": "Draugr",
@@ -2699,7 +2699,7 @@
         "TargetID": "Skeleton",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 990,
+        "RewardCoins": 250,
         "Adds": [
           {
             "ID": "Skeleton",
@@ -2712,7 +2712,7 @@
         "TargetID": "Wolf",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1380,
+        "RewardCoins": 340,
         "Adds": []
       },
       {
@@ -2720,7 +2720,7 @@
         "TargetID": "Wolf",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1380,
+        "RewardCoins": 340,
         "Adds": []
       },
       {
@@ -2728,7 +2728,7 @@
         "TargetID": "Hatchling",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1380,
+        "RewardCoins": 340,
         "Adds": []
       },
       {
@@ -2736,7 +2736,7 @@
         "TargetID": "Hatchling",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1380,
+        "RewardCoins": 340,
         "Adds": []
       },
       {
@@ -2744,7 +2744,7 @@
         "TargetID": "Fenring",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1500,
+        "RewardCoins": 380,
         "Adds": []
       },
       {
@@ -2752,7 +2752,7 @@
         "TargetID": "Fenring",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1620,
+        "RewardCoins": 400,
         "Adds": [
           {
             "ID": "Wolf",
@@ -2765,7 +2765,7 @@
         "TargetID": "StoneGolem",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1590,
+        "RewardCoins": 400,
         "Adds": []
       },
       {
@@ -2773,7 +2773,7 @@
         "TargetID": "StoneGolem",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1800,
+        "RewardCoins": 450,
         "Adds": [
           {
             "ID": "StoneGolem",
@@ -2786,7 +2786,7 @@
         "TargetID": "Fenring_Cultist",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1500,
+        "RewardCoins": 380,
         "Adds": [
           {
             "ID": "Fenring_Cultist",
@@ -2799,7 +2799,7 @@
         "TargetID": "Fenring_Cultist",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1500,
+        "RewardCoins": 380,
         "Adds": [
           {
             "ID": "Ulv",
@@ -2812,7 +2812,7 @@
         "TargetID": "Goblin",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1800,
+        "RewardCoins": 450,
         "Adds": []
       },
       {
@@ -2820,7 +2820,7 @@
         "TargetID": "Goblin",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1800,
+        "RewardCoins": 450,
         "Adds": []
       },
       {
@@ -2828,7 +2828,7 @@
         "TargetID": "Goblin",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1800,
+        "RewardCoins": 450,
         "Adds": []
       },
       {
@@ -2836,7 +2836,7 @@
         "TargetID": "Lox",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1860,
+        "RewardCoins": 460,
         "Adds": []
       },
       {
@@ -2844,7 +2844,7 @@
         "TargetID": "BlobTar",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1860,
+        "RewardCoins": 460,
         "Adds": []
       },
       {
@@ -2852,7 +2852,7 @@
         "TargetID": "BlobTar",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 2100,
+        "RewardCoins": 520,
         "Adds": [
           {
             "ID": "BlobTar",
@@ -2865,7 +2865,7 @@
         "TargetID": "Deathsquito",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1740,
+        "RewardCoins": 440,
         "Adds": []
       },
       {
@@ -2873,7 +2873,7 @@
         "TargetID": "Deathsquito",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1740,
+        "RewardCoins": 440,
         "Adds": []
       },
       {
@@ -2881,7 +2881,7 @@
         "TargetID": "Deathsquito",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1800,
+        "RewardCoins": 450,
         "Adds": [
           {
             "ID": "Deathsquito",
@@ -2894,7 +2894,7 @@
         "TargetID": "GoblinBrute",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1860,
+        "RewardCoins": 460,
         "Adds": []
       },
       {
@@ -2902,7 +2902,7 @@
         "TargetID": "GoblinBrute",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 2100,
+        "RewardCoins": 520,
         "Adds": [
           {
             "ID": "Goblin",
@@ -2915,7 +2915,7 @@
         "TargetID": "GoblinBrute",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 2100,
+        "RewardCoins": 520,
         "Adds": [
           {
             "ID": "Goblin",
@@ -2928,7 +2928,7 @@
         "TargetID": "GoblinShaman",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 2340,
+        "RewardCoins": 580,
         "Adds": [
           {
             "ID": "Goblin",
@@ -2941,7 +2941,7 @@
         "TargetID": "GoblinShaman",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 2400,
+        "RewardCoins": 600,
         "Adds": [
           {
             "ID": "GoblinBrute",
@@ -2958,7 +2958,7 @@
         "TargetID": "Unbjorn",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1860,
+        "RewardCoins": 460,
         "Adds": []
       },
       {
@@ -2966,7 +2966,7 @@
         "TargetID": "Unbjorn",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1860,
+        "RewardCoins": 460,
         "Adds": []
       },
       {
@@ -2974,7 +2974,7 @@
         "TargetID": "Serpent",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 1980,
+        "RewardCoins": 500,
         "Adds": []
       },
       {
@@ -2982,7 +2982,7 @@
         "TargetID": "Seeker",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3000,
+        "RewardCoins": 750,
         "Adds": []
       },
       {
@@ -2990,7 +2990,7 @@
         "TargetID": "SeekerBrute",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3000,
+        "RewardCoins": 750,
         "Adds": []
       },
       {
@@ -2998,7 +2998,7 @@
         "TargetID": "SeekerBrute",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3000,
+        "RewardCoins": 750,
         "Adds": [
           {
             "ID": "Seeker",
@@ -3011,7 +3011,7 @@
         "TargetID": "Seeker",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3000,
+        "RewardCoins": 750,
         "Adds": [
           {
             "ID": "SeekerBrood",
@@ -3024,7 +3024,7 @@
         "TargetID": "Gjall",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3300,
+        "RewardCoins": 820,
         "Adds": []
       },
       {
@@ -3032,7 +3032,7 @@
         "TargetID": "FallenValkyrie",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3600,
+        "RewardCoins": 900,
         "Adds": []
       },
       {
@@ -3040,7 +3040,7 @@
         "TargetID": "Morgen_NonSleeping",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3600,
+        "RewardCoins": 900,
         "Adds": []
       },
       {
@@ -3048,7 +3048,7 @@
         "TargetID": "Charred_Melee",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3600,
+        "RewardCoins": 900,
         "Adds": []
       },
       {
@@ -3056,7 +3056,7 @@
         "TargetID": "Charred_Melee",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 3900,
+        "RewardCoins": 980,
         "Adds": [
           {
             "ID": "Charred_Archer",
@@ -3073,7 +3073,7 @@
         "TargetID": "JotunWarrior",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 4200,
+        "RewardCoins": 1050,
         "Adds": []
       },
       {
@@ -3081,7 +3081,7 @@
         "TargetID": "JotunWitch",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 4200,
+        "RewardCoins": 1050,
         "Adds": []
       },
       {
@@ -3089,7 +3089,7 @@
         "TargetID": "TrollFrost",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 4800,
+        "RewardCoins": 1200,
         "Adds": []
       },
       {
@@ -3097,7 +3097,7 @@
         "TargetID": "Skeleton_DeepNorth",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 4200,
+        "RewardCoins": 1050,
         "Adds": []
       },
       {
@@ -3105,7 +3105,7 @@
         "TargetID": "Greydwarf_Frozen",
         "RewardGold": 0,
         "RewardIron": 0,
-        "RewardCoins": 4500,
+        "RewardCoins": 1120,
         "Adds": [
           {
             "ID": "Greydwarf_Shaman_Frozen",

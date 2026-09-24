@@ -797,10 +797,12 @@ class Run:
         crops = plants * (1 + F / 100)
         stone = 3.0 if pl.level('Alchemy') >= 50 else 1.0                 # Philosopher's Stone, gated at Alchemy 50
         pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)      # 3649 XP / 8514 crop units (check-alchemy-balance)
-        # herb contracts (cooldown 1 day ~ 0.5 h real): one per ~50 crops of an open crop
+        # herb contracts (cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop
         herbs = [q for q in self.W.quests if q.file.endswith('slayer') and q.type == 'Harvest'
                  and all(k in keys for k in q.keys)]
         n = int(cycles * min(len(herbs), self.p('rate.plants_per_cycle') // 50 + (self.rng.random() < 0.2)))
+        # each contract waits out its cooldown (in-game days of world clock, played hours here)
+        n = min(n, int(sum(hours / max(q.cooldown, 0.01) for q in herbs)))
         for _ in range(n):
             q = self.rng.choice(herbs)
             pl.coins += q.coins

@@ -507,6 +507,12 @@ for q, lines in quests.items():
 for q, lines in kg_sections("QuestEvents").items():
     for line in lines:
         custom_written |= set(re.findall(r"(?:Add|Set)CustomValue\s*,\s*([^,|\s]+)", line))
+# Hunt contract skip fee = a third of the coin pay (QuestEvents\osrsheim_slayer_skip.cfg).
+for q, lines in kg_sections("QuestEvents").items():
+    m = re.search(r"OnCancelQuest:\s*RemoveItem,\s*Coins,\s*(\d+)", " ".join(lines))
+    pay = re.search(r"Item:\s*Coins,\s*(\d+)", quests.get(q, ["", "", "", "", ""])[4]) if len(quests.get(q, [])) > 4 else None
+    if m and pay and int(m.group(1)) != max(1, round(int(pay.group(1)) / 3)):
+        err(f"KG quest event [{q}] skip fee {m.group(1)} is not a third of the {pay.group(1)}c pay")
 for k in sorted(wirsl_keys):
     if k.startswith("oath_") and k not in player_keys:
         err(f"WIRSL GlobalKeyReq '{k}' is granted by no AddPlayerKey quest event")
