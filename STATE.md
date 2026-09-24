@@ -25,7 +25,7 @@ the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) �
 #83 weapon XP per hit (one nest run) ·
 #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
 Coin purses 2-4x targets (coin pass).
-09-23 log errors: `desert_treasure_ii` wants `IceShoreShard` (no prefab); keels "does not exist"; ring bases null (check host). Debug dumps stale.
+09-23 log errors: #134 Frozen Forge item, #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
