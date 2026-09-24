@@ -141,7 +141,7 @@ at Gullveig into `OSRS_CrystalKey` (Crystal clone); the Gambler's
 | T4 | Rare T4-T5 1/1024 | |
 | Boss `.105` 100% one-per-player | T1 Eikthyr, Elder · T2 Bonemass, Moder · T3 Yagluth, Queen · T4 Fader, Kall | |
 Prizes uniform: weight = duplicate slots; every line but master carries the next
-tier's stone.
+tier's stone. Elaborate: 4/11 cloaks, 2/11 T4 stone; master: 4/6 cosmetic or key, no small-coin slot.
 
 ### Hull keels (`.104` @ 12.5%, csv `1/120`; one guaranteed by its §11 quest)
 | Boss | Keel (clone base) | Display | Hulls |

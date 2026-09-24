@@ -25,8 +25,8 @@ other list empty, marketplace and mail off (open key unverified).
 - `gem_trader`: gems 8-80c (25-45% of a kill's value), no `GoldOre`; key forge
   `OSRS_LoopHalfKey, 1, OSRS_ToothHalfKey, 1 = OSRS_CrystalKey, 1`.
 - `skillcape_shop`: every cape 5,000c, max cape 25,000c.
-- `offerings` (`= true`, Seeress): 150-500c a piece; a summon =
-  2.7-2.8x the boss purse, Bonemass 6.7x (10 WitheredBone). DragonEgg and DvergrKeyFragment wait on a wackydb
+- `offerings` (`= true`, Seeress): TrophyDeer 190c, AncientSeed 190c, WitheredBone 150c, GoblinTotem 225c;
+  a summon = ~1.25x the mean boss purse, Bonemass 2.5x (10 WitheredBone; bones stay a prayer cost). DragonEgg and DvergrKeyFragment wait on a wackydb
   dump. Fader, Kall never.
 - `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
   TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
