@@ -219,6 +219,11 @@ ok("drop_that.drop_table.cfg objects + items checked")
 RATE_CAP = 0.05
 if os.path.exists(prefabs):
     dump, cur, cursrc = {}, None, None
+    def _miss(ws, w, n):
+        if n == 0: return 1.0
+        if not ws: return 0.0
+        tot = sum(ws) + w
+        return sum(x / tot * _miss(ws[:i] + ws[i + 1:], w, n - 1) for i, x in enumerate(ws))
     heads, ents = {}, {}
     for line in read(prefabs).splitlines():
         m = re.match(r"^\[([^\]]+)\]", line)
@@ -248,7 +253,8 @@ if os.path.exists(prefabs):
         base = sec.rsplit(".", 1)[0]
         head = heads.get(base)
         if head is None: continue
-        W = sum(float(v.get("Weight", 0)) for k, v in ents.items() if k.rsplit(".", 1)[0] == base)
+        ws = [float(v.get("Weight", 0)) for k, v in ents.items() if k.rsplit(".", 1)[0] == base]
+        W = sum(ws)
         try: w = float(d["Weight"])
         except ValueError: err(f"drop_that.drop_table.cfg: [{sec}] Weight {d['Weight']!r} is not a number"); continue
         if W <= 0:
@@ -259,7 +265,10 @@ if os.path.exists(prefabs):
         dc = float(head.get("DropChance", 100)) / 100.0
         p = w / (W + w)
         ns = range(lo, hi + 1)
-        rate = dc * sum(1 - (1 - p) ** n for n in ns) / len(list(ns))
+        if head.get("DropOnlyOnce") == "True":  # each pick leaves the list (gen-objects.py miss())
+            rate = dc * sum(1 - _miss(ws, w, n) for n in ns) / len(list(ns))
+        else:
+            rate = dc * sum(1 - (1 - p) ** n for n in ns) / len(list(ns))
         if rate > RATE_CAP:
             err(f"drop_that.drop_table.cfg: [{sec}] {d.get('PrefabName')} drops {rate:.1%} per destruction "
                 f"and takes {p:.1%} of {base}'s picks (cap {RATE_CAP:.0%}); weight is a share, not a chance")
