@@ -148,7 +148,8 @@ SkillGainModifier `Global = 0.5`, death loss `Modifier = 0` (§18).
 do not apply to Custom. Shift 2 keeps max-level-1 spawners starless. HP +100% / damage +50% per star
 (vanilla). Affix chances 0, infusions Off; Spawn That still sets superiors' effect.
 `Loot system to be used = Vanilla`, `Lock Configuration = On`, `Use item
-configuration yaml = On`. Superior loot is keyed on Spawn That `TemplateId = osrsheim_superior`.
+configuration yaml = On`. Camp/dungeon creature and dungeon item respawn = 0 (off).
+Superior loot is keyed on Spawn That `TemplateId = osrsheim_superior`.
 
 `ItemConfig.yml` (server-synced): `Coins` weight 0, stack 9999 (verified in
 game); Amber, AmberPearl, Ruby weight 0.1 stack 100; SilverNecklace, Chain
