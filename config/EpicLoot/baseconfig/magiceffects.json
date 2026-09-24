@@ -3719,7 +3719,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_coinhoarder_prefix1"
       ],

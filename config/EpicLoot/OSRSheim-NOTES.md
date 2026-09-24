@@ -91,7 +91,8 @@ Chest `ShardUnique` entry `Rarity` (overrides the ItemSet's 0, 0, 55, 35, 8, 2):
 - Drop That `.EpicLoot` modifiers do not apply to creature drops in this stack (§10).
 - Legendary pick = weighted over matching `legendaries.json` entries + a generic legendary (weight 1, 4-6 random effects). Weight 0 on every vanilla legendary leaves only the generic one; weights unchanged. Set items off (`Set Item Drop Chance = 0`).
 - `MagicEffectsCount` fixed: Magic 1, Rare 2, Epic 3, Legendary 4 (was 1-3 / 2-4 / 3-5 / 4-6); the OSRSheim uniques override it (`GuaranteedEffectCount = 1`).
-- `magiceffects.json` `AddCarryWeight` `SelectionWeight 0` (was 5): carry weight comes from the torcs only (#17). Utility shard socket still grants +2 to +12 (`shardstones.json`).
+- `magiceffects.json` `AddCarryWeight` `SelectionWeight 0` (was 5): carry weight comes from the torcs only (#17). Utility shard socket still grants +2 to +12 (`shardstones.json`). Haldor's Megingjord stays: vanilla (Doug, 2026-09-24).
+- `magiceffects.json` `CoinHoarder` `SelectionWeight 0` (was 10): damage from coins held; coins pile up.
 
 ## 2026-09-19 (late night) — adventure economy converted to coins (UNTESTED)
 

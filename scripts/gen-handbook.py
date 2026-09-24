@@ -137,7 +137,7 @@ def generate():
          'Text: The rules of Gielheim | Command: OpenUI, Info, gielheim_guide\n',
          f'Text: The bestiary | Transition: {P}_bestiary\n',
          f'Text: Farewell | Transition: {P}_bye\n\n',
-         f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see and uniques and pets roll once per player.\n']
+         f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see. Uniques roll once per kill, pets once per player.\n']
     for t in TIERS if COLOUR else []:
         d.append(f'Text: {colour(t[2], t[0])}\n')
     for b in biomes:

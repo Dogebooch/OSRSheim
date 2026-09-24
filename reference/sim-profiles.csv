@@ -94,7 +94,7 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rate.explore_px_per_hour,12000,guess: ~100 m radius at ~4 m/s over 12 m map pixels (Minimap) half new ground
 *,*,rate.explore_px_world,2200000,world disc r 10 km / (12 m)^2 map pixels
 *,*,rate.explore_share_max,0.6,guess: share of the map a run uncovers
-*,*,rate.fish_xp_per_hour,1200,weirdgloop Fishing: 0.25-0.5 xp/s while reeling x SkillGainModifier Fishing = 3 x ~40% reeling (guess)
+*,*,rate.fish_xp_per_hour,600,weirdgloop Fishing: 0.25-0.5 xp/s while reeling x SkillGainModifier Fishing = 1.5 x ~40% reeling (guess)
 *,*,rate.forage_picks_per_roam_hour,20,guess
 *,*,rate.ranching_xp_per_phase,60,guess: a few tames and butchered tames per biome
 *,*,rate.smith_new_items,10,guess: new craftable gear pieces per biome (armor set + weapons + tools + shield)

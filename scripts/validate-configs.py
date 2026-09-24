@@ -58,7 +58,10 @@ prefabs = os.path.join(DBG, "drop_that.drop_table.prefabs.txt")
 if os.path.exists(prefabs):
     t = read(prefabs)
     objects |= set(re.findall(r"^\[([^\].]+)\]", t, re.M))
-    items |= set(re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M))
+    # Object drop tables also spawn debris and creatures (IceShoreShard, SeekerBrood, #134):
+    # only names that are real items in game-data count as items.
+    game_items = set(json.load(open(os.path.join(REF, "game-data", "items.json"), encoding="utf-8")))
+    items |= set(re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M)) & game_items
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     t = read(f)
     m = re.search(r"^name:\s*(\S+)", t, re.M)
@@ -308,6 +311,16 @@ def kg_sections(folder):
                 out[cur].append(line.strip())
     return out
 quests = kg_sections("Quests")
+# A Kill contract opens with its target's biome: it needs that biome's opening key or a later one.
+KEY_ORDER = ["defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
+             "defeated_goblinking", "defeated_queen", "defeated_fader"]
+BIOME_KEY = {"Black Forest": 0, "Swamp": 1, "Ocean": 1, "Mountain": 2, "Plains": 3, "Mistlands": 4,
+             "Ashlands": 5, "Deep North": 6}
+creature_biome = {}
+with open(os.path.join(os.path.dirname(HERE), "loot", "creatures.csv"), encoding="utf-8") as f:
+    for row in f.read().splitlines()[1:]:
+        cells = row.split(",")
+        if len(cells) > 1: creature_biome.setdefault(cells[1], cells[0])
 for q, lines in quests.items():
     if len(lines) < 6: err(f"KG quest [{q}] has {len(lines)} lines; needs Type/Title/Desc/Target/Rewards/Cooldown")
     else:
@@ -316,6 +329,12 @@ for q, lines in quests.items():
             for tgt in target.split("|"):
                 c = tgt.split(",")[0].strip()
                 if c not in creatures: err(f"KG quest [{q}] kill target '{c}' not a known creature")
+                need = BIOME_KEY.get(creature_biome.get(c))
+                if q.startswith("slayer_") and need is not None:
+                    have = [KEY_ORDER.index(k) for k in re.findall(r"GlobalKey,\s*(\w+)", " ".join(lines[6:]))
+                            if k in KEY_ORDER]
+                    if not have or max(have) < need:
+                        err(f"KG quest [{q}] hunts {c} ({creature_biome[c]}) without {KEY_ORDER[need]} or a later key")
         elif qtype in ("Collect", "Craft"):
             for tgt in target.split("|"):
                 c = tgt.split(",")[0].strip()

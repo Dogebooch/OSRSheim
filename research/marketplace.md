@@ -32,7 +32,7 @@ other list empty, marketplace and mail off (open key unverified).
   TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
   they are not sold: bootstrap off `Pickable_<Barley|Flax>_Wild`.
 - `supplies` (`= true`, shopkeeper second menu): arrows and bolts 20 a bundle
-  60-400c; Wizardry eitr mead bases / soups / plates 20-150c. Vanilla bolts and
+  60-400c; Wizardry eitr mead bases / soups / plates 20-150c; buff scrolls Jump and Slowfall from page 1, Damage and Speed from `supplies_3` (`defeated_bonemass`). Vanilla bolts and
   mead bases need a dump. Meads and food are the per-trip drain never bought back.
 - `oath_supplies` (`= true` + `HasPlayerKey`): consumables in 50-bundles at ~7%
   off. No gear and nothing WIRSL gates.
@@ -59,7 +59,7 @@ tames Boar, Wolf (1 star), Lox. Coins 25c to 8,600c, 108k total. Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
 
 **Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43,
-`= Autocomplete`, cooldown `60s`, biome boss key on line 8; profile
+`= Autocomplete`, cooldown `60s`, the target biome's boss key (`loot\creatures.csv`, validator-enforced); profile
 `slayer_master`). Per-task kill counts and pay live in the cfg: 60c (Black Forest
 Skeletons) to 4,500c (Deep North witches), a gem on the harder ones; starred
 tasks (`creature, 1, 2`, superiors §12, on the spawner's key) 500-2,500c. Camped tasks (Greydwarf, Skeleton, Draugr,
@@ -69,7 +69,7 @@ Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6), pay 1.25x the §
 N`): a third of the pay.
 
 **Herb contracts** (same file, 5 live, `Harvest`, cooldown `1` = a day): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60
-(`defeated_dragon`); 200-700c + seeds + `Skill_EXP: Farming`. Harvest counts any
+(`defeated_dragon`); 200-700c + seeds (Carrot and Turnip contracts pay their own seeds, none ahead of the herbwife page) + `Skill_EXP: Farming`. Harvest counts any
 Pickable via `Pickable.RPC_Pick`, so own plots count.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,

@@ -11,7 +11,8 @@ regenerating. No damage or eitr keys; balance = recipes.
 | Edit | Value |
 |---|---|
 | All 7 pieces `Custom Build Category` | `Wizardry` (was `Warfare`) |
-| 10 potions `Custom Crafting Station` | `opalchemy` (was `PotionCauldron_TW`) so they give Alchemy XP |
+| 9 potions `Custom Crafting Station` | `opalchemy` (was `PotionCauldron_TW`) so they give Alchemy XP |
+| Skillful potion (`PotionSkills_TW`) `Crafting Station` | `Disabled`: +8 all skills passed WIRSL craft gates |
 | Potion Cauldron `Tools` | empty (was `Hammer`) so the piece leaves the build menu |
 
 Content: staves per §6; spellslinger sets, circlets and rings per

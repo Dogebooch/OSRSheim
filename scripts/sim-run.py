@@ -270,6 +270,10 @@ class World:
         self.gamblers = self.load_gamblers()
         self.quests = load_quests()
         self.gates = self.load_gates()
+        smith = read(CFG / 'org.bepinex.plugins.blacksmithing.cfg')
+        self.smith_bonus, self.smith_factor = (
+            float(re.search(rf'^{k}\s*=\s*([\d.]+)', smith, re.M).group(1))
+            for k in ('First Craft Bonus', 'Skill Experience Gain Factor'))
         self.objects = self.load_objects()
         self.sup_rows = [s for s in RM.spawn_that_rows('spawn_that.world_spawners_advanced.cfg').values()
                          if str(s.get('LevelMin')) == '3' and s.get('Enabled', 'true') == 'true']
@@ -790,7 +794,8 @@ class Run:
         frac = hours / dict(PHASES)[biome]
         new = self.p('rate.smith_new_items', biome) * frac
         crafts = self.p('rate.smith_crafts', biome) * frac
-        pl.add_xp('Blacksmithing', (new * 75 + crafts * 15) * 0.5, t0, t0 + hours)
+        # repeats per item stay under the cfg's reduction threshold (5), so no reduction is modelled
+        pl.add_xp('Blacksmithing', (new * self.W.smith_bonus + crafts * 15) * self.W.smith_factor, t0, t0 + hours)
 
     # ----- errands: town round at session start -----
     def errands(self, idx_phase, t, pls):
