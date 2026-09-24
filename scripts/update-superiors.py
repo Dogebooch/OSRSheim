@@ -21,6 +21,9 @@ SPAWN_INTERVAL, SPAWN_CHANCE, MAX_SPAWNED = 900, 0.03, 10
 WIRING_INTERVAL, WIRING_CHANCE = 60, 100
 # 510 troll ~0.6/hr of Meadows night (1 roll per stale zone); 511 scouts ~0.6 groups/hr of BF night (3 rolls).
 ROAMER_CHANCE = {510: 1.4, 511: 0.5}
+# Superior identity: Spawn That TemplateId on 500-507, Drop That ConditionTemplateId on their loot, so
+# natural two-stars (CLLC Custom 9/1) never drop superior loot.
+TEMPLATE = 'osrsheim_superior'
 # Vanilla m_minAltitude of the same prefab's world spawner (Spawn That default -1000 spawns under water).
 ALTITUDE_MIN = {500: 0, 501: 0, 502: -1.5, 503: 0, 504: 0, 505: 0, 506: 1, 507: 0, 510: 0, 511: 0}
 # Station names: EpicLoot's recipe/station tables and the verified Wizardry roster.
@@ -77,24 +80,28 @@ def main():
             block = re.sub(r'^RequiredGlobalKey = .*$', 'RequiredGlobalKey = ' + ROWS[sid-500][1], block, flags=re.M)
         if sid in ROAMER_CHANCE:
             block = re.sub(r'^SpawnChance = .*$', f'SpawnChance = {ROAMER_CHANCE[sid]:g}', block, flags=re.M)
-        block = re.sub(r'^(?:HuntPlayer|SetRelentless|ConditionPositionMustNotBeNearPrefabs|ConditionPositionMustNotBeNearPrefabsDistance|ConditionAltitudeMin) = .*\n', '', block, flags=re.M)
+        block = re.sub(r'^(?:TemplateId|HuntPlayer|SetRelentless|ConditionPositionMustNotBeNearPrefabs|ConditionPositionMustNotBeNearPrefabsDistance|ConditionAltitudeMin) = .*\n', '', block, flags=re.M)
         anchors = EARLY_ANCHORS if sid in EARLY_ANCHOR_IDS else ANCHORS
         safety = ('HuntPlayer = false\nSetRelentless = false\n'
                   'ConditionPositionMustNotBeNearPrefabs = ' + anchors + '\n'
                   'ConditionPositionMustNotBeNearPrefabsDistance = 150\n'
                   f'ConditionAltitudeMin = {ALTITUDE_MIN[sid]:g}\n')
+        if 500 <= sid <= 507:
+            safety = f'TemplateId = {TEMPLATE}\n' + safety
         block = block.replace('Enabled = true\n', 'Enabled = true\n' + safety)
         out.append(block.rstrip() + '\n\n')
     save(path.name, ''.join(out))
 
     out = ['# OSRSheim superior bonus loot; independent rolls, no vanilla replacements.\n'
            '# IDs 200+ avoid normal purses and shared-list IDs.\n'
-           '# World boss gate + exactly two stars + not tamed; not a unique spawn identity.\n'
+           f'# World boss gate + exactly two stars + not tamed + Spawn That template {TEMPLATE}.\n'
            '# Coin ranges are exact totals; each entry <=100, no level/player multiplication.\n\n']
-    def entry(creature, idx, item, low, high, chance, conditions):
+    def entry(creature, idx, item, low, high, chance, conditions, template=True):
         out.append(f'[{creature}.{idx}]\nPrefabName = {item}\nAmountMin = {low}\n'
                    f'AmountMax = {high}\nChanceToDrop = {chance}\nScaleByLevel = false\n'
                    'DropOnePerPlayer = false\n' + conditions + '\n')
+        if template:
+            out.append(f'[{creature}.{idx}.SpawnThat]\nConditionTemplateId = {TEMPLATE}\n\n')
     for creature, key, low, high, gem, gl, gh, material, extra, rare, rate in ROWS:
         cond = (f'ConditionGlobalKeys = {key}\nConditionMinLevel = 3\n'
                 'ConditionMaxLevel = 3\nConditionNotCreatureStates = Tamed\n')
@@ -108,9 +115,9 @@ def main():
         entry(creature, 213, rare, 1, 1, rate, cond)
     # Retain the existing off-biome encounter reward, with collision-free IDs and a key gate.
     cond = 'ConditionBiomes = Meadows\nConditionGlobalKeys = defeated_eikthyr\nConditionNotCreatureStates = Tamed\n'
-    entry('Troll', 200, 'Coins', 50, 100, 100, cond)
-    entry('Troll', 201, 'Coins', 50, 100, 100, cond)
-    entry('Troll', 210, 'Ruby', 1, 1, 50, cond)
+    entry('Troll', 200, 'Coins', 50, 100, 100, cond, False)
+    entry('Troll', 201, 'Coins', 50, 100, 100, cond, False)
+    entry('Troll', 210, 'Ruby', 1, 1, 50, cond, False)
     save('drop_that.character_drop.osrsheim_superiors.cfg', ''.join(out))
 
 if __name__ == '__main__':

@@ -159,11 +159,11 @@ def generate():
             d += drop_rows(names, drops.get(c['list'], []), classes[c['class']], loot)
         s = next((sup[p] for p in pg['prefabs'] if p in sup), None)
         if s:
-            d.append(f'Text: Superior (two stars) loot | Transition: {node[k]}_superior\n')
+            d.append(f'Text: Superior loot | Transition: {node[k]}_superior\n')
         d.append(f'Text: Back | Transition: {P}_b_{slug(b := k[0])}\n\n')
         if s:
             creature, key, low, high, gem, gl, gh, material, extra, rare, rate = s
-            d.append(f'[{node[k]}_superior]\nA two-star {k[1]} after {BOSS[key]} also drops all of this on top.\n')
+            d.append(f'[{node[k]}_superior]\nA superior {k[1]} after {BOSS[key]} also drops all of this on top. A common two-star does not.\n')
             d.append(row(names, 'Coins', low, high, 100))
             d.append(row(names, gem, gl, gh, 30))
             d.append(row(names, material, 2, 4, 40))

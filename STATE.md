@@ -12,7 +12,7 @@ GoldOre (Petrified Tissue): not sold to `gem_trader`, rewards paid as coin (#64)
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
-effect, §10); Troll verified, bosses unseen. Magic: 2-stars 10%,
+effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108). Uniques lose one-per-player.
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py` (`validate` 15/15), report

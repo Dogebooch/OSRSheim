@@ -142,11 +142,12 @@ SkillGainModifier `Global = 0.5`, death loss `Modifier = 0` (§18).
 
 ## 9. CLLC
 
-`org.bepinex.plugins.creaturelevelcontrol.cfg`: `Maximum stars = None`,
+`org.bepinex.plugins.creaturelevelcontrol.cfg`: `Difficulty = Custom`, every world level
+`9, 1, 0, 0, 0` (vanilla: 10% level-up rolled twice); CLLC replaces vanilla's roll, Min/Max stars
+do not apply to Custom. Shift 2 keeps max-level-1 spawners starless. HP +100% / damage +50% per star
+(vanilla). Affix chances 0, infusions Off; Spawn That still sets superiors' effect.
 `Loot system to be used = Vanilla`, `Lock Configuration = On`, `Use item
-configuration yaml = On`. Effects and infusions left On (they only roll on
-starred creatures, i.e. the superiors). Two-star creatures exist only through
-Spawn That.
+configuration yaml = On`. Superior loot is keyed on Spawn That `TemplateId = osrsheim_superior`.
 
 `ItemConfig.yml` (server-synced): `Coins` weight 0, stack 9999 (verified in
 game); Amber, AmberPearl, Ruby weight 0.1 stack 100; SilverNecklace, Chain

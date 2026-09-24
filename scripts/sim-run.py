@@ -274,6 +274,12 @@ class World:
         self.smith_bonus, self.smith_factor = (
             float(re.search(rf'^{k}\s*=\s*([\d.]+)', smith, re.M).group(1))
             for k in ('First Craft Bonus', 'Skill Experience Gain Factor'))
+        # natural stars: CLLC Custom difficulty, world-level-0 row (every row is the same); other difficulties: none
+        cllc = read(CFG / 'org.bepinex.plugins.creaturelevelcontrol.cfg')
+        row = re.search(r'^Chances for stars at world level 0 \(percent\) = (.*)$', cllc, re.M)
+        custom = re.search(r'^Difficulty = Custom', cllc, re.M)
+        ch = [float(x) / 100 for x in row.group(1).split(',')] if custom and row else [0.0, 0.0]
+        self.star1, self.star2 = ch[0], ch[1]
         self.objects = self.load_objects()
         self.sup_rows = [s for s in RM.spawn_that_rows('spawn_that.world_spawners_advanced.cfg').values()
                          if str(s.get('LevelMin')) == '3' and s.get('Enabled', 'true') == 'true']
@@ -669,6 +675,7 @@ class Run:
         if not mix or h <= 0:
             return
         hp_mult = 1 + 0.4 * (len(pls) - 1)       # CLLC HP increase per player in multiplayer = 40
+        hp_mult *= 1 + W.star1 + 2 * W.star2     # natural stars: +100% HP per star
         lvl = statistics.mean(pl.level('Swords') for pl in pls)
         ttk = sum(w * W.ttk(biome, c, lvl, hp_mult) for c, w in mix.items())
         engaged = 3600.0 / (ttk / len(pls) + RM.CAL['engage_s'])
@@ -679,6 +686,10 @@ class Run:
             for pl in pls:
                 pl.kills[c] += n
         total = sum(kills.values())
+        # natural two-stars roll the EpicLoot level-3 table like superiors do
+        for c, n in kills.items():
+            for _ in range(poisson(self.rng, n * W.star2)):
+                self.magic_roll(c, 3, t0 + self.rng.random() * h, self.rng.choice(pls))
         # weapon, blocking, evasion XP (each player lands 1/len(pls) of the hits)
         for pl in pls:
             hits = sum(n * W.hits(biome, c, pl.level('Swords')) for c, n in kills.items()) * hp_mult / len(pls)
@@ -1215,7 +1226,7 @@ def summarize(W, runs):
 def combat_index(W, S, P, profile):
     """(TTK/TTD) OSRSheim / vanilla at each biome entry, representative mob; >1 = harder than vanilla.
     OSRSheim: median Swords / Cooking at entry, the best ladder sword the Swords gate allows (a wall drops a tier),
-    no stars, prayer uptime. Vanilla: the same play at 1x XP over 1/3 of the hours (2/3 of the XP, the #83 rule),
+    CLLC's natural stars (cfg), prayer uptime. Vanilla: the same play at 1x XP over 1/3 of the hours (2/3 of the XP, the #83 rule),
     10% 1-star (2x HP, 1.5x dmg) and 1% 2-star, no Cooking bonus, no prayers, no gates."""
     lv = {row['at']: row for row in S['levels']}
     s1, s2 = P.get('combat.vanilla_star1'), P.get('combat.vanilla_star2')
@@ -1230,7 +1241,8 @@ def combat_index(W, S, P, profile):
         mob = REP_MOB[b]
         cr = RM.CREATURES[mob]
         hp_v, dm_v = 1 + s1 + 2 * s2, 1 + 0.5 * s1 + s2
-        ttk_o = W.ttk(b, mob, L_o, 1.0, WEAPON[wb])
+        hp_o, dm_o = 1 + W.star1 + 2 * W.star2, 1 + 0.5 * W.star1 + W.star2
+        ttk_o = W.ttk(b, mob, L_o, hp_o, WEAPON[wb])
         ttk_v = W.ttk(b, mob, L_v) * hp_v
         atk = [RM.ITEMS[x.lstrip('@')] for x in (cr.get('m_defaultItems') or []) + (cr.get('m_randomWeapon') or [])
                if x.lstrip('@') in RM.ITEMS]
@@ -1250,13 +1262,13 @@ def combat_index(W, S, P, profile):
             return (25 + food * (1 + 0.3 * cook / 100)) / max(0.1, d * (1 - dr) / P.get('combat.atk_interval_s'))
 
         up = P.get('combat.prayer_uptime')
-        ttd_o, ttd_o0 = ttd(dmg, prev['Cooking'], 0.15 * up, armor), ttd(dmg, prev['Cooking'], 0.0, armor)
+        ttd_o, ttd_o0 = ttd(dmg * dm_o, prev['Cooking'], 0.15 * up, armor), ttd(dmg * dm_o, prev['Cooking'], 0.0, armor)
         ttd_v = ttd(dmg * dm_v, 0, 0.0, armor_v)
         base = (ttk_o / ttd_o0) / (ttk_v / ttd_v)
         rows.append({'biome': b, 'mob': mob, 'swords_osrsheim': L_o, 'swords_vanilla_same_play': L_v,
                      'sword_used': WEAPON[wb][0], 'armor_set': ab, 'armor': armor, 'armor_vanilla': armor_v, 'food_hp': food,
                      'index_no_prayer': base, 'index_prayer': (ttk_o / (1 + 0.10 * up) / ttd_o) / (ttk_v / ttd_v),
-                     'x_stars': 1 / (hp_v * dm_v), 'x_cooking': 1 / (1 + 0.3 * prev['Cooking'] / 100)})
+                     'x_stars': hp_o * dm_o / (hp_v * dm_v), 'x_cooking': 1 / (1 + 0.3 * prev['Cooking'] / 100)})
     return rows
 
 

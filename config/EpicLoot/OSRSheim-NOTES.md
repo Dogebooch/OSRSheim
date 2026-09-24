@@ -59,7 +59,7 @@ Magic items are found, never crafted. Replaces "EpicLoot restricted to clues + b
 | Source | Roll |
 |---|---|
 | `TreasureMapChest_<Biome>` | `Tier<N>Everything` entries carry the biome row below; `Drops [[1,100]]`, one pick: gems weight 2 (plain, `Rarity null`), tier pair 1 total, shard weights 0.02-0.03, `ShardUnique` rarity per biome (table below) |
-| 2-star creatures (= superiors, bounty targets and adds) | `Tier0Mob`-`Tier9Mob` and `JotunWarrior` level 3: `Drops [[0,90],[1,10]]`, top-level `Drops []` |
+| 2-star creatures (superiors, bounty targets and adds, CLLC's natural 1%) | `Tier0Mob`-`Tier9Mob` and `JotunWarrior` level 3: `Drops [[0,96],[1,4]]`, top-level `Drops []` |
 | 15 OSRSheim uniques | unchanged (generated tables) |
 | Enchanting table | `Enabled = false`, `Table Features Active = None` |
 
@@ -87,7 +87,7 @@ Chest `ShardUnique` entry `Rarity` (overrides the ItemSet's 0, 0, 55, 35, 8, 2):
 | AshLands, DeepNorth | 0, 0, 55, 35, 8, 2 |
 
 - EpicLoot rule (`LootRoller.GetDropsForLevel`): levels 1-3 read top-level `Drops`/`Loot` when non-empty, else `LeveledLoot`.
-- 2-star creatures exist only through Spawn That and bounties, so one level-3 rate (10%) covers superiors; no separate 1% two-star rate. Bounty targets and adds roll it too (accepted).
+- One level-3 rate (4%) covers superiors, bounty targets and adds, and CLLC's natural two-stars (1% of spawns, CLLC Custom 9/1).
 - Drop That `.EpicLoot` modifiers do not apply to creature drops in this stack (§10).
 - Legendary pick = weighted over matching `legendaries.json` entries + a generic legendary (weight 1, 4-6 random effects). Weight 0 on every vanilla legendary leaves only the generic one; weights unchanged. Set items off (`Set Item Drop Chance = 0`).
 - `MagicEffectsCount` fixed: Magic 1, Rare 2, Epic 3, Legendary 4 (was 1-3 / 2-4 / 3-5 / 4-6); the OSRSheim uniques override it (`GuaranteedEffectCount = 1`).
