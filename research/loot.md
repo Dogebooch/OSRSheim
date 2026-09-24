@@ -240,7 +240,7 @@ Backups `.bak-osrsheim`; redo both edits if an update refreshes `baseconfig`.
 
 File: `spawn_that.world_spawners_advanced.cfg`. Docs:
 github.com/ASharpPen/Valheim.SpawnThat/tree/development/src/SpawnThat.Docs.
-IDs 0-102 are occupied (44+ modded); ours use 500+. No reload command: exit to
+IDs 0-114 are occupied (44+ modded); ours use 500+. No reload command: exit to
 the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 <id>` write PNGs to `BepInEx\Debug\`.
 
