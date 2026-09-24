@@ -4,7 +4,7 @@
 # WackyMole.ItemRequiresSkillLevel.yml; no recipe (sold by a KG NPC).
 name: OSRS_CapeHerblore
 clonePrefabName: CapeLinen
-m_name: Foraging cape
+m_name: Alchemy cape
 m_description: You know which mushroom. You always know which mushroom.
 m_weight: 1
 m_maxStackSize: 1

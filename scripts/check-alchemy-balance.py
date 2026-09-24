@@ -180,7 +180,7 @@ def parse_potionsplus():
 
 # ----------------------------------------------------------------------- WIRSL
 def parse_wirsl():
-    """prefab -> (level, blockcraft, blockequip) for Alchemy entries only."""
+    """prefab -> (level, blockcraft, blockequip) for Alchemy entries only, skillcapes excluded."""
     text = read(os.path.join(CFG, "WackyMole.ItemRequiresSkillLevel.yml"))
     gates, prefab, skill = {}, None, None
     cur = {}
@@ -202,7 +202,8 @@ def parse_wirsl():
         gates[prefab] = cur
     return {p: (int(v.get("Level", 0)),
                 v.get("BlockCraft") == "true",
-                v.get("BlockEquip") == "true") for p, v in gates.items()}
+                v.get("BlockEquip") == "true") for p, v in gates.items()
+            if not p.startswith("OSRS_Cape")}
 
 
 # --------------------------------------------------------------------- traders
