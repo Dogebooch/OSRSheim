@@ -1,10 +1,10 @@
-# OSRSheim vanity tailor (2026-09-24): bought from Verdandi for 5000 coins, the late coin sink.
-# Stats stripped like the riddle cloaks: armor 0, no SE_Equip, all modifiers 0, damageModifiers cleared.
-# Not in the collection log (bought, not found: gen-collection-log.py skips OSRS_Vanity*).
-name: OSRS_VanityDeepNorth
+# OSRSheim elite biome-oath cape (2026-09-24): from the oath_deepnorth_hard_seal quest only.
+# Clone of CapeDeepNorth so it reads apart from the CapeLinen oath capes; stats stripped (armor 0, no effect,
+# no resistances). No recipe, no WIRSL gate.
+name: OSRS_OathCapeDeepNorthHard
 clonePrefabName: CapeDeepNorth
-m_name: Jotun-weave cloak
-m_description: Woven after the jotun fashion. Cold still gets in.
+m_name: Frostsworn cape (trimmed)
+m_description: Sworn twice to this land. The trim is earned and nothing else.
 m_weight: 1
 m_maxStackSize: 1
 m_maxQuality: 1

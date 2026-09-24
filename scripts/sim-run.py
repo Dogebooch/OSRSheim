@@ -521,7 +521,7 @@ class World:
 
 
 # ---------- KG quests (story, free, oaths, contracts) ----------
-Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys')
+Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys skills')
 
 
 def load_quests():
@@ -568,7 +568,8 @@ def _quest(stem, b):
     keys = tuple(re.findall(r'GlobalKey,\s*(\w+)', cond))
     prereq = tuple(re.findall(r'QuestFinished,\s*(\w+)', cond))
     pkeys = tuple(re.findall(r'HasPlayerKey,\s*(\w+)', cond))
-    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys)
+    skills = tuple((s, int(n)) for s, n in re.findall(r'SkillMore,\s*(\w+),\s*(\d+)', cond))
+    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys, skills)
 
 
 # ---------- one simulated run ----------
@@ -942,10 +943,14 @@ class Run:
         W, rng = self.W, self.rng
         for pl in pls:
             for q in W.quests:
-                if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.qid in pl.done:
+                if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.file.endswith('skilling'):
+                    continue
+                # elite-oath tithes repeat on their cooldown; every other quest here is one-time
+                if q.qid in pl.done and not (q.qid.endswith('_tithe') and t - pl.done[q.qid] >= q.cooldown):
                     continue
                 if not all(k in self.keys for k in q.keys) or not all(x in pl.done for x in q.prereq) \
-                        or not all(k in pl.pkeys for k in q.pkeys):
+                        or not all(k in pl.pkeys for k in q.pkeys) \
+                        or not all(pl.level(s) >= n for s, n in q.skills):
                     continue
                 ok = True
                 for name, n, _ in q.targets:

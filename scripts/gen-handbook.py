@@ -175,7 +175,7 @@ def quest_gates():
             if not lines or not lines[0].startswith('[') or len(lines) < 8:
                 continue
             for s, lvl in re.findall(r'SkillMore\s*,\s*(\w+)\s*,\s*(\d+)', lines[7]):
-                out.append((s, int(lvl), lines[2]))
+                out.append((s, int(lvl), ('elite oath: ' if 'oaths' in f.name else 'quest: ') + lines[2]))
     return out
 
 
@@ -196,7 +196,7 @@ def skill_guide(names):
         for lvl, what in perks:
             unlocks.setdefault(s, {}).setdefault(lvl, []).append(what)
     for s, lvl, title in quest_gates():
-        unlocks.setdefault(s, {}).setdefault(lvl, []).append('quest: ' + title)
+        unlocks.setdefault(s, {}).setdefault(lvl, []).append(title)
     skills = [s for s in SKILL_ORDER if s in unlocks] + sorted(s for s in unlocks if s not in SKILL_ORDER)
     g = [f'[{P}_skills]\nWhat each skill opens. A lit row is yours; a red one names the level still needed.\n']
     for s in skills:

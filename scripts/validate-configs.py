@@ -100,10 +100,10 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
                     f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 93:
-    warn(f"expected 93 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
+if len(clones) != 100:
+    warn(f"expected 100 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
          f"+ 6 hull keels + 6 riddle rewards + 6 jewellery + 4 riddle-stones "
-         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 5 vanity cloaks + 4 saga ranks), found {len(clones)}")
+         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 4 vanity cloaks + 4 saga ranks + 8 elite oath capes), found {len(clones)}")
 
 # wackydb Recipes and status effects. Filename prefixes are load-bearing: ReadFiles.cs
 # globs "?ecipe_*.yml" and "SE_*.yml" over the whole config tree, so a misnamed file
@@ -491,8 +491,13 @@ def kg_conditions(where, text):
         if m.group(1) not in player_keys: err(f"{where}: HasPlayerKey '{m.group(1)}' is granted by no AddPlayerKey quest event")
     for m in re.finditer(r"CustomValue(?:More|Less)\s*,\s*([^,|\s]+)", text):
         custom_read.add(m.group(1))
+# Quest skill gates must be skills sim-run.py levels (TRACKED), or the run cannot be sized.
+_sim = read(os.path.join(HERE, "sim-run.py"))
+SIM_TRACKED = set(re.findall(r"'(\w+)'", re.search(r"^TRACKED = \{(.*?)\}", _sim, re.M | re.S).group(1)))
 for q, lines in quests.items():
     kg_conditions(f"KG quest [{q}]", " | ".join(lines[6:]))
+    for s in re.findall(r"SkillMore\s*,\s*(\w+)", " | ".join(lines[6:])):
+        if s not in SIM_TRACKED: err(f"KG quest [{q}] gates on {s}, which sim-run.py does not level (TRACKED)")
     if len(lines) > 4:
         for r in lines[4].split("|"):
             k, _, v = r.strip().partition(":")
