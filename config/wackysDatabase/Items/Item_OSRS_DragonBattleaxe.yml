@@ -12,5 +12,5 @@ Primary_Attack:
   DmgMultiplier: 1.1
   StaggerMultiplier: 1.3
 Secondary_Attack:
-  DmgMultiplier: 1.1
+  DmgMultiplier: 1.65   # absolute in wackydb: base 1.5 x 1.1
   StaggerMultiplier: 1.3
