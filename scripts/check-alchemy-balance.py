@@ -435,6 +435,9 @@ def main():
         avg = 0.0
     print("  avg crop units in a gated potion: %.1f (plus %d for its base)"
           % (avg, base_units))
+    # the stone is itself gated: XP below its level is earned without it
+    stone_lvl = min([l for p, (l, _, _) in gates.items() if p.startswith("PhilosopherStone")] or [0])
+    print("  a Philosophers Stone needs Alchemy %d; XP below that has no stone" % stone_lvl)
 
     print("\n  %-7s %9s %9s %9s %12s %9s"
           % ("gate", "XP", "crafts", "w/ stone", "crop units", "cycles"))
@@ -442,13 +445,14 @@ def main():
         xp = cum_xp(lvl)
         # each potion eats one base; a base brewed at opalchemy pays XP too
         crafts = xp
-        with_stone = xp / mult
+        pre = cum_xp(min(lvl, stone_lvl))
+        with_stone = pre + (xp - pre) / mult
         units = with_stone / (1 + base_xp) * (avg + base_units)
         cycles = units / float(args.garden)
         print("  %-7d %9.0f %9.0f %9.0f %12.0f %9.1f"
               % (lvl, xp, crafts, with_stone, units, cycles))
     print("\n  crafts = opalchemy clicks with no stone."
-          "\n  crop units / cycles assume the stone, %d plants per cycle"
+          "\n  crop units / cycles use the stone from its gate on, %d plants per cycle"
           " (a cycle is 67-83 min at Farming 0, 22-28 at 100)." % args.garden)
 
     print("\n%d error(s), %d warning(s)" % (len(errors), len(warns)))

@@ -128,13 +128,13 @@ tool tier, plain stone included. Mining and Lumberjacking yield: every `GetDropL
 `floor(1 + L/100 + U[0,1])`, OSRS pets, curios and gems included (Smoothbrain source).
 XP per action x the cfg factor (Smoothbrain sources, `blaxxun-boop/<Skill>`): Cooking 5 per cook or
 Cooking-station craft; Farming 1 per plant placed, 0 per harvest; Building 1 per piece; Blacksmithing
-15 per gear craft (-50% after 5 of one item, 0 after 10) + 75 on an item's first craft; Exploration
+15 per gear craft (-50% after 5 of one item, 0 after 10) + `First Craft Bonus` 125 on an item's first craft; Exploration
 0.075 per map pixel + 35 per treasure; Sailing 0.5/s at a moving helm + 35 per ship placed; Ranching 50
 per tamed kill + 7 on 10% of taming ticks; Foraging 1 per pick; Evasion 1 per dodge.
 Cooking and Farming are vanilla `SkillType`s: SkillGainModifier `Cooking`/`Farming` (0 = Global 0.5) may
 stack on the Smoothbrain 0.5 (unverified). Vanilla Fishing: 0.25 XP/s reeling an empty line, 0.5 with a
-fish (weirdgloop); x3 here. CLLC multiplayer: HP +40%, damage +4% per extra player within 200 m.
-Blacksmithing ceiling (x0.5 factor): each of the 139 gated items crafted once = L62; x10 each = L83; the L70 gate needs ~5+ crafts of every gear item.
+fish (weirdgloop); x1.5 here. CLLC multiplayer: HP +40%, damage +4% per extra player within 200 m.
+Blacksmithing ceiling (x0.5 factor, bonus 125): each of the 139 gated items crafted once = L74 (L67 at Ashlands entry, L70 at Deep North entry); x10 each = L92.
 
 Evasion's keys are `Skill gain factor` / `Skill loss`. Skill caps default
 (100). Vanilla world skill-gain modifier untouched. Vanilla skills: 0.5x via
