@@ -1502,17 +1502,17 @@ def cmd_validate(P):
     # 8. cross-model: magic items (rate-model magic) - chest + superior streams
     mag = RM.magic()
     check('rate-model magic() runs', mag[-1]['items'] > 0, f"{mag[-1]['items']} items/run (frontier maps, revisit 0.1)")
-    # 9. real play: session-log.py rows (no console use) vs the default scenario, per phase; a check from 10 h a phase
+    # 9. real play: reference\sessions\*.csv rows (no console use) vs the default scenario, per phase; a check from 10 h a phase
     sessions_vs_sim(P, check)
     print(f"\n{len(fails)} failure(s)")
     return 1 if fails else 0
 
 
-def sessions_vs_sim(P, check, min_h=10.0, path=REF / 'sessions.csv'):
-    rows = [r for r in csv.DictReader(path.open(encoding='utf-8'))] if path.exists() else []
+def sessions_vs_sim(P, check, min_h=10.0, paths=None):
+    rows = [r for f in (paths or sorted((REF / 'sessions').glob('*.csv'))) for r in csv.DictReader(open(f, encoding='utf-8'))]
     rows = [r for r in rows if not r.get('console') and float(r['hours']) >= 0.25]
     if not rows:
-        print('info  sessions.csv: no real-play rows yet (scripts\\session-log.py snap / diff)')
+        print('info  reference/sessions/: no real-play rows yet (watch.py records them; session-log.py publish)')
         return
     by = defaultdict(list)
     for r in rows:

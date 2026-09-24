@@ -18,6 +18,18 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR:-.}/scripts/watch.py\" hook",
+            "timeout": 10,
+            "statusMessage": "OSRSheim watcher status"
+          }
+        ]
+      }
     ]
   }
 }

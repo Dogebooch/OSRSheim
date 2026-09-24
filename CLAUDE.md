@@ -36,7 +36,7 @@ Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 - Load log: `<profile>\BepInEx\LogOutput.log`. Prefab dumps: `<profile>\BepInEx\Debug\`.
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
   `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only).
-- Pre-flight before any launch: `python scripts\post-build-check.py`.
+- Pre-flight: `post-build-check.py` (`watch.py` runs it).
 - Full path table, doc URLs and console commands: `RESEARCH.md` §2, §16, §20.
 
 ## Documentation rules (strict)
