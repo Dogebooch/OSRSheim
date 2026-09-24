@@ -89,7 +89,7 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rate.plant_handson_s,3,guess: plant + harvest seconds per plant
 *,*,rate.food_items_per_hour,7.2,3 food slots / ~1500 s burn (game-data items.json m_foodBurnTime)
 *,*,rate.meads_per_hour,1,guess
-*,*,rate.pieces_per_build_hour,150,guess
+*,*,rate.pieces_per_build_hour,400,guess: real play 8263 builds in 142 h (dogeo save 2025) = 58/h over all play / share.build 0.14
 *,*,rate.helm_share_of_sail,0.6,guess: share of sail/explore time at a moving helm
 *,*,rate.explore_px_per_hour,12000,guess: ~100 m radius at ~4 m/s over 12 m map pixels (Minimap) half new ground
 *,*,rate.explore_px_world,2200000,world disc r 10 km / (12 m)^2 map pixels
@@ -103,7 +103,7 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rate.boss_fight_h,0.25,guess: summon + fight + loot
 *,*,rate.bounty_h,0.5,guess: travel + level-3 target + adds
 *,*,rate.revisit_share,0.1,rate-model.py CAL revisit_share (share of later fight time back in a cleared biome)
-*,*,rule.boss_extra,0,guess: one kill per boss (no resummons)
+*,*,rule.boss_extra,2,guess: real play 51 boss kills in 142 h (dogeo save 2025; pre-OSRSheim stack) = ~6 per boss; vanilla needs repeat Moder kills for Dragon Tears
 *,*,rule.maps,1,buy the frontier treasure map at every refresh when affordable
 *,*,rule.bounties_per_session,0.4,guess
 *,*,rule.trips_per_session,1,guess: one Huntmaster accept round per session
@@ -130,4 +130,13 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,combat.vanilla_star2,0.01,vanilla second level-up roll 10% x 10%
 *,*,kph_scale.roam,1,guess: loot/classes.csv world 100/hr (guess) and roamer 55/hr (hunt replay)
 *,*,kph_scale.elite,1,guess: loot/classes.csv elite 5/hr
+*,Swamp,kph_scale.roam,1.1,rate-model.py hunt_sim (engage 0.1): Leech 83 Blob 15 BlobElite 6 + world-spawned Draugr = ~104/hr
+*,Mountain,kph_scale.roam,1.7,rate-model.py hunt_sim (engage 0.1): Wolf 68 Hatchling 23 Fenring 13 = 104/hr
+*,Plains,kph_scale.roam,1.6,rate-model.py hunt_sim (engage 0.1): Goblin 50 Deathsquito 27 Lox 12 = 89/hr
+*,Mistlands,kph_scale.roam,1.15,rate-model.py hunt_sim (engage 0.1): Seeker 48 Dverger 15 = 63/hr
+*,BlackForest,kph_scale.elite,2.0,rate-model.py hunt_sim (engage 0.1): Bjorn 6.9 Troll 3.2 = 10.1/hr
+*,Swamp,kph_scale.elite,3.3,rate-model.py hunt_sim (engage 0.1): Wraith 13.7 Abomination 2.8 = 16.5/hr
+*,Mountain,kph_scale.elite,1.9,rate-model.py hunt_sim (engage 0.1): StoneGolem 9.6/hr
+*,Plains,kph_scale.elite,0.76,rate-model.py hunt_sim (engage 0.1): Unbjorn 3.6 GoblinBrute 0.2 = 3.8/hr
+*,Mistlands,kph_scale.elite,1.8,rate-model.py hunt_sim (engage 0.1): Gjall 4.6 SeekerBrute 4.4 = 9.0/hr
 *,*,kph_scale.camp,1,loot/classes.csv camped 321/hr (measured nest)

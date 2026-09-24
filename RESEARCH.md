@@ -34,7 +34,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
 | Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
-| Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv`, `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
+| Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv` (kill supply per biome from `rate-model.py hunt`), `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
@@ -134,6 +134,7 @@ per tamed kill + 7 on 10% of taming ticks; Foraging 1 per pick; Evasion 1 per do
 Cooking and Farming are vanilla `SkillType`s: SkillGainModifier `Cooking`/`Farming` (0 = Global 0.5) may
 stack on the Smoothbrain 0.5 (unverified). Vanilla Fishing: 0.25 XP/s reeling an empty line, 0.5 with a
 fish (weirdgloop); x3 here. CLLC multiplayer: HP +40%, damage +4% per extra player within 200 m.
+Blacksmithing ceiling (x0.5 factor): each of the 139 gated items crafted once = L62; x10 each = L83; the L70 gate needs ~5+ crafts of every gear item.
 
 Evasion's keys are `Skill gain factor` / `Skill loss`. Skill caps default
 (100). Vanilla world skill-gain modifier untouched. Vanilla skills: 0.5x via

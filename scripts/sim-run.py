@@ -378,7 +378,7 @@ class World:
         k = (biome, act)
         if k in self._mix:
             return self._mix[k]
-        mem = {c: r for c, r in self.creatures.items() if CSV_BIOME.get(r['biome']) == biome}
+        mem = {c: r for c, r in self.creatures.items() if CSV_BIOME.get(r['biome']) == biome and r['biome'] != 'Ocean'}
         if act == 'camp':
             mix = Counter()
             for sp in CAMP_SPAWNERS.get(biome, []):
@@ -396,13 +396,16 @@ class World:
                             and not sp.get('m_requiredGlobalKey'):
                         g = (sp['m_groupSizeMin'] + sp['m_groupSizeMax']) / 2
                         sup[(sp.get('m_prefab') or '').lstrip('@')] += 3600 / sp['m_spawnInterval'] * sp['m_spawnChance'] / 100 * g
-            cand = {c: r for c, r in mem.items() if r['class'] in ('roamer', 'world')}
+            # camped-class mobs also world-spawn (Black Forest Greydwarf 128/hr raw, Swamp Draugr); roaming meets
+            # those at the world rate, not the nest rate
+            cand = {c: r for c, r in mem.items() if r['class'] in ('roamer', 'world', 'camped')}
             mix = Counter({c: sup.get(c, 0.0) for c in cand if sup.get(c, 0.0) > 0})
             if not mix:
-                mix = Counter({c: 1.0 for c in cand})
+                mix = Counter({c: 1.0 for c in cand if cand[c]['class'] != 'camped'})
             tot = sum(mix.values())
             mix = Counter({c: v / tot for c, v in mix.items()})
-            supply = sum(v * self.kph[cand[c]['class']] for c, v in mix.items())
+            supply = sum(v * self.kph['world' if cand[c]['class'] == 'camped' else cand[c]['class']]
+                         for c, v in mix.items())
         else:
             cand = [c for c, r in mem.items() if r['class'] in ('elite',) and 'sleeping' not in c.lower()]
             if not cand:
@@ -1178,6 +1181,8 @@ def summarize(W, runs):
                          for k, v in cnt.items()), key=lambda x: -x['per_run'])
     S['magic'] = {i: sum(pl.magic[i] for r in runs for pl in r.players) / n for i in range(6)}
     S['boss_kills'] = {k: v / len(runs) for k, v in sum((r.boss_kills for r in runs), Counter()).items()}
+    S['kills_per_h'] = pct([sum(v for k, v in pl.kills.items() if not k.startswith('*')) / RUN_H
+                            for r in runs for pl in r.players], 0.5)
     # unlock density (one player's view, dedup 0.25 h)
     dens = []
     for b in BIOMES:
@@ -1385,7 +1390,7 @@ def report(S, out=None):
         write_csv(out / 'loot_items.csv', S['items'])
         write_csv(out / 'density.csv', S['density'])
         json.dump({k: v for k, v in S.items() if k in ('meta', 'magic', 'boss_kills', 'coin_end', 'log_total',
-                                                       'log_items')}, open(out / 'summary.json', 'w'), indent=1)
+                                                       'log_items', 'kills_per_h')}, open(out / 'summary.json', 'w'), indent=1)
 
 
 # ---------- modes ----------
@@ -1442,8 +1447,9 @@ def cmd_validate(P):
     exp15 = 15 * mu
     sd = math.sqrt(15 * var)
     z = (242 - exp15) / sd if sd else 0
-    print(f"info  wolf walk (#70): 15 kills -> expected {exp15:.0f} coins (sd {sd:.0f}); measured 242 (z {z:.1f}); "
-          f"242 c needs ~{242 / mu:.0f} kills at the shipped purse (kill count came from WolfMeat pickups)")
+    z42 = (42 - exp15) / sd if sd else 0
+    print(f"info  wolf walk (#70): 15 kills -> expected {exp15:.0f} coins (sd {sd:.0f}); 242 held includes 200 from "
+          f"`spawn Coins 200` 27 min earlier (log 2026-09-23 14:38), so ~42 looted (z {z42:.1f}, not {z:.1f})")
     # 4. ladder (#83): our weapon XP per kill vs rate-model's
     lad = RM.ladder(0.25, 100, 120.0)
     xp = 0.0
