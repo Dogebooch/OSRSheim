@@ -64,12 +64,12 @@ HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7)
 Skeletons) to 4,500c (Deep North witches), a gem on the harder ones; starred
 tasks (`creature, 1, 2`, superiors §12, on the spawner's key) 500-2,500c. Camped tasks (Greydwarf, Skeleton, Draugr,
 Charred): >= ~14 min at 321 kills/hr x the target's SpawnArea weight share (Greydwarf 5/7, Draugr 4/7,
-Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6), pay 1.25x the §7 coin/hr target for that time. Skip fee
+Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6), pay 4x the coins the kills drop (count x purse EV, `loot\drops.csv`; superiors their `.200` purse), floor 40c. Skip fee
 (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
 **Herb contracts** (same file, 5 live, `Harvest`, cooldown `1` = a day): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60
-(`defeated_dragon`); 200-700c + seeds (Carrot and Turnip contracts pay their own seeds, none ahead of the herbwife page) + `Skill_EXP: Farming`. Harvest counts any
+(`defeated_dragon`); 100-350c + seeds (Carrot and Turnip contracts pay their own seeds, none ahead of the herbwife page) + `Skill_EXP: Farming`. Harvest counts any
 Pickable via `Pickable.RPC_Pick`, so own plots count.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
