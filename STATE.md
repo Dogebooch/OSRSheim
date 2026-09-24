@@ -37,7 +37,7 @@ Sailing gates (§6, §7), DistancedUI (§11).
 3. Doug vetoes renames.
 
 ## First Gielheim sessions
-- Each session, both players: `session-log.py snap` before and after (game closed), then `diff`.
+- Sessions record themselves (`watch.py`; Sven: his Claude asks).
 - Day one: craft, block and helm once each at skill 0. Bars near 50% expected;
   far higher means the §6 ladder is cheap.
 - Kills/hr, one 30 min farm per class, via `gen-loot.py --marker` (its

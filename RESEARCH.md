@@ -27,7 +27,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Profile root | `C:\Users\drumm\AppData\Roaming\com.kesomannen.gale\valheim\profiles\OSRSheim` |
 | Mod configs | repo `config\` is truth -> `<profile>\BepInEx\config\` |
 | Load log | `<profile>\BepInEx\LogOutput.log`, appends (Unity copy: `...LocalLow\IronGate\Valheim\Player.log`) |
-| Past session logs | `<profile>\BepInEx\Logs\LogOutput-<stamp>.log`, last 20, rotated by `launch-modded.ps1` |
+| Past session logs | `<profile>\BepInEx\Logs\LogOutput-<stamp>.log`, last 20, rotated by `watch.py` (game exit) and `launch-modded.ps1` |
 | Prefab dumps | `<profile>\BepInEx\Debug\` (on world load) |
 | Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
@@ -35,6 +35,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
 | Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
 | Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv` (kill supply per biome from `rate-model.py hunt`), `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
+| Background watcher | `scripts\watch.py` (logon task, `watch-install.ps1`): session rows `<main checkout>\.cache\sessions\<char>.csv` (`session-log.py`), status `.cache\watch\status.json`; committed rows `reference\sessions\` |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |

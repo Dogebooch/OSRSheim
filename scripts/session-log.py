@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-r"""Real-play telemetry from the character save (.fch): snapshot before and after a session, diff into sessions.csv.
+r"""Real-play telemetry from the character save (.fch). `watch.py` runs `auto` after every game exit.
 
-    python scripts\session-log.py snap [--char NAME | --file PATH] [--note TEXT]   copy + parse the newest save -> .cache\sessions\
-    python scripts\session-log.py diff [--char NAME] [--note TEXT]   last two snaps -> one row in reference\sessions.csv
+    python scripts\session-log.py auto [--note TEXT]     snap every save changed since its last snap; diff each
+    python scripts\session-log.py publish                copy the local session log into reference\sessions\ (commit it)
+    python scripts\session-log.py snap [--char NAME | --file PATH] [--note TEXT]   one snap by hand
+    python scripts\session-log.py diff [--char NAME] [--note TEXT]   last two snaps of a character -> one row
     python scripts\session-log.py show [--char NAME | --file PATH] [--json]   parsed save: stats, skills, coins, recipes
 
-Snap with the game closed, or after a logout (Valheim writes the .fch on logout and on world save).
+Snaps, and the complete local session log <char>.csv, live in the MAIN checkout's .cache\sessions\ (shared by
+worktrees). One row = the play between two snaps (TimeInBase + TimeOutOfBase), so a session the watcher missed is
+folded into the next row, never lost. `console` lists commands used between the snaps: those rows are not real play.
 Character files: Steam cloud userdata\*\892970\remote\characters, then LocalLow\IronGate\Valheim\characters_local.
-No game logging needed. `console` lists commands used between snaps: those rows are not real play. Format: PlayerProfile.LoadPlayerFromDisk and Player.Load (decompiled 1.0.15, profile v46,
-player data v33, item v109). Stats row 1 is the all-time total (row 0 unused, rows 3+ per achievement difficulty).
-Mod skills (Smoothbrain SkillManager) are saved as SkillType = abs(StableHash(name)); names resolved from MOD_SKILLS
-(Smoothbrain Cooking and Farming reuse vanilla 105 and 106).
+Format: PlayerProfile.LoadPlayerFromDisk and Player.Load (decompiled 1.0.15; profile v38+, player data v29+).
+Stats row 1 is the all-time total. Mod skills (Smoothbrain SkillManager) are saved as abs(StableHash(name)),
+resolved from MOD_SKILLS (Smoothbrain Cooking and Farming reuse vanilla 105 and 106).
 """
 import argparse
 import csv
@@ -20,13 +23,27 @@ import json
 import os
 import shutil
 import struct
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SNAPS = ROOT / '.cache' / 'sessions'
-OUT = ROOT / 'reference' / 'sessions.csv'
+NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
+
+
+def main_root():
+    """The main checkout: worktrees share its .cache, so snaps and the local session log live in one place."""
+    try:
+        common = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', '--path-format=absolute', '--git-common-dir'],
+                                capture_output=True, text=True, creationflags=NO_WINDOW).stdout.strip()
+        return Path(common).parent if common else ROOT
+    except OSError:
+        return ROOT
+
+
+SNAPS = main_root() / '.cache' / 'sessions'           # snaps + <char>.csv, the complete local session log
+PUB = ROOT / 'reference' / 'sessions'                  # committed copy (publish)
 CHAR_DIRS = [*glob.glob(r'C:\Program Files (x86)\Steam\userdata\*\892970\remote\characters'),
              str(Path(os.environ.get('USERPROFILE', '')) / 'AppData/LocalLow/IronGate/Valheim/characters_local')]
 
@@ -243,13 +260,26 @@ def xp_total(level, acc):
     return sum(0.5 * (k + 1) ** 1.5 + 0.5 for k in range(L)) + acc
 
 
+def char_files():
+    """Newest save per character: {name: path}; skips *_backup_* copies and .old files."""
+    found = {}
+    for d in CHAR_DIRS:
+        for f in (Path(d).glob('*.fch') if Path(d).is_dir() else []):
+            if '_backup_' in f.stem:
+                continue
+            k = f.stem.lower().split('_')[-1]                               # Steam_<id>_name -> name
+            if k not in found or f.stat().st_mtime > found[k].stat().st_mtime:
+                found[k] = f
+    return found
+
+
 def find_char(name):
-    files = [Path(d) / f for d in CHAR_DIRS if Path(d).is_dir() for f in os.listdir(d) if f.endswith('.fch')]
+    files = char_files()
     if name:
-        files = [f for f in files if f.stem.lower() == name.lower() or f.stem.lower().endswith('_' + name.lower())]
+        files = {k: v for k, v in files.items() if k == name.lower()}
     if not files:
         sys.exit(f'no .fch for {name or "any character"} in {CHAR_DIRS}')
-    return max(files, key=lambda f: f.stat().st_mtime)
+    return max(files.values(), key=lambda f: f.stat().st_mtime)
 
 
 def bosses(d):
@@ -260,33 +290,37 @@ def played_s(s):
     return s['stats'].get('TimeInBase', 0) + s['stats'].get('TimeOutOfBase', 0)
 
 
-def cmd_snap(a):
-    src = Path(a.file) if a.file else find_char(a.char)
+def snaps_of(char):
+    """Snap json files of one character, oldest first."""
+    return sorted(SNAPS.glob(f'{char}-*.json'), key=lambda f: f.name)
+
+
+def snap(src, note=''):
+    src = Path(src)
     d = parse(src)
+    d['char'] = src.stem.lower().split('_')[-1]
     d['snapped'] = datetime.now().isoformat(timespec='seconds')
     d['save_mtime'] = datetime.fromtimestamp(src.stat().st_mtime).isoformat(timespec='seconds')
-    d['note'] = a.note or ''
+    d['note'] = note
     SNAPS.mkdir(parents=True, exist_ok=True)
-    stem = f"{d['name']}-{datetime.now():%Y%m%d-%H%M%S}"
+    stem = f"{d['char']}-{datetime.now():%Y%m%d-%H%M%S}"
     shutil.copy2(src, SNAPS / f'{stem}.fch')
     (SNAPS / f'{stem}.json').write_text(json.dumps(d, indent=1), encoding='utf-8')
     print(f"snap {stem}: {src} (saved {d['save_mtime']}), played {played_s(d) / 3600:.2f} h, "
           f"{len(d['skills'])} skills, {d['coins']} coins")
+    return d
 
 
-def cmd_diff(a):
-    snaps = sorted(SNAPS.glob('*.json'), key=lambda f: f.stat().st_mtime)
-    if a.char:
-        snaps = [f for f in snaps if json.loads(f.read_text(encoding='utf-8'))['name'].lower() == a.char.lower()]
+def diff(char, note=''):
+    """Last two snaps of a character -> one row appended to .cache/sessions/<char>.csv. None if no play between."""
+    snaps = snaps_of(char)
     if len(snaps) < 2:
-        sys.exit('need two snaps (snap before and after the session)')
+        return None
     s0, s1 = (json.loads(f.read_text(encoding='utf-8')) for f in snaps[-2:])
-    if s0['name'] != s1['name']:
-        sys.exit(f"last two snaps are different characters: {s0['name']} / {s1['name']}")
     h = (played_s(s1) - played_s(s0)) / 3600
     if h <= 0:
-        sys.exit('no played time between the snaps (was the save written? log out first)')
-    row = {'date': s1['snapped'][:10], 'char': s1['name'], 'hours': round(h, 2), 'note': a.note or s1['note']}
+        return None
+    row = {'date': s1['snapped'][:10], 'char': s1['name'], 'hours': round(h, 2), 'note': note or s1['note']}
     for col, keys in RATES:
         dv = sum(s1['stats'].get(k, 0) - s0['stats'].get(k, 0) for k in keys)
         row[f'{col}_per_h'] = round(dv / h / (1000 if col.endswith('_km') else 1), 2)
@@ -300,13 +334,59 @@ def cmd_diff(a):
         if dxp > 0.01:
             row[f'xp_per_h.{sk}'] = round(dxp / h, 1)
             row[f'level.{sk}'] = round(v['level'], 1)
-    rows = list(csv.DictReader(OUT.open(encoding='utf-8'))) if OUT.exists() else []
+    out = SNAPS / f'{char}.csv'
+    rows = list(csv.DictReader(out.open(encoding='utf-8'))) if out.exists() else []
     rows.append(row)
     cols = list(dict.fromkeys(k for r in rows for k in r))
-    with OUT.open('w', encoding='utf-8', newline='') as f:
+    with out.open('w', encoding='utf-8', newline='') as f:
         w = csv.DictWriter(f, cols, lineterminator='\n')
         w.writeheader()
         w.writerows(rows)
+    return row
+
+
+def auto(note=''):
+    """Snap every character whose save changed since its last snap; diff those with an earlier snap."""
+    rows = []
+    for char, f in sorted(char_files().items()):
+        prev = snaps_of(char)
+        mtime = datetime.fromtimestamp(f.stat().st_mtime).isoformat(timespec='seconds')
+        if prev and json.loads(prev[-1].read_text(encoding='utf-8'))['save_mtime'] >= mtime:
+            continue
+        try:
+            snap(f, note)
+        except (SystemExit, Exception) as e:                             # one unreadable save must not stop the rest
+            print(f'skip {f}: {e}')
+            continue
+        if prev and (row := diff(char, note)):
+            rows.append(row)
+            print(f"session {row['char']}: {row['hours']} h" + (f" (console: {row['console']})" if row['console'] else ''))
+    return rows
+
+
+def publish():
+    """Copy each .cache/sessions/<char>.csv (the complete local log) to reference/sessions/ for a commit."""
+    PUB.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for f in SNAPS.glob('*.csv'):
+        dst = PUB / f.name
+        if not dst.exists() or dst.read_bytes() != f.read_bytes():
+            shutil.copyfile(f, dst)
+            n += 1
+            print(f'{f} -> {dst}')
+    print(f'{n} file(s) updated')
+
+
+def cmd_snap(a):
+    snap(Path(a.file) if a.file else find_char(a.char), a.note or '')
+
+
+def cmd_diff(a):
+    last = max(SNAPS.glob('*.json'), key=lambda f: f.stat().st_mtime, default=None)
+    char = a.char.lower() if a.char else last and json.loads(last.read_text(encoding='utf-8'))['char']
+    row = diff(char, a.note or '') if char else None
+    if not row:
+        sys.exit('no played time between the last two snaps (log out first so the save is written)')
     for k, v in row.items():
         print(f'{k:28} {v}')
 
@@ -332,16 +412,18 @@ def cmd_show(a):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
-    for n in ('snap', 'diff', 'show'):
+    for n in ('snap', 'diff', 'show', 'auto', 'publish'):
         s = sub.add_parser(n)
-        s.add_argument('--char')
-        if n != 'show':
+        if n in ('snap', 'diff', 'show'):
+            s.add_argument('--char')
+        if n in ('snap', 'diff', 'auto'):
             s.add_argument('--note')
     sub.choices['show'].add_argument('--file')
     sub.choices['snap'].add_argument('--file', help='a specific .fch instead of the newest save')
     sub.choices['show'].add_argument('--json', action='store_true')
     a = ap.parse_args()
-    {'snap': cmd_snap, 'diff': cmd_diff, 'show': cmd_show}[a.cmd](a)
+    {'snap': cmd_snap, 'diff': cmd_diff, 'show': cmd_show, 'auto': lambda a: auto(a.note or ''),
+     'publish': lambda a: publish()}[a.cmd](a)
 
 
 if __name__ == '__main__':
