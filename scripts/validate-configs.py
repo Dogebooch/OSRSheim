@@ -514,8 +514,8 @@ for p in re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M):
 for k in re.findall(r"^RequiredGlobalKey\s*=\s*(\S+)", t, re.M):
     if k not in KNOWN_KEYS: warn(f"spawn_that RequiredGlobalKey {k} not in the known boss-key list")
 ids = [int(x) for x in re.findall(r"^\[WorldSpawner\.(\d+)\]", t, re.M)]
-# Dump 2026-09-20 shows templates 0-102 occupied (44-102 modded, 99-102 Fimbulvinter).
-if any(i < 103 for i in ids): err("spawn_that world spawner ID below 103 would MODIFY a vanilla or modded template")
+# Dump 2026-09-22 shows templates 0-114 occupied (44-114 modded, 100-102 Fimbulvinter, 103-114 Wizardry).
+if any(i < 115 for i in ids): err("spawn_that world spawner ID below 115 would MODIFY a vanilla or modded template")
 # Station names come from the generator (EpicLoot cfg comments + DLL-derived _TW).
 import runpy
 _stations = set(runpy.run_path(os.path.join(HERE, "update-superiors.py"))["ANCHOR_LIST"])
