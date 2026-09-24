@@ -122,7 +122,7 @@ skiller,Mistlands,share.elite,0.05,guess
 *,Mistlands,rule.supply_coins_per_fight_hour,200,guess from supplies prices
 *,AshLands,rule.supply_coins_per_fight_hour,300,guess from supplies prices
 *,DeepNorth,rule.supply_coins_per_fight_hour,400,guess from supplies prices
-*,*,xp.cookfarm_sgm,0.5,SkillGainModifier has Cooking/Farming keys (0 = Global 0.5) on top of Smoothbrain 0.5; unverified
+*,*,xp.cookfarm_sgm,1,SkillGainModifier Cooking/Farming = 1 (0 would apply Global 0.5 on top of Smoothbrain 0.5; SkillGainModifier.dll RaiseSkill prefix)
 *,*,xp.quest_skill_exp_factor,1,KG Skill_EXP applied raw; unverified (#41)
 *,*,combat.atk_interval_s,2.5,guess: m_aiAttackInterval not in game-data (cancels in the vanilla ratio)
 *,*,combat.prayer_uptime,0.5,guess: share of fights with a Ward + Might prayer active
