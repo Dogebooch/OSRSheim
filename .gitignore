@@ -38,3 +38,6 @@ secrets.*
 
 # Test-only frame-time capture (#66): PresentMon.exe + captures
 perf/
+
+# scripts/sim-run.py output
+sim-out/

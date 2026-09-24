@@ -1,0 +1,133 @@
+profile,phase,key,value,source
+*,*,session.hours,2.5,guess: evening session
+*,*,session.cv,0.3,guess
+*,*,kappa,30,guess: Dirichlet concentration of per-session activity shares
+*,*,together,0.8,guess: #81 calendar is 8 h/week together
+*,*,share.camp,0.08,guess: #83 25% fighting placeholder split camp/roam/elite/boss
+*,*,share.roam,0.09,guess: #83
+*,*,share.elite,0.04,guess: #83
+*,*,share.boss,0.02,guess: #83
+*,*,share.deaths,0.02,guess: death + corpse run
+*,*,share.mine,0.07,guess
+*,*,share.chop,0.06,guess
+*,*,share.farm,0.04,guess
+*,*,share.craft,0.06,guess: cooking + smithing at stations
+*,*,share.build,0.14,guess
+*,*,share.sail,0.16,guess: sailing + exploring new ground
+*,*,share.fish,0.02,guess
+*,*,share.errands,0.14,guess: town trips, trading, quests, bank, caskets
+*,Meadows,share.camp,0,no SpawnArea in Meadows (game-data spawners.json)
+*,Meadows,share.roam,0.17,guess
+*,Meadows,share.elite,0.01,guess
+*,Meadows,share.mine,0.01,no pickaxe before Eikthyr
+*,Meadows,share.chop,0.10,guess
+*,Mountain,share.camp,0,no SpawnArea in Mountain (game-data spawners.json)
+*,Mountain,share.roam,0.13,guess
+*,Mountain,share.elite,0.08,guess
+*,Plains,share.camp,0,no SpawnArea in Plains (game-data spawners.json)
+*,Plains,share.roam,0.13,guess
+*,Plains,share.elite,0.08,guess
+*,Mistlands,share.camp,0,no SpawnArea in Mistlands (game-data spawners.json)
+*,Mistlands,share.roam,0.13,guess
+*,Mistlands,share.elite,0.08,guess
+fighter,*,share.camp,0.14,guess: fighter profile (~40% fighting)
+fighter,*,share.roam,0.14,guess
+fighter,*,share.elite,0.08,guess
+fighter,*,share.boss,0.04,guess
+fighter,*,share.deaths,0.03,guess
+fighter,*,share.mine,0.05,guess
+fighter,*,share.chop,0.04,guess
+fighter,*,share.farm,0.02,guess
+fighter,*,share.craft,0.05,guess
+fighter,*,share.build,0.06,guess
+fighter,*,share.sail,0.12,guess
+fighter,*,share.fish,0.01,guess
+fighter,*,share.errands,0.12,guess
+fighter,Meadows,share.camp,0,no SpawnArea in Meadows
+fighter,Meadows,share.roam,0.26,guess
+fighter,Mountain,share.camp,0,no SpawnArea in Mountain
+fighter,Mountain,share.roam,0.20,guess
+fighter,Mountain,share.elite,0.16,guess
+fighter,Plains,share.camp,0,no SpawnArea in Plains
+fighter,Plains,share.roam,0.20,guess
+fighter,Plains,share.elite,0.16,guess
+fighter,Mistlands,share.camp,0,no SpawnArea in Mistlands
+fighter,Mistlands,share.roam,0.20,guess
+fighter,Mistlands,share.elite,0.16,guess
+skiller,*,share.camp,0.05,guess: skiller profile (~15% fighting)
+skiller,*,share.roam,0.06,guess
+skiller,*,share.elite,0.02,guess
+skiller,*,share.boss,0.02,guess
+skiller,*,share.deaths,0.01,guess
+skiller,*,share.mine,0.12,guess
+skiller,*,share.chop,0.10,guess
+skiller,*,share.farm,0.08,guess
+skiller,*,share.craft,0.08,guess
+skiller,*,share.build,0.16,guess
+skiller,*,share.sail,0.12,guess
+skiller,*,share.fish,0.05,guess
+skiller,*,share.errands,0.12,guess
+skiller,Meadows,share.camp,0,no SpawnArea in Meadows
+skiller,Meadows,share.roam,0.11,guess
+skiller,Mountain,share.camp,0,no SpawnArea in Mountain
+skiller,Mountain,share.roam,0.08,guess
+skiller,Mountain,share.elite,0.05,guess
+skiller,Plains,share.camp,0,no SpawnArea in Plains
+skiller,Plains,share.roam,0.08,guess
+skiller,Plains,share.elite,0.05,guess
+skiller,Mistlands,share.camp,0,no SpawnArea in Mistlands
+skiller,Mistlands,share.roam,0.08,guess
+skiller,Mistlands,share.elite,0.05,guess
+*,*,weapon.Swords,0.55,guess: main melee family (the #83 ladder uses swords)
+*,*,weapon.Bows,0.25,guess
+*,*,weapon.Clubs,0.10,guess
+*,*,weapon.ElementalMagic,0.10,guess: Wizardry staves from the Black Forest
+*,Meadows,weapon.ElementalMagic,0,no staves before the Black Forest (research/gating.md)
+*,*,rate.blocks_per_kill,1.0,guess: ~1 block or parry per kill, more on elites
+*,*,rate.dodges_per_fight_hour,120,guess
+*,*,rate.plants_per_cycle,60,check-alchemy-balance.py (60 plants per cycle)
+*,*,rate.plant_handson_s,3,guess: plant + harvest seconds per plant
+*,*,rate.food_items_per_hour,7.2,3 food slots / ~1500 s burn (game-data items.json m_foodBurnTime)
+*,*,rate.meads_per_hour,1,guess
+*,*,rate.pieces_per_build_hour,150,guess
+*,*,rate.helm_share_of_sail,0.6,guess: share of sail/explore time at a moving helm
+*,*,rate.explore_px_per_hour,12000,guess: ~100 m radius at ~4 m/s over 12 m map pixels (Minimap) half new ground
+*,*,rate.explore_px_world,2200000,world disc r 10 km / (12 m)^2 map pixels
+*,*,rate.explore_share_max,0.6,guess: share of the map a run uncovers
+*,*,rate.fish_xp_per_hour,1200,weirdgloop Fishing: 0.25-0.5 xp/s while reeling x SkillGainModifier Fishing = 3 x ~40% reeling (guess)
+*,*,rate.forage_picks_per_roam_hour,20,guess
+*,*,rate.ranching_xp_per_phase,60,guess: a few tames and butchered tames per biome
+*,*,rate.smith_new_items,10,guess: new craftable gear pieces per biome (armor set + weapons + tools + shield)
+*,*,rate.smith_crafts,30,guess: crafts + upgrades per biome
+*,Meadows,rate.smith_new_items,12,guess: club/axe/knife/spear/bow/leather/rag/shield/tools
+*,*,rate.boss_fight_h,0.25,guess: summon + fight + loot
+*,*,rate.bounty_h,0.5,guess: travel + level-3 target + adds
+*,*,rate.revisit_share,0.1,rate-model.py CAL revisit_share (share of later fight time back in a cleared biome)
+*,*,rule.boss_extra,0,guess: one kill per boss (no resummons)
+*,*,rule.maps,1,buy the frontier treasure map at every refresh when affordable
+*,*,rule.bounties_per_session,0.4,guess
+*,*,rule.trips_per_session,1,guess: one Huntmaster accept round per session
+*,*,rule.skip_share,0.1,guess: share of accepted contracts skipped for the fee
+*,*,rule.gamble_share,0,share of coins above the reserve gambled per session
+*,*,rule.coin_reserve,2000,guess
+*,*,rule.pass_to_log,1,hand a collectible to the partner so both logs light (HasItem at Halla)
+*,*,rule.buy_supplies_share,0.25,guess: share of consumables bought instead of crafted
+*,*,rule.capes,1,buy a skillcape when a skill reaches 100
+*,*,rule.one_per_player_independent,0,0 = one roll then a copy per player (DropOnePerPlayer; server semantics unverified)
+*,Meadows,rule.supply_coins_per_fight_hour,10,guess from supplies prices (arrows 60c/20)
+*,BlackForest,rule.supply_coins_per_fight_hour,30,guess from supplies prices
+*,Swamp,rule.supply_coins_per_fight_hour,60,guess from supplies prices
+*,Mountain,rule.supply_coins_per_fight_hour,90,guess from supplies prices
+*,Plains,rule.supply_coins_per_fight_hour,150,guess from supplies prices
+*,Mistlands,rule.supply_coins_per_fight_hour,200,guess from supplies prices
+*,AshLands,rule.supply_coins_per_fight_hour,300,guess from supplies prices
+*,DeepNorth,rule.supply_coins_per_fight_hour,400,guess from supplies prices
+*,*,xp.cookfarm_sgm,0.5,SkillGainModifier has Cooking/Farming keys (0 = Global 0.5) on top of Smoothbrain 0.5; unverified
+*,*,xp.quest_skill_exp_factor,1,KG Skill_EXP applied raw; unverified (#41)
+*,*,combat.atk_interval_s,2.5,guess: m_aiAttackInterval not in game-data (cancels in the vanilla ratio)
+*,*,combat.prayer_uptime,0.5,guess: share of fights with a Ward + Might prayer active
+*,*,combat.vanilla_star1,0.10,vanilla m_levelupChance 10% (game-data spawners.json)
+*,*,combat.vanilla_star2,0.01,vanilla second level-up roll 10% x 10%
+*,*,kph_scale.roam,1,guess: loot/classes.csv world 100/hr (guess) and roamer 55/hr (hunt replay)
+*,*,kph_scale.elite,1,guess: loot/classes.csv elite 5/hr
+*,*,kph_scale.camp,1,loot/classes.csv camped 321/hr (measured nest)

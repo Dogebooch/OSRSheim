@@ -34,6 +34,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Clone base dumps | `reference\wackydb-base-dumps\` |
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI) |
 | Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
+| Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv`, `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
@@ -125,6 +126,14 @@ Smoothbrain skills.
 Mining XP: +1 per pickaxe hit on any `MineRock`/`MineRock5`/pickaxe `Destructible` at or above its
 tool tier, plain stone included. Mining and Lumberjacking yield: every `GetDropList` item x
 `floor(1 + L/100 + U[0,1])`, OSRS pets, curios and gems included (Smoothbrain source).
+XP per action x the cfg factor (Smoothbrain sources, `blaxxun-boop/<Skill>`): Cooking 5 per cook or
+Cooking-station craft; Farming 1 per plant placed, 0 per harvest; Building 1 per piece; Blacksmithing
+15 per gear craft (-50% after 5 of one item, 0 after 10) + 75 on an item's first craft; Exploration
+0.075 per map pixel + 35 per treasure; Sailing 0.5/s at a moving helm + 35 per ship placed; Ranching 50
+per tamed kill + 7 on 10% of taming ticks; Foraging 1 per pick; Evasion 1 per dodge.
+Cooking and Farming are vanilla `SkillType`s: SkillGainModifier `Cooking`/`Farming` (0 = Global 0.5) may
+stack on the Smoothbrain 0.5 (unverified). Vanilla Fishing: 0.25 XP/s reeling an empty line, 0.5 with a
+fish (weirdgloop); x3 here. CLLC multiplayer: HP +40%, damage +4% per extra player within 200 m.
 
 Evasion's keys are `Skill gain factor` / `Skill loss`. Skill caps default
 (100). Vanilla world skill-gain modifier untouched. Vanilla skills: 0.5x via

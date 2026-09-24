@@ -1,4 +1,4 @@
-# STATE — 2026-09-23
+# STATE — 2026-09-24
 
 Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Logs/dumps off
@@ -15,6 +15,8 @@ Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 10%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108). Uniques lose one-per-player.
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
+Balance review 2026-09-24: `scripts\sim-run.py` (`validate` 15/15), report
+https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; proposals only, nothing applied.
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
