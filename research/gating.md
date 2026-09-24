@@ -7,7 +7,7 @@
 File: `WackyMole.ItemRequiresSkillLevel.yml`. Top-level `Requirements:` list;
 each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 `BlockCraft`, `BlockEquip`. Log line on load: `ItemRequiresSkillLevel Loaded:
-326`. A wrong PrefabName fails OPEN with no log line. Tiers:
+331`. A wrong PrefabName fails OPEN with no log line. Tiers:
 `EpicLoot\baseconfig\iteminfo.json` `ItemsByBoss`.
 
 **Tier ladder**
@@ -92,7 +92,7 @@ block: wackydb dereferences it unguarded and drops the rest of the item's data.
 Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
-  frost stripped, slash 64, stamina 14, attack speed 1.2; Bandos Godsword
+  frost stripped, slash 104, stamina 14, attack speed 1.2; Bandos Godsword
   attack speed 0.9; Scythe of Vitur 0.95.
 - 10 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
   1/16,000 a tree, §7); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
@@ -105,7 +105,7 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
 - Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
 - `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.
-- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat). Wizardry rings: Utility type, armor 10, craft Blacksmithing (BlockEquip false), ArcaneAnvil_TW:
+- One finger slot (`$azuepi_fingerslot`) holds 3 OSRS rings + 5 Wizardry rings (AzuEPI compat) + EpicLoot `Andvaranaut` (Secret Stash) and `GoldRubyRing`/`SilverRing` (magic drops; forge recipes off). Wizardry rings: Utility type, armor 10, craft Blacksmithing (BlockEquip false), ArcaneAnvil_TW:
 
 | Ring | Effect | Bsmith | Anvil | Shard |
 |---|---|---|---|---|

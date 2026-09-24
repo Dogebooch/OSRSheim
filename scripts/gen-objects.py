@@ -86,12 +86,26 @@ def read_dump():
     return out
 
 
+def miss(ws, w, n):
+    """P(the w entry is never picked) in n picks without replacement from ws + [w]."""
+    if n == 0:
+        return 1.0
+    if not ws:
+        return 0.0
+    tot = sum(ws) + w
+    return sum(x / tot * miss(ws[:i] + ws[i + 1:], w, n - 1) for i, x in enumerate(ws))
+
+
 def chance(w, t):
-    """P(at least one) per destruction, for an added entry of weight w."""
+    """P(at least one) per destruction, for an added entry of weight w.
+    DropOnlyOnce tables remove each pick from the list before the next one."""
     if w <= 0:
         return 0.0
-    p = w / (t['W'] + w)
     ns = range(t['lo'], t['hi'] + 1)
+    if t['once']:
+        ws = [x for _, x in t['ents']]
+        return t['dc'] * sum(1 - miss(ws, w, n) for n in ns) / len(list(ns))
+    p = w / (t['W'] + w)
     return t['dc'] * sum(1 - (1 - p) ** n for n in ns) / len(list(ns))
 
 

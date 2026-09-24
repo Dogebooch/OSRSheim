@@ -7,7 +7,7 @@
 ### Generator
 `gen-loot.py` (two `character_drop` cfgs), `gen-objects.py`
 (`drop_that.drop_table.cfg`) and `gen-collection-log.py` (three KG cfgs)
-write to the **profile**; copy them back to `config\` after a run.
+write to the repo's `config\`; `sync-configs.ps1 -Push` after a run.
 `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` to the repo:
 bestiary biome -> creature -> every drop at its real chance, superior
 sub-pages, rarity tints per `TIERS`, `COLOUR = False` removes them.
@@ -23,7 +23,7 @@ validator warns until a plain run restores them.
 Enforced (CLAUDE.md has the append-only list): lists 110+/120+ keep their
 index when merged; `DropOnePerPlayer` per-player roll on a server is
 unverified; object entries capped at 5% per destruction and refused on a
-table with no vanilla entries. `drop_that.cfg`: dump flags on,
+table with no vanilla entries. `drop_that.cfg`: dump flags off,
 `AlwaysAutoStack = true`. `dropthat:reload` hot-reloads all loot files
 (needs `-console`; admin-only on a server).
 
@@ -119,7 +119,7 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 | Dropper | Prefab (display) | Base, twist | OSRS rate |
 |---|---|---|---|
 | Troll | OSRS_HillGiantClub (Troll's knucklebone) | MaceBronze, dmg 1.29 (secondary 3.225), speed 0.9, stagger 1.5 (secondary 3.0) | 1/256 |
-| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, dmg 1.18 (secondary 3.54), speed 1.1 | 1/256 (nest class) |
+| Draugr_Elite | OSRS_RuneScimitar (Barrow blade) | SwordIron, dmg 1.18 (secondary 3.54); speed from its legendary only | 1/256 (nest class) |
 | StoneGolem | OSRS_GraniteMaul (Golemheart hammer) | SledgeIron, dmg 1.55, stagger 1.5 (primary 3.0), force 1.5 | 1/256 |
 | GoblinBrute | OSRS_DragonHalberd (Warlord's glaive) | AtgeirBlackmetal, dmg 1.1, speed 0.95 | 1/256 |
 | Gjall | OSRS_CrystalBow (Gjall-gut bow) | BowSpineSnap, dmg 1.1 | 1/256 |
@@ -240,7 +240,7 @@ Backups `.bak-osrsheim`; redo both edits if an update refreshes `baseconfig`.
 
 File: `spawn_that.world_spawners_advanced.cfg`. Docs:
 github.com/ASharpPen/Valheim.SpawnThat/tree/development/src/SpawnThat.Docs.
-IDs 0-102 are occupied (44+ modded); ours use 500+. No reload command: exit to
+IDs 0-114 are occupied (44+ modded); ours use 500+. No reload command: exit to
 the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 <id>` write PNGs to `BepInEx\Debug\`.
 

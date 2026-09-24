@@ -1,5 +1,5 @@
 # OSRSheim elite unique - Draugr_Elite (1/512 OSRS, elite class) - authored 2026-09-21
-# Base SwordIron (dump in reference\wackydb-base-dumps). Twist: attack speed 1.1, nothing else.
+# Base SwordIron (dump in reference\wackydb-base-dumps). Twist: +12% attack speed from its EpicLoot legendary (legendaries.json), nothing else.
 name: OSRS_RuneScimitar
 clonePrefabName: SwordIron
 m_name: Barrow blade
@@ -7,8 +7,6 @@ m_description: Pulled from a draugr lord's grip. It swings quicker than a blade 
 m_weight: 0.8            # SwordIron base; wackydb skips a yml with no m_weight.
 Primary_Attack:
   DmgMultiplier: 1.18
-  Custom_AttackSpeed: 1.1
 Secondary_Attack:
   DmgMultiplier: 3.54   # absolute in wackydb: base 3.0 x 1.18
-  Custom_AttackSpeed: 1.1
 # #86: slash 55 -> 65, half a tier above Swamp.

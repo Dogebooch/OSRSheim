@@ -6,14 +6,14 @@ Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 84 clones, unlaunched since. Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: crops -> `Potion_Meadbase` -> potion, both at `opalchemy` 2, 17
-Alchemy gates (WIRSL 331), `herbwife`, 5 Harvest contracts.
+Alchemy gates (WIRSL 331), `herbwife`, 5 Harvest contracts (Farming XP x0.5 by hand, #152).
 `check-alchemy-balance.py` 8/8.
 GoldOre (Petrified Tissue): not sold to `gem_trader`, rewards paid as coin (#64).
 Oaths: all 8 biomes — 40 quests, 8 keys, 8 waystone tiers, `oath_supplies`,
 8 capes, all logged. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
-map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108). Uniques lose one-per-player.
+map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108), forge rings off. Uniques lose one-per-player.
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py` (`validate` 15/15), report
 https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins still ~405k held: bounties 116k, sinks).
@@ -22,7 +22,7 @@ https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
 the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) · #22 riddle-stones · #23 collection log ·
 #118 superiors and wanderers · #114 weapon skill at each boss kill · #141 balance checks
-(Farming XP, handbook, stars, Deep North smithing).
+(Farming XP, handbook, stars, Deep North smithing) · waystone rows, Wolf pet, cloak dumps.
 09-23 log errors: #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),

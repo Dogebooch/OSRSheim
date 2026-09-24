@@ -59,19 +59,20 @@ craft of the tier's sword or shield, a fish quest, a boss kill on the previous
 boss key; `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
 tames Boar, Wolf (1 star), Lox. Coins 25c to 8,600c, 108k total. Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
+`Skill_EXP` adds raw XP to `m_accumulator` (`Utils.IncreaseSkillEXP`), skipping every skill-gain factor; `Skill:` uses `CheatRaiseSkill`.
 
 **Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43,
 `= Autocomplete`, cooldown `60s`, the target biome's boss key (`loot\creatures.csv`, validator-enforced); profile
 `slayer_master`). Per-task kill counts and pay live in the cfg: 40c (Greylings,
-Boars) to 1,900c (Deep North Jotun), a gem on the harder ones; starred
-tasks (`creature, 1, 2`, superiors §12, on the spawner's key) 220-1,100c. Camped tasks (Greydwarf, Skeleton, Draugr,
+Boars) to 1,900c (Deep North Jotun), a gem on the harder ones; two-star
+tasks (`creature, 1, 2` = 2+ stars, so CLLC's natural 1% counts as well as superiors) 40-80c. Camped tasks (Greydwarf, Skeleton, Draugr,
 Charred): >= ~14 min at 321 kills/hr x the target's SpawnArea weight share (Greydwarf 5/7, Draugr 4/7,
 Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6), pay 4x the coins the kills drop (count x purse EV, `loot\drops.csv`; superiors their `.200` purse), floor 40c. Skip fee
 (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): a third of the pay.
 
-**Herb contracts** (same file, 5 live, `Harvest`, cooldown `1` = a day): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60
-(`defeated_dragon`); 100-350c + seeds (Carrot and Turnip contracts pay their own seeds, none ahead of the herbwife page) + `Skill_EXP: Farming`. Harvest counts any
+**Herb contracts** (same file, 5 live, `Harvest`, cooldown `1` = a day): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60;
+Turnip `defeated_bonemass`, Onion/Barley/Flax `defeated_dragon`; 100-350c + seeds (Carrot and Turnip contracts pay their own seeds, none ahead of the herbwife page) + `Skill_EXP: Farming` 20-75 (x0.5 by hand). Harvest counts any
 Pickable via `Pickable.RPC_Pick`, so own plots count.
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,

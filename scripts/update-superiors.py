@@ -40,7 +40,7 @@ ROWS = [
     ('Wolf', 'defeated_dragon', 100, 180, 'Ruby', 1, 1, 'WolfPelt', 'WolfFang', 'SilverNecklace', 4),
     ('Goblin', 'defeated_goblinking', 140, 240, 'Ruby', 1, 2, 'BlackMetalScrap', 'Needle', 'SilverNecklace', 5),
     ('Seeker', 'defeated_queen', 200, 340, 'Ruby', 1, 2, 'Carapace', 'ScaleHide', 'SilverNecklace', 6),
-    ('Charred_Melee', 'defeated_fader', 280, 460, 'Ruby', 2, 3, 'CharredBone', 'FlametalNew', 'SilverNecklace', 8),
+    ('Charred_Melee', 'defeated_fader', 280, 460, 'Ruby', 2, 3, 'CharredBone', 'FlametalOreNew', 'SilverNecklace', 8),
     ('JotunWarrior', 'defeated_frozenking_p3', 360, 600, 'Ruby', 2, 4, 'Crystal', 'Chain', 'SilverNecklace', 8),
 ]
 
