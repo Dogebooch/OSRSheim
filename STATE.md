@@ -16,7 +16,7 @@ effect, §10); Troll verified, bosses unseen. Magic: 2-stars 10%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108). Uniques lose one-per-player.
 Quests live: 79 story (57 new), 43 hunts, skip fees (§11).
 Balance review 2026-09-24, benchmarked on local data 09-23: `scripts\sim-run.py` (`validate` 15/15), report
-https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; proposals only, nothing applied.
+https://claude.ai/artifact/D1kS4fnF1uDbsSYZvYE9FJ; fixes in PRs #137-#140 (coins still ~390k held: bounties, sinks).
 
 ## Needs a live world (issues carry the checklists)
 #19 herb run (loop checks; both numbers read offline) · #21 biome oaths, which need
@@ -25,7 +25,7 @@ the 25 NPCs (#25: placed on ModTest by `gen-npcs.py`, layout = ModTest coords) �
 #83 weapon XP per hit (one nest run) ·
 #41 `Skill_EXP: Farming` hits the Smoothbrain skill.
 Coin purses 2-4x targets (coin pass).
-09-23 log errors: #134 Frozen Forge item, #135 boot warnings, #136 ring bases.
+09-23 log errors: #135 boot warnings, #136 ring bases.
 Unseen, unticketed: spawn spacing (§12), mage purses and lore renames
 (§7, §11), Wizardry `supplies` + cauldron off (§21), fishing wave (§18),
 trinket + hatchet gates (§6), crystal chest (§7), boss drops (§7),
