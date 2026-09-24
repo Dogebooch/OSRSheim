@@ -2,7 +2,7 @@
 # Base SwordMistwalker (dump: weight 0.8, Frost 40 + Slash 75, stamina 16,
 #   Damage_Per_Level = Frost 6 + SPIRIT 5).
 # Doug's call: strip the frost burst -> Frost zeroed in BOTH Damage and
-#   Damage_Per_Level. Slash 75 -> 64 (-15%). Stamina 16 -> 14.
+#   Damage_Per_Level. Slash 75 -> 104 (#86). Stamina 16 -> 14.
 # FLAGGED FOR DOUG: the per-level Spirit 5 was not visible before the dump - it
 #   is Mistwalker's anti-undead scaling, not frost, so "pure slash" arguably
 #   wants it gone too. Left AT BASE pending his call; zero it here if he agrees.

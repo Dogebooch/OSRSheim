@@ -7,7 +7,7 @@
 ### Generator
 `gen-loot.py` (two `character_drop` cfgs), `gen-objects.py`
 (`drop_that.drop_table.cfg`) and `gen-collection-log.py` (three KG cfgs)
-write to the **profile**; copy them back to `config\` after a run.
+write to the repo's `config\`; `sync-configs.ps1 -Push` after a run.
 `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` to the repo:
 bestiary biome -> creature -> every drop at its real chance, superior
 sub-pages, rarity tints per `TIERS`, `COLOUR = False` removes them.
@@ -23,7 +23,7 @@ validator warns until a plain run restores them.
 Enforced (CLAUDE.md has the append-only list): lists 110+/120+ keep their
 index when merged; `DropOnePerPlayer` per-player roll on a server is
 unverified; object entries capped at 5% per destruction and refused on a
-table with no vanilla entries. `drop_that.cfg`: dump flags on,
+table with no vanilla entries. `drop_that.cfg`: dump flags off,
 `AlwaysAutoStack = true`. `dropthat:reload` hot-reloads all loot files
 (needs `-console`; admin-only on a server).
 
