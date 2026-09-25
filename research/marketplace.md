@@ -61,16 +61,17 @@ dialogue (`OpenUI, Gambler` from a Trader NPC: in-game check #156); 21 slots of 
 through the chain), forage, riddle-stones T1-T3, the next sack; frontier holds `OSRS_MagicSecateurs` and `OSRS_HatHarvest`
 at 1 in 21. KG gambler lines kept <= 400 chars (limit unmeasured). A9 bans crops, bases and potions.
 
-**Story quests** (`Quests\osrsheim_quests_free.cfg` 22 + `osrsheim_quests_story.cfg` 57; one-time via
-cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
+**Story quests** (`Quests\osrsheim_quests_free.cfg` 21 + `osrsheim_quests_story.cfg` 58; one-time via
+cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`, listed in biome order).
 Types: Collect, Kill, Craft, Talk, Harvest. Per biome: a kill, a collect, a
 craft of the tier's sword or shield, a fish quest, and a boss Talk quest (report to Ulfar on
 `GlobalKey, defeated_<boss>`: every player claims it once, no kill credit needed); `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
-tames Boar, Wolf (1 star), Lox. Coins halved 2026-09-24 (54k total). 14 need a skill (`SkillMore`). Gated `=
+tames Boar, Wolf (1 star), Lox. Coins halved 2026-09-24 (54k total). 13 need a skill (`SkillMore`). Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
+Story kills never copy a hunt (`AllowMultipleQuestsScore` would finish both): a starred target (`creature, 1, 1` = 1+ stars) or a mixed pack.
 `Skill_EXP` adds raw XP to `m_accumulator` (`Utils.IncreaseSkillEXP`), skipping every skill-gain factor; `Skill:` uses `CheatRaiseSkill`.
 
-**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 43,
+**Hunt contracts** (`Quests\osrsheim_quests_slayer.cfg`, 45,
 `= Autocomplete`, cooldown `60s`, the target biome's boss key (`loot\creatures.csv`, validator-enforced); profile
 `slayer_master`). Per-task kill counts and pay live in the cfg. Pay = the frontier gem (Amber no key / eikthyr, AmberPearl gdking /
 bonemass, Ruby dragon / goblinking, SilverNecklace queen / fader) worth a third of 2x the kills' coin EV at Gullveig,
@@ -81,7 +82,7 @@ Charred_Melee 4/12, Charred_Archer 2/12, Charred_Twitcher 5/6); coin EV = count 
 (`QuestEvents\osrsheim_slayer_skip.cfg`, `OnCancelQuest: RemoveItem, Coins,
 N`): the pay's value in coins at Gullveig prices (validator-enforced).
 Every contract also pays `AddCustomValue: hunter_rank, <size>` (per player; size = coin EV x 2 / 100, min 1: 1-9; elite and boss hunts 1; sim: rank 200 at ~180 h). Hrafn shows 5 rank titles (10-200);
-7 elite hunts open at rank 25/50/100/200 and 8 boss hunts (`slayer_boss_<boss>`, `kc_<boss>`; 10 kills = a stone one tier
+7 elite hunts open at rank 25/50/100/200 (two targets, each above its plain hunt; T2 at 25/50, T3 at 100/200) and 8 boss hunts (`slayer_boss_<boss>`, `kc_<boss>`; 10 kills = a stone one tier
 above the boss's once, cap T4); cooldown 6, riddle-stone pay, no coins.
 
 **Herb contracts** (`Quests\osrsheim_quests_herbwife.cfg`, profile `herb_contracts`, herbwife dialogue; 11 live, `Harvest`, cooldown `2` = two game days, no coins):

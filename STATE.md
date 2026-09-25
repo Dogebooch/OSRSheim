@@ -12,7 +12,7 @@ uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108), forge rings off. Uniques lose one-per-player.
-Quests: 79 story (14 skill-gated; locked ones hidden), 43 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
+Quests: 79 story (13 skill-gated; locked ones hidden), 45 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
 Kill contracts credit the killing blow only (a boss hunt = one player); story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
 Design pass #159 live (§6-11). Sim: run-end coins 185k.
 Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins, tithes collect trophies.
