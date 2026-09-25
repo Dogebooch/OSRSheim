@@ -259,7 +259,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stone", type=float, default=None,
                     help="Philosophers Stone cfg factor; default reads the cfg")
-    ap.add_argument("--cap", type=int, default=50,
+    ap.add_argument("--cap", type=int, default=60,
                     help="highest Alchemy level a gate may demand")
     ap.add_argument("--garden", type=int, default=60,
                     help="plants per garden cycle, for the cycle estimate")

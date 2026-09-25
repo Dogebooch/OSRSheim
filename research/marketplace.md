@@ -125,8 +125,8 @@ dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). 8 biomes: 40 quests, 36,740c
 NOT a global key, so Drop That / WIRSL / bounty gates never see it. Perks gate on
 `HasPlayerKey` on a dialogue reply: waystones, `oath_supplies`, `chapel_oath`
 (4 entry prayers at -40% bone cost, Resolve of Tyr -50%; trophy-gated rungs stay out).
-**Elite oaths**: per biome `oath_<b>_h1..h4` (`HasPlayerKey, oath_<b>` + `SkillMore` 30-70 on sim-tracked skills)
-and `oath_<b>_hard_seal` (coins, a trimmed CapeDeepNorth clone, `AddPlayerKey, oath_<b>_hard`); `oath_<b>_tithe`
+**Elite oaths**: per biome `oath_<b>_h1..h4` (`HasPlayerKey, oath_<b>` + `SkillMore` 10-65 on sim-tracked skills; sim median meets each by Meadows 130 h, BF 185, Swamp 245, Mountain 275, Plains 310, Mistlands 330, Ashlands 350, DN 375; Blocking asks excepted, #156)
+and `oath_<b>_hard_seal` (no coins: a trimmed CapeDeepNorth clone, `AddPlayerKey, oath_<b>_hard`); `oath_<b>_tithe`
 (Collect 2-5 of a biome trophy, none a prayer cost or Seeress item) repeats every 6 game days for the biome tier's riddle-stone. Every unique also needs its biome's oath (WIRSL).
 
 **Teleporters** (`Teleporters\osrsheim_teleports.cfg`, `oath_network_1..8`, Type

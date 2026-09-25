@@ -143,7 +143,7 @@ PERKS = {
                       (30, 'counts as a forge upgrade'), (40, 'counts as a second forge upgrade'),
                       (50, 'counts as a black forge and galdr upgrade'),
                       (60, 'counts as a second black forge and galdr upgrade'),
-                      (70, 'repair from the inventory'), (80, 'one extra upgrade level')],
+                      (70, 'repair from the inventory')],
     'Cooking': [(50, 'a chance of perfect food')],
     'Mining': [(50, 'deposits can burst apart')],
     'Foraging': [(30, 'see when a bush regrows')],

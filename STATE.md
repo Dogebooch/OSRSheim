@@ -17,11 +17,12 @@ map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enc
 Quests: 79 story (14 skill-gated), 43 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
 Kill contracts credit the killing blow only (a boss hunt = one player); story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
 Design pass 2026-09-24 (roadmap #159, pinned): skill guide, capes at 100, elite oaths, skilling contracts,
-log ranks, frontier superiors, raid spoils, tipped bolts. Sim: coins held 428k -> 195k, tier-3 sessions 17% -> 33%.
+log ranks, frontier superiors, raid spoils, tipped bolts. Sim: coins held 428k -> 201k, tier-3 sessions 17% -> 33%.
 Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins (story quest pays), tithes collect trophies.
+Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h.
 
 ## Needs a live world
-`docs\PLAN.md`: phases 1-2 committed, not pushed (B13: Doug launches the profile once, then `gen-mods.py`, `-Push`); phases 3-5 next.
+`docs\PLAN.md`: phases 1-3 committed, not pushed (B13: Doug launches the profile once, then `gen-mods.py`, `-Push`); phases 4-5 next.
 All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
 
 ## Gielheim (Doug plays and reports)

@@ -25,10 +25,15 @@ Model, per player, Monte Carlo (one block = one activity inside one session):
   sales        gems, curios, spare trophies; rule.raw_sell_share of raw drops, wood/stone and fish at the general store
   xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Mining / Lumberjacking: rate-model;
                Smoothbrain per action (mod sources): Cooking 5/cook, Farming 1/plant, Building 1/piece,
-               Blacksmithing 15/craft + 75 first craft, Exploration 0.075/map pixel, Sailing 0.5/s at the helm,
-               x each cfg factor; Fishing from the reeling rate x SkillGainModifier Fishing 3
+               Blacksmithing 15/craft + First Craft Bonus (repeats past Experience Reduction Threshold lose Factor
+               per threshold), Exploration 0.075/map pixel, Sailing 0.5/s at the helm, x each cfg
+               `Skill Experience Gain Factor` (read); Alchemy x (1 + Philosophers Stone factor) from the stone's
+               WIRSL gate; Fishing from the reeling rate x SkillGainModifier Fishing 3
   levels       0.5(L+1)^1.5 + 0.5 XP per level; gate crossing times interpolated inside a block
   gate slack   biome entry of the gated item (EpicLoot ItemsByBoss, else the tier ladder) - crossing time
+  uniques      per player that got it: the family-main level at the first drop (weapon families: the Swords
+               curve = the 0.55 main share, x the family's m_increseStep; other skills: their own curve);
+               P_before_gate = share of those drops below the gate (Rares rule 1), gate_sim = p50 rounded up to 5
   combat index (TTK / TTD) OSRSheim / (TTK / TTD) vanilla; vanilla = rate-model ladder skill, 10% 1-star, 1% 2-star
   cadence      salience tiers S1 (gem, trophy, curio) S2 (riddle-stone, key half, necklace, superior, bounty, Rare
                magic) S3 (elite unique, T4 stone, riddle cosmetic, keel, oath cape, Epic magic) S4 (boss unique,
@@ -98,7 +103,7 @@ WEAPON = {b: (w, q) for b, w, _, q, _ in RM.LADDER}           # the #83 ladder's
 REP_MOB = {b: m for b, _, m, _, _ in RM.LADDER}
 MINE = {'Meadows': 'rock4_copper_frac', 'BlackForest': 'rock4_copper_frac', 'Swamp': 'mudpile_frac'}
 PICKS = [(40, 'PickaxeBlackMetal'), (20, 'PickaxeIron'), (10, 'PickaxeBronze'), (0, 'PickaxeAntler')]
-AXES = [(50, 'AxeJotunBane'), (40, 'AxeBlackMetal'), (20, 'AxeIron'), (15, 'AxeBronze'), (0, 'AxeFlint')]
+AXES = [(40, 'AxeJotunBane'), (35, 'AxeBlackMetal'), (20, 'AxeIron'), (15, 'AxeBronze'), (0, 'AxeFlint')]
 CHOP_OBJ = {'Meadows': 'Beech1', 'BlackForest': 'FirTree', 'Swamp': 'SwampTree1_log', 'Mountain': 'SnowFirTree',
             'Plains': 'Birch1', 'Mistlands': 'YggaShoot1', 'AshLands': 'AshlandsTree3', 'DeepNorth': 'SnowFirTree'}
 MINE_OBJ = {'Meadows': 'rock4_copper_frac', 'BlackForest': 'rock4_copper_frac', 'Swamp': 'mudpile_frac',
@@ -126,6 +131,9 @@ SHIELD = {'Meadows': 'ShieldWood', 'BlackForest': 'ShieldBronzeBuckler', 'Swamp'
 GEMS = {'Amber', 'AmberPearl', 'Ruby', 'Crystal', 'Chain', 'SilverNecklace'}
 SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg', 'Bell'}
 STEP = {'Swords': 1.0, 'Clubs': 1.0, 'Bows': 1.5, 'ElementalMagic': 1.0}   # m_increseStep (game-data player.json)
+# a weapon family's main curve = the Swords curve (weapon.Swords 0.55 = the main share) x the family's step
+MAIN_STEP = {'Swords': 1.0, 'Knives': 1.0, 'Clubs': 1.0, 'Polearms': 1.0, 'Spears': 1.5, 'Axes': 1.0, 'Bows': 1.5,
+             'ElementalMagic': 1.0, 'BloodMagic': 1.0, 'Unarmed': 1.0, 'Crossbows': 1.0}
 TIER_NAME = {1: 'S1', 2: 'S2', 3: 'S3', 4: 'S4'}
 RARITY_TIER = [1, 2, 3, 4, 4, 4]           # EpicLoot Magic, Rare, Epic, Legendary, Mythic, Ancient -> salience
 CASKETS = (('riddle_simple', 'OSRS_RiddleStoneT1'), ('riddle_cryptic', 'OSRS_RiddleStoneT2'),
@@ -294,9 +302,18 @@ class World:
         self.quests = load_quests()
         self.gates = self.load_gates()
         smith = read(CFG / 'org.bepinex.plugins.blacksmithing.cfg')
-        self.smith_bonus, self.smith_factor = (
+        self.smith_bonus, self.smith_factor, self.smith_thr, self.smith_red = (
             float(re.search(rf'^{k}\s*=\s*([\d.]+)', smith, re.M).group(1))
-            for k in ('First Craft Bonus', 'Skill Experience Gain Factor'))
+            for k in ('First Craft Bonus', 'Skill Experience Gain Factor', 'Experience Reduction Threshold',
+                      'Experience Reduction Factor'))
+        # Smoothbrain `Skill Experience Gain Factor` per skill (org.bepinex.plugins.<skill>.cfg)
+        self.sb = {s: RM.cfg_value(f'org.bepinex.plugins.{s.lower()}.cfg', 'Skill Experience Gain Factor', 0.5)
+                   for s in ('Sailing', 'Exploration', 'Farming')}
+        # Philosopher's Stone: additive on the multiplier (check-alchemy-balance), usable from its WIRSL gate
+        self.stone = 1 + RM.cfg_value('com.odinplus.potionsplus.cfg', 'Philosophers Stone XP Gain Factor', 1.25)
+        self.stone_lvl = min((g[2] for g in self.gates if g[0].startswith('PhilosopherStone')), default=0)
+        # Cooking: food health x (1 + (factor - 1) x level / 100)
+        self.cook_hp = RM.cfg_value('org.bepinex.plugins.cooking.cfg', 'Health Increase Factor', 1.0) - 1
         # natural stars: CLLC Custom difficulty, world-level-0 row (every row is the same); other difficulties: none
         cllc = read(CFG / 'org.bepinex.plugins.creaturelevelcontrol.cfg')
         row = re.search(r'^Chances for stars at world level 0 \(percent\) = (.*)$', cllc, re.M)
@@ -369,7 +386,7 @@ class World:
             if b:
                 biome_of[item] = b
         ladder = [(15, 'BlackForest'), (20, 'Swamp'), (30, 'Mountain'), (40, 'Plains'), (50, 'Mistlands'),
-                  (60, 'AshLands'), (70, 'DeepNorth')]
+                  (55, 'AshLands'), (60, 'DeepNorth')]
         gates, cur = [], None
         for raw in read(CFG / 'WackyMole.ItemRequiresSkillLevel.yml').splitlines():
             s = raw.strip()
@@ -674,6 +691,20 @@ class Player:
     def level(self, skill):
         return level_of(self.xp[skill])
 
+    def xp_at(self, skill, t):
+        """XP held at time t (linear between level crossings)."""
+        cr = self.cross[skill]
+        L = sum(1 for x in cr[1:] if x <= t)
+        if L >= 100 or cr[L + 1] == INF:
+            return CUM[L]
+        return CUM[L] + (CUM[L + 1] - CUM[L]) * (t - cr[L]) / max(cr[L + 1] - cr[L], 1e-12)
+
+    def main_level(self, skill, t):
+        """Level at t of a player who mains this skill's family (see MAIN_STEP); non-weapons: own curve."""
+        if skill in MAIN_STEP:
+            return level_of(self.xp_at('Swords', t) * MAIN_STEP[skill])
+        return level_of(self.xp_at(skill, t)) if skill in self.cross else 0
+
     def add_cv(self, name, k, t):
         before = self.cv[name]
         self.cv[name] += k
@@ -873,11 +904,12 @@ class Run:
                     pl.add_xp('Building', h * self.p('rate.pieces_per_build_hour') * 0.5, t, t + h)
             elif act == 'sail':
                 for pl in pls:
-                    pl.add_xp('Sailing', h * self.p('rate.helm_share_of_sail') * 3600 * 0.5 * 0.5 / len(pls), t, t + h)
+                    pl.add_xp('Sailing', h * self.p('rate.helm_share_of_sail') * 3600 * 0.5 * W.sb['Sailing'] / len(pls),
+                              t, t + h)
                     room = self.p('rate.explore_px_world') * self.p('rate.explore_share_max') - pl.explored
                     px = max(0.0, min(room, h * self.p('rate.explore_px_per_hour')))
                     pl.explored += px
-                    pl.add_xp('Exploration', px * 0.075 * 0.5, t, t + h)
+                    pl.add_xp('Exploration', px * 0.075 * W.sb['Exploration'], t, t + h)
             elif act == 'fish':
                 for pl in pls:
                     pl.add_xp('Fishing', h * self.p('rate.fish_xp_per_hour'), t, t + h)
@@ -915,9 +947,9 @@ class Run:
         cycles = min(hours / cycle_h, hands_on / per_cycle_h)
         plants = cycles * self.p('rate.plants_per_cycle')
         sgm = self.p('xp.cookfarm_sgm')
-        pl.add_xp('Farming', plants * 1 * 0.5 * sgm, t0, t0 + hours)
+        pl.add_xp('Farming', plants * 1 * self.W.sb['Farming'] * sgm, t0, t0 + hours)
         crops = plants * (1 + F / 100)
-        stone = 3.0 if pl.level('Alchemy') >= 50 else 1.0                 # Philosopher's Stone, gated at Alchemy 50
+        stone = self.W.stone if pl.level('Alchemy') >= self.W.stone_lvl else 1.0     # Philosopher's Stone from its gate
         if idx_phase >= BIOMES.index('Mountain'):      # Potion_Meadbase: opalchemy 2 + Turnip (post-Bonemass)
             pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)  # 3649 XP / 8514 crop units (check-alchemy-balance)
         # herb contracts (cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop
@@ -935,10 +967,16 @@ class Run:
 
     def smith(self, pl, biome, idx_phase, hours, t0):
         frac = hours / dict(PHASES)[biome]
-        new = self.p('rate.smith_new_items', biome) * frac
+        W = self.W
+        n_new = self.p('rate.smith_new_items', biome)
+        new = n_new * frac
         crafts = self.p('rate.smith_crafts', biome) * frac
-        # repeats per item stay under the cfg's reduction threshold (5), so no reduction is modelled
-        pl.add_xp('Blacksmithing', (new * self.W.smith_bonus + crafts * 15) * self.W.smith_factor, t0, t0 + hours)
+        # the k-th craft of one item pays 1 - Factor x floor((k - 1) / Threshold) (additive, floor 0)
+        reps = self.p('rate.smith_crafts', biome) / max(n_new, 1e-9)
+        k = int(math.ceil(reps))
+        pays = [max(0.0, 1 - W.smith_red * ((i - 1) // W.smith_thr)) if W.smith_thr > 0 else 1.0 for i in range(1, k + 1)]
+        eff = (sum(pays[:-1]) + pays[-1] * (reps - (k - 1))) / reps if k else 1.0
+        pl.add_xp('Blacksmithing', (new * W.smith_bonus + crafts * 15 * eff) * W.smith_factor, t0, t0 + hours)
 
     # ----- errands: town round at session start -----
     def errands(self, idx_phase, t, pls):
@@ -1360,7 +1398,7 @@ def phase_cadence(runs, min_tier):
 
 def summarize(W, runs):
     S = {}
-    skills = ['Swords', 'Bows', 'ElementalMagic', 'Blocking', 'Blacksmithing', 'Mining', 'Lumberjacking', 'Farming',
+    skills = ['Swords', 'Bows', 'Clubs', 'ElementalMagic', 'Blocking', 'Blacksmithing', 'Mining', 'Lumberjacking', 'Farming',
               'Alchemy', 'Cooking', 'Building', 'Sailing', 'Exploration', 'Fishing', 'Evasion', 'Foraging']
     lv = []
     for b in BIOMES + ['end']:
@@ -1503,7 +1541,7 @@ def combat_index(W, S, P, profile):
 
         def ttd(dmg, cook, dr, arm):
             d = dmg - arm if arm < dmg / 2 else dmg * dmg / (4 * arm)          # Valheim armor rule
-            return (25 + food * (1 + 0.3 * cook / 100)) / max(0.1, d * (1 - dr) / P.get('combat.atk_interval_s'))
+            return (25 + food * (1 + W.cook_hp * cook / 100)) / max(0.1, d * (1 - dr) / P.get('combat.atk_interval_s'))
 
         up = P.get('combat.prayer_uptime')
         ttd_o, ttd_o0 = ttd(dmg * dm_o, prev['Cooking'], 0.15 * up, armor), ttd(dmg * dm_o, prev['Cooking'], 0.0, armor)
@@ -1512,7 +1550,7 @@ def combat_index(W, S, P, profile):
         rows.append({'biome': b, 'mob': mob, 'swords_osrsheim': L_o, 'swords_vanilla_same_play': L_v,
                      'sword_used': WEAPON[wb][0], 'armor_set': ab, 'armor': armor, 'armor_vanilla': armor_v, 'food_hp': food,
                      'index_no_prayer': base, 'index_prayer': (ttk_o / (1 + 0.10 * up) / ttd_o) / (ttk_v / ttd_v),
-                     'x_stars': hp_o * dm_o / (hp_v * dm_v), 'x_cooking': 1 / (1 + 0.3 * prev['Cooking'] / 100)})
+                     'x_stars': hp_o * dm_o / (hp_v * dm_v), 'x_cooking': 1 / (1 + W.cook_hp * prev['Cooking'] / 100)})
     return rows
 
 
@@ -1525,12 +1563,16 @@ def unique_timing(W, runs):
             continue
         g = gate.get(item)
         got = [pl.got.get(item, INF) for r in runs for pl in r.players]
-        before = [pl.got.get(item, INF) < (pl.cross[g[0]][g[1]] if g and g[0] in pl.cross else INF)
-                  for r in runs for pl in r.players] if g else []
+        # conditional on a drop: the family-main level at the first drop, vs the gate
+        lv = [pl.main_level(g[0], pl.got[item]) for r in runs for pl in r.players if item in pl.got] if g else []
+        p50 = pct(lv, 0.5) if lv else float('nan')
         rows.append({'item': item, 'dropper': obj, 'p_kill': p, 'gate': f'{g[0]} {g[1]}' if g else '-',
-                     'P_by_run_end': sum(x <= RUN_H for x in got) / len(got),
+                     'P_by_run_end': sum(x <= RUN_H for x in got) / len(got), 'drops': len(lv),
                      'first_drop_p50_h': pct([x for x in got if x < INF], 0.5),
-                     'P_before_gate': sum(before) / len(before) if before else float('nan')})
+                     'main_lvl_p30': pct(lv, 0.3) if lv else float('nan'), 'main_lvl_p50': p50,
+                     'main_lvl_p70': pct(lv, 0.7) if lv else float('nan'),
+                     'gate_sim': 5 * (int(p50 // 5) + 1) if lv else float('nan'),
+                     'P_before_gate': sum(x < g[1] for x in lv) / len(lv) if lv else float('nan')})
     return rows
 
 
@@ -1733,8 +1775,9 @@ def cmd_validate(P):
     # 5. #84 mining gate XP and 6. #19 alchemy
     xs = [CUM[10], CUM[20], CUM[40]]
     check('#84 Mining XP to 10/20/40 = 76/390/2107', [round(x) for x in xs] == [76, 390, 2107], f'{[round(x) for x in xs]}')
-    crops = CUM[50] / (0.4286 * 3)
-    check('#19 Alchemy 50 = 2,838 crop units with the stone', abs(crops - 2838) <= 3, f'{crops:.0f} (no stone: {CUM[50] / 0.4286:.0f})')
+    crops = CUM[50] / 0.4286
+    check('#19 Alchemy 50 = 8,514 crop units (check-alchemy-balance)', abs(crops - 8514) <= 3,
+          f'{crops:.0f}; stone x{W.stone:g} from Alchemy {W.stone_lvl}')
     # 7. parser: shipped cfg chances vs gen-loot from the csv tables
     classes, creatures, lists, drops = GL.load('time', None)
     diffs = 0
