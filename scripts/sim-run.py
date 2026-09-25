@@ -20,7 +20,7 @@ Model, per player, Monte Carlo (one block = one activity inside one session):
   kills        Poisson(min(engaged, supply / players sharing it) x h); supply = loot\classes.csv; camp mix = the
                biome's SpawnArea weights (game-data), roam mix = vanilla world-spawn supply, elite = class elite
   loot         every shipped Drop That entry per kill: coins as a compound-binomial normal, the rest Poisson
-               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors on revisits
+               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors from the biome's opening key
   xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Mining / Lumberjacking: rate-model;
                Smoothbrain per action (mod sources): Cooking 5/cook, Farming 1/plant, Building 1/piece,
                Blacksmithing 15/craft + 75 first craft, Exploration 0.075/map pixel, Sailing 0.5/s at the helm,
@@ -220,6 +220,8 @@ def load_drops():
     table = defaultdict(list)
     for name in (GL.MAIN, 'drop_that.character_drop.osrsheim_superiors.cfg'):
         for sec, kv in GL.parse(read(CFG / name)).items():
+            if str(kv.get('ConditionCreatureStates', '')) == 'Event':
+                continue                                  # raid-only loot: raids are not modelled
             if 'PrefabName' in kv:
                 table[sec.rsplit('.', 1)[0]].append(_entry(kv))
             elif 'UseDropList' in kv:
@@ -721,10 +723,10 @@ class Run:
             buy = self.p('rule.buy_supplies_share') * self.p('rule.supply_coins_per_fight_hour', biome) * h
             pl.coins -= buy
             pl.flow['out: supplies'] += buy
-        # superiors on revisits (level 3, key set)
-        if revisit:
+        # superiors (level 3) wherever their spawner's key is set: the key that opens their biome (the frontier)
+        if True:
             for s in W.sup_rows:
-                if s.get('Biomes') != biome:
+                if s.get('Biomes') != biome or s.get('RequiredGlobalKey', '') not in keys:
                     continue
                 lam = W.sup_hr[id(s)] * h
                 for _ in range(poisson(self.rng, lam)):
@@ -1563,8 +1565,8 @@ def cmd_validate(P):
     diffs = 0
     for c in creatures:
         for rr in drops.get(c['creature'], []):
-            if 'unique=' in rr['flags'] or rr['item'] == 'Coins':
-                continue
+            if 'unique=' in rr['flags'] or 'event' in rr['flags'].split() or rr['item'] == 'Coins':
+                continue                                  # uniques: EpicLoot; event: raid-only, not loaded
             want = GL.chance(rr['chance'], classes[c['class']], 'time') / 100
             have = [e.p for e in W.drops.get(c['creature'], []) if e.item == rr['item']]
             if not any(abs(h - want) < 1e-6 for h in have):

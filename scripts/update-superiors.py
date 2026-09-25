@@ -33,15 +33,16 @@ ANCHORS = ', '.join(ANCHOR_LIST)
 # 510 fires at defeated_eikthyr, when a Meadows base has a workbench and no forge.
 EARLY_ANCHORS = ', '.join(ANCHOR_LIST[:2] + ['piece_workbench'] + ANCHOR_LIST[2:])
 EARLY_ANCHOR_IDS = {510}
+# Key = the boss key that OPENS the superior's biome (2026-09-24: frontier superiors; was the biome's own boss).
 ROWS = [
-    ('Greydwarf', 'defeated_gdking', 40, 70, 'Amber', 1, 2, 'FineWood', 'Resin', 'Ruby', 3),
-    ('Skeleton', 'defeated_gdking', 40, 70, 'AmberPearl', 1, 1, 'BoneFragments', 'Feathers', 'Ruby', 3),
-    ('Draugr', 'defeated_bonemass', 80, 140, 'AmberPearl', 1, 2, 'Entrails', 'IronScrap', 'SilverNecklace', 3),
-    ('Wolf', 'defeated_dragon', 100, 180, 'Ruby', 1, 1, 'WolfPelt', 'WolfFang', 'SilverNecklace', 4),
-    ('Goblin', 'defeated_goblinking', 140, 240, 'Ruby', 1, 2, 'BlackMetalScrap', 'Needle', 'SilverNecklace', 5),
-    ('Seeker', 'defeated_queen', 200, 340, 'Ruby', 1, 2, 'Carapace', 'ScaleHide', 'SilverNecklace', 6),
-    ('Charred_Melee', 'defeated_fader', 280, 460, 'Ruby', 2, 3, 'CharredBone', 'FlametalOreNew', 'SilverNecklace', 8),
-    ('JotunWarrior', 'defeated_frozenking_p3', 360, 600, 'Ruby', 2, 4, 'Crystal', 'Chain', 'SilverNecklace', 8),
+    ('Greydwarf', 'defeated_eikthyr', 40, 70, 'Amber', 1, 2, 'FineWood', 'Resin', 'Ruby', 3),
+    ('Skeleton', 'defeated_eikthyr', 40, 70, 'AmberPearl', 1, 1, 'BoneFragments', 'Feathers', 'Ruby', 3),
+    ('Draugr', 'defeated_gdking', 80, 140, 'AmberPearl', 1, 2, 'Entrails', 'IronScrap', 'SilverNecklace', 3),
+    ('Wolf', 'defeated_bonemass', 100, 180, 'Ruby', 1, 1, 'WolfPelt', 'WolfFang', 'SilverNecklace', 4),
+    ('Goblin', 'defeated_dragon', 140, 240, 'Ruby', 1, 2, 'BlackMetalScrap', 'Needle', 'SilverNecklace', 5),
+    ('Seeker', 'defeated_goblinking', 200, 340, 'Ruby', 1, 2, 'Carapace', 'ScaleHide', 'SilverNecklace', 6),
+    ('Charred_Melee', 'defeated_queen', 280, 460, 'Ruby', 2, 3, 'CharredBone', 'FlametalOreNew', 'SilverNecklace', 8),
+    ('JotunWarrior', 'defeated_fader', 360, 600, 'Ruby', 2, 4, 'Crystal', 'Chain', 'SilverNecklace', 8),
 ]
 
 def save(name, text):
@@ -60,7 +61,8 @@ def main():
     source = path.read_text(encoding='utf-8-sig')
     blocks = re.split(r'(?=^\[WorldSpawner\.\d+\]$)', source, flags=re.M)[1:]
     out = ['# OSRSheim custom encounters; runtime verification pending.\n'
-           f'# Superiors unlock after their own biome boss; {chance:g}% per {interval}-second check.\n'
+           '# Superiors unlock with the key that opens their biome (the previous boss), so they roam the frontier;\n'
+           f'# {chance:g}% per {interval}-second check.\n'
            '# MaxSpawned 10: vanilla counts every loaded instance of the shared prefab, so 1 let any\n'
            '# loaded common block the roll; vanilla also rolls min(MaxSpawned, elapsed/interval) times,\n'
            '# so a stale zone gets 10 rolls (~0.3% a superior at 0.03%).\n'

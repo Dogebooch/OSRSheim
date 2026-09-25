@@ -100,11 +100,12 @@ def odds(p):
     return f'1 in {round(100 / p)}'
 
 
-def row(names, item, lo, hi, p, one=False, key=None):
+def row(names, item, lo, hi, p, one=False, key=None, event=False):
     name = names.get(item) or fail(f'no display name for item {item} (VANILLA or collection-log.csv)')
     amt = '' if lo == hi == 1 else f' x{lo}' if lo == hi else f' {lo}-{hi}'
     tail = f' (after {BOSS.get(key, key)})' if key else ''
     tail += ' (one each)' if one else ''
+    tail += ' (raids only)' if event else ''
     return f'Text: {colour(text(name + amt + " " + odds(p) + tail), p)}\n'
 
 
@@ -114,7 +115,7 @@ def drop_rows(names, rows, mult, loot):
         flags = set(r['flags'].split())
         key = next((f[4:] for f in flags if f.startswith('key=')), None)
         p = loot.chance(r['chance'], mult, 'time')
-        out.append(row(names, r['item'], int(r['min']), int(r['max']), p, 'one-per-player' in flags, key))
+        out.append(row(names, r['item'], int(r['min']), int(r['max']), p, 'one-per-player' in flags, key, 'event' in flags))
     return out
 
 
