@@ -1,7 +1,7 @@
 class,valheim_kills_hr,osrs_kills_hr,members
 camped,321,400,SpawnArea-fed (and their same-name variants): Greydwarf Skeleton Skeleton_Swamps Draugr Draugr_Ranged Charred Elaking BlobMork; measured Greydwarf nest 321/hr (spawn cap 360)
 world,100,400,world-spawn and placed commons (animals blobs leeches bats ghosts); guess
-roamer,55,300,night roamers: Goblin Wolf Seeker Shaman; rate-model.py hunt at engage_share 0.1 (Wolf 68 Goblin 50 Seeker 48)
-nest,46,80,nest and pile elites: Draugr_Elite Greydwarf_Elite; measured nest 321/hr x spawn weight 1/7 (pile model ~50: kill-bound 392/hr x 0.89 x 1/7)
+roamer,55,300,night roamers: Goblin Wolf Seeker; rate-model.py hunt at engage_share 0.1 (Wolf 68 Goblin 50 Seeker 48)
+nest,46,80,nest pile and core fed: Draugr_Elite Greydwarf_Elite Greydwarf_Shaman Jotun (BlackIce_Core); measured nest 321/hr x spawn weight 1/7 (pile model ~50: kill-bound 392/hr x 0.89 x 1/7)
 elite,5,80,Troll Golem Gjall Brute Abomination and the rare world elites
 boss,2,30,the eight bosses

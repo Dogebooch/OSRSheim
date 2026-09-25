@@ -7,6 +7,7 @@ m_name: Allfather's riddle-stone
 m_description: Cold, and heavier than it looks. The runes move when you do not watch.
 m_weight: 0.1
 m_maxStackSize: 20
+m_value: 0
 # Gold "Ancient" name (keel pattern, loot.md 7): a tier-3+ find looks special in the bag.
 m_itemType: Material
 ammoType: 'Ancient|MagicCraftingMaterial'

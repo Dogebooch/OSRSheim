@@ -1,6 +1,6 @@
 # OSRSheim gates — 2026-09-19 config wave (gap campaign, Wave A)
 # Tier ladder: bronze 15 · iron 20-25 · silver/wolf 30 · blackmetal/padded 40
-#   Mistlands 50 · Ashlands 60 · Deep North 70
+#   Mistlands 50 · Ashlands 55 · Deep North 60 (weapons; armor craft 60 / 65)
 # OSRS split: weapons = weapon skill (Attack), shields EQUIP = Blocking
 #   (Defence), armor/shields/trinkets CRAFT = Blacksmithing (Smithing); armor
 #   and trinket equip ungated.
@@ -49,7 +49,7 @@ Requirements:
 - PrefabName: AxeBlackMetal
   Requirements:
   - Skill: Lumberjacking
-    Level: 40
+    Level: 35
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -420,18 +420,14 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ===== p9-9 BOSS UNIQUE CLONES (added 2026-09-19) =====
-# Rule (Doug, same day): gate each clone at its BASE item's existing gate.
+# Rule: gate = family-main sim level at the first drop, rounded up to 5 (sim-run.py uniques; Rares rule 1).
 # BlockCraft stays false on every entry - these are boss drops with no recipe.
-# UNGATED ON PURPOSE:
-#   OSRS_GracefulCape (CapeDeerHide) + OSRS_InfernalCape (CapeAsh) - no cape
-#     is gated anywhere in this file, so the base gate is "none".
-#   OSRS_AbyssalWhip (SwordMistwalker) + OSRS_ScytheOfVitur (AtgeirGold) -
-#     bases have no gate yet; fold into the tier-60/70 pass rather than
-#     inventing tiers mid-stream.
+# Second element: GlobalKeyReq oath_<drop biome> (#86). Capes: oath key only.
+# OSRS_AbyssalWhip, OSRS_ScytheOfVitur: gated after STAVES.
 - PrefabName: OSRS_DragonAxe
   Requirements:
   - Skill: Lumberjacking
-    Level: 18
+    Level: 25
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -447,7 +443,7 @@ Requirements:
 - PrefabName: OSRS_DragonfireShield
   Requirements:
   - Skill: Blocking
-    Level: 35
+    Level: 25
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -463,7 +459,7 @@ Requirements:
 - PrefabName: OSRS_BandosGodsword
   Requirements:
   - Skill: Swords
-    Level: 45
+    Level: 50
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -659,7 +655,7 @@ Requirements:
     ExhibitionName:
 - PrefabName: Scythe
   Requirements:
-  - Skill: Polearms
+  - Skill: Farming
     Level: 30
     BlockCraft: true
     BlockEquip: true
@@ -755,7 +751,7 @@ Requirements:
 - PrefabName: AxeJotunBane
   Requirements:
   - Skill: Lumberjacking
-    Level: 50
+    Level: 40
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -902,11 +898,11 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# TIER 60 — ASHLANDS (defeated_fader)
+# ASHLANDS (defeated_fader): weapons 55, Blacksmithing 60
 - PrefabName: SwordNiedhogg
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -915,7 +911,7 @@ Requirements:
 - PrefabName: SwordNiedhoggNature
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -924,7 +920,7 @@ Requirements:
 - PrefabName: SwordNiedhoggBlood
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -933,7 +929,7 @@ Requirements:
 - PrefabName: SwordNiedhoggLightning
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -942,7 +938,7 @@ Requirements:
 - PrefabName: THSwordSlayer
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -951,7 +947,7 @@ Requirements:
 - PrefabName: THSwordSlayerBlood
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -960,7 +956,7 @@ Requirements:
 - PrefabName: THSwordSlayerNature
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -969,7 +965,7 @@ Requirements:
 - PrefabName: THSwordSlayerLightning
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -978,7 +974,7 @@ Requirements:
 - PrefabName: SwordDyrnwyn
   Requirements:
   - Skill: Swords
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -987,7 +983,7 @@ Requirements:
 - PrefabName: AxeBerzerkr
   Requirements:
   - Skill: Axes
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -996,7 +992,7 @@ Requirements:
 - PrefabName: AxeBerzerkrNature
   Requirements:
   - Skill: Axes
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1005,7 +1001,7 @@ Requirements:
 - PrefabName: AxeBerzerkrBlood
   Requirements:
   - Skill: Axes
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1014,7 +1010,7 @@ Requirements:
 - PrefabName: AxeBerzerkrLightning
   Requirements:
   - Skill: Axes
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1023,7 +1019,7 @@ Requirements:
 - PrefabName: MaceEldner
   Requirements:
   - Skill: Clubs
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1032,7 +1028,7 @@ Requirements:
 - PrefabName: MaceEldnerBlood
   Requirements:
   - Skill: Clubs
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1041,7 +1037,7 @@ Requirements:
 - PrefabName: MaceEldnerLightning
   Requirements:
   - Skill: Clubs
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1050,7 +1046,7 @@ Requirements:
 - PrefabName: MaceEldnerNature
   Requirements:
   - Skill: Clubs
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1059,7 +1055,7 @@ Requirements:
 - PrefabName: SpearSplitner
   Requirements:
   - Skill: Spears
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1068,7 +1064,7 @@ Requirements:
 - PrefabName: SpearSplitner_Lightning
   Requirements:
   - Skill: Spears
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1077,7 +1073,7 @@ Requirements:
 - PrefabName: SpearSplitner_Nature
   Requirements:
   - Skill: Spears
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1086,7 +1082,7 @@ Requirements:
 - PrefabName: SpearSplitner_Blood
   Requirements:
   - Skill: Spears
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1095,7 +1091,7 @@ Requirements:
 - PrefabName: BowAshlands
   Requirements:
   - Skill: Bows
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1104,7 +1100,7 @@ Requirements:
 - PrefabName: BowAshlandsRoot
   Requirements:
   - Skill: Bows
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1113,7 +1109,7 @@ Requirements:
 - PrefabName: BowAshlandsBlood
   Requirements:
   - Skill: Bows
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1122,7 +1118,7 @@ Requirements:
 - PrefabName: BowAshlandsStorm
   Requirements:
   - Skill: Bows
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1278,11 +1274,11 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# TIER 70 — DEEP NORTH (defeated_frozenking_p3)
+# DEEP NORTH (defeated_frozenking_p3): weapons 60, Blacksmithing 65
 - PrefabName: SwordGold
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1291,7 +1287,7 @@ Requirements:
 - PrefabName: SwordGold_BloodLightning
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1300,7 +1296,7 @@ Requirements:
 - PrefabName: SwordGold_FrostFire
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1309,7 +1305,7 @@ Requirements:
 - PrefabName: THSwordGold
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1318,7 +1314,7 @@ Requirements:
 - PrefabName: THSwordGold_BloodLightning
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1327,7 +1323,7 @@ Requirements:
 - PrefabName: THSwordGold_FrostFire
   Requirements:
   - Skill: Swords
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1336,7 +1332,7 @@ Requirements:
 - PrefabName: AxeGold
   Requirements:
   - Skill: Lumberjacking
-    Level: 70
+    Level: 45
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1345,7 +1341,7 @@ Requirements:
 - PrefabName: AxeGold_BloodLightning
   Requirements:
   - Skill: Lumberjacking
-    Level: 70
+    Level: 45
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1354,7 +1350,7 @@ Requirements:
 - PrefabName: AxeGold_FrostFire
   Requirements:
   - Skill: Lumberjacking
-    Level: 70
+    Level: 45
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1363,7 +1359,7 @@ Requirements:
 - PrefabName: BattleaxeGold
   Requirements:
   - Skill: Axes
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1372,7 +1368,7 @@ Requirements:
 - PrefabName: BattleaxeGold_FrostFire
   Requirements:
   - Skill: Axes
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1381,7 +1377,7 @@ Requirements:
 - PrefabName: BattleaxeGold_BloodLightning
   Requirements:
   - Skill: Axes
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1390,7 +1386,7 @@ Requirements:
 - PrefabName: KnifeGold
   Requirements:
   - Skill: Knives
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1399,7 +1395,7 @@ Requirements:
 - PrefabName: KnifeVoid
   Requirements:
   - Skill: Knives
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1408,7 +1404,7 @@ Requirements:
 - PrefabName: KnifeGold_BloodLightning
   Requirements:
   - Skill: Knives
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1417,7 +1413,7 @@ Requirements:
 - PrefabName: KnifeGold_FrostFire
   Requirements:
   - Skill: Knives
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1426,7 +1422,7 @@ Requirements:
 - PrefabName: MaceGold
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1435,7 +1431,7 @@ Requirements:
 - PrefabName: MaceGold_FrostFire
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1444,7 +1440,7 @@ Requirements:
 - PrefabName: MaceGold_BloodLightning
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1453,7 +1449,7 @@ Requirements:
 - PrefabName: SledgeGold
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1462,7 +1458,7 @@ Requirements:
 - PrefabName: SledgeGold_BloodLightning
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1471,7 +1467,7 @@ Requirements:
 - PrefabName: SledgeGold_FrostFire
   Requirements:
   - Skill: Clubs
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1480,7 +1476,7 @@ Requirements:
 - PrefabName: AtgeirGold
   Requirements:
   - Skill: Polearms
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1489,7 +1485,7 @@ Requirements:
 - PrefabName: AtgeirGold_BloodLightning
   Requirements:
   - Skill: Polearms
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1498,7 +1494,7 @@ Requirements:
 - PrefabName: AtgeirGold_FrostFire
   Requirements:
   - Skill: Polearms
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1507,7 +1503,7 @@ Requirements:
 - PrefabName: SpearGold
   Requirements:
   - Skill: Spears
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1516,7 +1512,7 @@ Requirements:
 - PrefabName: SpearGold_BloodLightning
   Requirements:
   - Skill: Spears
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1525,7 +1521,7 @@ Requirements:
 - PrefabName: SpearGold_FrostFire
   Requirements:
   - Skill: Spears
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1534,7 +1530,7 @@ Requirements:
 - PrefabName: BowGold
   Requirements:
   - Skill: Bows
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1543,7 +1539,7 @@ Requirements:
 - PrefabName: BowGold_FrostFire
   Requirements:
   - Skill: Bows
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1552,7 +1548,7 @@ Requirements:
 - PrefabName: BowGold_BloodLightning
   Requirements:
   - Skill: Bows
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1588,7 +1584,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthMediumChest
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1597,7 +1593,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthMediumlegs
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1606,7 +1602,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthHeavyChest
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1615,7 +1611,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthHeavylegs
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1624,7 +1620,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthMageChest
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1633,7 +1629,7 @@ Requirements:
 - PrefabName: ArmorDeepNorthMagelegs
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1642,7 +1638,7 @@ Requirements:
 - PrefabName: HelmetDNMage
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1651,7 +1647,7 @@ Requirements:
 - PrefabName: HelmetDNHeavy
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1660,7 +1656,7 @@ Requirements:
 - PrefabName: HelmetDNMediumHood
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1676,7 +1672,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1692,7 +1688,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1708,7 +1704,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -1724,18 +1720,14 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# UNARMED LADDER — SKILL NAME UNVERIFIED
-# Valheim's SkillType enum is 'Unarmed'; EpicLoot calls the category
-# 'Fists'. If these gates never fire, the log will show no error (a bad
-# skill name fails OPEN, same as the DraugrFang bug) — swap Unarmed ->
-# Fists and reload. All four entries share the one fix.
+# UNARMED LADDER (Skills.SkillType Unarmed; WIRSL fails closed on a bad skill name, research\gating.md)
 - PrefabName: FistFenrirClaw
   Requirements:
   - Skill: Unarmed
@@ -1757,7 +1749,7 @@ Requirements:
 - PrefabName: FistGold
   Requirements:
   - Skill: Unarmed
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1766,7 +1758,7 @@ Requirements:
 - PrefabName: FistGold_BloodLightning
   Requirements:
   - Skill: Unarmed
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1775,22 +1767,17 @@ Requirements:
 - PrefabName: FistGold_FrostFire
   Requirements:
   - Skill: Unarmed
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# STAVES — MAGIC GATING (tiers 50/60/70)
+# STAVES — MAGIC GATING (tiers 50/55/60)
 # Deliberately NOT gated before tier 50: entry staves must stay usable
 # because casting is how magic levels (OSRS Magic 1 casts wind strike).
-# SKILL ASSIGNMENT: Valheim splits staves across ElementalMagic and
-# BloodMagic. Summoners are Blood, projectiles are Elemental. The three
-# marked '?? UNVERIFIED' are guesses from the prefab name alone.
-# TO VERIFY (needs a live game, 30 seconds each): wackydb_save_item on
-# the staff, then read 'm_skillType' in the dumped yml. Do NOT dump onto
-# an authored Item_OSRS_*.yml — it overwrites the file.
+# ElementalMagic / BloodMagic by game-data m_skillType (9 Elemental, 10 Blood).
 - PrefabName: StaffFireball
   Requirements:
   - Skill: ElementalMagic
@@ -1830,7 +1817,7 @@ Requirements:
 - PrefabName: StaffLightning
   Requirements:
   - Skill: ElementalMagic
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1839,7 +1826,7 @@ Requirements:
 - PrefabName: StaffClusterbomb
   Requirements:
   - Skill: ElementalMagic
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1848,7 +1835,7 @@ Requirements:
 - PrefabName: StaffRedTroll
   Requirements:
   - Skill: BloodMagic
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1858,7 +1845,7 @@ Requirements:
 - PrefabName: StaffGreenRoots
   Requirements:
   - Skill: ElementalMagic
-    Level: 60
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1868,7 +1855,7 @@ Requirements:
 - PrefabName: StaffFrostOrbs
   Requirements:
   - Skill: BloodMagic
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1878,7 +1865,7 @@ Requirements:
 - PrefabName: StaffOrbofAhri
   Requirements:
   - Skill: BloodMagic
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1888,7 +1875,7 @@ Requirements:
 - PrefabName: StaffThunderBlood
   Requirements:
   - Skill: ElementalMagic
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -1897,14 +1884,14 @@ Requirements:
 - PrefabName: StaffSpiritCaller
   Requirements:
   - Skill: BloodMagic
-    Level: 70
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# p9-9 CLONE GATES DEFERRED TO THIS PASS (see the p9-9 block above)
+# p9-9 CLONE GATES: whip, scythe
 - PrefabName: OSRS_AbyssalWhip
   Requirements:
   - Skill: Swords
@@ -1939,8 +1926,6 @@ Requirements:
     ExhibitionName: the Deep North oath
 # ====================================================================
 # p9-11 SKILLCAPES — equip-gated at 100, no craft gate (NPC-sold).
-# 'Unarmed' and the two magic skill names share the uncertainty noted
-# in the staves/unarmed sections above: a wrong skill name fails OPEN.
 - PrefabName: OSRS_CapeMining
   Requirements:
   - Skill: Mining
@@ -2332,8 +2317,8 @@ Requirements:
 #   wrong). Ungated on purpose: StaffBlackforest_TW (Elemental entry) and
 #   StaffSurtling_TW (Blood entry; Blood XP comes only from summon hits).
 #   Rings: CRAFT Blacksmithing at metal tier, equip ungated (AzuEPI finger
-#   slot, see JEWELLERY). Armor: EQUIP Blocking, CRAFT
-#   Blacksmithing, same split as every other set.
+#   slot, see JEWELLERY). Armor, capes, circlets: CRAFT Blacksmithing,
+#   equip ungated.
 - PrefabName: StaffSwamp_TW
   Requirements:
   - Skill: ElementalMagic
@@ -2950,7 +2935,7 @@ Requirements:
 - PrefabName: TrinketBloodGoldHealth
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -2959,7 +2944,7 @@ Requirements:
 - PrefabName: TrinketBloodGoldStamina
   Requirements:
   - Skill: Blacksmithing
-    Level: 70
+    Level: 65
     BlockCraft: true
     BlockEquip: false
     EpicMMO: false
@@ -3162,7 +3147,7 @@ Requirements:
 - PrefabName: PhilosopherStonePurple
   Requirements:
   - Skill: Alchemy
-    Level: 50
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3171,7 +3156,7 @@ Requirements:
 - PrefabName: PhilosopherStoneGreen
   Requirements:
   - Skill: Alchemy
-    Level: 50
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3180,7 +3165,7 @@ Requirements:
 - PrefabName: PhilosopherStoneRed
   Requirements:
   - Skill: Alchemy
-    Level: 50
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3189,7 +3174,7 @@ Requirements:
 - PrefabName: PhilosopherStoneBlue
   Requirements:
   - Skill: Alchemy
-    Level: 50
+    Level: 60
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3244,7 +3229,7 @@ Requirements:
 - PrefabName: FishingBaitMistlands
   Requirements:
   - Skill: Fishing
-    Level: 50
+    Level: 45
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3253,7 +3238,7 @@ Requirements:
 - PrefabName: FishingBaitAshlands
   Requirements:
   - Skill: Fishing
-    Level: 60
+    Level: 50
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3262,18 +3247,18 @@ Requirements:
 - PrefabName: FishingBaitDeepNorth
   Requirements:
   - Skill: Fishing
-    Level: 70
+    Level: 55
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
-# ELITE UNIQUE CLONES (2026-09-21): equip-gated half a tier above the drop biome (#86); no recipe, so BlockCraft false.
-# OSRS_DragonBattleaxe sits at Axes 70: #86 half-tier rule, capped at the 70 main-run line (#81).
+# ELITE UNIQUE CLONES (2026-09-21): equip-gated at the sim level at the drop (see p9-9 rule); no recipe, so BlockCraft false.
+# CrystalBow 65: bow main levels at x1.5 (m_increseStep), so its sim level at the drop is ~60.
 - PrefabName: OSRS_HillGiantClub
   Requirements:
   - Skill: Clubs
-    Level: 18
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3289,7 +3274,7 @@ Requirements:
 - PrefabName: OSRS_RuneScimitar
   Requirements:
   - Skill: Swords
-    Level: 27
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3305,7 +3290,7 @@ Requirements:
 - PrefabName: OSRS_GraniteMaul
   Requirements:
   - Skill: Clubs
-    Level: 35
+    Level: 45
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3321,7 +3306,7 @@ Requirements:
 - PrefabName: OSRS_DragonHalberd
   Requirements:
   - Skill: Polearms
-    Level: 45
+    Level: 50
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3337,7 +3322,7 @@ Requirements:
 - PrefabName: OSRS_CrystalBow
   Requirements:
   - Skill: Bows
-    Level: 55
+    Level: 65
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3369,7 +3354,7 @@ Requirements:
 - PrefabName: OSRS_DragonBattleaxe
   Requirements:
   - Skill: Axes
-    Level: 70
+    Level: 65
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -3468,11 +3453,11 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq: oath_ashlands
     ExhibitionName: the Ashlands oath
-# Gem-tipped bolts (2026-09-24): Crossbows 30/40/50/60, craft and shoot.
+# Gem-tipped bolts (2026-09-24): Crossbows 10/20/25/30 (crossbow tier), craft and shoot.
 - PrefabName: OSRS_BoltAmber
   Requirements:
   - Skill: Crossbows
-    Level: 30
+    Level: 10
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3481,7 +3466,7 @@ Requirements:
 - PrefabName: OSRS_BoltPearl
   Requirements:
   - Skill: Crossbows
-    Level: 40
+    Level: 20
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3490,7 +3475,7 @@ Requirements:
 - PrefabName: OSRS_BoltRuby
   Requirements:
   - Skill: Crossbows
-    Level: 50
+    Level: 25
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false
@@ -3499,7 +3484,7 @@ Requirements:
 - PrefabName: OSRS_BoltCrystal
   Requirements:
   - Skill: Crossbows
-    Level: 60
+    Level: 30
     BlockCraft: true
     BlockEquip: true
     EpicMMO: false

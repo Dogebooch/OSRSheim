@@ -4,7 +4,7 @@ name: OSRS_DraugrVisage
 clonePrefabName: HelmetIron
 m_name: Bog visage
 m_description: A face pulled from the bog, still wearing its last expression.
-m_weight: 2.25
+m_weight: 3
 Armor:
   armor: 16
   armorPerLevel: 2

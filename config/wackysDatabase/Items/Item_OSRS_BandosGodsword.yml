@@ -1,20 +1,9 @@
 # OSRSheim p9-9 boss unique — GoblinKing (Yagluth) — authored 2026-09-19
-# Base SwordBlackmetal (dump: weight 0.8, Slash 95 (+6/lvl), stamina 14,
-# StaggerMultiplier 1.0 -> the 1.5 twist is confirmed as a real 1.5x, not a no-op).
+# Base SwordBlackmetal (dump: weight 0.8, Slash 95 (+6/lvl), stamina 14).
 name: OSRS_BandosGodsword
 clonePrefabName: SwordBlackmetal
 m_name: Yagluth's warblade
-m_description: A war-god's blade. Slow to swing, and nothing stands after it lands.
+m_description: A war-god's blade. What it wounds, it finishes.
 m_weight: 0.8
 Damage:
-  Slash: 108   # #86: half a tier above Plains (95 / Mistwalker 115)
-Primary_Attack:
-  Custom_AttackSpeed: 0.9
-  StaggerMultiplier: 1.5
-Secondary_Attack:
-  Custom_AttackSpeed: 0.9
-  StaggerMultiplier: 1.5
-# VERIFY-BY-FEEL: Custom_AttackSpeed cannot be confirmed by dumping this item
-# back out - wackydb normalizes it to 1 on save (README FAQ line 135), and a
-# wackydb_save_item on THIS file would silently reset the value below to 1.
-# Never re-save over this file; every other twist here is dump-confirmed.
+  Slash: 105   # #86: half a tier above Plains (95 / Mistwalker 115)

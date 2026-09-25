@@ -1627,7 +1627,7 @@
                     }
                 },
                 "Utility": {
-                    "EffectType": "Warmth",
+                    "EffectType": "AddFrostResistancePercentage",
                     "ValuesPerRarity": {
                         "Magic": 2,
                         "Rare": 3,

@@ -4,7 +4,7 @@ r"""Generate the NPC placement set from reference\npc-layout.csv. Never edit the
     python scripts\gen-npcs.py                         write every output
     python scripts\gen-npcs.py --check                 exit 0 = outputs match the layout, 1 = stale
     python scripts\gen-npcs.py --set <npc> <node> "<pos text>"   fill one row (any three numbers, rounded)
-    python scripts\gen-npcs.py --town <x> <z> <heading>           lay Kaupang out around its square (TOWN plan)
+    python scripts\gen-npcs.py --town <x> <z> <heading>           lay Kaupang out around its square (TOWN plan); blanks every other row
     python scripts\gen-npcs.py --builder on|off        list the builder dialogue in DistancedUI (setup only)
 
 Layout: reference\npc-layout.csv  npc, node, x, y, z. npc = a Marketplace_SavedNPCs template name.
@@ -168,12 +168,16 @@ def builder(rows):
 def teleports(rows):
     text = waystone.CFG.read_text(encoding='utf-8')
     for r in rows:
-        if r['npc'] == 'Waystone' and placed(r):
-            if r['node'] not in waystone.NODES:
-                err(f"Waystone node {r['node']!r} is not a set-waystone.py node")
-                continue
+        if r['npc'] != 'Waystone':
+            continue
+        if r['node'] not in waystone.NODES:
+            err(f"Waystone node {r['node']!r} is not a set-waystone.py node")
+            continue
+        if placed(r):
             x, y, z = (int(r[c]) + d for c, d in zip('xyz', TP_OFFSET))
             text = waystone.render(r['node'], x, y, z, text)
+        else:
+            text = waystone.unset(r['node'], text)
     return text
 
 
@@ -245,8 +249,11 @@ def town(cx, cz, heading):
             r.update(x=str(round(cx + off[0] * right[0] + off[1] * fwd[0])), y='',
                      z=str(round(cz + off[0] * right[1] + off[1] * fwd[1])))
             n += 1
+        else:
+            r.update(x='', y='', z='')
     write_layout(rows)
     print(f'ok    {n} Kaupang rows around {cx}, {cz}, water at {heading} deg; y blank until measured')
+    print(f'      {len(rows) - n} far rows blanked: measure on site with --set')
 
 
 def toggle_builder(on):

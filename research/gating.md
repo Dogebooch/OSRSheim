@@ -7,7 +7,7 @@
 File: `WackyMole.ItemRequiresSkillLevel.yml`. Top-level `Requirements:` list;
 each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 `BlockCraft`, `BlockEquip`. Log line on load: `ItemRequiresSkillLevel Loaded:
-331`. A wrong PrefabName fails OPEN with no log line. Tiers:
+338`. A wrong PrefabName fails OPEN with no log line. Tiers:
 `EpicLoot\baseconfig\iteminfo.json` `ItemsByBoss`.
 
 **Tier ladder**
@@ -20,57 +20,57 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
 | Silver, wolf | 30 | SwordSilver, wolf armor, Fenring |
 | Black metal, padded | 40 | SwordBlackmetal, padded armor |
 | Mistlands | 50 | carapace, Mistwalker, staves |
-| Ashlands (flametal) | 60 | |
-| Deep North | 70 | |
+| Ashlands (flametal) | 55 weapons, 60 armor craft | |
+| Deep North | 60 weapons, 65 armor craft | |
 
-**Weapon skill at biome entry** (`rate-model.py ladder`, one weapon skill, 25% of play fighting at 100 kills/hr; #83)
+**Weapon skill at biome entry** (`sim-run.py`, median main-family level = the Swords curve, 400 runs)
 
-| Biome | Gate | OSRSheim | Vanilla | Damage vs vanilla |
+| Biome | Gate | Balanced | Fighter | Balanced reaches gate |
 |---|---|---|---|---|
-| Black Forest | 15 | 28 | 24 | +4% |
-| Swamp | 22 | 38 | 32 | +6% |
-| Mountains | 30 | 49 | 42 | +6% |
-| Plains | 40 | 56 | 48 | +7% |
-| Mistlands | 50 | 64 | 55 | +7% |
-| Ashlands | 60 | 74 | 64 | +8% |
-| Deep North | 70 | 86 | 74 | +9% |
+| Black Forest | 15 | 12 | 14 | 22 h |
+| Swamp | 20 | 28 | 34 | 30 h |
+| Mountains | 30 | 39 | 48 | 53 h |
+| Plains | 40 | 44 | 54 | 90 h |
+| Mistlands | 50 | 48 | 58 | 218 h (33 h in) |
+| Ashlands | 55 | 53 | 63 | 262 h (17 h in) |
+| Deep North | 60 | 60 | 72 | 308 h (at entry) |
 
-50% fighting: +5% to +9%. Skill roll spread ±15%. `Global = 0.5` kept; fallback lever: per-weapon `[Skill Gain]` keys (semantics unverified).
+Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±15%. `Global = 0.5` kept; fallback lever: per-weapon `[Skill Gain]` keys (semantics unverified).
 
 **Skill split**
 
 - Weapons: their weapon skill.
 - Armor, capes, circlets, trinkets (15 in 1.0): CRAFT on Blacksmithing at
   tier, equip ungated. Shields: EQUIP on Blocking + CRAFT on Blacksmithing.
-- Picks: Mining 10 / 20 / 40. One-hand axes: Lumberjacking 15 / 20 / 40 / 50
-  (JotunBane) / 70 (Gold). Battleaxes and Berzerkr stay on Axes.
-- Staves: ElementalMagic / BloodMagic at 50 / 60 / 70, craft and equip.
+- Picks: Mining 10 / 20 / 40. One-hand axes: Lumberjacking 15 / 20 / 35 (BlackMetal) / 40
+  (JotunBane) / 45 (Gold). Battleaxes and Berzerkr stay on Axes.
+- Staves: ElementalMagic / BloodMagic at 50 / 55 / 60, craft and equip.
   Wizardry: `StaffBlackforest_TW`, `StaffSurtling_TW` ungated, `StaffSwamp_TW` 20,
   `StaffMountain_TW` 30, `StaffPlains_TW` 40 and `StaffGolem_TW` Blood 40,
   `StaffMistlands_TW` 50. Spellslinger sets and circlets 15 / 20 / 30 / 40 /
   50 on the armor split. Rings craft Blacksmithing 15 / 20 / 30 / 40 / 50, equip ungated.
-- Unarmed ladder 30-70.
+- Unarmed ladder 30 / 40 / 60.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
 - Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills. Bought only at 100 (Verdandi).
 - Uniques also need their biome's oath: a second requirement element `GlobalKeyReq: oath_<biome>` (a key element
   returns on the key alone, so it cannot share the skill element).
-- Gem-tipped bolts: Amber 30, Pearl 40, Ruby 50, Crystal 60 on Crossbows (craft + shoot).
+- Gem-tipped bolts: Amber 10, Pearl 20, Ruby 25, Crystal 30 on Crossbows (crossbow tier; craft + shoot).
 - Skill guide: `gen-handbook.py` lists every gate, Smoothbrain level perk and `SkillMore` quest per skill level.
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
   Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
   `_Charge` from the DLL only.
 - Alchemy brews (craft + use): Medium flasks 10, Grands 20, Stealth 25,
   Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
-  Gods and the 4 stones 50. Lesser vials ungated.
-- Uniques (#86: damage and gate half a tier above the drop biome, capped at 70): DragonAxe Lumberjacking 18,
-  DragonfireShield Blocking 35, BandosGodsword Swords 45, AbyssalWhip Swords 55,
-  ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 18,
-  RuneScimitar Swords 27, GraniteMaul Clubs 35, DragonHalberd Polearms 45, CrystalBow Bows 55,
-  AbyssalBludgeon Clubs 65, DragonBattleaxe Axes 70.
+  Gods 50, the 4 Philosopher's Stones 60 (cfg factor 1 = x2 XP). Lesser vials ungated.
+- Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 25,
+  DragonfireShield Blocking 25, BandosGodsword Swords 50, AbyssalWhip Swords 55,
+  ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
+  RuneScimitar Swords 35, GraniteMaul Clubs 45, DragonHalberd Polearms 50, CrystalBow Bows 65 (bow main x1.5 XP),
+  AbyssalBludgeon Clubs 65, DragonBattleaxe Axes 65.
 - Fishing (bait, craft + equip):
   `FishingBaitForest` 10 Trollfish · `Swamp` 20 Giant herring · `Ocean` 25 Tuna,
   Coral cod · `Cave` 30 Tetra · `Plains` 40 Grouper · `Mistlands`
-  50 Pufferfish, Anglerfish · `Ashlands` 60 Magmafish · `DeepNorth` 70 Northern
+  45 Pufferfish, Anglerfish · `Ashlands` 50 Magmafish · `DeepNorth` 55 Northern
   salmon. Basic bait takes Perch and Pike. Biome bait = 20 basic bait + 1 trophy
   at the food prep table. The rod auto-uses unequipped bait.
 - Hulls (`org.bepinex.plugins.sailing.cfg`, helm only): paddle /
@@ -102,9 +102,9 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 12 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
   1/16,000 a tree, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
 - 8 trimmed oath capes (CapeDeepNorth), 4 saga-rank cosmetics, 4 vanity cloaks (bought, not logged), 4 gem-tipped bolts.
-- 7 elite uniques + 3 crystal key parts (§7).
+- 7 elite uniques + 3 hoard key parts (§7).
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
-  no `SE_Equip` or modifiers, no WIRSL gate, AzuEPI vanity-wearable.
+  `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
   sold by Verdandi only at 100 (dialogue). Skillcapes and 8 oath capes: stats stripped like the riddle rewards.

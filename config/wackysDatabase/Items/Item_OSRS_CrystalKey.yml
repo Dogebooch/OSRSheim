@@ -1,7 +1,7 @@
-# OSRSheim crystal chest - forged by Gullveig from loop + tooth; the Gambler opens the chest for it - authored 2026-09-21
+# OSRSheim Gambler's hoard - forged by Gullveig from bow + bit; the Gambler opens the hoard for it - authored 2026-09-21
 # Crystal clone: material only, no stat block.
 name: OSRS_CrystalKey
 clonePrefabName: Crystal
-m_name: Crystal key
-m_description: Whole again. The gambler keeps a chest it fits.
+m_name: Hoard key
+m_description: Whole again. It opens the Gambler's hoard.
 m_weight: 0.1

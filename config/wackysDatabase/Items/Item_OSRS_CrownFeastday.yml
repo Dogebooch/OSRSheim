@@ -12,7 +12,10 @@ m_useDurability: false
 Armor:
   armor: 0
   armorPerLevel: 0
-SE_Equip: 
+SE_Equip:
+  EffectName: delete
+SE_SET_Equip:
+  EffectName: delete
 Moddifiers:
   m_movementModifier: 0
   m_EitrRegen: 0

@@ -32,7 +32,7 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Mod manifest (generated) | `reference\mods.tsv` (`scripts\gen-mods.py`) |
 | Verified prefab names | `reference\verified-prefab-names.json` |
 | Clone base dumps | `reference\wackydb-base-dumps\` |
-| Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI); build pieces `pieces.json`, boss altars `bosses.json` |
+| Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI); build pieces `pieces.json`, boss altars `bosses.json`, item equip/set effects `items.json` |
 | Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
 | Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv` (kill supply per biome from `rate-model.py hunt`), `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
 | Background watcher | `scripts\watch.py` (logon task, `watch-install.ps1`): session rows `<main checkout>\.cache\sessions\<char>.csv` (`session-log.py`), status `.cache\watch\status.json`; committed rows `reference\sessions\` |
@@ -122,7 +122,7 @@ Skill Experience Loss = 0
 ```
 
 Lumberjacking and Mining: `Skill Experience Gain Factor = 0.15` (rate model, pure
-grind: level 40 ~11 h, 70 ~50-60 h). SkillGainModifier `Global` does not reach
+grind: level 40 ~11 h, 70 ~50-60 h). Exploration 0.17, Sailing 0.25, Farming 0.3 (sim: 70-80 at 375 h). SkillGainModifier `Global` does not reach
 Smoothbrain skills.
 Mining XP: +1 per pickaxe hit on any `MineRock`/`MineRock5`/pickaxe `Destructible` at or above its
 tool tier, plain stone included. Mining and Lumberjacking yield: every `GetDropList` item x

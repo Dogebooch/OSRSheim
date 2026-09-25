@@ -6,7 +6,7 @@ Meadows,Deer,world,,Deer
 Meadows,Skeleton_Meadows,world,GemTableTier1,Skeleton (Meadows)
 Meadows,Skeleton_Meadows_noarcher,world,GemTableTier1,Skeleton (Meadows)
 Black Forest,Greydwarf,camped,GemTableTier1,Greydwarf
-Black Forest,Greydwarf_Shaman,roamer,GemTableTier1,Greydwarf shaman
+Black Forest,Greydwarf_Shaman,nest,GemTableTier1,Greydwarf shaman
 Black Forest,Greydwarf_Elite,nest,GemTableTier1,Greydwarf brute
 Black Forest,Skeleton,camped,GemTableTier1,Skeleton
 Black Forest,Skeleton_NoArcher,camped,GemTableTier1,Skeleton
@@ -92,9 +92,9 @@ Deep North,Ghost_Void,world,,Void ghost
 Black Forest,Bjorn,elite,GemTableTier1,Bjorn
 Black Forest,Bjorn_sleeping,elite,GemTableTier1,Bjorn
 Plains,Unbjorn,elite,RareTableTier3,Unbjorn
-Deep North,JotunWarrior,elite,RareTableTier5,Jotun warrior
-Deep North,JotunWarriorDualWield,elite,RareTableTier5,Jotun warrior (dual wield)
-Deep North,JotunWitch,elite,RareTableTier5,Jotun witch
+Deep North,JotunWarrior,nest,RareTableTier5,Jotun warrior
+Deep North,JotunWarriorDualWield,nest,RareTableTier5,Jotun warrior (dual wield)
+Deep North,JotunWitch,nest,RareTableTier5,Jotun witch
 Deep North,Writhan,elite,RareTableTier5,Writhan
 Deep North,Barka,elite,RareTableTier5,Barka
 Hildir Minibosses,Skeleton_Hildir,elite,,Brenna

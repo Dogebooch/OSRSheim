@@ -3,9 +3,6 @@
 #   Damage_Per_Level = Frost 6 + SPIRIT 5).
 # Doug's call: strip the frost burst -> Frost zeroed in BOTH Damage and
 #   Damage_Per_Level. Slash 75 -> 104 (#86). Stamina 16 -> 14.
-# FLAGGED FOR DOUG: the per-level Spirit 5 was not visible before the dump - it
-#   is Mistwalker's anti-undead scaling, not frost, so "pure slash" arguably
-#   wants it gone too. Left AT BASE pending his call; zero it here if he agrees.
 name: OSRS_AbyssalWhip
 clonePrefabName: SwordMistwalker
 m_name: Queen's lash
@@ -16,7 +13,7 @@ Damage:
   Slash: 104   # #86: 64 -> 104, ~125 effective at speed 1.2 (Mistwalker 115 / Niedhogg 135)
 Damage_Per_Level:
   Frost: 0
-  Spirit: 5
+  Spirit: 0
 Primary_Attack:
   Custom_AttackSpeed: 1.2
   m_attackStamina: 14

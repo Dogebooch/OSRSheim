@@ -890,7 +890,7 @@
           "Increment": 1
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_increasetreedrop_prefix1"
       ],
@@ -3233,7 +3233,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_modifysprintstaminause_prefix1"
       ],
@@ -3525,7 +3525,7 @@
         "ItemUsesStaminaOnAttack": true,
         "ItemUsesEitrOnAttack": false
       },
-      "SelectionWeight": 5,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_bloodlust_prefix1"
       ],
@@ -3875,7 +3875,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 1,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_lifesteal_prefix1"
       ],
@@ -3999,7 +3999,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 0.5,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_modifyattackspeed_prefix1"
       ],
@@ -4080,7 +4080,7 @@
           "Waterproof"
         ]
       },
-      "SelectionWeight": 0.2,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_warmth_prefix1"
       ],
@@ -4208,7 +4208,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_explosivearrows_prefix1"
       ],
@@ -5262,7 +5262,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 3,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_modifystaggerduration_prefix1"
       ],
@@ -5311,7 +5311,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 5,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_quicklearner_prefix1"
       ],
@@ -5495,7 +5495,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_reflectdamage_prefix1"
       ],
@@ -5596,7 +5596,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 1,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_staggerondamagetaken_prefix1"
       ],
@@ -6029,7 +6029,7 @@
           "Increment": 1
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_modifydamagelowhealth_prefix1"
       ],
@@ -6397,7 +6397,7 @@
           "Increment": 5
         }
       },
-      "SelectionWeight": 0.2,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_executioner_prefix1"
       ],
@@ -6750,7 +6750,7 @@
           "Increment": 1
         }
       },
-      "SelectionWeight": 10,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_modifyparrywindow_prefix1"
       ],
@@ -6807,7 +6807,7 @@
           "Increment": 0.5
         }
       },
-      "SelectionWeight": 2,
+      "SelectionWeight": 0,
       "Prefixes": [
         "$mod_epicloot_me_slow_prefix1"
       ],

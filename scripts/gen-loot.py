@@ -172,7 +172,7 @@ def entry_text(owner, e):
     if unique:
         return ''
     lines = [f'[{owner}.{idx}]', f'PrefabName = {item}', f'AmountMin = {lo}', f'AmountMax = {hi}',
-             f'ChanceToDrop = {fmt(p)}', 'ScaleByLevel = false']
+             f'ChanceToDrop = {fmt(p)}', 'ScaleByLevel = false', 'ConditionNotCreatureStates = Tamed']
     if one:
         lines.append('DropOnePerPlayer = true')
     if key:

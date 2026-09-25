@@ -1,4 +1,4 @@
-"""Apply the reviewed superior balance profile; preserve originals beside each config.
+"""Apply the reviewed superior balance profile; git holds the originals.
 
     python scripts\\update-superiors.py            production rates
     python scripts\\update-superiors.py --wiring   500-507 at 100% per 60 s check (in-game test; validator errors until a plain run)
@@ -9,7 +9,6 @@ Rates: rate-model.py roamers (CAL stale_zones_hr).
 """
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
 
@@ -24,6 +23,8 @@ ROAMER_CHANCE = {510: 1.4, 511: 0.5}
 # Superior identity: Spawn That TemplateId on 500-507, Drop That ConditionTemplateId on their loot, so
 # natural two-stars (CLLC Custom 9/1) never drop superior loot.
 TEMPLATE = 'osrsheim_superior'
+# 510 wandering troll: its purse keys on this template, so a Black Forest troll led into Meadows pays nothing.
+WANDERER = 'osrsheim_wanderer'
 # Vanilla m_minAltitude of the same prefab's world spawner (Spawn That default -1000 spawns under water).
 ALTITUDE_MIN = {500: 0, 501: 0, 502: -1.5, 503: 0, 504: 0, 505: 0, 506: 1, 507: 0, 510: 0, 511: 0}
 # Station names: EpicLoot's recipe/station tables and the verified Wizardry roster.
@@ -47,9 +48,6 @@ ROWS = [
 
 def save(name, text):
     path = CFG / name
-    backup = path.with_name(path.name + '.bak-before-superior-balance')
-    if not backup.exists():
-        shutil.copy2(path, backup)
     with open(path, 'w', encoding='utf-8', newline='\r\n') as f:
         f.write(text)
 
@@ -90,7 +88,12 @@ def main():
                   f'ConditionAltitudeMin = {ALTITUDE_MIN[sid]:g}\n')
         if 500 <= sid <= 507:
             safety = f'TemplateId = {TEMPLATE}\n' + safety
+        if sid == 510:
+            safety = f'TemplateId = {WANDERER}\n' + safety
         block = block.replace('Enabled = true\n', 'Enabled = true\n' + safety)
+        # Roamers keep Spawn That's LevelMin/Max (1 = no stars); without this CLLC rolls its own stars.
+        if sid in ROAMER_CHANCE and f'[WorldSpawner.{sid}.CreatureLevelAndLootControl]' not in block:
+            block = block.rstrip() + f'\n[WorldSpawner.{sid}.CreatureLevelAndLootControl]\nUseDefaultLevels = true\n'
         out.append(block.rstrip() + '\n\n')
     save(path.name, ''.join(out))
 
@@ -98,12 +101,12 @@ def main():
            '# IDs 200+ avoid normal purses and shared-list IDs.\n'
            f'# World boss gate + exactly two stars + not tamed + Spawn That template {TEMPLATE}.\n'
            '# Coin ranges are exact totals; each entry <=100, no level/player multiplication.\n\n']
-    def entry(creature, idx, item, low, high, chance, conditions, template=True):
+    def entry(creature, idx, item, low, high, chance, conditions, template=TEMPLATE):
         out.append(f'[{creature}.{idx}]\nPrefabName = {item}\nAmountMin = {low}\n'
                    f'AmountMax = {high}\nChanceToDrop = {chance}\nScaleByLevel = false\n'
                    'DropOnePerPlayer = false\n' + conditions + '\n')
         if template:
-            out.append(f'[{creature}.{idx}.SpawnThat]\nConditionTemplateId = {TEMPLATE}\n\n')
+            out.append(f'[{creature}.{idx}.SpawnThat]\nConditionTemplateId = {template}\n\n')
     for creature, key, low, high, gem, gl, gh, material, extra, rare, rate in ROWS:
         cond = (f'ConditionGlobalKeys = {key}\nConditionMinLevel = 3\n'
                 'ConditionMaxLevel = 3\nConditionNotCreatureStates = Tamed\n')
@@ -115,11 +118,11 @@ def main():
         entry(creature, 211, material, 2, 4, 40, cond)
         entry(creature, 212, extra, 1, 2, 20, cond)
         entry(creature, 213, rare, 1, 1, rate, cond)
-    # Retain the existing off-biome encounter reward, with collision-free IDs and a key gate.
-    cond = 'ConditionBiomes = Meadows\nConditionGlobalKeys = defeated_eikthyr\nConditionNotCreatureStates = Tamed\n'
-    entry('Troll', 200, 'Coins', 50, 100, 100, cond, False)
-    entry('Troll', 201, 'Coins', 50, 100, 100, cond, False)
-    entry('Troll', 210, 'Ruby', 1, 1, 50, cond, False)
+    # 510 wandering troll reward: keyed on the 510 template (not the biome), collision-free IDs, key gate.
+    cond = 'ConditionGlobalKeys = defeated_eikthyr\nConditionNotCreatureStates = Tamed\n'
+    entry('Troll', 200, 'Coins', 50, 100, 100, cond, WANDERER)
+    entry('Troll', 201, 'Coins', 50, 100, 100, cond, WANDERER)
+    entry('Troll', 210, 'Ruby', 1, 1, 50, cond, WANDERER)
     save('drop_that.character_drop.osrsheim_superiors.cfg', ''.join(out))
 
 if __name__ == '__main__':

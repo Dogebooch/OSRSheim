@@ -6,5 +6,5 @@ ClonedSE: SetEffect_TrollArmor
 Status_m_name: Amber torc
 Tooltip: Sap-bright beads strung on a thong. The load rides easier.
 SeData:
-  m_addMaxCarryWeight: 40
+  m_addMaxCarryWeight: 25
   m_skillLevelModifier: 0

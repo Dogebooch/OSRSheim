@@ -88,3 +88,40 @@ Wolf,TrophyWolf,0.1,1,1,kirilloid src/data/creatures.ts (build unstated)
 Wraith,TrophyWraith,0.05,1,1,kirilloid src/data/creatures.ts (build unstated)
 Writhan,TrophyWrithan,0.1,1,1,kirilloid src/data/creatures.ts (build unstated)
 gd_king,TrophyTheElder,1.0,1,1,kirilloid src/data/creatures.ts (build unstated)
+Bat,LeatherScraps,0.5,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Bat_Swamp,LeatherScraps,0.5,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Boar,LeatherScraps,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+BogWitchKvastur,Wood,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+BogWitchKvastur,Resin,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Chicken,Feathers,0.5,1,2,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Deer,DeerHide,1,1,3,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+FrostWisp,LeatherScraps,0.5,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf,Stone,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf,Wood,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf,Resin,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Elite,Stone,1,2,2,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Elite,Wood,1,3,5,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Frozen,Wood,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Frozen,Resin,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Shaman,Wood,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Shaman,Resin,1,1,2,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Shaman_Frozen,Wood,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greydwarf_Shaman_Frozen,Resin,1,1,2,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Greyling,Resin,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Hen,Feathers,1,1,3,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Lox,LoxPelt,1,2,3,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_aspect,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_DeepNorth,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Meadows,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Meadows_noarcher,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Mountains,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Mountains_noarcher,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_NoArcher,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Swamps,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Skeleton_Swamps_noarcher,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+StoneGolem,Stone,1,5,10,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Troll,TrollHide,1,5,5,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Troll_sleeping,TrollHide,1,5,5,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Volture,Feathers,0.5,2,3,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+Wolf,WolfPelt,1,1,2,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24
+SkeletonMage_TW,BoneFragments,1,1,1,Drop That Debug before_changes dump (vanilla + mod creatures) 2026-09-24

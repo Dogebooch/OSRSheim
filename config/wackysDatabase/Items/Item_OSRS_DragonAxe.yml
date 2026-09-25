@@ -6,7 +6,7 @@ name: OSRS_DragonAxe
 clonePrefabName: AxeBronze
 m_name: Rootcleaver
 m_description: Bites deeper into wood than any smith's axe. Combat is not its trade.
-m_weight: 1.6
+m_weight: 2
 Damage:
   Chop: 50
   Slash: 40

@@ -23,10 +23,6 @@ Ruby:
 SilverNecklace:
   weight: 0.1
   stack: 50
-Chain:
-  weight: 0.1
-  stack: 50
-
 # Skilling curios (2026-09-21): Amber clones off the object tables, sold to the gem trader.
 # Never give these worldLevelToLootAmount - CLLC's GetDropList postfix reads that key and
 # would duplicate every object drop in the game.
@@ -37,7 +33,7 @@ OSRS_Burl:
   weight: 0.1
   stack: 100
 
-# Crystal key parts (2026-09-21): light and stackable like the gems. Whether CLLC applies to wackydb clones is untested.
+# Hoard key parts (2026-09-21): light and stackable like the gems. Whether CLLC applies to wackydb clones is untested.
 OSRS_LoopHalfKey:
   weight: 0.1
   stack: 20
