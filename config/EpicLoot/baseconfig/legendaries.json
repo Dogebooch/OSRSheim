@@ -486,7 +486,7 @@
     {
       "ID": "OSRSheim_BandosGodsword",
       "Name": "Yagluth's warblade",
-      "Description": "A war-god's blade, still hot from the pyre.",
+      "Description": "A war-god's blade. What it wounds, it finishes.",
       "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
@@ -496,10 +496,10 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "AddFireDamage",
+          "Type": "Executioner",
           "Values": {
-            "MinValue": 14,
-            "MaxValue": 14,
+            "MinValue": 200,
+            "MaxValue": 200,
             "Increment": 0
           }
         }
@@ -635,7 +635,7 @@
     {
       "ID": "OSRSheim_DragonHalberd",
       "Name": "Warlord's glaive",
-      "Description": "A fuling warlord's glaive. Every thrust knocks the wind out of its mark.",
+      "Description": "A fuling warlord's glaive. It drinks from the arm that swings it.",
       "GuaranteedEffectCount": 1,
       "SelectionWeight": 1000000,
       "Requirements": {
@@ -645,12 +645,7 @@
       },
       "GuaranteedMagicEffects": [
         {
-          "Type": "ModifyStaggerDamage",
-          "Values": {
-            "MinValue": 21,
-            "MaxValue": 21,
-            "Increment": 0
-          }
+          "Type": "Bloodlust"
         }
       ]
     },

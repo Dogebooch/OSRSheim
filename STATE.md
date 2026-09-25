@@ -22,7 +22,7 @@ Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins (sto
 Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h.
 
 ## Needs a live world
-`docs\PLAN.md`: phases 1-3 committed, not pushed (B13: Doug launches the profile once, then `gen-mods.py`, `-Push`); phases 4-5 next.
+`docs\PLAN.md`: phases 1-4 committed, not pushed (B13: Doug launches the profile once, then `gen-mods.py`, `-Push`); phase 5 next.
 All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
 
 ## Gielheim (Doug plays and reports)

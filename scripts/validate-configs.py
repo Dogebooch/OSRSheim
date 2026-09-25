@@ -646,6 +646,15 @@ for p, lines in kg_sections("LeaderboardAchievements").items():
         err(f"KG achievement [{p}] creature '{lines[3]}' unknown")
     elif lines[0] in ("ItemsCrafted", "Harvested") and lines[3].split(",")[0].strip() not in known_items:
         err(f"KG achievement [{p}] item '{lines[3]}' unknown")
+# I8: no OSRS item names in OSRSheim display text (prefab IDs and ids like crystal_chest stay).
+OSRS_NAMES = re.compile(r"\bcrystal (key|chest)\b|\b(loop|tooth) half\b", re.I)
+shown = glob.glob(os.path.join(KG, "**", "*.cfg"), recursive=True)
+shown += glob.glob(os.path.join(CFG, "wackysDatabase", "**", "*.yml"), recursive=True)
+shown.append(os.path.join(ROOT, "loot", "collection-log.csv"))
+named = [f"{os.path.basename(f)}:{n}" for f in shown for n, line in enumerate(read(f).splitlines(), 1)
+         if not line.lstrip().startswith("#") and OSRS_NAMES.search(line)]
+for h in named: err(f"OSRS name in player-facing text: {h} (Hoard key / Gambler's hoard)")
+if not named: ok(f"no OSRS key/chest names in {len(shown)} display-text files")
 
 # ---------------------------------------------------------------- Spawn That
 t = read(os.path.join(CFG, "spawn_that.world_spawners_advanced.cfg"))
@@ -823,7 +832,10 @@ osrs_leg = [x for x in leg.values() if x["ID"].startswith("OSRSheim_")]
 for x in osrs_leg:
     if x.get("GuaranteedEffectCount") != len(x.get("GuaranteedMagicEffects", [])):
         err(f"EpicLoot legendary {x['ID']}: GuaranteedEffectCount must equal its effect count (else random extras)")
-ok(f"EpicLoot legendaries.json: {len(osrs_leg)} OSRSheim legendaries, fixed effect counts")
+    for g in x.get("GuaranteedMagicEffects", []):
+        if me.get(g["Type"], {}).get("SelectionWeight") != 0:
+            err(f"EpicLoot {x['ID']}: signature effect {g['Type']} still rolls on magic items (SelectionWeight must be 0)")
+ok(f"EpicLoot legendaries.json: {len(osrs_leg)} OSRSheim legendaries, fixed effect counts, signature effects weight 0")
 if yaml:
     for f in [os.path.join(CFG, "ItemConfig.yml"), os.path.join(CFG, "CreatureConfig.yml"),
               os.path.join(KG, "RandomNpcSpeech.yml")]:

@@ -120,7 +120,7 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 | Fader | OSRS_InfernalCape (Cinder cape) | OSRS_JalNibRek (Ember nibbler) |
 | Kall (FrozenKing_p3) | OSRS_ScytheOfVitur (Frost King's scythe) | OSRS_PetFrozenKing (Tiny frost king) |
 
-### Elite uniques (EpicLoot Legendary, elite class x16) and crystal chest
+### Elite uniques (EpicLoot Legendary, elite class x16) and Gambler's hoard
 | Dropper | Prefab (display) | Base, twist | OSRS rate |
 |---|---|---|---|
 | Troll | OSRS_HillGiantClub (Troll's knucklebone) | MaceBronze, dmg 1.29 (secondary 3.225), speed 0.9, stagger 1.5 (secondary 3.0) | 1/256 |
@@ -128,13 +128,13 @@ key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 | StoneGolem | OSRS_GraniteMaul (Golemheart hammer) | SledgeIron, dmg 1.55, stagger 1.5 (primary 3.0), force 1.5 | 1/256 |
 | GoblinBrute | OSRS_DragonHalberd (Warlord's glaive) | AtgeirBlackmetal, dmg 1.1, speed 0.95 | 1/256 |
 | Gjall | OSRS_CrystalBow (Gjall-gut bow) | BowSpineSnap, dmg 1.1 | 1/256 |
-| Morgen | OSRS_AbyssalBludgeon (Morgen's cudgel) | MaceEldner, dmg 1.13 (secondary 2.825), speed 1.1 | 1/256 |
+| Morgen | OSRS_AbyssalBludgeon (Morgen's cudgel) | MaceEldner, dmg 1.13 (secondary 2.825) | 1/256 |
 | JotunWarrior | OSRS_DragonBattleaxe (Giantsbane axe) | AxeJotunBane, slash 170, poison 0, dmg 1.1 (secondary 1.65), stagger 1.3 | 1/256 (nest class) |
 
 Sleeping / DualWield / NonSleeping variants carry the same row. Twists are
-relative; wackydb multipliers are absolute (base x twist). Crystal chest:
-`OSRS_LoopHalfKey` (Chain clone) + `OSRS_ToothHalfKey` (Needle clone) forge
-at Gullveig into `OSRS_CrystalKey` (Crystal clone); the Gambler's
+relative; wackydb multipliers are absolute (base x twist). Gambler's hoard:
+`OSRS_LoopHalfKey` (Hoard key bow, Chain clone) + `OSRS_ToothHalfKey` (Hoard key bit, Needle clone) forge
+at Gullveig into `OSRS_CrystalKey` (Hoard key, Crystal clone); the Gambler's
 `crystal_chest` takes one key and pays one of 8 uniform prizes (§11).
 
 ### Riddle-stones (casket loop)
@@ -162,7 +162,7 @@ tier's stone. Elaborate: 4/11 cloaks, 2/11 T4 stone; master: 4/6 cosmetic or key
 Gate lives in `wackysDatabase\Pieces\Piece_<hull>.yml` (full cost, keel included). OdinShip alone drops the keel (#31).
 Build menu shows the right keel on all 7 hulls (2026-09-22). OdinShip's `The required item 'OSRS_Keel*' does not exist` warnings stay; expected.
 Keel highlight: `ammoType: 'Ancient|MagicCraftingMaterial'` + `m_itemType: Material` -> gold name, Ancient tooltip line (EpicLoot `Ancient Rarity Color = #FFD700`, not server-synced).
-Same gold name on riddle-stones T3/T4 and both crystal key halves; not pets (Trophy type keeps item stands).
+Same gold name on riddle-stones T3/T4 and both hoard key halves; not pets (Trophy type keeps item stands).
 Ancient only: EpicLoot sets `m_variant` to the tier's icon index; Ancient = 0, keels have 1 icon, vanilla `GetIcon()` has no bounds check.
 No loot beam: EpicLoot beams only items with a MagicItem (enchanted gear).
 
@@ -184,7 +184,7 @@ First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
 `Drops` is `[[0, 100]]` except the 19 generated unique tables and the #108 sources
 (2-star tier tables at 4%, treasure-map chests `[[1,100]]`, gem 2 / tier pair 1 (#107); `EpicLoot\OSRSheim-NOTES.md`).
 Enchanting table off (`Enabled = false`, `Table Features Active = None`). Effect counts fixed 1/2/3/4
-(Magic..Legendary), `AddCarryWeight` and `CoinHoarder` weight 0; Haldor's Megingjord is the vanilla exception to #17.
+(Magic..Legendary), `AddCarryWeight`, `CoinHoarder` and the 15 unique signature effects weight 0 (validator); Haldor's Megingjord is the vanilla exception to #17.
 `rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 36.1 magic items/run,
 1 per 10 h, 2.6 Epic, 0.12 Legendary; superiors 0.76 of them. Natural two-stars (CLLC 1%) add ~0.04% a kill (`sim-run.py`). `--all-maps`: 190, 1 per 2 h.
 
@@ -219,14 +219,14 @@ guaranteed effects skip slot rules, `LootRoller.cs`), `SelectionWeight = 1000000
 | Rootcleaver | IncreaseTreeDrop 6 |
 | Bog visage | QuickLearner 10 |
 | Drakeskull shield | ReflectDamage 14 |
-| Yagluth's warblade | AddFireDamage 14 |
+| Yagluth's warblade | Executioner 200 |
 | Queen's lash | ModifyParryWindow 100 |
 | Cinder cape | Warmth |
 | Frost King's scythe | Slow 24 |
 | Troll's knucklebone | ModifyStaggerDuration 18 |
 | Barrow blade | ModifyAttackSpeed 12 |
 | Golemheart hammer | StaggerOnDamageTaken 12 |
-| Warlord's glaive | ModifyStaggerDamage 21 |
+| Warlord's glaive | Bloodlust |
 | Gjall-gut bow | ExplosiveArrows 18 |
 | Morgen's cudgel | LifeSteal 13 |
 | Giantsbane axe | ModifyDamageLowHealth 24 |

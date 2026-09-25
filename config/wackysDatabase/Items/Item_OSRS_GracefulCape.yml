@@ -5,8 +5,5 @@
 name: OSRS_GracefulCape
 clonePrefabName: CapeDeerHide
 m_name: Windrunner cape
-m_description: Light as a rooftop breeze. Running and leaping cost less.
-m_weight: 2
-Moddifiers:
-  m_runStaminaModifier: -0.1
-  m_jumpStaminaModifier: -0.1
+m_description: Light as a rooftop breeze. Running costs less.
+m_weight: 4

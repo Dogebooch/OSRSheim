@@ -102,9 +102,9 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 12 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
   1/16,000 a tree, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
 - 8 trimmed oath capes (CapeDeepNorth), 4 saga-rank cosmetics, 4 vanity cloaks (bought, not logged), 4 gem-tipped bolts.
-- 7 elite uniques + 3 crystal key parts (§7).
+- 7 elite uniques + 3 hoard key parts (§7).
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
-  no `SE_Equip` or modifiers, no WIRSL gate, AzuEPI vanity-wearable.
+  `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
   sold by Verdandi only at 100 (dialogue). Skillcapes and 8 oath capes: stats stripped like the riddle rewards.
