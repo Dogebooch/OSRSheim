@@ -15,7 +15,7 @@ uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108), forge rings off. Uniques lose one-per-player.
 Quests: 79 story (14 skill-gated), 43 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
-Kill contracts credit the killing blow only (a boss contract = one player). Tamed kills drop no OSRS loot.
+Kill contracts credit the killing blow only (a boss hunt = one player); story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
 Design pass 2026-09-24 (roadmap #159, pinned): skill guide, capes at 100, elite oaths, skilling contracts,
 log ranks, frontier superiors, raid spoils, tipped bolts. Sim: coins held 428k -> 195k, tier-3 sessions 17% -> 33%.
 Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins (story quest pays), tithes collect trophies.

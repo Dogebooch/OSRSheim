@@ -59,8 +59,8 @@ Gambler dialogue.
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 + `osrsheim_quests_story.cfg` 57; one-time via
 cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
 Types: Collect, Kill, Craft, Talk, Harvest. Per biome: a kill, a collect, a
-craft of the tier's sword or shield, a fish quest, a boss kill on the previous
-boss key; `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
+craft of the tier's sword or shield, a fish quest, and a boss Talk quest (report to Ulfar on
+`GlobalKey, defeated_<boss>`: every player claims it once, no kill credit needed); `Skill_EXP` 20-400 on the skill used. Talk intros to 3 NPCs. `Pet:`
 tames Boar, Wolf (1 star), Lox. Coins halved 2026-09-24 (54k total). 14 need a skill (`SkillMore`). Gated `=
 HiddenAnyCondition`, chains `= HiddenOtherQuestCondition`. Six keel quests (§7).
 `Skill_EXP` adds raw XP to `m_accumulator` (`Utils.IncreaseSkillEXP`), skipping every skill-gain factor; `Skill:` uses `CheatRaiseSkill`.
