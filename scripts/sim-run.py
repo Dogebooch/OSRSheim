@@ -82,7 +82,8 @@ KEY = dict(zip(BIOMES, ['defeated_eikthyr', 'defeated_gdking', 'defeated_bonemas
 BIOME_OF_KEY = {v: k for k, v in KEY.items()}
 # a summon's offering: item and vanilla count (the Seeress sells these per item)
 OFFERING = {'Eikthyr': ('TrophyDeer', 2), 'gd_king': ('AncientSeed', 3), 'Bonemass': ('WitheredBone', 10),
-            'Dragon': ('DragonEgg', 3), 'GoblinKing': ('GoblinTotem', 5), 'Fader': ('Bell', 3)}
+            'Dragon': ('DragonEgg', 3), 'GoblinKing': ('GoblinTotem', 5), 'SeekerQueen': ('TrophySeekerBrute', 3),
+            'Fader': ('Bell', 3), 'FrozenKing_p3': ('HatefulBlood', 3)}
 BIT = {'Meadows': 1, 'Swamp': 2, 'Mountain': 4, 'BlackForest': 8, 'Plains': 16, 'AshLands': 32, 'DeepNorth': 64,
        'Mistlands': 512}
 ACTS = ['camp', 'roam', 'elite', 'boss', 'deaths', 'mine', 'chop', 'farm', 'craft', 'build', 'sail', 'fish',
@@ -1103,7 +1104,7 @@ class Run:
             for pl in pls:
                 pl.kills[b] += 1
             if k:
-                # Seeress offerings (vanilla summon counts); unsold bosses' items are gathered, not bought
+                # Seeress offerings (vanilla summon counts)
                 item, n = OFFERING.get(b, (None, 0))
                 cost = n * self.W.prices['buy'].get(item, 0)
                 for pl in pls:

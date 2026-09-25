@@ -1,0 +1,2975 @@
+{
+ "CreatureSpawner": {},
+ "OfferingBowl": {
+  "Bonemass/offeraltar": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@WitheredBone",
+   "m_bossItems": 10,
+   "m_bossPrefab": "@Bonemass",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_bonemass",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_bonemass",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.8
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 5.0,
+   "m_spawnBossMinDistance": 7.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "DN_Bossroom/offeraltar_FrozenKing": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@HatefulBlood",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@vfx_LastBossGate_destroyed",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_frozenking",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "LastBossGate_Open",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 0.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_activate",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 2.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_open_loop",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [
+    "@spawnpoint"
+   ],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "DN_Bossroom/offeraltar_FrozenKing_bossroom": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@HatefulBlood",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@FrozenKing",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 4,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_frozenking",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_activate",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 0.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_open_loop",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [
+    "@spawnpoint"
+   ],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "Dragonqueen/offeraltar_dragon": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": null,
+   "m_bossItems": 0,
+   "m_bossPrefab": "@Dragon",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_moder",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "dragoneggcup",
+   "m_itemstandMaxRange": 10.0,
+   "m_name": "$prop_dragonsummoningbowl_name",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 30.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$prop_offerbowl_makeoffer",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "Eikthyrnir/offeraltar_deer": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@TrophyDeer",
+   "m_bossItems": 2,
+   "m_bossPrefab": "@Eikthyr",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_eikthyr",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_eikthyr",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "FaderLocation/offeraltar_fader": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@Bell",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@Fader",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_bell",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_fader",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering_fader",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "fader_bellholder",
+   "m_itemstandMaxRange": 30.0,
+   "m_name": "$piece_offerbowl_fader",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 25.014,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@Fader_MeteorSmash_AOE",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_spawn_meteor_impact",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 10.0,
+   "m_spawnBossMinDistance": 14.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn_fader",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_spawn_meteor_ambience",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@fx_fader_meteorsmash",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_fader_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$piece_offerbowl_offeritem_fader",
+   "m_usedAltarText": "$msg_offerdone_fader",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "GDKing/fire_button": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@AncientSeed",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@gd_king",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_gdking",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$prop_eldersummoningbowl_name",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 4.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$prop_eldersummoningbowl_use",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "GoblinKing/offeraltar_goblinking": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@GoblinTotem",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@GoblinKing",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_goblinking",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "goblinking_totemholder",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_yagluth",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 10.0,
+   "m_spawnBossMinDistance": 14.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "NorthMemorialPlace/offeraltar_memorialsite": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@MemorialCoal",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@memorialsite_offering",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_FireAddFuel",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_FireAddFuel",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@_enabled_high",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering_memorial",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_memorial",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 1.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": []
+   },
+   "m_spawnBossMaxDistance": 5.0,
+   "m_spawnBossMaxYDistance": 3.0,
+   "m_spawnBossMinDistance": 1.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": []
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem_memorial",
+   "m_usedAltarText": "$msg_offerdone_memorial",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "dvergr_new_bossroom_ENTRANCE02/offeraltar_queen": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@TrophySeekerBrute",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@SeekerQueen",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 0,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@fx_pheromonebomb_explode",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_queen",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_hive",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 0.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [
+    "@spawnpoint",
+    "@spawnpoint (1)",
+    "@spawnpoint (2)",
+    "@spawnpoint (3)"
+   ],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_FrozenKing": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@HatefulBlood",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@vfx_LastBossGate_destroyed",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_frozenking",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "LastBossGate_Open",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 0.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_activate",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 2.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_open_loop",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [
+    "@spawnpoint"
+   ],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_FrozenKing_bossroom": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@HatefulBlood",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@FrozenKing",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 4,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_frozenking",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_activate",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 0.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_deepnorth_gate_open_loop",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [
+    "@spawnpoint"
+   ],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_bonemass/offeraltar": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@WitheredBone",
+   "m_bossItems": 10,
+   "m_bossPrefab": "@Bonemass",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_bonemass",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_bonemass",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.8
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 5.0,
+   "m_spawnBossMinDistance": 7.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_deer": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@TrophyDeer",
+   "m_bossItems": 2,
+   "m_bossPrefab": "@Eikthyr",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_eikthyr",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_eikthyr",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_dragon": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": null,
+   "m_bossItems": 0,
+   "m_bossPrefab": "@Dragon",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_moder",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "dragoneggcup",
+   "m_itemstandMaxRange": 10.0,
+   "m_name": "$prop_dragonsummoningbowl_name",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 30.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$prop_offerbowl_makeoffer",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_fader": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@Bell",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@Fader",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_bell",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_fader",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering_fader",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "fader_bellholder",
+   "m_itemstandMaxRange": 30.0,
+   "m_name": "$piece_offerbowl_fader",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 25.014,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@Fader_MeteorSmash_AOE",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_spawn_meteor_impact",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 10.0,
+   "m_spawnBossMinDistance": 14.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn_fader",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_fader_spawn_meteor_ambience",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@fx_fader_meteorsmash",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_fader_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$piece_offerbowl_offeritem_fader",
+   "m_usedAltarText": "$msg_offerdone_fader",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_gdking/fire_button": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@AncientSeed",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@gd_king",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_gdking",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$prop_eldersummoningbowl_name",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn_large",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 6.0,
+   "m_spawnBossMinDistance": 4.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$prop_eldersummoningbowl_use",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_goblinking": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@GoblinTotem",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@GoblinKing",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_goblinking",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "goblinking_totemholder",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_yagluth",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 10.0,
+   "m_spawnBossMinDistance": 14.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 1,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_memorialsite": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@Coal",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@memorialsite_offering",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_FireAddFuel",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_FireAddFuel",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 1000,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering_memorial",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_memorial",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 1.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": []
+   },
+   "m_spawnBossMaxDistance": 5.0,
+   "m_spawnBossMaxYDistance": 3.0,
+   "m_spawnBossMinDistance": 1.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": []
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem_memorial",
+   "m_usedAltarText": "$msg_offerdone_memorial",
+   "m_wrongOfferText": "$msg_offerwrong"
+  },
+  "offeraltar_queen": {
+   "m_alertOnSpawn": 0,
+   "m_bossItem": "@TrophySeekerBrute",
+   "m_bossItems": 3,
+   "m_bossPrefab": "@SeekerQueen",
+   "m_cantOfferText": "$msg_cantoffer",
+   "m_enableSolidHeightCheck": 1,
+   "m_fuelAddedEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@fx_pheromonebomb_explode",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 0,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_offering",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@eventzone_queen",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_getSolidHeightMargin": 4,
+   "m_hoverOffset": 0.0,
+   "m_incompleteOfferText": "$msg_incompleteoffering",
+   "m_itemPrefab": null,
+   "m_itemSpawnPoint": null,
+   "m_itemStandPrefix": "",
+   "m_itemstandMaxRange": 20.0,
+   "m_name": "$piece_offerbowl_hive",
+   "m_renderSpawnAreaGizmos": 0,
+   "m_setGlobalKey": "",
+   "m_spawnAreaOffset": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+   },
+   "m_spawnBossDelay": 12.0,
+   "m_spawnBossDoneffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_spawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnBossMaxDistance": 20.0,
+   "m_spawnBossMaxYDistance": 9999.0,
+   "m_spawnBossMinDistance": 0.0,
+   "m_spawnBossStartEffects": {
+    "m_effectPrefabs": [
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@vfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     },
+     {
+      "m_attach": 0,
+      "m_childTransform": "",
+      "m_enabled": 1,
+      "m_follow": 0,
+      "m_inheritParentRotation": 0,
+      "m_inheritParentScale": 0,
+      "m_multiplyParentVisualScale": 0,
+      "m_prefab": "@sfx_prespawn_vibration_only",
+      "m_randomRotation": 0,
+      "m_scale": 0,
+      "m_variant": -1
+     }
+    ]
+   },
+   "m_spawnPointClearingRadius": 0.0,
+   "m_spawnPoints": [],
+   "m_spawnYOffset": 1.0,
+   "m_useItemStands": 0,
+   "m_useItemText": "$piece_offerbowl_offeritem",
+   "m_usedAltarText": "$msg_offerdone",
+   "m_wrongOfferText": "$msg_offerwrong"
+  }
+ }
+}

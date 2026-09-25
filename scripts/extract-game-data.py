@@ -21,6 +21,8 @@ Output (vanilla values; OSRSheim overrides live in config\):
   stations.json     Plant, Pickable, Smelter, Fermenter, CookingStation
   vegetation.json   ZoneSystem.m_vegetation: per-zone placement attempts (not realised counts)
   animations.json   Player_animator states: speed, exit time, clip length, clip events
+  pieces.json       Piece roots (name, category, station, resources) + PieceTable piece lists (hammer, hoe, ...)
+  bosses.json       OfferingBowl altars and boss CreatureSpawners at any depth, keyed "<root>/<object>"
 """
 import json
 import os
@@ -68,7 +70,12 @@ KEEP = {
                "m_maxCarryWeight", "m_eiterRegen", "m_eitrRegenDelay", "m_autoPickupRange", "m_maxInteractDistance"],
     "Skills": ["m_skills", "m_DeathLowerFactor", "m_useSkillCap", "m_totalSkillCap"],
     "ZoneSystem": ["m_vegetation"],
+    "Piece": ["m_name", "m_category", "m_craftingStation", "m_resources", "m_enabled", "m_comfort", "m_groundOnly",
+              "m_onlyInBiome", "m_canBeRemoved"],
+    "PieceTable": ["m_pieces"],
+    "OfferingBowl": None,
 }
+CHILD_OK = {"OfferingBowl", "CreatureSpawner"}  # boss altars and boss spawners sit inside location prefabs
 SHARED = ["m_name", "m_itemType", "m_skillType", "m_toolTier", "m_maxQuality", "m_weight", "m_maxStackSize", "m_damages",
           "m_damagesPerLevel", "m_attackForce", "m_backstabBonus", "m_blockPower", "m_blockPowerPerLevel", "m_deflectionForce",
           "m_timedBlockBonus", "m_armor", "m_armorPerLevel", "m_useDurability", "m_useDurabilityDrain", "m_maxDurability",
@@ -172,6 +179,7 @@ def main():
 
     wanted = set(KEEP)
     rows = {c: {} for c in wanted}
+    deep = {}
     colliders = {}
     anim = {}
     bundles = sorted({idx["cab2bundle"][k.split(":")[0]] for k, (cls, _) in mbidx.items() if cls.split("|")[-1] in wanted})
@@ -196,7 +204,11 @@ def main():
                 mb = o.read(check_read=False)
                 go = mb.m_GameObject.read()
                 root = root_of(go)
-                if root != go.m_Name or root in rows[cls]:
+                child = cls in CHILD_OK and root != go.m_Name
+                if child:
+                    if f"{root}/{go.m_Name}" in deep.setdefault(cls, {}):
+                        continue
+                elif root != go.m_Name or root in rows[cls]:
                     continue  # prefab roots only; scene copies and children are skipped
                 node = fix_nodes(gen.get_nodes_up(asm, f"{ns}.{cls}" if ns else cls))
                 try:
@@ -231,7 +243,10 @@ def main():
                 if cls == "MineRock5":
                     colliders[root] = count_colliders(go)
                     d["areas"] = colliders[root]
-                rows[cls][root] = d
+                if child:
+                    deep[cls][f"{root}/{go.m_Name}"] = d
+                else:
+                    rows[cls][root] = d
     OUT.mkdir(parents=True, exist_ok=True)
     creatures = {**rows["Character"], **rows["Humanoid"]}
     for k, v in rows["MonsterAI"].items():
@@ -245,6 +260,12 @@ def main():
         "vegetation.json": next(iter(rows["ZoneSystem"].values()), {}).get("m_vegetation", []),
         "stations.json": {c: rows[c] for c in ("Plant", "Pickable", "Smelter", "Fermenter", "CookingStation")},
         "animations.json": anim,
+        "pieces.json": {c: rows[c] for c in ("Piece", "PieceTable")},
+        "bosses.json": {
+            "OfferingBowl": {**rows["OfferingBowl"], **deep.get("OfferingBowl", {})},
+            "CreatureSpawner": {k: v for k, v in deep.get("CreatureSpawner", {}).items()
+                                if (v.get("m_creaturePrefab") or "@")[1:] in {n for n, c in creatures.items() if c.get("m_boss")}},
+        },
     }
     for name, data in files.items():
         with open(OUT / name, "w", encoding="utf-8", newline="\n") as fh:
