@@ -84,7 +84,7 @@ Pickable via `Pickable.RPC_Pick`, so own plots count.
 
 **Skilling contracts** (`Quests\osrsheim_quests_skilling.cfg`, profile `skilling_board`, Verdandi): Mining,
 Lumberjacking, Fishing, Cooking, Blacksmithing (bars), Building, Farming at `SkillMore` 20/40/60 + a boss key; Collect removes the
-goods; Build (`piece, n`) counts pieces placed: `woodwall`/`wood_roof`, `stone_wall_2x1`/`stone_floor_2x2` (`defeated_bonemass`),
+goods; Build (`piece, n`) counts pieces placed while accepted (`Player.PlacePiece` hook); a counted piece is flagged `MPASNquestBuild` and never refunds its materials (`Piece.DropResources` skipped, DLL): `woodwall`/`wood_roof`, `stone_wall_2x1`/`stone_floor_2x2` (`defeated_bonemass`),
 `blackmarble_2x1x1`/`blackmarble_floor` (`defeated_goblinking`); pay riddle-stone T1/T1/T2; Fishing and Farming tier 3 pay a `RandomItem` pool with the only source of
 `OSRS_PetFishing` (1 in 20) and `OSRS_PetFarming` (1 in 40). Cooldown 20.
 
