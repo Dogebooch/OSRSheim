@@ -100,8 +100,8 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
                     f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 100:
-    warn(f"expected 100 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
+if len(clones) != 102:
+    warn(f"expected 102 wackydb clones (24 capes + 12 pets + 8 uniques + 7 elite uniques "
          f"+ 6 hull keels + 6 riddle rewards + 6 jewellery + 4 riddle-stones "
          f"+ 3 crystal key parts + 8 oath capes + 2 curios + 4 vanity cloaks + 4 saga ranks + 8 elite oath capes), found {len(clones)}")
 

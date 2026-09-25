@@ -1,0 +1,7 @@
+# OSRSheim skilling pet - ishing (1 in 40 per tier-3 ishing contract, Verdandi) - authored 2026-09-24
+# Trophy clone: cosmetic only, no stat block. ishing has no object drop hook, so the contract pool is the source.
+name: OSRS_PetFishing
+clonePrefabName: TrophySerpent
+m_name: Snapjaw
+m_description: A serpent small enough to keep. It stares at every bucket you carry.
+m_weight: 0.1

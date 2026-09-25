@@ -563,6 +563,8 @@ def _quest(stem, b):
                 items.append((parts[0], int(float(parts[1]))))
         elif k.strip() == 'Skill_EXP' and len(parts) >= 2:
             sx.append((parts[0], float(parts[1])))
+        elif k.strip() == 'RandomItem':
+            items.append(('__pool__', tuple(parts[0::3])))      # KG: uniform over prefab, amount, level triples
     cd = cooldown.strip()
     cd_h = float(cd[:-1]) / 3600 if cd.endswith('s') else float(cd or 0) * RM.CAL['day_s'] / 3600
     keys = tuple(re.findall(r'GlobalKey,\s*(\w+)', cond))
@@ -901,6 +903,7 @@ class Run:
                 pl.flow['out: gambling (EV loss)'] += stake * 0.28
         self.quests(idx_phase, t, pls)
         self.contracts(idx_phase, t, pls)
+        self.skilling(idx_phase, t, pls)
 
     def caskets(self, pl, t):
         """Forge key halves at Gullveig, open every riddle-stone and crystal key at the Gambler (uniform prize slots).
@@ -997,6 +1000,23 @@ class Run:
                 out |= set(self.W.mix(b, act)[0])
         self.W._killable[idx_phase] = out | {BOSS[b] for b in BIOMES[:idx_phase]}
         return self.W._killable[idx_phase]
+
+    # ----- skilling contracts (Verdandi, repeatable on cooldown, pay riddle-stones / a pet pool) -----
+    def skilling(self, idx_phase, t, pls):
+        W = self.W
+        for pl in pls:
+            last = pl.__dict__.setdefault('skill_last', {})
+            for q in W.skilling:
+                if not all(k in self.keys for k in q.keys) or not all(pl.level(s) >= n for s, n in q.skills):
+                    continue
+                if t - last.get(q.qid, -INF) < q.cooldown or self.rng.random() >= self.p('rule.skilling_share'):
+                    continue
+                last[q.qid] = t
+                pl.events.append((t, 1, f'contract {q.qid}'))
+                for item, n in q.items:
+                    if item == '__pool__':
+                        item, n = self.rng.choice(n), 1
+                    pl.gain(item, n, t, W)
 
     # ----- hunt contracts (Huntmaster, autocomplete, repeatable) -----
     def contracts(self, idx_phase, t, pls):
@@ -1097,6 +1117,7 @@ def build_contract_index(W):
     W.jewellery = [g for g in W.gates if g[0] in jew]
     W.contracts = sorted((q for q in W.quests if q.file.endswith('slayer') and q.type == 'Kill'), key=lambda q: -q.coins)
     W.contract_by_id = {q.qid: q for q in W.contracts}
+    W.skilling = [q for q in W.quests if q.file.endswith('skilling')]
 
 
 # ---------- metrics ----------
