@@ -1,0 +1,18 @@
+# OSRSheim farming rare (farming pass 2026-09-25): Frontier seed sack only. Equip gate on Farming (WIRSL).
+# Base Scythe (game-data: stamina 5, durability 200, no secondary attack).
+# Twist: never dulls, stamina 5 -> 2.5, swings x1.25. Harvesting is the base Attack's, untouched.
+# Secondary_Attack block is required (wackydb dereferences it unguarded).
+name: OSRS_MagicSecateurs
+clonePrefabName: Scythe
+m_name: Frey's sickle
+m_description: The blade was never sharpened and has never needed it. Grain leans toward it before it swings.
+m_weight: 2
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+m_value: 0
+Primary_Attack:
+  Custom_AttackSpeed: 1.25
+  m_attackStamina: 2.5
+Secondary_Attack:
+  Custom_AttackSpeed: 1.25

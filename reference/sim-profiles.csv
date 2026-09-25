@@ -118,6 +118,9 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rule.buy_supplies_share,0.25,guess: share of consumables bought instead of crafted
 *,*,rule.capes,1,buy a skillcape when a skill reaches 100
 *,*,rule.vanity_margin,10,guess: buy one vanity cloak (Verdandi) once coins held reach this x its price
+*,*,rule.harvester,1,buy the Harvester set (Hildir) once affordable; SE_OSRS_Harvester sets its Farming bonus
+*,*,rule.harvester_phase,1,Hildir sells it after the brass chest (Black Forest smouldering tomb; game8)
+*,*,rule.harvester_cost,700,harvest tunic 550c (eip.gg) + straw hat (price guess 150c)
 *,*,rule.skilling_share,0.3,guess: chance a skilling contract off cooldown is done in a given town visit
 *,*,rule.one_per_player_independent,0,0 = one roll then a copy per player (DropOnePerPlayer; server semantics unverified)
 *,Meadows,rule.supply_coins_per_fight_hour,10,guess from supplies prices (arrows 60c/20)

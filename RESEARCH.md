@@ -122,7 +122,7 @@ Skill Experience Loss = 0
 ```
 
 Lumberjacking and Mining: `Skill Experience Gain Factor = 0.15` (rate model, pure
-grind: level 40 ~11 h, 70 ~50-60 h). Exploration 0.17, Sailing 0.25, Farming 0.3 (sim: 70-80 at 375 h). SkillGainModifier `Global` does not reach
+grind: level 40 ~11 h, 70 ~50-60 h). Exploration 0.17, Sailing 0.25, Farming 0.3 (sim: 85 at 375 h, 60% of its XP from herb contracts). SkillGainModifier `Global` does not reach
 Smoothbrain skills.
 Mining XP: +1 per pickaxe hit on any `MineRock`/`MineRock5`/pickaxe `Destructible` at or above its
 tool tier, plain stone included. Mining and Lumberjacking yield: every `GetDropList` item x

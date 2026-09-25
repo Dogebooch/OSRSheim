@@ -34,8 +34,10 @@ other list empty, marketplace and mail off (open key unverified).
   drop no coins, so a summon is a pure sink (Fader 2,400c, Kall 3,000c). Queen: TrophySeekerBrute 440c (`offeraltar_queen`, 3), page 6 at `defeated_queen`; Bell page 7;
   Kall: HatefulBlood 1,000c (3 at `offeraltar_FrozenKing_bossroom`; mined from `BlackIce_Core`), page 8 at `defeated_frozenking_p3`.
 - `herbwife`: seeds only, no discovery gate, never buys back. CarrotSeeds 10c,
-  TurnipSeeds 15c, OnionSeeds 25c per 3. Barley and Flax ARE their own seed so
-  they are not sold: bootstrap off `Pickable_<Barley|Flax>_Wild`.
+  TurnipSeeds 15c (Bonemass + Farming 15), OnionSeeds 25c (Moder + 30) per 3; `herbwife_vine` VineberrySeeds 40c
+  (Queen + 60), `herbwife_north` Kale/PoteitrSeeds 50c (Fader + 70): own replies, red when locked (`OverrideError`).
+  Barley, Flax and OatSeeds ARE their own crop (`Pickable_Oat` yields OatSeeds) so they are not sold:
+  bootstrap off `Pickable_<Barley|Flax>_Wild`, Deep North barrels, frontier seed sacks.
 - `supplies` (`= true`, shopkeeper second menu): arrows and bolts 20 a bundle
   60-400c; Wizardry eitr mead bases / soups / plates 20-150c; buff scrolls Jump and Slowfall from page 1, Speed from `supplies_3` (`defeated_bonemass`); no Damage scroll (coins never buy damage). Vanilla bolts and
   mead bases need a dump. Meads and food are the per-trip drain never bought back.
@@ -44,7 +46,7 @@ other list empty, marketplace and mail off (open key unverified).
 - Boss tiers: `offerings`, `supplies`, `oath_supplies`, `herbwife` are cumulative pages
   `<profile>_2..` (each line waits for its biome's boss); the dialogue shows one reply,
   `Condition: GlobalKey, <key>` + `NotGlobalKey` on every later key, `AlwaysVisible: false`.
-  Offerings start at `defeated_eikthyr`; Turnip `defeated_bonemass`, Onion `defeated_dragon`.
+  Offerings start at `defeated_eikthyr`; herbwife pages add `SkillMore, Farming` (next page hidden via `NotGlobalKey || SkillLess`).
   Sworn store page N also needs the first N biome oaths (`HasPlayerKey`; next page hidden via `||` OR).
 
 **Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
@@ -54,7 +56,10 @@ ores, metals and every `loot\collection-log.csv` item included (validator-enforc
 `flower_poker` 1,000c (~25% edge, up to 3 queued rolls); `crystal_chest` 1
 OSRS_CrystalKey a roll, 8 uniform prizes; `riddle_simple` / `_cryptic` /
 `_elaborate` / `_master` one riddle-stone a roll (§7). All opened from the
-Gambler dialogue.
+Gambler dialogue. Seed sacks `sack_garden` / `_field` / `_frontier`: one sack a roll, opened from the herbwife's
+dialogue (`OpenUI, Gambler` from a Trader NPC: in-game check #156); 21 slots of seeds (none ahead of its page but
+through the chain), forage, riddle-stones T1-T3, the next sack; frontier holds `OSRS_MagicSecateurs` and `OSRS_HatHarvest`
+at 1 in 21. KG gambler lines kept <= 400 chars (limit unmeasured). A9 bans crops, bases and potions.
 
 **Story quests** (`Quests\osrsheim_quests_free.cfg` 22 + `osrsheim_quests_story.cfg` 57; one-time via
 cooldown 36500; ids OSRS-shaped, text Valheim lore; profile `lumbridge_guide`).
@@ -79,9 +84,17 @@ Every contract also pays `AddCustomValue: hunter_rank, <size>` (per player; size
 7 elite hunts open at rank 25/50/100/200 and 8 boss hunts (`slayer_boss_<boss>`, `kc_<boss>`; 10 kills = a stone one tier
 above the boss's once, cap T4); cooldown 6, riddle-stone pay, no coins.
 
-**Herb contracts** (same file, 5 live, `Harvest`, cooldown `2` = two game days): `Pickable_<Carrot|Turnip|Onion>` 40, `Pickable_<Barley|Flax>` 60;
-Turnip `defeated_bonemass`, Onion/Barley/Flax `defeated_dragon`; seeds only, the old coin + seed pay at herbwife prices (CarrotSeeds 18, TurnipSeeds 16, OnionSeeds 13, OnionSeeds 27, TurnipSeeds 41; none ahead of its herbwife page) + `Skill_EXP: Farming` 20-75 (x0.5 by hand). Harvest counts any
-Pickable via `Pickable.RPC_Pick`, so own plots count.
+**Herb contracts** (`Quests\osrsheim_quests_herbwife.cfg`, profile `herb_contracts`, herbwife dialogue; 11 live, `Harvest`, cooldown `2` = two game days, no coins):
+| Tier | Target, count | Gate | Pay |
+|---|---|---|---|
+| Garden | `Pickable_Carrot` 40 / `_Turnip` 40 / `_Onion` 40 | — / Bonemass + 15 / Moder + 30 | garden sack + 20 / 25 / 35 XP |
+| Field | `Pickable_Barley`, `_Flax` 60 | Moder + 35 | field sack + 55 XP |
+| Field | `Pickable_Mushroom_JotunPuffs` / `_Magecap` 30 | Yagluth + 45 / 50 | field sack + 45 / 50 XP |
+| Field | `VineAsh` 30 | Queen + 60 | field sack + 60 XP |
+| Frontier | `Pickable_Kale`, `_Poteitr` 40 / `Pickable_Oat` 40 | Fader + 70 / 75 | frontier or field sack (`RandomItem` 1 in 2) + 70 / 75 XP |
+XP is raw `Skill_EXP`. Harvest counts any Pickable via `Pickable.RPC_Pick`, so own plots and wild picks count; the target
+must be a `stations.json` Pickable (validator, A7). Sim (400 runs): about 220 contracts a player-run; sacks opened
+125 garden / 100 field / 11 frontier; Frey's sickle 0.52 and Harvest crown 0.57 a player-run.
 
 **Skilling contracts** (`Quests\osrsheim_quests_skilling.cfg`, profile `skilling_board`, Verdandi): Mining,
 Lumberjacking, Fishing, Cooking, Blacksmithing (bars), Building, Farming at `SkillMore` 20/40/60 (Lumberjacking 3: 50) + a boss key; Cooking 65, Building 75, Farming 80 on `defeated_fader`, Building 70, Farming 75 on `defeated_queen`; Collect removes the
@@ -146,7 +159,7 @@ on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinate
 | Verdandi the Weaver | Trader | `vanity_tailor` | `wise_old_man` | yes |
 | Shopkeeper | Trader | `general_store` | `shopkeeper` | — |
 | Gullveig | Trader | `gem_trader` | `gem_trader` | — |
-| Herbwife | Trader | `herbwife` | `herbwife` | — |
+| Herbwife | Trader | `herbwife` (+ `herb_contracts` quests, `sack_*` gamblers) | `herbwife` | — |
 | Banker (two, far apart) | Banker | `bank` | `banker` | yes |
 | Gambler | Gambler | `dice_bag` | `gambler` | yes |
 | Ragnar the Bold | Gambler | `flower_poker` | — | — |

@@ -63,6 +63,12 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Alchemy brews (craft + use): Medium flasks 10, Grands 20, Stealth 25,
   Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
   Gods 50, the 4 Philosopher's Stones 60 (cfg factor 1 = x2 XP). Lesser vials ungated.
+  Late crops: Gods costs MushroomMagecap 2 (Mistlands), each stone + Vineberry 5 (Ashlands); Deep North crops are food only.
+- Farming: Scythe 30 (craft + equip); `OSRS_MagicSecateurs` (Frey's sickle) equip 80 = sim Farming at first drop
+  (p50 79, P before gate 0.58). Seed pages and herb contracts gate on `SkillMore, Farming` (§11).
+- Harvester set (ArmorHarvester1/2 + HelmetStrawHat, Hildir after the brass chest): vanilla +25 Farming passed every
+  Farming gate (buffed level) and the cape at base 75; its set effect is now `SE_OSRS_Harvester`, Farming +5 and +10%
+  Farming XP (`m_raiseSkill` 106, additive). If the Skills panel still shows +25: WIRSL equip 100 on the three pieces.
 - Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 30,
   DragonfireShield Blocking 35, BandosGodsword Swords 50, AbyssalWhip Swords 55,
   ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
@@ -103,6 +109,11 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 12 pets = trophy clones (8 boss, + Mining and Woodcutting on rocks and trees, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
 - 8 trimmed oath capes (CapeDeepNorth), 4 saga-rank cosmetics, 4 vanity cloaks (bought, not logged), 4 gem-tipped bolts.
 - 7 elite uniques + 3 hoard key parts (§7).
+- 3 seed sacks (CarrotSeeds / OnionSeeds / VineberrySeeds clones, separate prefabs the Cultivator never plants) + Frey's sickle
+  (Scythe clone: no durability, stamina 5 -> 2.5, speed 1.25) + Harvest crown (HelmetMidsummerCrown clone, stripped:
+  a HelmetStrawHat clone would keep set `harvester` and complete the Harvester set).
+- Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester pieces:
+  `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
   `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in

@@ -138,7 +138,9 @@ MAIN_STEP = {'Swords': 1.0, 'Knives': 1.0, 'Clubs': 1.0, 'Polearms': 1.0, 'Spear
              'ElementalMagic': 1.0, 'BloodMagic': 1.0, 'Unarmed': 1.0, 'Crossbows': 1.0}
 TIER_NAME = {1: 'S1', 2: 'S2', 3: 'S3', 4: 'S4'}
 RARITY_TIER = [1, 2, 3, 4, 4, 4]           # EpicLoot Magic, Rare, Epic, Legendary, Mythic, Ancient -> salience
-CASKETS = (('riddle_simple', 'OSRS_RiddleStoneT1'), ('riddle_cryptic', 'OSRS_RiddleStoneT2'),
+CASKETS = (('sack_garden', 'OSRS_SeedSackGarden'), ('sack_field', 'OSRS_SeedSackField'),     # sacks first: they
+           ('sack_frontier', 'OSRS_SeedSackFrontier'),                                     # hold riddle-stones
+           ('riddle_simple', 'OSRS_RiddleStoneT1'), ('riddle_cryptic', 'OSRS_RiddleStoneT2'),
            ('riddle_elaborate', 'OSRS_RiddleStoneT3'), ('riddle_master', 'OSRS_RiddleStoneT4'),
            ('crystal_chest', 'OSRS_CrystalKey'))
 CUM = [RM.xp_to_reach(L) for L in range(101)]
@@ -324,6 +326,11 @@ class World:
         # Philosopher's Stone: additive on the multiplier (check-alchemy-balance), usable from its WIRSL gate
         self.stone = 1 + RM.cfg_value('com.odinplus.potionsplus.cfg', 'Philosophers Stone XP Gain Factor', 1.25)
         self.stone_lvl = min((g[2] for g in self.gates if g[0].startswith('PhilosopherStone')), default=0)
+        # Harvester set (Hildir): Farming level bonus and additive Farming XP bonus from its swapped set effect
+        se = CFG / 'wackysDatabase' / 'Effects' / 'SE_OSRS_Harvester.yml'
+        t = read(se) if se.exists() else ''
+        m1, m2 = re.search(r'm_skillLevelModifier:\s*([\d.]+)', t), re.search(r'm_raiseSkillModifier:\s*([\d.]+)', t)
+        self.harvester = (int(float(m1.group(1))) if m1 else 25, float(m2.group(1)) if m2 else 0.0)
         # Cooking: food health x (1 + (factor - 1) x level / 100)
         self.cook_hp = RM.cfg_value('org.bepinex.plugins.cooking.cfg', 'Health Increase Factor', 1.0) - 1
         # natural stars: CLLC Custom difficulty, world-level-0 row (every row is the same); other difficulties: none
@@ -603,13 +610,13 @@ class World:
     def item_tier(self, item):
         if item in self.boss_uniques or item.startswith('OSRS_Pet') or item == 'OSRS_JalNibRek':
             return 4
-        if item in self.elite_uniques or item == 'OSRS_RiddleStoneT4' or item.startswith(
-                ('OSRS_Cloak', 'OSRS_Crown', 'OSRS_OathCape', 'OSRS_Keel')):
+        if item in self.elite_uniques or item in ('OSRS_RiddleStoneT4', 'OSRS_MagicSecateurs', 'OSRS_HatHarvest') \
+                or item.startswith(('OSRS_Cloak', 'OSRS_Crown', 'OSRS_OathCape', 'OSRS_Keel')):
             return 3
         if item.startswith(('OSRS_RiddleStone', 'OSRS_LoopHalf', 'OSRS_ToothHalf', 'OSRS_CrystalKey')) \
                 or item == 'SilverNecklace':
             return 2
-        if item in GEMS or item.startswith(('Trophy', 'OSRS_Geode', 'OSRS_Burl')):
+        if item in GEMS or item.startswith(('Trophy', 'OSRS_Geode', 'OSRS_Burl', 'OSRS_SeedSack')):
             return 1
         return 0
 
@@ -953,29 +960,40 @@ class Run:
     def farm(self, pl, biome, idx_phase, hours, hands_on, t0, keys):
         if hands_on <= 0 or idx_phase < 1:                  # Cultivator needs Bronze: farming from BlackForest
             return
-        F = pl.level('Farming')
-        cycle_h = 4500 / (1 + 2 * F / 100) / 3600 + 0.05
+        F = self.lvl(pl, 'Farming')                          # buffed: Smoothbrain reads the skill with set bonuses
+        cycle_h = 4500 / (1 + 2 * min(F, 100) / 100) / 3600 + 0.05
         per_cycle_h = self.p('rate.plants_per_cycle') * self.p('rate.plant_handson_s') / 3600
         cycles = min(hours / cycle_h, hands_on / per_cycle_h)
         plants = cycles * self.p('rate.plants_per_cycle')
         sgm = self.p('xp.cookfarm_sgm')
-        pl.add_xp('Farming', plants * 1 * self.W.sb['Farming'] * sgm, t0, t0 + hours)
-        crops = plants * (1 + F / 100)
+        worn = 1 + (self.W.harvester[1] if pl.has['ArmorHarvester1'] else 0)   # SE_Stats.ModifyRaiseSkill, additive
+        pl.add_xp('Farming', plants * 1 * self.W.sb['Farming'] * sgm * worn, t0, t0 + hours)
+        crops = plants * (1 + min(F, 100) / 100)
         stone = self.W.stone if pl.level('Alchemy') >= self.W.stone_lvl else 1.0     # Philosopher's Stone from its gate
         if idx_phase >= BIOMES.index('Mountain'):      # Potion_Meadbase: opalchemy 2 + Turnip (post-Bonemass)
             pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)  # 3649 XP / 8514 crop units (check-alchemy-balance)
-        # herb contracts (cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop
-        herbs = [q for q in self.W.quests if q.file.endswith('slayer') and q.type == 'Harvest'
-                 and all(k in keys for k in q.keys)]
+        # herb contracts (the herbwife; cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop.
+        # Open = boss key and Farming level (KG SkillMore reads the buffed level, Harvester set included).
+        herbs = [q for q in self.W.quests if q.file.endswith('herbwife') and q.type == 'Harvest'
+                 and all(k in keys for k in q.keys) and all(self.lvl(pl, s) >= n for s, n in q.skills)]
         n = int(cycles * min(len(herbs), self.p('rate.plants_per_cycle') // 50 + (self.rng.random() < 0.2)))
         # each contract waits out its cooldown (in-game days of world clock, played hours here)
         n = min(n, int(sum(hours / max(q.cooldown, 0.01) for q in herbs)))
         for _ in range(n):
             q = self.rng.choice(herbs)
+            t = t0 + self.rng.random() * hours
             pl.coins += q.coins
             pl.flow['in: herb contracts'] += q.coins
+            for item, k in q.items:                          # seed sacks, opened at the next town round
+                if item == '__pool__':
+                    item, k = self.rng.choice(k), 1
+                pl.gain(item, k, t, self.W, src='herb contracts')
             for s, v in q.skill_exp:
                 pl.add_xp(s, v * self.p('xp.quest_skill_exp_factor'), t0, t0 + hours, events=False)
+
+    def lvl(self, pl, skill):
+        """The level KG and WIRSL read: the Harvester set's bonus counts toward Farming gates."""
+        return pl.level(skill) + (self.W.harvester[0] if skill == 'Farming' and pl.has['ArmorHarvester1'] else 0)
 
     def smith(self, pl, biome, idx_phase, hours, t0):
         frac = hours / dict(PHASES)[biome]
@@ -1008,7 +1026,13 @@ class Run:
                 if prefab not in pl.lit and pl.cross[skill][lvl] <= t and pl.got:
                     pl.lit[prefab] = t
                     pl.gain(prefab, 1, t, W, tier=0)
-            # open caskets / forge keys / crystal chest
+            # Harvester set from Hildir (brass chest, Black Forest): bought once it is affordable
+            if self.p('rule.harvester') and not pl.has['ArmorHarvester1'] and \
+                    idx_phase >= self.p('rule.harvester_phase') and pl.coins >= self.p('rule.harvester_cost'):
+                pl.coins -= self.p('rule.harvester_cost')
+                pl.flow['out: harvester set'] += self.p('rule.harvester_cost')
+                pl.has['ArmorHarvester1'] += 1
+            # open seed sacks / caskets / forge keys / crystal chest
             self.caskets(pl, t)
             pl.balance.append((t, pl.coins))
             # sell gems, curios and duplicate trophies (keep one of each collectible, plus what an open tithe asks)
@@ -1054,7 +1078,7 @@ class Run:
             if self.p('rule.capes'):
                 for cape, skills in W.capes.items():
                     price = W.prices['buy'].get(cape, 5000)
-                    if not pl.has.get(cape) and pl.coins >= price and all(pl.level(s) >= 100 for s in skills):
+                    if not pl.has.get(cape) and pl.coins >= price and all(self.lvl(pl, s) >= 100 for s in skills):
                         pl.coins -= price
                         pl.flow['out: skillcapes'] += price
                         pl.gain(cape, 1, t, W, tier=4)
@@ -1109,7 +1133,7 @@ class Run:
                             pl.lit.setdefault(prize, t)
                         pl.events.append((t, 2 if prize == 'SilverNecklace' else 1, f'{prof}: {prize}'))
                     elif prize != 'Stone':
-                        pl.gain(prize, n, t, W, src='caskets')
+                        pl.gain(prize, n, t, W, src='seed sacks' if prof.startswith('sack_') else 'caskets')
                         if prize in W.log_items:
                             pl.lit.setdefault(prize, t)
 
@@ -1118,7 +1142,7 @@ class Run:
         W, rng = self.W, self.rng
         for pl in pls:
             for q in W.quests:
-                if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.file.endswith('skilling'):
+                if q.file.endswith(('slayer', 'collection_log', 'skilling', 'herbwife')):
                     continue
                 # elite-oath tithes repeat once per session (6-day cooldown on server time, AlwaysProgressServerTime:
                 # it lapses between evenings); every other quest here is one-time
@@ -1198,7 +1222,7 @@ class Run:
         for pl in pls:
             last = pl.__dict__.setdefault('skill_last', {})
             for q in W.skilling:
-                if not all(k in self.keys for k in q.keys) or not all(pl.level(s) >= n for s, n in q.skills):
+                if not all(k in self.keys for k in q.keys) or not all(self.lvl(pl, s) >= n for s, n in q.skills):
                     continue
                 self.opened(pl, t, q.qid)
                 if t <= last.get(q.qid, -INF) or self.rng.random() >= self.p('rule.skilling_share'):
@@ -1589,6 +1613,20 @@ def unique_timing(W, runs):
                      'main_lvl_p70': pct(lv, 0.7) if lv else float('nan'),
                      'gate_sim': 5 * (int(p50 // 5) + 1) if lv else float('nan'),
                      'P_before_gate': sum(x < g[1] for x in lv) / len(lv) if lv else float('nan')})
+    # seed-sack rares (farming pass): a WIRSL-gated prize of a sack_* Gambler, timed on its gate skill
+    for prof, g0 in sorted(W.gamblers.items()):
+        for item in dict.fromkeys(p for p, _, _ in g0['prizes'] if prof.startswith('sack_') and p in gate):
+            g = gate[item]
+            got = [pl.got.get(item, INF) for r in runs for pl in r.players]
+            lv = [pl.main_level(g[0], pl.got[item]) for r in runs for pl in r.players if item in pl.got]
+            p50 = pct(lv, 0.5) if lv else float('nan')
+            rows.append({'item': item, 'dropper': prof, 'p_kill': 1 / len(g0['prizes']), 'gate': f'{g[0]} {g[1]}',
+                         'P_by_run_end': sum(x <= RUN_H for x in got) / len(got), 'drops': len(lv),
+                         'first_drop_p50_h': pct([x for x in got if x < INF], 0.5),
+                         'main_lvl_p30': pct(lv, 0.3) if lv else float('nan'), 'main_lvl_p50': p50,
+                         'main_lvl_p70': pct(lv, 0.7) if lv else float('nan'),
+                         'gate_sim': 5 * (int(p50 // 5) + 1) if lv else float('nan'),
+                         'P_before_gate': sum(x < g[1] for x in lv) / len(lv) if lv else float('nan')})
     return rows
 
 

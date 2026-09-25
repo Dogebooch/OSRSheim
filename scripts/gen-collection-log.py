@@ -133,8 +133,9 @@ def collectibles():
     """Everything in the build a player can find and would want logged."""
     found = {}
     for f in glob.glob(str(CFG / 'wackysDatabase/Items/Item_*.yml')):
-        m = re.search(r'^name:\s*(\S+)', open(f, encoding='utf-8-sig').read(), re.M)
-        if m:
+        t = open(f, encoding='utf-8-sig').read()
+        m = re.search(r'^name:\s*(\S+)', t, re.M)
+        if m and re.search(r'^clonePrefabName:', t, re.M):     # no clonePrefabName = a vanilla item edit
             if not m.group(1).startswith(('OSRS_Vanity', 'OSRS_Scroll')):  # vanity: bought; scrolls: journey steps
                 found[m.group(1)] = 'wackydb clone'
     with open(LOOT / 'drops.csv', newline='', encoding='utf-8') as f:

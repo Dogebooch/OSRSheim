@@ -9,12 +9,13 @@ Read-only. Checks the repo's config\ (the source of truth), not the profile.
 Invariants (ERROR):
   A1 every potion above the entry tier costs Potion_Meadbase (the pipeline holds)
   A2 no trader sells a finished potion, a Potion_Meadbase or a crop
-  A3 the herbwife sells seeds only
+  A3 the herbwife sells seeds only (every herbwife* page)
   A4 Alchemy gates rise with tier and never exceed the reachable cap
   A5 every WIRSL Alchemy gate names a real PotionPlus prefab, craft AND use blocked
   A6 every gated recipe has a farm leg, so coins can never buy the whole potion
-  A7 every Harvest contract targets a Pickable_ prefab and is on a quest profile
+  A7 every Harvest contract (all quest files) targets a Pickable prefab (game-data) and is on a quest profile
   A8 no PotionPlus recipe asks a station level its station can never reach
+  A9 no seed-sack (Gambler) prize is a crop, a base or a potion
 
 Then prints the grind budget: crafts, real crop units and garden cycles to each
 gate, so a recipe edit that quietly triples the grind shows up as a number.
@@ -27,7 +28,9 @@ A Philosopher's Stone is ADDITIVE on the vanilla multiplier
 (SE_Stats.ModifyRaiseSkill does value += factor), so cfg 2.0 means 3x.
 """
 import argparse
+import glob
 import io
+import json
 import os
 import re
 import sys
@@ -36,9 +39,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 CFG = os.path.join(ROOT, "config")
 KG = os.path.join(CFG, "Marketplace", "Configs")
+# Harvest counts Pickable.RPC_Pick by prefab name; VineAsh carries a Pickable without the Pickable_ prefix
+PICKABLES = set(json.load(io.open(os.path.join(ROOT, "reference", "game-data", "stations.json"),
+                                  encoding="utf-8")).get("Pickable", {}))
 
 CROPS = {"Carrot", "Turnip", "Onion", "Barley", "Flax",
-         "Kale", "Oat", "Poteitr", "Vineberry"}
+         "Kale", "Oat", "Poteitr", "Vineberry", "MushroomMagecap", "MushroomJotunPuffs"}
 FARM_LEG = CROPS | {"Potion_Meadbase"}
 # station -> max level: Odins_Alchemy_Book is the bundle's only StationExtension
 # and it extends opalchemy; nothing extends opcauldron (PotionsPlus 4.3.4)
@@ -229,8 +235,8 @@ def parse_traders():
 def parse_quests():
     """id -> {type, target, profile_listed}"""
     out, qid, buf = {}, None, []
-    for line in read(os.path.join(KG, "Quests",
-                                  "osrsheim_quests_slayer.cfg")).splitlines():
+    text = "\n".join(read(f) for f in sorted(glob.glob(os.path.join(KG, "Quests", "osrsheim_quests_*.cfg"))))
+    for line in text.splitlines():
         s = line.strip()
         m = re.match(r"^\[([^\]=\s]+)", s)
         if m:
@@ -307,7 +313,7 @@ def main():
            % sum(len(v) for v in traders.values()))
 
     # -- A3 ------------------------------------------------------------------
-    hw = traders.get("herbwife", [])
+    hw = [r for pr, rows in traders.items() if pr.startswith("herbwife") for r in rows]
     if not hw:
         err("A3 no [herbwife] trader profile")
     else:
@@ -315,7 +321,7 @@ def main():
         if nonseed:
             err("A3 herbwife sells non-seed items: " + ", ".join(nonseed))
         else:
-            ok("A3 herbwife sells %d seed lines and nothing else" % len(hw))
+            ok("A3 herbwife pages sell %d seed lines and nothing else" % len(hw))
 
     # -- A4 ------------------------------------------------------------------
     families = {}
@@ -384,14 +390,14 @@ def main():
         bad = []
         for q, v in sorted(harvest.items()):
             target = v["target"].split(",")[0].strip()
-            if not target.startswith("Pickable_"):
+            if target not in PICKABLES:
                 bad.append("%s targets %s" % (q, target or "nothing"))
             if not v["listed"]:
                 bad.append("%s is not on a quest profile" % q)
         if bad:
             err("A7 " + "; ".join(bad))
         else:
-            ok("A7 %d Harvest contracts target Pickable_ prefabs and are listed"
+            ok("A7 %d Harvest contracts target Pickable prefabs and are listed"
                % len(harvest))
 
     # -- A8 ------------------------------------------------------------------
@@ -408,6 +414,24 @@ def main():
         err("A8 " + "; ".join(bad))
     else:
         ok("A8 every PotionPlus recipe asks a station level it can reach")
+
+    # -- A9 ------------------------------------------------------------------
+    banned = {p for p in recipes} | {"Potion_Meadbase"} | CROPS
+    prizes, cur = {}, None
+    for line in read(os.path.join(KG, "Gamblers", "osrsheim_gamblers.cfg")).splitlines():
+        m = re.match(r"^\[([^\]=\s]+)", line.strip())
+        if m:
+            cur = m.group(1) if m.group(1).startswith("sack_") else None
+        elif cur and line.strip() and not line.startswith("#"):
+            # one data line: cost item, cost amount, then prize, amount pairs
+            prizes[cur] = {t.strip() for t in line.split(",")[2::2]}
+    hits = sorted("%s gives %s" % (s, i) for s, items in prizes.items() for i in items & banned)
+    if not prizes:
+        warn("A9 no sack_* Gambler profiles found")
+    elif hits:
+        err("A9 " + "; ".join(hits))
+    else:
+        ok("A9 %d seed sacks give no crop, base or potion" % len(prizes))
 
     # -- budget --------------------------------------------------------------
     stone = args.stone
@@ -430,8 +454,9 @@ def main():
     # average crop units in a finished potion, gated tiers only
     gated = [(p, l) for p, (l, _, _) in gates.items() if p in recipes]
     if gated:
+        # stones are crafted a handful of times, not for XP: their crops (Vineberry) stay out of the grind
         avg = sum(sum(n for i, n in recipes[p]["costs"] if i in CROPS)
-                  for p, _ in gated) / float(len(gated))
+                  for p, _ in gated if not p.startswith("PhilosopherStone")) / float(len(gated))
     else:
         avg = 0.0
     print("  avg crop units in a gated potion: %.1f (plus %d for its base)"

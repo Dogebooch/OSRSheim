@@ -1,0 +1,7 @@
+# OSRSheim vanilla item edit (farming pass 2026-09-25): not a clone. The Harvester set's +25 Farming
+# passed every Farming gate (KG SkillMore and WIRSL read the buffed level) and the cape at base 75.
+# Set effect swapped for SE_OSRS_Harvester: Farming +5, Farming XP +10%. Fallback: WIRSL equip 100.
+name: ArmorHarvester1
+m_weight: 10
+SE_SET_Equip:
+  EffectName: SE_OSRS_Harvester
