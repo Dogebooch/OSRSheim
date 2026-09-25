@@ -117,7 +117,7 @@ one-time `log_rank_<n>` quest pays a cosmetic.
 `Command: OpenUI`. No commas inside reply text.
 
 **Biome oaths** (achievement diaries; `Quests\osrsheim_quests_oaths.cfg`, profile +
-dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). 8 biomes: 40 quests, 36,740c,
+dialogue `oath_keeper`, NPC Sigrun the Oathkeeper). 8 biomes: 40 quests, 35,240c,
 8 capes. Per biome 4 PARALLEL tasks on the previous boss key, then a
 `= HiddenOtherQuestCondition` seal Talk whose one condition line ANDs the four
 `QuestFinished`. The seal fires `QuestEvents\osrsheim_oaths.cfg`
