@@ -23,7 +23,7 @@ Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills
 Cosmetics keep no base equip effect or set (validator).
 
 ## Needs a live world
-Review fixes (5 phases) committed, not pushed. Ship: Doug launches once, `gen-mods.py` (B13), `-Push`.
+Review fixes (5 phases) merged (#165). Ship: Doug launches once, `gen-mods.py` (B13), `-Push`.
 All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
 
 ## Gielheim (Doug plays and reports)
