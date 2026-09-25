@@ -11,7 +11,7 @@ bank:
       Text: "Your items are safe with us."
       OnlyIfLookingAtPlayer: true
     bark3:
-      Text: "No we do not accept IOUs."
+      Text: "No we do not take a word as silver."
   Interval: 25
   InvervalRandomOffset: 8
 lumbridge_guide:
@@ -28,7 +28,7 @@ vanity_tailor:
     bark1:
       Text: "I have woven a thousand fates. Yours is still loose thread."
     bark2:
-      Text: "Level 100? In THIS economy?"
+      Text: "Mastery takes more winters than most warriors see."
       OnlyIfLookingAtPlayer: true
   Interval: 35
   InvervalRandomOffset: 10

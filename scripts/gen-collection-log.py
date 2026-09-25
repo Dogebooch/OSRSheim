@@ -46,6 +46,8 @@ NO_DROPPER = {'TrophyDraugrFem', 'TrophyForestTroll'}   # in ObjectDB, no creatu
 # Log ranks: every log quest also pays `AddCustomValue: log_count, 1` (a per-player KG custom value);
 # Halla's rank rows read it with CustomValueMore (reason text shows {current} of {value}), and a one-time
 # Talk quest per rank pays its cosmetic. Rank quests pay no log_count.
+# Page counters: every log quest also pays `AddCustomValue: log_<category slug>, 1`; each page's first reply
+# reads it with CustomValueMore >= page size (greyed, "{current} of {value} found", until the page is complete).
 RANKS = [(25, 'OSRS_SagaHood', 'Saga-friend'), (50, 'OSRS_SagaMantle', 'Skald-sung'), (100, 'OSRS_SagaCrown', 'Saga-keeper'), (150, 'OSRS_SagaLastVerse', 'The last verse')]
 
 
@@ -80,13 +82,18 @@ def qid(prefab):
     return 'log_' + slug(prefab)
 
 
+def cv(category):
+    return 'log_' + slug(category)
+
+
 def generate():
     data = rows()
     q = [HEAD, f'# {len(data)} entries. NPC: Type = Quests, Profile = {PROFILE}, Dialogue = {PROFILE}, Name Override = {NPC}.\n\n']
     for r in data:
         q.append(f'[{qid(r["prefab"])}]\nTalk\nLog: {r["display"]}\n'
                  f'Show Halla your {r["display"]} and she will write it into the saga.\n'
-                 f'{NPC}\nItem: Coins, 1 | AddCustomValue: log_count, 1\n36500\nHasItem, {r["prefab"]}, 1\n\n')
+                 f'{NPC}\nItem: Coins, 1 | AddCustomValue: log_count, 1 | AddCustomValue: {cv(r["category"])}, 1\n'
+                 f'36500\nHasItem, {r["prefab"]}, 1\n\n')
     for n, prefab, title in RANKS:
         q.append(f'[log_rank_{n} = HiddenAnyCondition]\nTalk\nSaga rank: {title}\n'
                  f'{n} finds are written in the saga. Halla has something for you.\n'
@@ -105,7 +112,10 @@ def generate():
         d.append(f'Text: {c} ({n}) | Transition: {PROFILE}_{slug(c)}\n')
     d.append(f'Text: Farewell | Transition: {PROFILE}_bye\n\n')
     for c in cats:
-        d.append(f'[{PROFILE}_{slug(c)}]\n{c}: lit entries are in the saga. Grey ones are still out there.\n')
+        n = sum(1 for r in data if r['category'] == c)
+        d.append(f'[{PROFILE}_{slug(c)}]\n{c}: lit entries are in the saga. Grey ones are still out there.\n'
+                 f'Text: {c}: page complete | Condition: CustomValueMore, {cv(c)}, {n}, {{current}} of {{value}} found'
+                 f' | AlwaysVisible: true\n')
         for r in data:
             if r['category'] == c:
                 d.append(f'Text: {r["display"]} | Condition: QuestFinished, {qid(r["prefab"])}\n')

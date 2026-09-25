@@ -126,7 +126,7 @@ CAPE_PRICE, MAX_CAPE_PRICE = 5000, 25000
 SKILL_ORDER = ['Swords', 'Clubs', 'Axes', 'Polearms', 'Spears', 'Knives', 'Unarmed', 'Blocking', 'Bows', 'Crossbows',
                'ElementalMagic', 'BloodMagic', 'Mining', 'Lumberjacking', 'Fishing', 'Cooking', 'Farming', 'Foraging',
                'Alchemy', 'Blacksmithing', 'Building', 'Sailing', 'Ranching', 'Exploration', 'Evasion']
-SKILL_LABEL = {'ElementalMagic': 'Elemental magic', 'BloodMagic': 'Blood magic', 'Alchemy': 'Alchemy (Herblore)'}
+SKILL_LABEL = {'ElementalMagic': 'Elemental magic', 'BloodMagic': 'Blood magic', 'Alchemy': 'Alchemy'}
 # Smoothbrain level thresholds (config\org.bepinex.plugins.<skill>.cfg) and hull helms (sailing.cfg, research §6).
 PERKS = {
     'Sailing': [(5, 'Karve paddle'), (10, 'Karve half sail'),
