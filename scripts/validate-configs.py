@@ -119,10 +119,12 @@ for n, mn in _mnames.items():
         if mn != want: err(f"wackydb {n}: m_name '{mn}' should be '{want}'")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 106:
-    warn(f"expected 106 wackydb clones (24 capes + 12 pets + 8 uniques + 7 elite uniques "
-         f"+ 6 hull keels + 6 riddle rewards + 6 jewellery + 4 riddle-stones "
-         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 4 vanity cloaks + 4 saga ranks + 8 elite oath capes + 4 tipped bolts), found {len(clones)}")
+# Every clone is a collection-log row except the exempt families (vanity cloaks, journey scrolls): the
+# expected count follows the log instead of a hand-kept total.
+_log_rows = {l.split(",")[1] for l in open(os.path.join(ROOT, "loot", "collection-log.csv"), encoding="utf-8").read().splitlines()[1:] if l.count(",") >= 2}
+_expected = {c for c in clones if c in _log_rows or c.startswith(("OSRS_Vanity", "OSRS_Scroll"))}
+if _expected != clones:
+    warn(f"wackydb clones outside the collection log and its exemptions: {sorted(clones - _expected)[:8]}")
 
 # wackydb Recipes and status effects. Filename prefixes are load-bearing: ReadFiles.cs
 # globs "?ecipe_*.yml" and "SE_*.yml" over the whole config tree, so a misnamed file
@@ -195,6 +197,12 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     if m and m.group(1).startswith("SE_OSRS_") and m.group(1) not in se_names:
         err(f"wackydb {os.path.basename(f)}: SE_Equip {m.group(1)} has no SE_*.yml defining it")
 
+# gen-loot.py owns the SkillType list ConditionKilledBySkillType accepts.
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("gen_loot", os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen-loot.py"))
+_gl = _ilu.module_from_spec(_spec); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); _spec.loader.exec_module(_gl)
+SKILL_TYPES = _gl.SKILL_TYPES
+
 KNOWN_KEYS = {"defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
               "defeated_goblinking", "defeated_queen", "defeated_fader", "defeated_frozenking_p3"}
 
@@ -228,6 +236,14 @@ for f in glob.glob(os.path.join(CFG, "drop_that.character_drop*.cfg")):
         m = re.match(r"^ConditionGlobalKeys\s*=\s*(\S+)", line)
         if m and m.group(1) not in KNOWN_KEYS:
             warn(f"{base}: [{sec}] global key {m.group(1)} not in the known boss-key list")
+        m = re.match(r"^ConditionKilledBySkillType\s*=\s*(.+)", line)
+        for v in (m.group(1).split(",") if m else []):
+            if v.strip() not in SKILL_TYPES:
+                err(f"{base}: [{sec}] ConditionKilledBySkillType {v.strip()!r} is not a weapon SkillType "
+                    f"(Drop That drops the condition and the entry turns unconditional)")
+        if re.match(r"^Condition(Not)?(KilledWithStatus|HitByEntityTypeRecently)", line):
+            err(f"{base}: [{sec}] {line.split('=')[0].strip()} is broken in Drop That 3.1.5 (status: ignores its "
+                f"list; hit-by: inverted); research/loot.md §7")
         if re.match(r"^ConditionNotCreatureStates\s*=.*\bTamed\b", line): tamed.add(sec)
     untamed = [e for e in entries if e not in tamed]
     if untamed:
@@ -590,7 +606,8 @@ for q, lines in kg_sections("QuestEvents").items():
     if pay and int(m.group(1)) != max(1, round(value)):
         err(f"KG quest event [{q}] skip fee {m.group(1)} is not the pay's value ({value:g}c at Gullveig)")
 for k in sorted(wirsl_keys):
-    if k.startswith("oath_") and k not in player_keys:
+    # defeated_* are world keys the game sets; every other key must come from a quest's AddPlayerKey
+    if not k.startswith("defeated_") and k not in player_keys:
         err(f"WIRSL GlobalKeyReq '{k}' is granted by no AddPlayerKey quest event")
 dialogs = kg_sections("Dialogues")
 menu_profiles = {"trader": traders, "banker": kg_sections("Bankers"), "quests": profiles,

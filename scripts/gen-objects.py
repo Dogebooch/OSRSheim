@@ -87,13 +87,24 @@ def read_dump():
 
 
 def miss(ws, w, n):
-    """P(the w entry is never picked) in n picks without replacement from ws + [w]."""
-    if n == 0:
-        return 1.0
-    if not ws:
-        return 0.0
-    tot = sum(ws) + w
-    return sum(x / tot * miss(ws[:i] + ws[i + 1:], w, n - 1) for i, x in enumerate(ws))
+    """P(the w entry is never picked) in n picks without replacement from ws + [w].
+    Memoised on the set of entries already picked (a bitmask): the plain recursion walks
+    every pick order, ~100 s per chest-sized table."""
+    full, memo = sum(ws) + w, {}
+
+    def go(mask, left, k):
+        if k == 0:
+            return 1.0
+        if not left:
+            return 0.0
+        key = (mask, k)
+        if key not in memo:
+            tot = left + w
+            memo[key] = sum(x / tot * go(mask | 1 << i, left - x, k - 1)
+                            for i, x in enumerate(ws) if not mask >> i & 1)
+        return memo[key]
+
+    return go(0, full - w, n) if ws else (1.0 if n == 0 else 0.0)
 
 
 def chance(w, t):

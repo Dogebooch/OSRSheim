@@ -100,8 +100,7 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 104, stamina 14, attack speed 1.2; Bandos Godsword
   attack speed 0.9; Scythe of Vitur 0.95.
-- 12 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
-  1/16,000 a tree, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
+- 12 pets = trophy clones (8 boss, + Mining and Woodcutting on rocks and trees, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
 - 8 trimmed oath capes (CapeDeepNorth), 4 saga-rank cosmetics, 4 vanity cloaks (bought, not logged), 4 gem-tipped bolts.
 - 7 elite uniques + 3 hoard key parts (§7).
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
