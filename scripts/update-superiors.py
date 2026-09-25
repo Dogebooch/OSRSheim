@@ -1,4 +1,4 @@
-"""Apply the reviewed superior balance profile; preserve originals beside each config.
+"""Apply the reviewed superior balance profile; git holds the originals.
 
     python scripts\\update-superiors.py            production rates
     python scripts\\update-superiors.py --wiring   500-507 at 100% per 60 s check (in-game test; validator errors until a plain run)
@@ -9,7 +9,6 @@ Rates: rate-model.py roamers (CAL stale_zones_hr).
 """
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
 
@@ -49,9 +48,6 @@ ROWS = [
 
 def save(name, text):
     path = CFG / name
-    backup = path.with_name(path.name + '.bak-before-superior-balance')
-    if not backup.exists():
-        shutil.copy2(path, backup)
     with open(path, 'w', encoding='utf-8', newline='\r\n') as f:
         f.write(text)
 

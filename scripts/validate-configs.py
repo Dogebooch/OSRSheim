@@ -97,6 +97,12 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     if _base[m.group(1)].get("m_value", 0) > 0 and not re.search(r"^m_value:", t, re.M):
         err(f"wackydb {os.path.basename(f)}: base {m.group(1)} has m_value {_base[m.group(1)]['m_value']}; "
             f"set m_value (0 = no vendor sale)")
+    # An empty or missing SE_Equip / SE_SET_Equip keeps the base's equip effect / set (wackydb);
+    # cosmetics give no power, so set an own effect or `EffectName: delete`.
+    for k, blk in (("m_equipStatusEffect", "SE_Equip"), ("m_setStatusEffect", "SE_SET_Equip")):
+        if _base[m.group(1)].get(k) and not re.search(rf"^{blk}:[ \t]*\r?\n[ \t]+EffectName:[ \t]*\S", t, re.M):
+            err(f"wackydb {os.path.basename(f)}: base {m.group(1)} has {k} {_base[m.group(1)][k]}; "
+                f"{blk} is empty, so the clone keeps it (set EffectName, or delete)")
     for blk, key in (("Primary_Attack", "m_attack"), ("Secondary_Attack", "m_secondaryAttack")):
         body = re.search(rf"^{blk}:[ \t]*\r?\n((?:[ \t]+.*\r?\n?)*)", t, re.M)
         atk = _base[m.group(1)].get(key)

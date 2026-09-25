@@ -183,6 +183,7 @@ First drop lands around N kills at 1/N; allow ~3N before calling a rate broken
 `Adventure Mode Enabled = true`. `baseconfig\loottables.json`: every table's
 `Drops` is `[[0, 100]]` except the 19 generated unique tables and the #108 sources
 (2-star tier tables at 4%, treasure-map chests `[[1,100]]`, gem 2 / tier pair 1 (#107); `EpicLoot\OSRSheim-NOTES.md`).
+Duplicate `Object` tables (17) all roll: `AddLootTable` appends, `RollLootTableInternal` rolls every table.
 Enchanting table off (`Enabled = false`, `Table Features Active = None`). Effect counts fixed 1/2/3/4
 (Magic..Legendary), `AddCarryWeight`, `CoinHoarder` and the 15 unique signature effects weight 0 (validator); Haldor's Megingjord is the vanilla exception to #17.
 `rate-model.py magic` (#107 row, frontier map, `revisit_share` 0.1): 36.1 magic items/run,

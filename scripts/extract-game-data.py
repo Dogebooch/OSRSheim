@@ -15,7 +15,7 @@ Pointers in the output are written as "@<GameObject name>".
 Output (vanilla values; OSRSheim overrides live in config\):
   player.json       Player: speeds, stamina, carry, skill steps
   nodes.json        MineRock5 / MineRock / TreeBase / TreeLog / Destructible roots: HP, tool tier, areas
-  items.json        ItemDrop shared data: damages, tool tier, attack, stamina, durability
+  items.json        ItemDrop shared data: damages, tool tier, attack, stamina, durability, equip/set effect
   creatures.json    Humanoid/Character + MonsterAI roots
   spawners.json     SpawnSystemList, CreatureSpawner, SpawnArea
   stations.json     Plant, Pickable, Smelter, Fermenter, CookingStation
@@ -80,7 +80,7 @@ SHARED = ["m_name", "m_itemType", "m_skillType", "m_toolTier", "m_maxQuality", "
           "m_damagesPerLevel", "m_attackForce", "m_backstabBonus", "m_blockPower", "m_blockPowerPerLevel", "m_deflectionForce",
           "m_timedBlockBonus", "m_armor", "m_armorPerLevel", "m_useDurability", "m_useDurabilityDrain", "m_maxDurability",
           "m_durabilityPerLevel", "m_movementModifier", "m_attack", "m_secondaryAttack", "m_food", "m_foodStamina", "m_foodEitr",
-          "m_foodBurnTime", "m_foodRegen", "m_value", "m_ammoType"]
+          "m_foodBurnTime", "m_foodRegen", "m_value", "m_ammoType", "m_setName", "m_setSize"]
 ATTACK = ["m_attackType", "m_attackAnimation", "m_attackRandomAnimations", "m_attackChainLevels", "m_attackStamina",
           "m_attackEitr", "m_attackHealth", "m_speedFactor", "m_speedFactorRotation", "m_attackStartNoise", "m_damageMultiplier",
           "m_damageMultiplierPerMissingHP", "m_damageMultiplierByTotalHealthMissed", "m_staggerMultiplier", "m_forceMultiplier",
@@ -133,7 +133,7 @@ def build_index(UnityPy):
                     mb = o.read(check_read=False)
                     p = mb.m_Script
                     cls = scripts.get(f"{ext_cab(sf, p.m_FileID)}:{p.m_PathID}", "?|?|?")
-                    go = names.get(f"{cab}:{mb.m_GameObject.m_PathID}")
+                    go = names.get(f"{cab}:{mb.m_GameObject.m_PathID}") or getattr(mb, "m_Name", None) or None  # ScriptableObjects (status effects) have no GameObject
                     mb_class[f"{cab}:{pid}"] = [cls, go]
                 except Exception:
                     pass
@@ -227,6 +227,13 @@ def main():
                 if cls == "ItemDrop":
                     sh = (d.get("m_itemData") or {}).get("m_shared") or {}
                     d = {k: sh[k] for k in SHARED if k in sh}
+                    for k in ("m_setName", "m_setSize"):
+                        if not d.get(k):
+                            d.pop(k, None)
+                    raw = (tt.get("m_itemData") or {}).get("m_shared") or {}
+                    for k in ("m_equipStatusEffect", "m_setStatusEffect"):  # clean() drops *Effect keys
+                        if raw.get(k) and clean(sf, raw[k]):
+                            d[k] = clean(sf, raw[k])
                     for k in ("m_damages", "m_damagesPerLevel"):
                         if isinstance(d.get(k), dict):
                             d[k] = {t: x for t, x in d[k].items() if x}

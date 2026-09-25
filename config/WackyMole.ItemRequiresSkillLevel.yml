@@ -422,12 +422,8 @@ Requirements:
 # ===== p9-9 BOSS UNIQUE CLONES (added 2026-09-19) =====
 # Rule: gate = family-main sim level at the first drop, rounded up to 5 (sim-run.py uniques; Rares rule 1).
 # BlockCraft stays false on every entry - these are boss drops with no recipe.
-# UNGATED ON PURPOSE:
-#   OSRS_GracefulCape (CapeDeerHide) + OSRS_InfernalCape (CapeAsh) - no cape
-#     is gated anywhere in this file, so the base gate is "none".
-#   OSRS_AbyssalWhip (SwordMistwalker) + OSRS_ScytheOfVitur (AtgeirGold) -
-#     bases have no gate yet; fold into the tier-60/70 pass rather than
-#     inventing tiers mid-stream.
+# Second element: GlobalKeyReq oath_<drop biome> (#86). Capes: oath key only.
+# OSRS_AbyssalWhip, OSRS_ScytheOfVitur: gated after STAVES.
 - PrefabName: OSRS_DragonAxe
   Requirements:
   - Skill: Lumberjacking
@@ -1731,11 +1727,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# UNARMED LADDER — SKILL NAME UNVERIFIED
-# Valheim's SkillType enum is 'Unarmed'; EpicLoot calls the category
-# 'Fists'. If these gates never fire, the log will show no error (a bad
-# skill name fails OPEN, same as the DraugrFang bug) — swap Unarmed ->
-# Fists and reload. All four entries share the one fix.
+# UNARMED LADDER (Skills.SkillType Unarmed; WIRSL fails closed on a bad skill name, research\gating.md)
 - PrefabName: FistFenrirClaw
   Requirements:
   - Skill: Unarmed
@@ -1785,12 +1777,7 @@ Requirements:
 # STAVES — MAGIC GATING (tiers 50/55/60)
 # Deliberately NOT gated before tier 50: entry staves must stay usable
 # because casting is how magic levels (OSRS Magic 1 casts wind strike).
-# SKILL ASSIGNMENT: Valheim splits staves across ElementalMagic and
-# BloodMagic. Summoners are Blood, projectiles are Elemental. The three
-# marked '?? UNVERIFIED' are guesses from the prefab name alone.
-# TO VERIFY (needs a live game, 30 seconds each): wackydb_save_item on
-# the staff, then read 'm_skillType' in the dumped yml. Do NOT dump onto
-# an authored Item_OSRS_*.yml — it overwrites the file.
+# ElementalMagic / BloodMagic by game-data m_skillType (9 Elemental, 10 Blood).
 - PrefabName: StaffFireball
   Requirements:
   - Skill: ElementalMagic
@@ -1904,7 +1891,7 @@ Requirements:
     GlobalKeyReq:
     ExhibitionName:
 # ====================================================================
-# p9-9 CLONE GATES DEFERRED TO THIS PASS (see the p9-9 block above)
+# p9-9 CLONE GATES: whip, scythe
 - PrefabName: OSRS_AbyssalWhip
   Requirements:
   - Skill: Swords
@@ -1939,8 +1926,6 @@ Requirements:
     ExhibitionName: the Deep North oath
 # ====================================================================
 # p9-11 SKILLCAPES — equip-gated at 100, no craft gate (NPC-sold).
-# 'Unarmed' and the two magic skill names share the uncertainty noted
-# in the staves/unarmed sections above: a wrong skill name fails OPEN.
 - PrefabName: OSRS_CapeMining
   Requirements:
   - Skill: Mining
@@ -2332,8 +2317,8 @@ Requirements:
 #   wrong). Ungated on purpose: StaffBlackforest_TW (Elemental entry) and
 #   StaffSurtling_TW (Blood entry; Blood XP comes only from summon hits).
 #   Rings: CRAFT Blacksmithing at metal tier, equip ungated (AzuEPI finger
-#   slot, see JEWELLERY). Armor: EQUIP Blocking, CRAFT
-#   Blacksmithing, same split as every other set.
+#   slot, see JEWELLERY). Armor, capes, circlets: CRAFT Blacksmithing,
+#   equip ungated.
 - PrefabName: StaffSwamp_TW
   Requirements:
   - Skill: ElementalMagic

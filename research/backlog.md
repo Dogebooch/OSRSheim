@@ -20,10 +20,12 @@
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
 - **Knobs to tune by feel**: skillcape price, gem prices, trophy prices,
   Slayer rewards, superior rarity (0.03% / 900 s, MaxSpawned 10, `update-superiors.py`), treasure map payout (1.5x),
-  gambler edge, market tax, waystone fee (25 / 50 / 100c), Goblin double coins,
+  gambler edge, market tax, waystone fee (25-500c by oath tier), Goblin double coins,
   clone attack speeds, Fishing
   XP factor, fish sale prices, bite chance at 100,
   Wizardry Swamp-tier gear (reported strong; gate 20).
+- **Blocking fallback** (only if #156 blocks/kill confirms median ~33 @375 h): skillgainmodifier `Blocking = 1` (x2);
+  shield gates Silver 25, Blackmetal 30, Carapace 30, Flametal 35, Gold/Roots 40; oath Blocking BF 30 / Plains 35 / Ashlands 40; DragonfireShield 30.
 
 ## 19. Dead ends
 
