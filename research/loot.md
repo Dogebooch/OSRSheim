@@ -47,7 +47,7 @@ a literal 0.02 (1/5000):
 | roamer (Goblin, Wolf, Seeker, Dvergr, Wizardry mages) | 55 (hunt, 1 in 10 spawns killed) | 300 | 5.45 | 1.06 |
 | nest (Draugr_Elite, Greydwarf_Elite, Greydwarf_Shaman, Jotun at `BlackIce_Core`) | 46 (nest 321 x weight 1/7) | 80 | 1.74 | 0.34 |
 | elite (Troll, Golem, Gjall, Brute, Abomination) | 5 | 80 | 16 | 3.13 |
-| boss | 2 | 30 | 15 | 2.93 (~1/34, ~17 h) |
+| boss | 2 | 30 | 15 | 2.93; boss uniques and keels use csv `1/120` = 12.5% (~1/8) |
 
 ### Files
 | File | Contents |
@@ -99,17 +99,17 @@ ModTest 2026-09-22, one 0-star `TrollFrost`: 36 GoldOre, 108 Stone (~4,300c a tr
 
 Coin/hr target, best camped source: Meadows 150 · BF 200 · Swamp 440 · Mountain
 520 · Plains 700 · Mistlands 900 · Ashlands 1300 · DeepNorth 1600. Roamer purse:
-coin EV x `rate-model.py hunt` kills/hr <= 1.15 x target (Wolf 1.06, Goblin 1.14, Seeker 1.12); camped purse = target / 321; elite purse >= 2x the biome's roamer mean; nest purse: spawner mix <= 1.15x target
+coin EV x `rate-model.py hunt` kills/hr <= 1.15 x target (Wolf 1.06, Goblin 1.14, Seeker 1.12; Asksvin, Greydwarf_Frozen, ElakingMole, GoblinDeepNorth 1.05 at class 55/hr); camped purse = target / 321; elite purse >= 2x the biome's roamer mean; nest purse: spawner mix <= 1.15x target
 (GreydwarfNest 230c/hr 1.15x, DraugrPile 504 1.14x, Jotun core 1,762 at 46/hr 1.10x). Tamed kills pay nothing.
-Animals and Dvergr keep flat purses. Boss kills pay 0c: the story boss quest pays half the old purse mean + the tier stone per player (300-5,050c); re-kills pay `slayer_boss_*` stones. Bounties 40-1,200c (x1.5, 2026-09-24). Riddle caskets add under 25% a tier.
-Coin rule (2026-09-24): repeatables pay items, one-time rewards keep coins; sim `coin_end` 195k (400 runs; was 428k, 246k).
+Animals and Dvergr keep flat purses. Boss kills pay 0c: the story boss quest pays half the old purse mean + the tier stone per player (300-5,050c); re-kills pay `slayer_boss_*` stones. Bounties 30-800c. Riddle caskets add under 25% a tier.
+Coin rule (2026-09-24): repeatables pay items, one-time rewards keep coins; sim `coin_end` 185k (200 runs, 2026-09-25).
 
 Gem tiers: T1 Meadows/BlackForest · T2 Swamp/Mountain/Ocean · T3
 Plains/Mistlands · T4 Ashlands/DeepNorth. Rare: T2 Swamp elites (bonemass
 key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 
 ### Boss uniques and pets
-| Boss (prefab) | Unique (EpicLoot Legendary) @ 2.93% | Pet `.103` @ 0.02% |
+| Boss (prefab) | Unique (EpicLoot Legendary) @ 12.5% (csv `1/120`) | Pet `.103` @ 0.02% |
 |---|---|---|
 | Eikthyr | OSRS_GracefulCape (Windrunner cape) | OSRS_PetEikthyr (Sparkfawn) |
 | Elder (gd_king) | OSRS_DragonAxe (Rootcleaver) | OSRS_PetElder (Elder sapling) |
@@ -234,9 +234,9 @@ guaranteed effects skip slot rules, `LootRoller.cs`), `SelectionWeight = 1000000
 
 `baseconfig\adventuredata.json` (coins-only economy, untested in game):
 - Treasure maps: cost 100 (Meadows) to 800 (Deep North), chest pays `Coins`
-  1.5x cost (150-1200) + one pick: gem 2/3, magic item 1/3 (#107).
+  = cost (100-800) + one pick: gem 2/3, magic item 1/3 (#107).
   Runestone items removed. `RefreshInterval 7`.
-- Bounties (rare/hard/big): tokens 0, `RewardCoins` x1.5 (40 -> 1200); Iron
+- Bounties (rare/hard/big): tokens 0, `RewardCoins` 30 -> 800; Iron
   lvl 3 @3x HP, Gold @4.5x, adds lvl 2-3 @2x HP.
 - Bounty cfg: `Gated Bounty Mode = BossKillUnlocksCurrentBiomeBounties`,
   `Enable Bounty Limit = true`, `Max Bounties Per Player = 1`.

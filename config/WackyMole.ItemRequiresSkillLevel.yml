@@ -372,7 +372,7 @@ Requirements:
 - PrefabName: ShieldSilver
   Requirements:
   - Skill: Blocking
-    Level: 30
+    Level: 25
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -388,7 +388,7 @@ Requirements:
 - PrefabName: ShieldBlackmetal
   Requirements:
   - Skill: Blocking
-    Level: 40
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -406,7 +406,7 @@ Requirements:
 - PrefabName: ShieldBlackmetalTower
   Requirements:
   - Skill: Blocking
-    Level: 40
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -427,7 +427,7 @@ Requirements:
 - PrefabName: OSRS_DragonAxe
   Requirements:
   - Skill: Lumberjacking
-    Level: 25
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -443,7 +443,7 @@ Requirements:
 - PrefabName: OSRS_DragonfireShield
   Requirements:
   - Skill: Blocking
-    Level: 25
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -868,7 +868,7 @@ Requirements:
 - PrefabName: ShieldCarapace
   Requirements:
   - Skill: Blocking
-    Level: 50
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -884,7 +884,7 @@ Requirements:
 - PrefabName: ShieldCarapaceBuckler
   Requirements:
   - Skill: Blocking
-    Level: 50
+    Level: 30
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1244,7 +1244,7 @@ Requirements:
 - PrefabName: ShieldFlametal
   Requirements:
   - Skill: Blocking
-    Level: 60
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1260,7 +1260,7 @@ Requirements:
 - PrefabName: ShieldFlametalTower
   Requirements:
   - Skill: Blocking
-    Level: 60
+    Level: 35
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1665,7 +1665,7 @@ Requirements:
 - PrefabName: ShieldGold
   Requirements:
   - Skill: Blocking
-    Level: 70
+    Level: 40
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1681,7 +1681,7 @@ Requirements:
 - PrefabName: ShieldGoldTower
   Requirements:
   - Skill: Blocking
-    Level: 70
+    Level: 40
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1697,7 +1697,7 @@ Requirements:
 - PrefabName: ShieldGoldBuckler
   Requirements:
   - Skill: Blocking
-    Level: 70
+    Level: 40
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false
@@ -1713,7 +1713,7 @@ Requirements:
 - PrefabName: ShieldRoots
   Requirements:
   - Skill: Blocking
-    Level: 70
+    Level: 40
     BlockCraft: false
     BlockEquip: true
     EpicMMO: false

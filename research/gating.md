@@ -42,6 +42,7 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Weapons: their weapon skill.
 - Armor, capes, circlets, trinkets (15 in 1.0): CRAFT on Blacksmithing at
   tier, equip ungated. Shields: EQUIP on Blocking + CRAFT on Blacksmithing.
+  Blocking: bronze/bone 15, iron/serpent 20, silver 25, blackmetal 30, carapace 30, flametal 35, gold/roots 40.
 - Picks: Mining 10 / 20 / 40. One-hand axes: Lumberjacking 15 / 20 / 35 (BlackMetal) / 40
   (JotunBane) / 45 (Gold). Battleaxes and Berzerkr stay on Axes.
 - Staves: ElementalMagic / BloodMagic at 50 / 55 / 60, craft and equip.
@@ -62,8 +63,8 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Alchemy brews (craft + use): Medium flasks 10, Grands 20, Stealth 25,
   Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
   Gods 50, the 4 Philosopher's Stones 60 (cfg factor 1 = x2 XP). Lesser vials ungated.
-- Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 25,
-  DragonfireShield Blocking 25, BandosGodsword Swords 50, AbyssalWhip Swords 55,
+- Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 30,
+  DragonfireShield Blocking 35, BandosGodsword Swords 50, AbyssalWhip Swords 55,
   ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
   RuneScimitar Swords 35, GraniteMaul Clubs 45, DragonHalberd Polearms 50, CrystalBow Bows 65 (bow main x1.5 XP),
   AbyssalBludgeon Clubs 65, DragonBattleaxe Axes 65.

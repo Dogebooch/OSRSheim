@@ -23,7 +23,7 @@ Model, per player, Monte Carlo (one block = one activity inside one session):
                thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors from the biome's opening key;
                raids (event rows) at rate.raids_per_hour x rate.kills_per_raid
   sales        gems, curios, spare trophies; rule.raw_sell_share of raw drops, wood/stone and fish at the general store
-  xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Mining / Lumberjacking: rate-model;
+  xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Blocking x SkillGainModifier Blocking; Mining / Lumberjacking: rate-model;
                Smoothbrain per action (mod sources): Cooking 5/cook, Farming 1/plant, Building 1/piece,
                Blacksmithing 15/craft + First Craft Bonus (repeats past Experience Reduction Threshold lose Factor
                per threshold), Exploration 0.075/map pixel, Sailing 0.5/s at the helm, x each cfg
@@ -131,6 +131,8 @@ SHIELD = {'Meadows': 'ShieldWood', 'BlackForest': 'ShieldBronzeBuckler', 'Swamp'
 GEMS = {'Amber', 'AmberPearl', 'Ruby', 'Crystal', 'Chain', 'SilverNecklace'}
 SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg', 'Bell'}
 STEP = {'Swords': 1.0, 'Clubs': 1.0, 'Bows': 1.5, 'ElementalMagic': 1.0}   # m_increseStep (game-data player.json)
+# SkillGainModifier per-skill key replaces Global; 0 = use Global
+GAIN_BLOCKING = RM.cfg_value('jujuz1.mods.skillgainmodifier.cfg', 'Blocking', 0.0) or RM.GAIN_GLOBAL
 # a weapon family's main curve = the Swords curve (weapon.Swords 0.55 = the main share) x the family's step
 MAIN_STEP = {'Swords': 1.0, 'Knives': 1.0, 'Clubs': 1.0, 'Polearms': 1.0, 'Spears': 1.5, 'Axes': 1.0, 'Bows': 1.5,
              'ElementalMagic': 1.0, 'BloodMagic': 1.0, 'Unarmed': 1.0, 'Crossbows': 1.0}
@@ -847,7 +849,7 @@ class Run:
             for s in ('Swords', 'Bows', 'Clubs', 'ElementalMagic'):
                 share = self.p(f'weapon.{s}', biome, 0.0)
                 pl.add_xp(s, base * share * STEP[s], t0, t0 + h)
-            pl.add_xp('Blocking', total / len(pls) * self.p('rate.blocks_per_kill') * 0.5 * RM.GAIN_GLOBAL, t0, t0 + h)
+            pl.add_xp('Blocking', total / len(pls) * self.p('rate.blocks_per_kill') * 0.5 * GAIN_BLOCKING, t0, t0 + h)
             pl.add_xp('Evasion', h * self.p('rate.dodges_per_fight_hour') * 0.5, t0, t0 + h)
             if act == 'roam':
                 pl.add_xp('Foraging', h * self.p('rate.forage_picks_per_roam_hour') * 0.5, t0, t0 + h)
@@ -1020,7 +1022,7 @@ class Run:
                 pl.flow['out: waystones'] += fee
             # treasure map (frontier biome), one per refresh
             info = W.map_info.get(biome)
-            if self.p('rule.maps') and info and t >= pl.map_due and pl.coins >= info['Cost']:
+            if info and t >= pl.map_due and pl.coins >= info['Cost'] and rng.random() < self.p('rule.maps'):
                 pl.map_due = t + W.map_refresh_h
                 pl.coins += info['Coins'] - info['Cost']
                 pl.flow['in: treasure maps (net)'] += info['Coins'] - info['Cost']
@@ -1176,7 +1178,8 @@ class Run:
             seen.add(what)
             self.unlocks.append((t, f'new contract: {what}'))
 
-    # ----- skilling contracts (Verdandi, repeatable on cooldown, pay riddle-stones / a pet pool) -----
+    # ----- skilling contracts (Verdandi, repeatable, pay riddle-stones / a pet pool) -----
+    # 20-day cooldown on server time (AlwaysProgressServerTime): like the tithes it lapses between sessions
     def skilling(self, idx_phase, t, pls):
         W = self.W
         for pl in pls:
@@ -1185,7 +1188,7 @@ class Run:
                 if not all(k in self.keys for k in q.keys) or not all(pl.level(s) >= n for s, n in q.skills):
                     continue
                 self.opened(pl, t, q.qid)
-                if t - last.get(q.qid, -INF) < q.cooldown or self.rng.random() >= self.p('rule.skilling_share'):
+                if t <= last.get(q.qid, -INF) or self.rng.random() >= self.p('rule.skilling_share'):
                     continue
                 last[q.qid] = t
                 pl.events.append((t, 1, f'contract {q.qid}'))
@@ -1834,7 +1837,8 @@ def sessions_vs_sim(P, check, min_h=10.0, paths=None):
 SENS_KEYS = ('share.camp', 'share.roam', 'share.elite', 'share.mine', 'share.chop', 'share.farm', 'share.craft',
              'session.hours', 'together', 'weapon.Swords', 'kph_scale.roam', 'kph_scale.elite', 'rate.blocks_per_kill',
              'rate.smith_new_items', 'rate.smith_crafts', 'rate.fish_xp_per_hour', 'rate.revisit_share',
-             'rule.bounties_per_session', 'rule.skip_share', 'xp.cookfarm_sgm', 'xp.quest_skill_exp_factor')
+             'rule.bounties_per_session', 'rule.skip_share', 'rule.trips_per_session', 'rule.skilling_share',
+             'rule.maps', 'rate.raids_per_hour', 'xp.cookfarm_sgm', 'xp.quest_skill_exp_factor')
 SENS_METRICS = ('log_total', 'coin_end', 'S2_P_session', 'S3_P_session', 'swords_walls', 'bsmith_never',
                 'blocking_walls', 'swords_end_Plains', 'bsmith_end_Plains', 'alchemy_end_Plains')
 

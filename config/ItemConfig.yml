@@ -23,6 +23,9 @@ Ruby:
 SilverNecklace:
   weight: 0.1
   stack: 50
+Chain:
+  weight: 0.1
+  stack: 50
 # Skilling curios (2026-09-21): Amber clones off the object tables, sold to the gem trader.
 # Never give these worldLevelToLootAmount - CLLC's GetDropList postfix reads that key and
 # would duplicate every object drop in the game.

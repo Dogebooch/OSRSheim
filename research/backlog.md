@@ -10,7 +10,7 @@
 |---|---|---|---|
 | OdinPlus PotionPlus | `com.odinplus.potionsplus.cfg` | `Lock Configuration = On`; wand, dragon staff, both hats `Crafting Station Level = 99`. Hellbroths stay (§6) | Skill `Alchemy` (= Herblore) on the vanilla curve `(L+1)^1.5*0.5+0.5` per level: 76 XP to 10, 2107 to 40, 20301 to 100. 1 XP per craft at a station named `opalchemy*`, nothing else: `opcauldron` is a plain CraftingStation (4.3.4 bundle: no Incinerator, the lever is a mesh) with no extension, so max level 1; `Odins_Alchemy_Book` extends `opalchemy` to 2. `Potion_Meadbase` brews at `opalchemy` 2 (mod default), 1 XP each. Crops grow 4000-5000 s at Farming 0, divided by `1 + skill*(Grow Speed Factor 3 - 1)` (22-28 min at 100). Philosopher's Stone is ADDITIVE (`SE_Stats.ModifyRaiseSkill`), Alchemy only: cfg 1.0 = 2x; the stone is gated at Alchemy 60, so XP to 60 has none (223 garden cycles of 60 plants). Chain and gates: `scripts\check-alchemy-balance.py`. |
 | Smoothbrain Exploration | `org.bepinex.plugins.exploration.cfg` | `Skill Experience Gain Factor = 0.17`, `Skill Experience Loss = 0`, `Treasure Multiplication Chance = 0` | Treasure doubling condition is inverted in source. Speed +15 / radius +250 at 100; cartography write 20 / read 40. All keys ServerSync. |
-| JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 1.5` (bait gates a median 5 h early, `sim-run.py`), `Cooking = 1`, `Farming = 1` (Smoothbrain already x0.5), `[Skill reduction] Modifier = 0` | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
+| JuJuz1 SkillGainModifier | `jujuz1.mods.skillgainmodifier.cfg` | `Logging Enabled = false`, `Duration = 50` (corpse-run seconds), `[Skill Gain] Global = 0.5`, `Fishing = 1.5` (bait gates a median 5 h early, `sim-run.py`), `Cooking = 1`, `Farming = 1` (Smoothbrain already x0.5), `Blocking = 1` (x2; shield gates §6), `[Skill reduction] Modifier = 0` | Vanilla skills only; logging off or it errors per modded XP tick. No sync: same cfg on both clients. Per-skill keys under `[Skill Gain]` (0 = use Global). |
 | Marlthon OdinShip | `marlthon.OdinShip.cfg` | `OSRS_Keel<Boss>:1:False` appended to the 7 hull `Crafting Costs`, War Ship takes Yagluth + Queen; everything else default, BepInEx writes the full file on first launch | Sections by display name, apostrophes stripped (`[Merchants boat]`); costs `Prefab:amount:recover`. Ship mats from the Carpenters Table. PieceManager resolves costs at ObjectDB.Awake, before wackydb adds clones, and drops a missing item silently; re-resolves only on a `Crafting Costs` change. Hull costs restated in `wackysDatabase\Pieces\` (validator: must match). |
 | sighsorry Trolling Fishing | `sighsorry.TrollingFishing.cfg` | `Lock Configuration = On`, `Fishing Bite Chance Bonus Factor = 0.3`, `Fishing Extra Drop Chance Bonus Factor = 1`, `Fishing Rod Bag = Off`, `Fishing Rod Multi Line = Off` | ServerSync. Writes `TrollingFishing.yml` (bait each fish nibbles + chance) on first launch. |
 
@@ -19,13 +19,11 @@
 - **Optional heavy content**: Therzie Warfare 1.9.2 + Armory 1.4.0, Monstrum.
 - **Ironman** is self-imposed (no marketplace, no trading; banker allowed).
 - **Knobs to tune by feel**: skillcape price, gem prices, trophy prices,
-  Slayer rewards, superior rarity (0.03% / 900 s, MaxSpawned 10, `update-superiors.py`), treasure map payout (1.5x),
+  Slayer rewards, superior rarity (0.03% / 900 s, MaxSpawned 10, `update-superiors.py`), treasure map payout (1.0x),
   gambler edge, market tax, waystone fee (25-500c by oath tier), Goblin double coins,
   clone attack speeds, Fishing
   XP factor, fish sale prices, bite chance at 100,
   Wizardry Swamp-tier gear (reported strong; gate 20).
-- **Blocking fallback** (only if #156 blocks/kill confirms median ~33 @375 h): skillgainmodifier `Blocking = 1` (x2);
-  shield gates Silver 25, Blackmetal 30, Carapace 30, Flametal 35, Gold/Roots 40; oath Blocking BF 30 / Plains 35 / Ashlands 40; DragonfireShield 30.
 
 ## 19. Dead ends
 

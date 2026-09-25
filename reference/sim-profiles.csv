@@ -104,7 +104,7 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rate.bounty_h,0.5,guess: travel + level-3 target + adds
 *,*,rate.revisit_share,0.1,rate-model.py CAL revisit_share (share of later fight time back in a cleared biome)
 *,*,rule.boss_extra,2,guess: real play 51 boss kills in 142 h (dogeo save 2025; pre-OSRSheim stack) = ~6 per boss; vanilla needs repeat Moder kills for Dragon Tears
-*,*,rule.maps,1,buy the frontier treasure map at every refresh when affordable
+*,*,rule.maps,1,chance the frontier treasure map is bought at a refresh when affordable (1 = every refresh)
 *,*,rule.bounties_per_session,0.4,guess
 *,*,rule.trips_per_session,1,guess: one Huntmaster accept round per session
 *,*,rule.skip_share,0.1,guess: share of accepted contracts skipped for the fee
