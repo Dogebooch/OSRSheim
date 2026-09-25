@@ -100,12 +100,20 @@ def odds(p):
     return f'1 in {round(100 / p)}'
 
 
-def row(names, item, lo, hi, p, one=False, key=None, event=False):
+# skill= rows: the killing blow's weapon skill, in player words
+KILL_WITH = {'Knives': 'knife', 'Spears': 'spear', 'Crossbows': 'crossbow', 'Unarmed': 'unarmed',
+             'ElementalMagic': 'frost or lightning staff', 'BloodMagic': 'blood staff', 'Swords': 'sword',
+             'Clubs': 'club', 'Polearms': 'polearm', 'Axes': 'axe', 'Bows': 'bow', 'Pickaxes': 'pickaxe',
+             'WoodCutting': 'woodcutting axe', 'Blocking': 'shield bash'}
+
+
+def row(names, item, lo, hi, p, one=False, key=None, event=False, skill=None):
     name = names.get(item) or fail(f'no display name for item {item} (VANILLA or collection-log.csv)')
     amt = '' if lo == hi == 1 else f' x{lo}' if lo == hi else f' {lo}-{hi}'
     tail = f' (after {BOSS.get(key, key)})' if key else ''
     tail += ' (one each)' if one else ''
     tail += ' (raids only)' if event else ''
+    tail += f' ({KILL_WITH[skill]} killing blow only)' if skill else ''
     return f'Text: {colour(text(name + amt + " " + odds(p) + tail), p)}\n'
 
 
@@ -115,7 +123,9 @@ def drop_rows(names, rows, mult, loot):
         flags = set(r['flags'].split())
         key = next((f[4:] for f in flags if f.startswith('key=')), None)
         p = loot.chance(r['chance'], mult, 'time')
-        out.append(row(names, r['item'], int(r['min']), int(r['max']), p, 'one-per-player' in flags, key, 'event' in flags))
+        skill = next((f[6:] for f in flags if f.startswith('skill=')), None)
+        out.append(row(names, r['item'], int(r['min']), int(r['max']), p, 'one-per-player' in flags, key,
+                       'event' in flags, skill))
     return out
 
 

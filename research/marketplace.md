@@ -87,7 +87,7 @@ Pickable via `Pickable.RPC_Pick`, so own plots count.
 Lumberjacking, Fishing, Cooking, Blacksmithing (bars), Building, Farming at `SkillMore` 20/40/60 (Lumberjacking 3: 50) + a boss key; Cooking 65, Building 75, Farming 80 on `defeated_fader`, Building 70, Farming 75 on `defeated_queen`; Collect removes the
 goods; Build (`piece, n`) counts pieces placed while accepted (`Player.PlacePiece` hook); a counted piece is flagged `MPASNquestBuild` and never refunds its materials (`Piece.DropResources` skipped, DLL): `woodwall`/`wood_roof`, `stone_wall_2x1`/`stone_floor_2x2` (`defeated_bonemass`),
 `blackmarble_2x1x1`/`blackmarble_floor` (`defeated_goblinking`), `ashwood_wall_2x2`/`ashwood_floor_2x2` (`defeated_queen`), `Piece_grausten_wall_2x2`/`Piece_grausten_floor_2x2` (`defeated_fader`); Harvest `VineAsh` 60, `Pickable_Mushroom_Magecap` 60; Collect `MashedMeat` 10; pay riddle-stone T1/T1/T2, T2 above; Fishing and Farming tier 3 pay a `RandomItem` pool with the only source of
-`OSRS_PetFishing` (1 in 20) and `OSRS_PetFarming` (1 in 40). Cooldown 20 game days on server time: lapses between sessions (sim: once a session at `rule.skilling_share`).
+`OSRS_PetFishing` (1 in 24) and `OSRS_PetFarming` (1 in 205): 0.1 a player-run each at the sim's contract count. Cooldown 20 game days on server time: lapses between sessions (sim: once a session at `rule.skilling_share`).
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
 groups Wards / Might / Vigour / Wisdom / Wayfaring (same group: second buy blocked while one is active).

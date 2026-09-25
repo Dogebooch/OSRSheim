@@ -21,6 +21,10 @@ flags: one-per-player (amount 1 items only), key=<global key>, event (raid creat
        unique=<EpicLoot legendary ID>: rolled by EpicLoot, not Drop That, as that legendary (beam +
        inventory highlight). Creature rows only, amount 1, no one-per-player (EpicLoot rolls once per kill).
        Drop That item modifiers never apply to creature drops in this stack, so this is the only route.
+       skill=<SkillType>: ConditionKilledBySkillType, the killing hit's weapon skill (Drop That 3.1.5,
+       decompiled). Fire, poison and spirit land as DoT ticks with skill None, so a burn or poison kill
+       never matches. A misspelled value makes Drop That drop the condition (the entry turns
+       unconditional), so values are checked against SKILL_TYPES. Not with unique= or one-per-player.
 id: blank = next free (100+ creatures, first_id+ lists); set it to pin a slot (uniques 102, pets 103).
 Coins purses above 100 are split into <=100 chunks: extras at 106+ (creatures) / 130+ (lists).
 Writes drop_that.character_drop.cfg, drop_that.character_drop_list.shared_tables.cfg and the unique
@@ -44,6 +48,23 @@ EL_LEGENDARIES = 'EpicLoot/baseconfig/legendaries.json'
 CHUNK = 100
 CREATURE_BASE, CREATURE_OVERFLOW, LIST_OVERFLOW = 100, 106, 130
 NUMERIC = {'AmountMin', 'AmountMax', 'ChanceToDrop'}
+# Skills.SkillType names Drop That's ConditionKilledBySkillType parses (case-insensitive Enum.TryParse)
+SKILL_TYPES = {'Swords', 'Knives', 'Clubs', 'Polearms', 'Spears', 'Blocking', 'Axes', 'Bows', 'ElementalMagic',
+               'BloodMagic', 'Unarmed', 'Pickaxes', 'WoodCutting', 'Crossbows'}
+FLAGS = {'one-per-player', 'event'}
+FLAG_PREFIXES = ('key=', 'unique=', 'skill=')
+
+
+def flag_errors(flags):
+    """Problems with one drops.csv flags cell (a set of tokens); shared with post-build-check.py."""
+    errs = [f'unknown flag {f}' for f in sorted(flags) if f not in FLAGS and not f.startswith(FLAG_PREFIXES)]
+    for f in flags:
+        if f.startswith('skill=') and f[6:] not in SKILL_TYPES:
+            errs.append(f'skill={f[6:]} is not a weapon SkillType (Drop That would drop the condition)')
+    if any(f.startswith('skill=') for f in flags) and (
+            'one-per-player' in flags or any(f.startswith('unique=') for f in flags)):
+        errs.append('skill= rules out one-per-player and unique=')
+    return errs
 
 
 def fail(msg):
@@ -129,7 +150,7 @@ def chance(text, mult, mode):
 
 
 def entries(owner, rows, base, overflow, mult, mode):
-    """Return (id, item, lo, hi, chance, one_per_player, key, unique, event) rows for one owner, sorted by ID."""
+    """Return (id, item, lo, hi, chance, one_per_player, key, unique, event, skill) rows for one owner, sorted by ID."""
     ids, nxt = [], base
     for r in rows:
         idx = int(r['id']) if r.get('id') else nxt
@@ -147,9 +168,10 @@ def entries(owner, rows, base, overflow, mult, mode):
         key = next((f[4:] for f in flags if f.startswith('key=')), None)
         unique = next((f[7:] for f in flags if f.startswith('unique=')), None)
         event = 'event' in flags
-        bad = flags - {'one-per-player', 'event'} - {f for f in flags if f.startswith(('key=', 'unique='))}
+        skill = next((f[6:] for f in flags if f.startswith('skill=')), None)
+        bad = flag_errors(flags)
         if bad:
-            fail(f'{owner} {item}: unknown flags {sorted(bad)}')
+            fail(f'{owner} {item}: ' + '; '.join(bad))
         if not 1 <= lo <= hi:
             fail(f'{owner} {item}: bad amount {lo}-{hi}')
         if one and (hi != 1 or item == 'Coins'):
@@ -160,15 +182,15 @@ def entries(owner, rows, base, overflow, mult, mode):
         if hi > CHUNK and item != 'Coins':
             fail(f'{owner} {item}: max {hi} above the {CHUNK} per-entry cap (only Coins split)')
         parts = chunks(lo, hi)
-        out.append((idx, item, parts[0][0], parts[0][1], p, one, key, unique, event))
+        out.append((idx, item, parts[0][0], parts[0][1], p, one, key, unique, event, skill))
         for lo2, hi2 in parts[1:]:
-            out.append((overflow, item, lo2, hi2, p, one, key, unique, event))
+            out.append((overflow, item, lo2, hi2, p, one, key, unique, event, skill))
             overflow += 1
     return sorted(out)
 
 
 def entry_text(owner, e):
-    idx, item, lo, hi, p, one, key, unique, event = e
+    idx, item, lo, hi, p, one, key, unique, event, skill = e
     if unique:
         return ''
     lines = [f'[{owner}.{idx}]', f'PrefabName = {item}', f'AmountMin = {lo}', f'AmountMax = {hi}',
@@ -179,6 +201,8 @@ def entry_text(owner, e):
         lines.append(f'ConditionGlobalKeys = {key}')
     if event:
         lines.append('ConditionCreatureStates = Event')
+    if skill:
+        lines.append(f'ConditionKilledBySkillType = {skill}')
     return '\n'.join(lines) + '\n\n'
 
 

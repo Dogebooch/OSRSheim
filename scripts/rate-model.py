@@ -364,7 +364,9 @@ DENSITY_PROXY = {"rock3_silver": "silvervein", "SnowFirTree 2": "SnowFirTree"}
 TRAVEL_FALLBACK = {"trees": 4.0, "mining": 27.0}  # s: rate-model Beech1/Fir/Pine and rock4_copper travel
 YIELD = {"Pickaxe": cfg_value("org.bepinex.plugins.mining.cfg", "Mining Yield Factor", 2.0),  # x every GetDropList item
          "Axe": cfg_value("org.bepinex.plugins.lumberjacking.cfg", "Tree item yield modifier at level 100", 2.0)}
-PET_HOURS = 400.0           # OSRS skilling pets (rock golem, beaver) at a normal rate
+# Hours of that skill at the modelled rate per pet: each skilling pet 0.1 expected per player-run
+# (2026-09-25), solved against sim-run.py's mining/chopping hours (1,000 runs).
+PET_HOURS = {"OSRS_PetMining": 224.0, "OSRS_PetWoodcutting": 210.0}
 CURIO_PER_HR = 720 / 500    # Geode/Burl 35c each: the shipped 1/500 per segment at the old 720 segments/hr
 GEM_PER_HR = 720 / 256      # ore gems: the shipped 1/256 per segment at 720/hr
 
@@ -465,7 +467,7 @@ def objects(quality, max_stam, write=False):
             cache[obj] = object_rate(obj, quality, max_stam)
         rate, how = cache[obj]
         if rate and not rec["target"].startswith("w="):
-            per_hr = {"OSRS_PetMining": 1 / PET_HOURS, "OSRS_PetWoodcutting": 1 / PET_HOURS,
+            per_hr = {"OSRS_PetMining": 1 / PET_HOURS["OSRS_PetMining"], "OSRS_PetWoodcutting": 1 / PET_HOURS["OSRS_PetWoodcutting"],
                       "OSRS_Geode": CURIO_PER_HR, "OSRS_Burl": CURIO_PER_HR}.get(item, GEM_PER_HR)
             tool, level = OBJ_SETUP[obj]
             y = 1 + level / 100 * (YIELD["Pickaxe" if tool.startswith("Pickaxe") else "Axe"] - 1)

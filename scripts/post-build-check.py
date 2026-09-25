@@ -140,6 +140,12 @@ else:
     ok(f'clone references: {len(referenced)} OSRS_* names all resolve')
 
 # ------------------------------------------------------------------ 3. tables
+# gen-loot.py owns the drops.csv flag grammar; one parser, so the two never disagree.
+import importlib.util
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+_spec = importlib.util.spec_from_file_location('gen_loot', Path(__file__).resolve().parent / 'gen-loot.py')
+GEN_LOOT = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(GEN_LOOT)
 HEADERS = {
     'classes.csv': ['class', 'valheim_kills_hr', 'osrs_kills_hr', 'members'],
     'creatures.csv': ['biome', 'creature', 'class', 'list', 'display'],
@@ -164,9 +170,8 @@ for name, header in HEADERS.items():
                 err(f'drops.csv:{n}: chance {cells[4]!r} is not a percent or a 1/x rate')
             if cells[6] and not cells[6].isdigit():
                 err(f'drops.csv:{n}: id {cells[6]!r} is not a number')
-            for f in cells[5].split():
-                if f not in ('one-per-player', 'event') and not f.startswith(('key=', 'unique=')):
-                    err(f'drops.csv:{n}: unknown flag {f!r}')
+            for e in GEN_LOOT.flag_errors(set(cells[5].split())):
+                err(f'drops.csv:{n}: {e}')
             if cells[5] == 'one-per-player' and cells[2:4] != ['1', '1']:
                 err(f'drops.csv:{n}: one-per-player needs amount 1')
         if name == 'collection-log.csv' and ('|' in cells[2] or not cells[2]):

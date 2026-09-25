@@ -231,22 +231,27 @@ def _entry(kv):
 
 
 def load_drops():
-    """(normal table, raid-only table): `ConditionCreatureStates = Event` entries drop only from raid creatures."""
+    """(normal table, raid-only table, kill-method table): `ConditionCreatureStates = Event` entries drop only
+    from raid creatures; `ConditionKilledBySkillType` entries only when that weapon skill lands the killing
+    blow, so they stay out of ordinary play and count only in a dedicated hunt."""
     lists = defaultdict(list)
     for sec, kv in GL.parse(read(CFG / GL.LISTS)).items():
         if 'PrefabName' in kv:
             lists[sec.rsplit('.', 1)[0]].append(_entry(kv))
-    table, event = defaultdict(list), defaultdict(list)
+    table, event, method = defaultdict(list), defaultdict(list), defaultdict(list)
     for name in (GL.MAIN, 'drop_that.character_drop.osrsheim_superiors.cfg'):
         for sec, kv in GL.parse(read(CFG / name)).items():
             if str(kv.get('ConditionCreatureStates', '')) == 'Event':
                 event[sec.rsplit('.', 1)[0]].append(_entry(kv))
                 continue
+            if kv.get('ConditionKilledBySkillType'):
+                method[sec.rsplit('.', 1)[0]].append((str(kv['ConditionKilledBySkillType']), _entry(kv)))
+                continue
             if 'PrefabName' in kv:
                 table[sec.rsplit('.', 1)[0]].append(_entry(kv))
             elif 'UseDropList' in kv:
                 table[sec].extend(lists[kv['UseDropList']])
-    return table, event
+    return table, event, method
 
 
 SUFFIX = re.compile(r'_(sleeping|noarcher|NoArcher|NonSleeping|Meadows|Swamps|Mountains|DeepNorth|Ranged|cave|'
@@ -265,7 +270,7 @@ class World:
 
     def __init__(self, params):
         self.P = params
-        self.drops, self.event_drops = load_drops()
+        self.drops, self.event_drops, self.method_drops = load_drops()
         self.vanilla = defaultdict(list)
         for r in csv.DictReader(open(REF / 'vanilla-drops.csv', encoding='utf-8')):
             self.vanilla[r['creature']].append(Entry(r['item'], int(r['min']), int(r['max']), float(r['chance']),
@@ -296,6 +301,11 @@ class World:
         self.skip_fee = {m.group(1): float(m.group(2)) for m in re.finditer(
             r'^\[(\w+)\]\s*\nOnCancelQuest: RemoveItem, Coins, (\d+)',
             read(KG / 'QuestEvents' / 'osrsheim_slayer_skip.cfg'), re.M)}
+        # per-character keys a quest grants on completion (QuestEvents OnCompleteQuest: AddPlayerKey, <key>)
+        self.quest_keys = defaultdict(list)
+        for f in sorted((KG / 'QuestEvents').glob('*.cfg')):
+            for m in re.finditer(r'^\[(\w+)\]\s*\nOnCompleteQuest:([^\n]*)', read(f), re.M):
+                self.quest_keys[m.group(1)] += re.findall(r'AddPlayerKey,\s*(\w+)', m.group(2))
         # what the general store buys that is not a gem, curio or trophy: raw materials and fish (per unit)
         self.raw_price = {i: p for i, p in self.prices['sell'].items()
                           if i not in GEMS and not i.startswith(('Trophy', 'OSRS_'))}
@@ -1155,11 +1165,14 @@ class Run:
                         pl.gain(item, n, t, W, src='tithes' if tithe else src)
                 for s, v in q.skill_exp:
                     pl.add_xp(s, v * self.p('xp.quest_skill_exp_factor'), t, t + 0.01, events=False)
-                if q.qid.endswith('_seal') and q.file.endswith('oaths'):
-                    b = q.qid[len('oath_'):-len('_seal')]
-                    pl.pkeys.add(f'oath_{b}')
-                    pl.events.append((t, 3, f'oath {b}'))
-                    self.unlocks.append((t, f'oath {b}: waystone + sworn perks'))
+                for key in W.quest_keys.get(q.qid, ()):
+                    pl.pkeys.add(key)
+                    if key.startswith('oath_'):
+                        b = key[len('oath_'):]
+                        pl.events.append((t, 3, f'oath {b}'))
+                        self.unlocks.append((t, f'oath {b}: waystone + sworn perks'))
+                    else:
+                        self.unlocks.append((t, f'{key}: quest key'))
 
     def _killable(self, idx_phase):
         if idx_phase in self.W._killable:
@@ -1682,6 +1695,14 @@ def report(S, out=None):
     table('collection log at run end (per player)', S['log'])
     print(f"collection log lit at run end: {S['log_total']:.0%}\n")
     table('notable drops per player-run (S2+)', S['items'][:30])
+    # pets (2026-09-25): the 4 skilling pets ~0.1 a player-run each (0.4); boss pets 1 in 100 a kill, a grind
+    skill_pets = ('OSRS_PetMining', 'OSRS_PetWoodcutting', 'OSRS_PetFishing', 'OSRS_PetFarming')
+    per = {r['item']: r['per_run'] for r in S['items'] if r['item'].startswith('OSRS_Pet') or r['item'] == 'OSRS_JalNibRek'}
+    sk = sum(v for k, v in per.items() if k in skill_pets)
+    pets = sum(per.values())
+    print(f"pets per player-run: {pets:.2f} (skilling {sk:.2f}, rule 0.4; boss {pets - sk:.2f}), "
+          f"P(>=1) {1 - math.exp(-pets):.0%}"
+          + ('' if abs(sk / 0.4 - 1) <= 0.25 else '  DRIFT > 25%: re-solve the skilling pet rates (research/loot.md §7)') + '\n')
     table('unlock density by biome', S['density'])
     print('magic items per player-run by rarity:', {k: round(v, 2) for k, v in S['magic'].items()})
     print('boss kills per run:', S['boss_kills'], '\n', S['meta'])
@@ -1786,8 +1807,8 @@ def cmd_validate(P):
     diffs = 0
     for c in creatures:
         for rr in drops.get(c['creature'], []):
-            if 'unique=' in rr['flags'] or 'event' in rr['flags'].split() or rr['item'] == 'Coins':
-                continue                                  # uniques: EpicLoot; event: raid-only, not loaded
+            if 'unique=' in rr['flags'] or 'event' in rr['flags'].split() or 'skill=' in rr['flags'] or rr['item'] == 'Coins':
+                continue                                  # uniques: EpicLoot; event: raid-only; skill=: method table
             want = GL.chance(rr['chance'], classes[c['class']], 'time') / 100
             have = [e.p for e in W.drops.get(c['creature'], []) if e.item == rr['item']]
             if not any(abs(h - want) < 1e-6 for h in have):

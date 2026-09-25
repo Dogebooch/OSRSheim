@@ -23,9 +23,18 @@ validator warns until a plain run restores them.
 Raid spoils: `drops.csv` flag `event` -> `ConditionCreatureStates = Event` (Drop That DLL: `MonsterAI.IsEventCreature`);
 raid creatures drop the tier's riddle-stone, T1/T2 2%, T3/T4 1% (sim: raids 4-9% of each tier). `ConditionInventory` reads the creature's inventory, not the killer's.
 
+Kill conditions (Drop That 3.1.5, decompiled 2026-09-25; in-game check: `docs\PLAN.md` S1):
+| Key | Behaviour |
+|---|---|
+| `ConditionKilledBySkillType` | works: killing hit's `HitData.m_skill`; `drops.csv` flag `skill=<SkillType>` (gen-loot `SKILL_TYPES`) |
+| `ConditionKilledByDamageType` | works on the killing hit's damage bits; fire/poison/spirit only on a DoT-tick death (skill None, attacker Other) |
+| `ConditionKilledWithStatus(es)` | broken: compares its list to itself; validator error |
+| `ConditionHitByEntityTypeRecently` | inverted: passes only when none of the types hit; validator error |
+| misspelled enum value | condition dropped, entry unconditional; gen-loot and validator reject it |
+
 Enforced (CLAUDE.md has the append-only list): lists 110+/120+ keep their
-index when merged; `DropOnePerPlayer` per-player roll on a server is
-unverified; object entries capped at 5% per destruction and refused on a
+index when merged; `DropOnePerPlayer` = vanilla `m_onePerPlayer`: one chance roll, a hit drops one per player
+online (`ZNet.GetNrOfPlayers`, decompiled 2026-09-25); object entries capped at 5% per destruction and refused on a
 table with no vanilla entries. `drop_that.cfg`: dump flags off,
 `AlwaysAutoStack = true`. `dropthat:reload` hot-reloads all loot files
 (needs `-console`; admin-only on a server).
@@ -37,8 +46,8 @@ roaming (`rate-model.py hunt`), not kill speed.
 
 Classes (`loot\classes.csv`). Valheim /hr: camped and nest measured; roamer and elite from
 `rate-model.py hunt` (SpawnSystem replay, checked against logged bursts; #70); boss a guess. A shared list rolls at the creature's class
-(`gen-loot.py` writes a copy per class, e.g. `GemTableTier3Roamer`); pets stay
-a literal 0.02 (1/5000):
+(`gen-loot.py` writes a copy per class, e.g. `GemTableTier3Roamer`). Pets: boss pets 1 in 100 a kill (a grind:
+~100 summons, 12x the unique's rarity); skilling pets 0.1 a player-run each; `sim-run.py run` prints both:
 
 | Class | Valheim /hr | OSRS /hr | x | 1/512 becomes |
 |---|---|---|---|---|
@@ -69,25 +78,26 @@ Segments per node (ModTest 2026-09-22): copper 71, mudpile 20, mudpile2 28, silv
 
 Targets are per hour: `rate-model.py objects --write` solves each `loot\objects.csv` row at `OBJ_SETUP`
 (biome tool, skill mid-band of its gate), divided by the Smoothbrain yield (`1 + L/100`: every
-`GetDropList` item on rocks and trees repeats). Pet 400 h (OSRS rock golem 1/741,600 at ~1,800 ore/hr;
-beaver 1/145,013 at ~350 logs/hr). Curio (Geode, Burl, 35c each) 1.44/hr; a curio over 1% of a
+`GetDropList` item on rocks and trees repeats). Pet: `rate-model.py` `PET_HOURS` (Mining 224 h, Woodcutting 210 h) = 0.1 a run. Curio (Geode, Burl, 35c each) 1.44/hr; a curio over 1% of a
 table's vanilla picks is capped (Burl 0.46-1.2/hr). Ore gem 2.8/hr.
 
-| Object | Setup | Events/hr | Pet | Curio | Gem |
-|---|---|---|---|---|---|
-| `Beech1` | AxeFlint, Lumberjacking 8 | 87 trees | 1/37,500 | 1/110 | |
-| `Oak1` | AxeBronze, 18 | 39 trees | 1/18,500 | 1/90 | |
-| Birch, Fir, Pine | AxeBronze, 18 | 84-110 trees | 1/39,900-1/51,800 | 1/110-1/150 | |
-| `SwampTree1_log` | AxeIron, 30 | 160 logs | 1/83,400 | 1/150 | |
-| Snow fir, snow pine | AxeIron, 30 | 117-128 trees | 1/60,700-1/66,500 | 1/150 | |
-| `YggaShoot1-3` | AxeBlackMetal, 45 | 127 trees | 1/73,900 | 1/130 | |
-| Ashlands trees | AxeJotunBane, 60 | 128 trees | 1/81,900 | 1/150 | |
-| `rock4_copper_frac` | PickaxeBronze, Mining 15 | 367 segments | 1/169,000 | 1/300 | Amber 1/160 |
-| `MineRock_Tin` | PickaxeBronze, 15 | 190 nodes | 1/87,500 | 1/160 | Amber 1/80 |
-| `mudpile_frac`, `mudpile2_frac` | PickaxeIron, 25 | 2,324 / 2,820 segments | 1/1,162,000 / 1/1,410,000 | 1/2,100 / 1/2,500 | |
-| `rock3_silver_frac`, `silvervein_frac` | PickaxeIron, 35 | ~750 segments | 1/405,000 | 1/710 | Ruby 1/370 |
-| `MineRock_Obsidian` | PickaxeIron, 35 | 531 nodes | 1/287,000 | 1/500 | Ruby 1/260 |
-| `MineRock_Copper`, `_Iron`, `_Meteorite`, `goldvein_frac` | unmodelled (hit areas not extracted; gold tier 5) | | 1/300,000 | 1/500 | 1/256 |
+| Object | Setup | Events/hr | Curio | Gem |
+|---|---|---|---|---|
+| `Beech1` | AxeFlint, Lumberjacking 8 | 87 trees | 1/110 | |
+| `Oak1` | AxeBronze, 18 | 39 trees | 1/90 | |
+| Birch, Fir, Pine | AxeBronze, 18 | 84-110 trees | 1/110-1/150 | |
+| `SwampTree1_log` | AxeIron, 30 | 160 logs | 1/150 | |
+| Snow fir, snow pine | AxeIron, 30 | 117-128 trees | 1/150 | |
+| `YggaShoot1-3` | AxeBlackMetal, 45 | 127 trees | 1/130 | |
+| Ashlands trees | AxeJotunBane, 60 | 128 trees | 1/150 | |
+| `rock4_copper_frac` | PickaxeBronze, Mining 15 | 367 segments | 1/300 | Amber 1/160 |
+| `MineRock_Tin` | PickaxeBronze, 15 | 190 nodes | 1/160 | Amber 1/80 |
+| `mudpile_frac`, `mudpile2_frac` | PickaxeIron, 25 | 2,324 / 2,820 segments | 1/2,100 / 1/2,500 | |
+| `rock3_silver_frac`, `silvervein_frac` | PickaxeIron, 35 | ~750 segments | 1/710 | Ruby 1/370 |
+| `MineRock_Obsidian` | PickaxeIron, 35 | 531 nodes | 1/500 | Ruby 1/260 |
+| `MineRock_Copper`, `_Iron`, `_Meteorite`, `goldvein_frac` | unmodelled (hit areas not extracted; gold tier 5) | | 1/500 | 1/256 |
+
+Pet targets: `loot\objects.csv`, solved by `rate-model.py objects --write` from `PET_HOURS`.
 
 Crypt chest: vanilla only (Coins 10-30 at 1/5.35 a pick, ~11c a chest). The old `w=30`
 row paid ~100c a chest (~2,000c/hr at ~20 chests/hr, BF target 200) and cut Ruby,
@@ -109,7 +119,7 @@ Plains/Mistlands · T4 Ashlands/DeepNorth. Rare: T2 Swamp elites (bonemass
 key) · T3 Plains/Mistlands · T4 Ashlands · T5 DeepNorth.
 
 ### Boss uniques and pets
-| Boss (prefab) | Unique (EpicLoot Legendary) @ 12.5% (csv `1/120`) | Pet `.103` @ 0.02% |
+| Boss (prefab) | Unique (EpicLoot Legendary) @ 12.5% (csv `1/120`) | Pet `.103` @ 1% (1 in 100), one roll, one per player online |
 |---|---|---|
 | Eikthyr | OSRS_GracefulCape (Windrunner cape) | OSRS_PetEikthyr (Sparkfawn) |
 | Elder (gd_king) | OSRS_DragonAxe (Rootcleaver) | OSRS_PetElder (Elder sapling) |
