@@ -108,6 +108,10 @@ skiller,Mistlands,share.elite,0.05,guess
 *,*,rule.bounties_per_session,0.4,guess
 *,*,rule.trips_per_session,1,guess: one Huntmaster accept round per session
 *,*,rule.skip_share,0.1,guess: share of accepted contracts skipped for the fee
+*,*,rule.raw_sell_share,0.5,guess: share of raw drops / wood / stone / fish sold at the general store (rest used)
+*,*,rate.fish_per_hour,30,guess: fish landed per fishing hour (#156: measure)
+*,*,rate.raids_per_hour,0.25,guess: raids per played hour (vanilla event check ~46 min x chance; base time share)
+*,*,rate.kills_per_raid,16,guess: raid creatures killed per raid
 *,*,rule.gamble_share,0,share of coins above the reserve gambled per session
 *,*,rule.coin_reserve,2000,guess
 *,*,rule.pass_to_log,1,hand a collectible to the partner so both logs light (HasItem at Halla)

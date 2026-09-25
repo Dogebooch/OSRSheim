@@ -466,6 +466,12 @@ BUFF_MODS = {"modifyattack": "mult", "modifyhealthregen": "mult", "modifystamina
              "modifystealth": "mult", "runstaminadrain": "mult",
              "modifymaxcarryweight": "add", "damagereduction": "frac"}
 buffs = {}
+coin_bought = {}                                # item -> trader profile that sells it for Coins
+for _p, _lines in traders.items():
+    for _l in _lines:
+        _t = [x.strip() for x in _l.split("=")[0].split(",")]
+        if len(_t) >= 4 and _t[0] == "Coins":
+            coin_bought.setdefault(_t[2], _p)
 for f in glob.glob(os.path.join(KG, "Buffers", "*.cfg")):
     raw, base = read(f).splitlines(), os.path.basename(f)
     i = 0
@@ -493,6 +499,9 @@ for f in glob.glob(os.path.join(KG, "Buffers", "*.cfg")):
         elif ctoks[0] not in known_items:
             err(f"KG buffer [{bid}]: cost prefab '{ctoks[0]}' unknown (it must be an item: "
                 f"Init() dereferences its ItemDrop unguarded)")
+        elif ctoks[0] in coin_bought:
+            err(f"KG buffer [{bid}]: cost prefab '{ctoks[0]}' is sold for coins at [{coin_bought[ctoks[0]]}] "
+                f"(coins must not buy prayers)")
         for part in mods.split(","):
             if "=" not in part: err(f"KG buffer [{bid}]: modifier '{part.strip()}' is not 'Key = value'"); continue
             k, v = (x.strip() for x in part.split("=", 1))
@@ -556,12 +565,24 @@ for q, lines in quests.items():
 for q, lines in kg_sections("QuestEvents").items():
     for line in lines:
         custom_written |= set(re.findall(r"(?:Add|Set)CustomValue\s*,\s*([^,|\s]+)", line))
-# Hunt contract skip fee = a third of the coin pay (QuestEvents\osrsheim_slayer_skip.cfg).
+# Hunt contract skip fee = the pay's value in coins: coins + each item at the gem trader's (Gullveig) price
+# (QuestEvents\osrsheim_slayer_skip.cfg). Contracts pay gems, not coins (2026-09-24), so the fee is what the pay is worth.
+_gem_price = {}
+for _l in kg_sections("Traders").get("gem_trader", []):
+    _t = [x.strip() for x in _l.split(",")]
+    if len(_t) == 4 and _t[2] == "Coins" and "=" not in _l:
+        _gem_price[_t[0]] = int(_t[3]) / int(_t[1])
 for q, lines in kg_sections("QuestEvents").items():
     m = re.search(r"OnCancelQuest:\s*RemoveItem,\s*Coins,\s*(\d+)", " ".join(lines))
-    pay = re.search(r"Item:\s*Coins,\s*(\d+)", quests.get(q, ["", "", "", "", ""])[4]) if len(quests.get(q, [])) > 4 else None
-    if m and pay and int(m.group(1)) != max(1, round(int(pay.group(1)) / 3)):
-        err(f"KG quest event [{q}] skip fee {m.group(1)} is not a third of the {pay.group(1)}c pay")
+    if not m or len(quests.get(q, [])) <= 4:
+        continue
+    pay = re.findall(r"Item:\s*(\w+),\s*(\d+)", quests[q][4])
+    unpriced = [i for i, _ in pay if i != "Coins" and i not in _gem_price]
+    if unpriced:
+        err(f"KG quest event [{q}] skip fee: pay item(s) {unpriced} have no gem-trader price"); continue
+    value = sum(int(n) * (1 if i == "Coins" else _gem_price[i]) for i, n in pay)
+    if pay and int(m.group(1)) != max(1, round(value)):
+        err(f"KG quest event [{q}] skip fee {m.group(1)} is not the pay's value ({value:g}c at Gullveig)")
 for k in sorted(wirsl_keys):
     if k.startswith("oath_") and k not in player_keys:
         err(f"WIRSL GlobalKeyReq '{k}' is granted by no AddPlayerKey quest event")

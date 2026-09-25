@@ -50,7 +50,7 @@ also raise ArcaneAnvil_TW is unverified: hover a level-4 anvil recipe.
 |---|---|
 | Craft, WIRSL-gated | staves, spellslinger sets, circlets, rings, cores, staff bases, yarns, fabric bundles, biome scrolls |
 | Drop first, craft after | `Shard*_TW` from the five mages, then ArcaneAnvil L1 from metal + a boss trophy (Elder: Bronze 5, AncientSeed 2, TrophyGreydwarfShaman 1). The anvil itself costs ShardElder_TW 2, so the first shards must drop |
-| Buy for coins | the `supplies` prices are in §11: mead bases, soups, plates, the 4 buff scrolls, 2 world-picked mushrooms |
+| Buy for coins | the `supplies` prices are in §11: mead bases, soups, plates, 3 buff scrolls (Jump, Slowfall, Speed; Damage is not sold), 2 world-picked mushrooms |
 | Never sold | shards, staves, spellslinger pieces, circlets, rings, biome scrolls — coins must not skip a WIRSL gate or the mage hunt |
 
 Buff scrolls `ArcaneScroll_<DamageBuff|JumpBuff|SlowfallBuff|SpeedBuff>_TW`

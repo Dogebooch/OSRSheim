@@ -11,7 +11,7 @@ r"""Whole-run balance simulator (#81 budget): hours -> activities -> XP -> gates
 Reads the repo only (no game, no network): the SHIPPED loot (config\drop_that.character_drop*.cfg, EpicLoot tables),
 WIRSL gates, KG quests / contracts / gamblers / traders, loot\*.csv, reference\game-data\, reference\measured.csv,
 reference\sim-profiles.csv (behaviour inputs, one source per row; rows whose source starts with "guess" are what
-`sensitivity` varies) and reference\vanilla-drops.csv (trophy and summon-item chances, kirilloid). Action rates and
+`sensitivity` varies) and reference\vanilla-drops.csv (trophy, summon-item and raw-material chances). Action rates and
 kill mechanics come from rate-model.py (imported, not re-derived). Writes only --out (default sim-out\, gitignored).
 
 Model, per player, Monte Carlo (one block = one activity inside one session):
@@ -20,7 +20,9 @@ Model, per player, Monte Carlo (one block = one activity inside one session):
   kills        Poisson(min(engaged, supply / players sharing it) x h); supply = loot\classes.csv; camp mix = the
                biome's SpawnArea weights (game-data), roam mix = vanilla world-spawn supply, elite = class elite
   loot         every shipped Drop That entry per kill: coins as a compound-binomial normal, the rest Poisson
-               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors from the biome's opening key
+               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors from the biome's opening key;
+               raids (event rows) at rate.raids_per_hour x rate.kills_per_raid
+  sales        gems, curios, spare trophies; rule.raw_sell_share of raw drops, wood/stone and fish at the general store
   xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Mining / Lumberjacking: rate-model;
                Smoothbrain per action (mod sources): Cooking 5/cook, Farming 1/plant, Building 1/piece,
                Blacksmithing 15/craft + 75 first craft, Exploration 0.075/map pixel, Sailing 0.5/s at the helm,
@@ -90,7 +92,8 @@ ACTS = ['camp', 'roam', 'elite', 'boss', 'deaths', 'mine', 'chop', 'farm', 'craf
         'errands', 'other']
 FIGHT = ('camp', 'roam', 'elite')
 CAMP_SPAWNERS = {'BlackForest': ['Spawner_GreydwarfNest'], 'Swamp': ['Spawner_DraugrPile', 'BonePileSpawner_swamp'],
-                 'AshLands': ['Spawner_CharredStone_Elite', 'Spawner_CharredCross'], 'DeepNorth': ['Spawner_Hole']}
+                 'AshLands': ['Spawner_CharredStone_Elite', 'Spawner_CharredCross'],
+                 'DeepNorth': ['Spawner_Hole', 'BlackIce_Core']}                 # BlackIce_Core: the Jotun core
 WEAPON = {b: (w, q) for b, w, _, q, _ in RM.LADDER}           # the #83 ladder's sword per biome
 REP_MOB = {b: m for b, _, m, _, _ in RM.LADDER}
 MINE = {'Meadows': 'rock4_copper_frac', 'BlackForest': 'rock4_copper_frac', 'Swamp': 'mudpile_frac'}
@@ -130,6 +133,10 @@ CASKETS = (('riddle_simple', 'OSRS_RiddleStoneT1'), ('riddle_cryptic', 'OSRS_Rid
            ('crystal_chest', 'OSRS_CrystalKey'))
 CUM = [RM.xp_to_reach(L) for L in range(101)]
 INF = float('inf')
+CV_MARKS = (10, 25, 50, 100, 200)          # hunter rank gates (slayer.cfg elite hunts, Hrafn's rank lines)
+# the general store's fish per biome (the biome's own catch; Fish4_cave = the Mountain cave fish)
+FISH = {'Meadows': 'Fish1', 'BlackForest': 'Fish2', 'Swamp': 'Fish5', 'Mountain': 'Fish4_cave', 'Plains': 'Fish7',
+        'Mistlands': 'Fish9', 'AshLands': 'Fish11', 'DeepNorth': 'Fish10'}
 
 Entry = namedtuple('Entry', 'item lo hi p one keys lmin lmax biomes', defaults=((),))
 TRACKED = {'Swords', 'Bows', 'Clubs', 'ElementalMagic', 'Blocking', 'Mining', 'Lumberjacking', 'Farming', 'Alchemy',
@@ -214,20 +221,22 @@ def _entry(kv):
 
 
 def load_drops():
+    """(normal table, raid-only table): `ConditionCreatureStates = Event` entries drop only from raid creatures."""
     lists = defaultdict(list)
     for sec, kv in GL.parse(read(CFG / GL.LISTS)).items():
         if 'PrefabName' in kv:
             lists[sec.rsplit('.', 1)[0]].append(_entry(kv))
-    table = defaultdict(list)
+    table, event = defaultdict(list), defaultdict(list)
     for name in (GL.MAIN, 'drop_that.character_drop.osrsheim_superiors.cfg'):
         for sec, kv in GL.parse(read(CFG / name)).items():
             if str(kv.get('ConditionCreatureStates', '')) == 'Event':
-                continue                                  # raid-only loot: raids are not modelled
+                event[sec.rsplit('.', 1)[0]].append(_entry(kv))
+                continue
             if 'PrefabName' in kv:
                 table[sec.rsplit('.', 1)[0]].append(_entry(kv))
             elif 'UseDropList' in kv:
                 table[sec].extend(lists[kv['UseDropList']])
-    return table
+    return table, event
 
 
 SUFFIX = re.compile(r'_(sleeping|noarcher|NoArcher|NonSleeping|Meadows|Swamps|Mountains|DeepNorth|Ranged|cave|'
@@ -246,7 +255,7 @@ class World:
 
     def __init__(self, params):
         self.P = params
-        self.drops = load_drops()
+        self.drops, self.event_drops = load_drops()
         self.vanilla = defaultdict(list)
         for r in csv.DictReader(open(REF / 'vanilla-drops.csv', encoding='utf-8')):
             self.vanilla[r['creature']].append(Entry(r['item'], int(r['min']), int(r['max']), float(r['chance']),
@@ -273,6 +282,14 @@ class World:
         for x in self.adv['Bounties']['Targets']:
             self.bounties[x['Biome']].append(x)
         self.prices = self.load_prices()
+        # hunt contract skip fees (QuestEvents), not a share of the pay: item-paid contracts still cost coins to skip
+        self.skip_fee = {m.group(1): float(m.group(2)) for m in re.finditer(
+            r'^\[(\w+)\]\s*\nOnCancelQuest: RemoveItem, Coins, (\d+)',
+            read(KG / 'QuestEvents' / 'osrsheim_slayer_skip.cfg'), re.M)}
+        # what the general store buys that is not a gem, curio or trophy: raw materials and fish (per unit)
+        self.raw_price = {i: p for i, p in self.prices['sell'].items()
+                          if i not in GEMS and not i.startswith(('Trophy', 'OSRS_'))}
+        self._raw = {}
         self.gamblers = self.load_gamblers()
         self.quests = load_quests()
         self.gates = self.load_gates()
@@ -401,14 +418,20 @@ class World:
             return self._mix[k]
         mem = {c: r for c, r in self.creatures.items() if CSV_BIOME.get(r['biome']) == biome and r['biome'] != 'Ocean'}
         if act == 'camp':
+            # time split evenly over the biome's spawners; each supplies the measured nest rate, capped at one spawn
+            # per m_spawnIntervalSec (BlackIce_Core 50 s = 72/hr, Spawner_CharredCross 80 s = 45/hr)
             mix = Counter()
-            for sp in CAMP_SPAWNERS.get(biome, []):
-                pre = [(p['m_prefab'].lstrip('@'), p['m_weight']) for p in RM.SPAWN['SpawnArea'][sp]['m_prefabs']
-                       if p.get('m_prefab')]
+            sps = CAMP_SPAWNERS.get(biome, [])
+            supply = 0.0
+            for sp in sps:
+                area = RM.SPAWN['SpawnArea'][sp]
+                cap = min(self.kph['camped'], 3600 / area['m_spawnIntervalSec'])
+                supply += cap / len(sps)
+                pre = [(p['m_prefab'].lstrip('@'), p['m_weight']) for p in area['m_prefabs'] if p.get('m_prefab')]
                 tot = sum(w for _, w in pre)
                 for c, w in pre:
-                    mix[c] += w / tot / len(CAMP_SPAWNERS[biome])
-            supply = self.kph['camped']
+                    mix[c] += w / tot * cap / len(sps)
+            mix = Counter({c: v / supply for c, v in mix.items()}) if supply else mix
         elif act == 'roam':
             sup = Counter()
             for lst in RM.SPAWN['SpawnSystemList'].values():
@@ -494,20 +517,59 @@ class World:
         return self._compiled[k]
 
     def mining_xp_hr(self, level):
+        return self._mine(level)[0]
+
+    def mining_coin_hr(self, level):
+        """Store value of the sellable part of a mining hour (Stone), before rule.raw_sell_share."""
+        return self._mine(level)[1]
+
+    def _mine(self, level):
         L = int(level // 10) * 10
         if L not in self._mining:
             tool = next(t for g, t in PICKS if L >= g)
             r = RM.mining(tool, 'rock4_copper_frac', L, 1, 120.0, None, L)
-            self._mining[L] = r.get('Mining xp/hr >=', 0) if 'error' not in r else 0.0
+            per_seg = self.drop_ev(RM.NODES['MineRock5']['rock4_copper_frac'].get('m_dropItems'))
+            self._mining[L] = ((r.get('Mining xp/hr >=', 0), r.get('segments/hr', 0) * per_seg) if 'error' not in r
+                               else (0.0, 0.0))
         return self._mining[L]
 
     def chop_xp_hr(self, level):
+        return self._tree(level)[0]
+
+    def chop_coin_hr(self, level):
+        """Store value of a chopping hour (wood, resin, feathers off FirTree + log + halves), before the sell share."""
+        return self._tree(level)[1]
+
+    def _tree(self, level):
         L = int(level // 10) * 10
         if L not in self._chop:
             tool = next(t for g, t in AXES if L >= g)
             r = RM.trees(tool, 'FirTree', L, 1, 120.0, None, True, 0)
-            self._chop[L] = r.get('Lumberjacking xp/hr', 0) if 'error' not in r else 0.0
+            tb = RM.NODES['TreeBase']['FirTree']
+            log = RM.NODES['TreeLog'].get((tb.get('m_logPrefab') or '@')[1:]) or {}
+            half = RM.NODES['TreeLog'].get((log.get('m_subLogPrefab') or '@')[1:]) or {}
+            per_tree = (self.drop_ev(tb.get('m_dropWhenDestroyed')) + self.drop_ev(log.get('m_dropWhenDestroyed'))
+                        + RM.CAL['log_halves'] * self.drop_ev(half.get('m_dropWhenDestroyed')))
+            self._chop[L] = ((r.get('Lumberjacking xp/hr', 0), r.get('trees/hr', 0) * per_tree) if 'error' not in r
+                             else (0.0, 0.0))
         return self._chop[L]
+
+    def drop_ev(self, dt):
+        """Store value of one vanilla DropTable roll: m_dropChance x mean picks x weight share x mean stack x price."""
+        if not dt or not dt.get('m_drops'):
+            return 0.0
+        ws = sum(d['m_weight'] for d in dt['m_drops']) or 1.0
+        picks = dt['m_dropChance'] * (dt['m_dropMin'] + dt['m_dropMax']) / 2
+        return sum((1.0 if dt.get('m_oneOfEach') else picks * d['m_weight'] / ws) * (d['m_stackMin'] + d['m_stackMax']) / 2
+                   * self.raw_price.get((d['m_item'] or '').lstrip('@'), 0.0) for d in dt['m_drops'])
+
+    def raw_value(self, creature):
+        """Store value per kill of raw drops (shipped Drop That rows + vanilla rows), before the sell share."""
+        if creature not in self._raw:
+            ents = list(self.drops.get(creature, [])) + (self.vanilla.get(creature) or self.vanilla.get(base_name(creature), []))
+            self._raw[creature] = sum(e.p * (e.lo + e.hi) / 2 * self.raw_price.get(e.item, 0.0) for e in ents
+                                      if not e.keys and not e.item.startswith('Fish'))
+        return self._raw[creature]
 
     def item_tier(self, item):
         if item in self.boss_uniques or item.startswith('OSRS_Pet') or item == 'OSRS_JalNibRek':
@@ -605,9 +667,19 @@ class Player:
         self.contracts = {}             # qid -> kills at accept
         self.map_due = 0.0
         self.balance = []               # (t, coins) at each town round
+        self.cv = Counter()             # KG per-player custom values (hunter_rank, kc_<boss>)
+        self.cv_t = {}                  # (custom value, threshold) -> first time reached
+        self.stones = Counter()         # (source, riddle-stone prefab) -> count
 
     def level(self, skill):
         return level_of(self.xp[skill])
+
+    def add_cv(self, name, k, t):
+        before = self.cv[name]
+        self.cv[name] += k
+        for thr in CV_MARKS:
+            if before < thr <= self.cv[name]:
+                self.cv_t[(name, thr)] = t
 
     def add_xp(self, skill, amount, t0, t1, events=True):
         if amount <= 0:
@@ -623,9 +695,11 @@ class Player:
                 self.events.append((cr[L], 1, f'lvl {skill} {L}'))
         self.xp[skill] = x1
 
-    def gain(self, item, n, t, W, tier=None):
+    def gain(self, item, n, t, W, tier=None, src='other'):
         if n <= 0:
             return
+        if item.startswith('OSRS_RiddleStone'):
+            self.stones[(src, item)] += n
         self.has[item] += n
         if item not in self.got:
             self.got[item] = t
@@ -644,6 +718,7 @@ class Run:
         self.keys = set()
         self.unlocks = []               # (t, label)
         self.boss_kills = Counter()
+        self.src = 'kills'              # riddle-stone source label for roll()
 
     def p(self, key, phase='*', default=None):
         return self.P.get(key, self.profile, phase, default)
@@ -660,6 +735,10 @@ class Run:
             for pl in owners:
                 pl.coins += coins / len(owners)
                 pl.flow['in: creature purses'] += coins / len(owners)
+        raw = W.raw_value(creature) * n_kills * self.p('rule.raw_sell_share')
+        for pl in owners:                                  # hides, scraps, bones, resin sold at the general store
+            pl.coins += raw / len(owners)
+            pl.flow['in: raw sales'] += raw / len(owners)
         if tot <= 0:
             return
         for _ in range(poisson(rng, n_kills * tot)):
@@ -668,9 +747,29 @@ class Run:
             amt = rng.randint(e.lo, e.hi)
             if e.one:
                 for pl in owners:
-                    pl.gain(e.item, amt, t, W)
+                    pl.gain(e.item, amt, t, W, src=self.src)
             else:
-                rng.choice(owners).gain(e.item, amt, t, W)
+                rng.choice(owners).gain(e.item, amt, t, W, src=self.src)
+
+    def raids(self, idx_phase, t0, hours, pls):
+        """Raids at the base (event rows): each picks one open raid creature; rate.kills_per_raid of it die."""
+        W, rng = self.W, self.rng
+        opened = [c for c in W.event_drops if not c.endswith(('_sleeping', '_NoArcher'))     # camped variants: never raid-spawned
+                  and any(KEY[b] in self.keys for b in BIOMES if CSV_BIOME.get(W.creatures.get(c, {}).get('biome')) == b)]
+        if not opened:
+            return
+        self.src = 'raids'
+        for _ in range(poisson(rng, self.p('rate.raids_per_hour') * hours)):
+            c = rng.choice(opened)
+            t = t0 + rng.random() * hours
+            n = poisson(rng, self.p('rate.kills_per_raid'))
+            self.roll(c, n, frozenset(self.keys), 1, t, 0.0, pls, CSV_BIOME.get(W.creatures[c]['biome']))
+            for e in W.event_drops[c]:
+                for _ in range(poisson(rng, n * e.p)):
+                    rng.choice(pls).gain(e.item, rng.randint(e.lo, e.hi), t, W, src='raids')
+            for pl in pls:
+                pl.kills[c] += n
+        self.src = 'kills'
 
     def magic_roll(self, obj, level, t, owner):
         items, mix = RM.el_roll(self.W.el_tables, obj, level)
@@ -761,10 +860,12 @@ class Run:
             elif act == 'mine' and idx_phase > 0:
                 for pl in pls:
                     xph = W.mining_xp_hr(pl.level('Mining'))
+                    self.sell_raw(pl, W.mining_coin_hr(pl.level('Mining')) * h)
                     pl.add_xp('Mining', xph * h, t, t + h)
                     self.objects(pl, MINE_OBJ[biome], h, t)
             elif act == 'chop':
                 for pl in pls:
+                    self.sell_raw(pl, W.chop_coin_hr(pl.level('Lumberjacking')) * h)
                     pl.add_xp('Lumberjacking', W.chop_xp_hr(pl.level('Lumberjacking')) * h, t, t + h)
                     self.objects(pl, CHOP_OBJ[biome], h, t)
             elif act == 'build':
@@ -780,6 +881,7 @@ class Run:
             elif act == 'fish':
                 for pl in pls:
                     pl.add_xp('Fishing', h * self.p('rate.fish_xp_per_hour'), t, t + h)
+                    self.sell_raw(pl, h * self.p('rate.fish_per_hour') * W.raw_price.get(FISH[biome], 0.0))
             elif act == 'boss':
                 pass                                        # boss kills happen at the phase end
             t += h
@@ -790,7 +892,14 @@ class Run:
             pl.add_xp('Cooking', cooks * 5 * 0.5 * sgm, t0, t0 + hours)
             self.farm(pl, biome, idx_phase, hours, shares['farm'] * hours, t0, keys)
             self.smith(pl, biome, idx_phase, hours, t0)
+        self.raids(idx_phase, t0, hours, pls)
         return t0 + hours
+
+    def sell_raw(self, pl, value):
+        """rule.raw_sell_share of a raw-material / fish haul goes to the general store; the rest is used."""
+        v = value * self.p('rule.raw_sell_share')
+        pl.coins += v
+        pl.flow['in: raw sales'] += v
 
     def objects(self, pl, obj, h, t0):
         for item, per_hr, p_evt in self.W.objects.get(obj, []):
@@ -798,7 +907,7 @@ class Run:
                 pl.gain(item, 1, t0 + self.rng.random() * h, self.W)
 
     def farm(self, pl, biome, idx_phase, hours, hands_on, t0, keys):
-        if hands_on <= 0:
+        if hands_on <= 0 or idx_phase < 1:                  # Cultivator needs Bronze: farming from BlackForest
             return
         F = pl.level('Farming')
         cycle_h = 4500 / (1 + 2 * F / 100) / 3600 + 0.05
@@ -809,7 +918,8 @@ class Run:
         pl.add_xp('Farming', plants * 1 * 0.5 * sgm, t0, t0 + hours)
         crops = plants * (1 + F / 100)
         stone = 3.0 if pl.level('Alchemy') >= 50 else 1.0                 # Philosopher's Stone, gated at Alchemy 50
-        pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)      # 3649 XP / 8514 crop units (check-alchemy-balance)
+        if idx_phase >= BIOMES.index('Mountain'):      # Potion_Meadbase: opalchemy 2 + Turnip (post-Bonemass)
+            pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)  # 3649 XP / 8514 crop units (check-alchemy-balance)
         # herb contracts (cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop
         herbs = [q for q in self.W.quests if q.file.endswith('slayer') and q.type == 'Harvest'
                  and all(k in keys for k in q.keys)]
@@ -851,9 +961,13 @@ class Run:
             # open caskets / forge keys / crystal chest
             self.caskets(pl, t)
             pl.balance.append((t, pl.coins))
-            # sell gems, curios and duplicate trophies (keep one of each collectible)
+            # sell gems, curios and duplicate trophies (keep one of each collectible, plus what an open tithe asks)
+            tithe_need = Counter()
+            for pk, item, n in W.tithes.values():
+                if all(k in pl.pkeys for k in pk):
+                    tithe_need[item] += n
             for item in list(pl.has):
-                keep = 1 if item in W.log_items else 0
+                keep = (1 if item in W.log_items else 0) + tithe_need[item]
                 price = W.prices['sell'].get(item, 35 if item in ('OSRS_Geode', 'OSRS_Burl') else 0)
                 if price and pl.has[item] > keep and (item in GEMS or item.startswith(('Trophy', 'OSRS_Geode', 'OSRS_Burl'))):
                     n = pl.has[item] - keep
@@ -882,7 +996,9 @@ class Run:
                     pl.coins += x['RewardCoins']
                     pl.flow['in: bounties'] += x['RewardCoins']
                     pl.events.append((t + 1.0, 2, f'bounty {bb}'))
+                    self.src = 'bounties'
                     self.roll(x['TargetID'], 1, frozenset(keys), 3, t + 1.0, 0.0, [pl], bb)
+                    self.src = 'kills'
                     self.magic_roll(x['TargetID'], 3, t + 1.0, pl)
             # skillcapes: every WIRSL requirement at 100, KG trader price
             if self.p('rule.capes'):
@@ -943,7 +1059,7 @@ class Run:
                             pl.lit.setdefault(prize, t)
                         pl.events.append((t, 2 if prize == 'SilverNecklace' else 1, f'{prof}: {prize}'))
                     elif prize != 'Stone':
-                        pl.gain(prize, n, t, W)
+                        pl.gain(prize, n, t, W, src='caskets')
                         if prize in W.log_items:
                             pl.lit.setdefault(prize, t)
 
@@ -954,8 +1070,10 @@ class Run:
             for q in W.quests:
                 if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.file.endswith('skilling'):
                     continue
-                # elite-oath tithes repeat on their cooldown; every other quest here is one-time
-                if q.qid in pl.done and not (q.qid.endswith('_tithe') and t - pl.done[q.qid] >= q.cooldown):
+                # elite-oath tithes repeat once per session (6-day cooldown on server time, AlwaysProgressServerTime:
+                # it lapses between evenings); every other quest here is one-time
+                tithe = q.qid in W.tithes
+                if q.qid in pl.done and not (tithe and t > pl.done[q.qid]):
                     continue
                 if not all(k in self.keys for k in q.keys) or not all(x in pl.done for x in q.prereq) \
                         or not all(k in pl.pkeys for k in q.pkeys) \
@@ -971,7 +1089,9 @@ class Run:
                         # targeted hunting: a quest target the mixes rarely supply is hunted on purpose
                         ok &= (pl.kills[name] - pl.contracts[base] >= n) or rng.random() < 0.35
                     elif q.type == 'Collect':
-                        if name in W.log_items or name.startswith('Trophy'):
+                        if tithe:
+                            ok &= pl.has[name] >= n                  # handed over from the bag (sell loop keeps them)
+                        elif name in W.log_items or name.startswith('Trophy'):
                             ok &= pl.got.get(name, INF) <= t
                         else:
                             ok &= rng.random() < 0.6
@@ -986,9 +1106,13 @@ class Run:
                 pl.coins += q.coins
                 src = 'oaths' if q.file.endswith('oaths') else 'story quests'
                 pl.flow[f'in: {src}'] += q.coins
+                if tithe:
+                    name, n, _ = q.targets[0]
+                    pl.has[name] -= n
+                    pl.flow['tithes paid'] += 1
                 for item, n in q.items:
                     if item.startswith('OSRS_') or item in W.log_items:
-                        pl.gain(item, n, t, W)
+                        pl.gain(item, n, t, W, src='tithes' if tithe else src)
                 for s, v in q.skill_exp:
                     pl.add_xp(s, v * self.p('xp.quest_skill_exp_factor'), t, t + 0.01, events=False)
                 if q.qid.endswith('_seal') and q.file.endswith('oaths'):
@@ -1030,7 +1154,20 @@ class Run:
                 for item, n in q.items:
                     if item == '__pool__':
                         item, n = self.rng.choice(n), 1
-                    pl.gain(item, n, t, W)
+                    pl.gain(item, n, t, W, src='skilling contracts')
+
+    def pay(self, pl, q, t, src):
+        """A contract's reward: coins, items (gems are sold at the next town round), custom values."""
+        W = self.W
+        pl.coins += q.coins
+        pl.flow[f'in: {src}'] += q.coins
+        for item, k in q.items:
+            if item.startswith('__cv__'):
+                pl.add_cv(item[6:], k, t)
+            else:
+                if item in GEMS:
+                    pl.flow[f'memo: {src} gem pay (in trader sales)'] += k * W.prices['sell'].get(item, 0.0)
+                pl.gain(item, k, t, W, src=src)
 
     # ----- hunt contracts (Huntmaster, autocomplete, repeatable) -----
     def contracts(self, idx_phase, t, pls):
@@ -1045,19 +1182,12 @@ class Run:
                 key = ('*' + name) if stars else name
                 if pl.kills[key] - base >= n:
                     del pl.contracts[qid]
-                    pl.coins += q.coins                        # each player holds their own instance
-                    pl.flow['in: hunt contracts'] += q.coins
+                    self.pay(pl, q, t, 'hunt contracts')      # each player holds their own instance
                     pl.__dict__.setdefault('contract_last', {})[q.qid] = t
-                    for item, k in q.items:
-                        if item.startswith('__cv__'):
-                            cv = pl.__dict__.setdefault('cv', Counter())
-                            cv[item[6:]] += k
-                        else:
-                            pl.gain(item, k, t, W)
                     pl.events.append((t, 1, f'contract {q.qid}'))
                 elif self.rng.random() < self.p('rule.skip_share'):
                     del pl.contracts[qid]
-                    fee = q.coins / 3
+                    fee = W.skip_fee.get(q.qid, 0.0)           # QuestEvents skip fee, coins
                     pl.coins -= fee
                     pl.flow['out: contract skips'] += fee
             # accept up to 7 open contracts whose target lives in the current or a cleared biome (one Huntmaster
@@ -1073,8 +1203,7 @@ class Run:
                 if f'slayer:{q.qid}' in pl.contracts or not all(k in self.keys for k in q.keys):
                     continue
                 # hunter rank (CustomValueMore) and cooldowns longer than the board's 60 s (elite hunts)
-                cv = pl.__dict__.get('cv', Counter())
-                if not all(cv[k] >= n for k, n in q.cvs):
+                if not all(pl.cv[k] >= n for k, n in q.cvs):
                     continue
                 if q.cvs:
                     self.opened(pl, t, q.qid)
@@ -1096,21 +1225,34 @@ class Run:
         b = BOSS[biome]
         pls = self.players
         extra = int(self.p('rule.boss_extra', biome))
+        W = self.W
         for k in range(1 + extra):
             # the last boss's repeat kills land inside the run, not after RUN_H
             tt = t + (k - extra * (idx_phase == len(BIOMES) - 1)) * self.p('rate.boss_fight_h')
+            self.src = 'boss kills'
             self.roll(b, 1, frozenset(self.keys), 1, tt, 0.0, pls, biome)
+            self.src = 'kills'
             self.boss_kills[b] += 1
             for pl in pls:
                 pl.kills[b] += 1
             if k:
                 # Seeress offerings (vanilla summon counts)
                 item, n = OFFERING.get(b, (None, 0))
-                cost = n * self.W.prices['buy'].get(item, 0)
+                cost = n * W.prices['buy'].get(item, 0)
                 for pl in pls:
                     pl.coins -= cost / len(pls)
                     pl.flow['out: boss offerings'] += cost / len(pls)
-        self.keys.add(KEY[biome])
+                # the repeat-kill contract (slayer_boss_<boss>): only the killing blow credits it (B2), and each
+                # repeat summon is its own trip, so the 6-day server-time cooldown lapses between them
+                q = W.boss_contracts.get(b)
+                if q and all(x in self.keys for x in q.keys):
+                    pl = self.rng.choice(pls)
+                    self.pay(pl, q, tt, 'boss contracts')
+                    for bane in W.banes:
+                        if bane.qid not in pl.done and bane.cvs and all(pl.cv[c] >= m for c, m in bane.cvs):
+                            pl.done[bane.qid] = tt
+                            self.pay(pl, bane, tt, 'boss contracts')
+            self.keys.add(KEY[biome])                        # set by the first kill
         self.unlocks.append((t, f'{biome} boss: {KEY[biome]} opens the next biome, quests, contracts, trader pages'))
 
     def simulate(self):
@@ -1145,9 +1287,16 @@ class Run:
 def build_contract_index(W):
     jew = {r['prefab'] for r in W.log_rows if r['category'] == 'Jewellery'}
     W.jewellery = [g for g in W.gates if g[0] in jew]
-    W.contracts = sorted((q for q in W.quests if q.file.endswith('slayer') and q.type == 'Kill'), key=lambda q: -q.coins)
+    # the board is worked most-valuable first: coins + items at the store / Gullveig (item-paid contracts included)
+    W.contracts = sorted((q for q in W.quests if q.file.endswith('slayer') and q.type == 'Kill'),
+                         key=lambda q: -(q.coins + sum(n * W.prices['sell'].get(i, 0.0) for i, n in q.items
+                                                       if isinstance(n, int) and not i.startswith('__'))))
     W.contract_by_id = {q.qid: q for q in W.contracts}
     W.skilling = [q for q in W.quests if q.file.endswith('skilling')]
+    W.boss_contracts = {q.targets[0][0]: q for q in W.contracts if q.qid.startswith('slayer_boss_')}
+    W.banes = [q for q in W.quests if q.qid.startswith('boss_bane_')]
+    W.tithes = {q.qid: (q.pkeys, q.targets[0][0], q.targets[0][1]) for q in W.quests
+                if q.qid.endswith('_tithe') and q.type == 'Collect' and q.targets}
 
 
 # ---------- metrics ----------
@@ -1246,6 +1395,20 @@ def summarize(W, runs):
     n = sum(r.n for r in runs)
     S['coins'] = sorted(({'flow': k, 'mean': sum(v) / n} for k, v in flows.items()), key=lambda x: -abs(x['mean']))
     S['coin_end'] = pct([pl.coins for r in runs for pl in r.players], 0.5)
+    # hunter rank (KG custom value, weighted by contract size): hours to each gate, share reaching it in the run
+    S['hunter_rank'] = [{'rank': thr, 'h_p10': pct(xs, 0.1), 'h_p50': pct(xs, 0.5), 'h_p90': pct(xs, 0.9),
+                         'P_in_run': sum(x <= RUN_H for x in xs) / len(xs)}
+                        for thr in CV_MARKS
+                        for xs in [[pl.cv_t.get(('hunter_rank', thr), INF) for r in runs for pl in r.players]]]
+    S['hunter_rank_end'] = pct([pl.cv['hunter_rank'] for r in runs for pl in r.players], 0.5)
+    # riddle-stones per player by source
+    src = defaultdict(Counter)
+    for r in runs:
+        for pl in r.players:
+            for (s, item), k in pl.stones.items():
+                src[s][item] += k
+    S['stones'] = sorted(({'source': s, **{f'T{k}': c[f'OSRS_RiddleStoneT{k}'] / n for k in range(1, 5)}}
+                          for s, c in src.items()), key=lambda x: -sum(v for k, v in x.items() if k != 'source'))
     S['coins_ts'] = []
     for b in BIOMES:
         xs = [next((c for t, c in reversed(pl.balance) if t <= END[b]), 0.0) for r in runs for pl in r.players]
@@ -1465,6 +1628,12 @@ def report(S, out=None):
     table('coin flows per player (mean over the run)', S['coins'])
     table('coins held at each phase end (per player)', S['coins_ts'])
     print(f"coins held at run end (median per player): {S['coin_end']:.0f}\n")
+    table('hunter rank: play hours to each gate (per player)', S['hunter_rank'])
+    print(f"hunter rank at run end (median per player): {S['hunter_rank_end']:.0f}\n")
+    table('riddle-stones per player-run by source', S['stones'])
+    tot = {k: sum(r[k] for r in S['stones']) for k in ('T1', 'T2', 'T3', 'T4')}
+    raid = next((r for r in S['stones'] if r['source'] == 'raids'), {})
+    print('raid share of each tier (< 25%):', {k: round(raid.get(k, 0) / v, 3) if v else 0 for k, v in tot.items()}, '\n')
     table('collection log at run end (per player)', S['log'])
     print(f"collection log lit at run end: {S['log_total']:.0%}\n")
     table('notable drops per player-run (S2+)', S['items'][:30])
@@ -1484,11 +1653,14 @@ def report(S, out=None):
         write_csv(out / 'uniques.csv', S['uniques'])
         write_csv(out / 'coins.csv', S['coins'])
         write_csv(out / 'coins_ts.csv', S['coins_ts'])
+        write_csv(out / 'hunter_rank.csv', S['hunter_rank'])
+        write_csv(out / 'stones.csv', S['stones'])
         write_csv(out / 'collection_log.csv', S['log'])
         write_csv(out / 'loot_items.csv', S['items'])
         write_csv(out / 'density.csv', S['density'])
         json.dump({k: v for k, v in S.items() if k in ('meta', 'magic', 'boss_kills', 'coin_end', 'log_total',
-                                                       'log_items', 'kills_per_h')}, open(out / 'summary.json', 'w'), indent=1)
+                                                       'log_items', 'kills_per_h', 'hunter_rank_end')},
+                  open(out / 'summary.json', 'w'), indent=1)
 
 
 # ---------- modes ----------
