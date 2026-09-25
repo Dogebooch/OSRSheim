@@ -85,10 +85,18 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
 _base = json.load(open(os.path.join(REF, "game-data", "items.json"), encoding="utf-8"))
 _mults = {"DmgMultiplier": "m_damageMultiplier", "StaggerMultiplier": "m_staggerMultiplier",
           "ForceMultiplier": "m_forceMultiplier"}
+_mnames = {}
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     t = read(f)
+    n = re.search(r"^name:\s*(\S+)", t, re.M)
+    mn = re.search(r"^m_name:\s*(.+?)\s*$", t, re.M)
+    if n and mn: _mnames[n.group(1)] = mn.group(1)
     m = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
     if not m or m.group(1) not in _base: continue
+    # A clone inherits its base's m_value: Haldor/Hildir would buy it for coin.
+    if _base[m.group(1)].get("m_value", 0) > 0 and not re.search(r"^m_value:", t, re.M):
+        err(f"wackydb {os.path.basename(f)}: base {m.group(1)} has m_value {_base[m.group(1)]['m_value']}; "
+            f"set m_value (0 = no vendor sale)")
     for blk, key in (("Primary_Attack", "m_attack"), ("Secondary_Attack", "m_secondaryAttack")):
         body = re.search(rf"^{blk}:[ \t]*\r?\n((?:[ \t]+.*\r?\n?)*)", t, re.M)
         atk = _base[m.group(1)].get(key)
@@ -98,6 +106,11 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
             if v and float(v.group(1)) < atk.get(bk, 0):
                 err(f"wackydb {os.path.basename(f)}: {blk} {k} {v.group(1)} is below "
                     f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
+# Elite oath cape = its oath cape's name + " (trimmed)".
+for n, mn in _mnames.items():
+    if re.fullmatch(r"OSRS_OathCape\w+Hard", n):
+        want = _mnames.get(n[:-4], "?") + " (trimmed)"
+        if mn != want: err(f"wackydb {n}: m_name '{mn}' should be '{want}'")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
 if len(clones) != 106:
@@ -186,6 +199,7 @@ for f in glob.glob(os.path.join(CFG, "drop_that.character_drop*.cfg")):
     t = read(f); base = os.path.basename(f)
     is_list = "character_drop_list" in base
     sec = None
+    entries, tamed = [], set()
     for line in t.splitlines():
         m = re.match(r"^\[([^\]]+)\]", line)
         if m:
@@ -198,6 +212,7 @@ for f in glob.glob(os.path.join(CFG, "drop_that.character_drop*.cfg")):
                 except ValueError: err(f"{base}: bad section {sec}"); continue
                 if is_list and n < 110: err(f"{base}: list entry {sec} below 110 (would overwrite vanilla drops)")
                 if not is_list and n < 100: err(f"{base}: entry {sec} below 100 (append-only rule)")
+                entries.append(sec)
             if not is_list and head not in creatures:
                 err(f"{base}: [{sec}] creature '{head}' not in the dump roster")
             continue
@@ -207,6 +222,11 @@ for f in glob.glob(os.path.join(CFG, "drop_that.character_drop*.cfg")):
         m = re.match(r"^ConditionGlobalKeys\s*=\s*(\S+)", line)
         if m and m.group(1) not in KNOWN_KEYS:
             warn(f"{base}: [{sec}] global key {m.group(1)} not in the known boss-key list")
+        if re.match(r"^ConditionNotCreatureStates\s*=.*\bTamed\b", line): tamed.add(sec)
+    untamed = [e for e in entries if e not in tamed]
+    if untamed:
+        err(f"{base}: {len(untamed)} entries without ConditionNotCreatureStates = Tamed "
+            f"(tamed kills pay nothing): {untamed[:5]}")
     ok(f"{base}: {t.count(chr(10)+'[')} sections checked")
 t = read(os.path.join(CFG, "drop_that.drop_table.cfg"))
 for sec in re.findall(r"^\[([^\].]+)(?:\.\d+)?\]", t, re.M):
@@ -325,6 +345,20 @@ try:
     unknown = [n for n in names if n not in known_items]
     if unknown: err(f"WIRSL unknown prefabs: {unknown}")
     ok(f"WIRSL parses: {len(names)} gates (log must say 'Loaded: {len(names)}')")
+    WEAPON_SKILLS = {"Swords": 1, "Knives": 2, "Clubs": 3, "Polearms": 4, "Spears": 5, "Axes": 7, "Bows": 8,
+                     "ElementalMagic": 9, "BloodMagic": 10, "Unarmed": 11, "Crossbows": 14}
+    WEAPON_TYPES = {3, 4, 14, 15, 19, 20, 22}   # ItemType: one/two-handed, bow, torch, tool, atgeir
+    _clone_base = {}
+    for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
+        t = read(f)
+        n, c = re.search(r"^name:\s*(\S+)", t, re.M), re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
+        if n and c: _clone_base[n.group(1)] = c.group(1)
+    for e in w["Requirements"]:
+        d = _base.get(_clone_base.get(e["PrefabName"], e["PrefabName"]))
+        if not d or d.get("m_itemType") not in WEAPON_TYPES: continue
+        for r in e.get("Requirements", []):
+            if r.get("Skill") in WEAPON_SKILLS and d.get("m_skillType") != WEAPON_SKILLS[r["Skill"]]:
+                err(f"WIRSL {e['PrefabName']}: gated on {r['Skill']} but the item trains skill {d.get('m_skillType')}")
     skills = {r.get("Skill") for e in w["Requirements"] for r in e.get("Requirements", [])} - {None, ""}
     wirsl_keys = {r.get("GlobalKeyReq") for e in w["Requirements"] for r in e.get("Requirements", [])} - {None, ""}
     ok(f"WIRSL skills referenced: {sorted(skills)}")
@@ -413,6 +447,11 @@ for p, lines in kg_sections("Bankers").items():
     bad = [l for l in lines if l not in known_items]
     if bad: err(f"KG banker [{p}] unknown items: {bad}")
     ok(f"KG banker [{p}]: {len(lines)} bankable items")
+import csv
+with open(os.path.join(os.path.dirname(HERE), "loot", "collection-log.csv"), newline="", encoding="utf-8") as _f:
+    _logged = [r["prefab"] for r in csv.DictReader(_f)]
+_unbanked = [x for x in _logged if x not in kg_sections("Bankers").get("bank", [])]
+if _unbanked: err(f"KG banker [bank]: collection-log items not bankable: {_unbanked}")
 for p, lines in kg_sections("Gamblers").items():
     toks = [x.strip() for x in lines[-1].split(",")]
     # The Gambler UI holds 21 prize slots after the cost pair; KG truncates the rest silently.
@@ -655,6 +694,18 @@ try:
             err(f'WorldSpawner.{sid}: ConditionAltitudeMin not the vanilla value (Spawn That default -1000 spawns under water)')
         if sid in superior_spec['ROAMER_CHANCE'] and opts.getfloat('spawnchance') != superior_spec['ROAMER_CHANCE'][sid]:
             err(f'WorldSpawner.{sid}: SpawnChance differs from update-superiors.py ROAMER_CHANCE')
+        cllc = f'WorldSpawner.{sid}.CreatureLevelAndLootControl'
+        if cllc not in spawns.sections() or not spawns[cllc].getboolean('usedefaultlevels', False):
+            err(f'{cllc}: missing or UseDefaultLevels not true (CLLC would roll its own stars)')
+    # B7: the 510 troll purse keys on its Spawn That template, not the biome.
+    wanderer = superior_spec['WANDERER']
+    if spawns['WorldSpawner.510'].get('templateid') != wanderer:
+        err(f'WorldSpawner.510: TemplateId is not {wanderer}')
+    for section in drops.sections():
+        if re.fullmatch(r'Troll\.2\d\d', section):
+            sub = f'{section}.SpawnThat'
+            if sub not in drops.sections() or drops[sub].get('conditiontemplateid') != wanderer:
+                err(f'{section}: needs [{sub}] ConditionTemplateId = {wanderer}')
     for sid, row in enumerate(superior_rows, 500):
         creature, key, low, high, *_ = row
         opts = spawns[f'WorldSpawner.{sid}']

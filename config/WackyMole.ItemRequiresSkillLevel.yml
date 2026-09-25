@@ -659,7 +659,7 @@ Requirements:
     ExhibitionName:
 - PrefabName: Scythe
   Requirements:
-  - Skill: Polearms
+  - Skill: Farming
     Level: 30
     BlockCraft: true
     BlockEquip: true

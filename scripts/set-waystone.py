@@ -103,5 +103,13 @@ def render(key, x, y, z, text=None):
     return '\n'.join(out) + '\n'
 
 
+def unset(key, text):
+    """The cfg text with every line of node `key` commented out (layout row has no coordinates)."""
+    name = NODES[key]
+    out = [('# ' + line.lstrip('# ')) if line.lstrip('# ').startswith(name + ',') else line
+           for line in text.splitlines()]
+    return '\n'.join(out) + '\n'
+
+
 if __name__ == '__main__':
     main()

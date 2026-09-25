@@ -3,7 +3,7 @@
 # no resistances). No recipe, no WIRSL gate.
 name: OSRS_OathCapePlainsHard
 clonePrefabName: CapeDeepNorth
-m_name: Plainsworn cape (trimmed)
+m_name: Heathsworn cape (trimmed)
 m_description: Sworn twice to this land. The trim is earned and nothing else.
 m_weight: 1
 m_maxStackSize: 1

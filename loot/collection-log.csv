@@ -96,6 +96,7 @@ Trophies: Swamp and Ocean,TrophySurtling,Surtling trophy
 Trophies: Swamp and Ocean,TrophyWraith,Wraith trophy
 Trophies: Swamp and Ocean,TrophyAbomination,Abomination trophy
 Trophies: Swamp and Ocean,TrophySerpent,Serpent trophy
+Trophies: Swamp and Ocean,TrophyKvastur,Kvastur trophy
 Trophies: Mountain,TrophyWolf,Wolf trophy
 Trophies: Mountain,TrophyUlv,Ulv trophy
 Trophies: Mountain,TrophyHatchling,Drake trophy
@@ -114,6 +115,7 @@ Trophies: Mistlands,TrophySeekerBrute,Seeker soldier trophy
 Trophies: Mistlands,TrophyGjall,Gjall trophy
 Trophies: Mistlands,TrophyTick,Tick trophy
 Trophies: Mistlands,TrophyDvergr,Dvergr trophy
+Trophies: Mistlands,TrophyHare,Hare trophy
 Trophies: Ashlands,TrophyCharredMelee,Charred warrior trophy
 Trophies: Ashlands,TrophyCharredArcher,Charred archer trophy
 Trophies: Ashlands,TrophyCharredMage,Charred mage trophy
@@ -125,7 +127,6 @@ Trophies: Ashlands,TrophyBonemawSerpent,Bonemaw serpent trophy
 Trophies: Ashlands,TrophyBlob_Lava,Lava blob trophy
 Trophies: Deep North,TrophyMoose,Moose trophy
 Trophies: Deep North,TrophySeal,Seal trophy
-Trophies: Deep North,TrophyHare,Hare trophy
 Trophies: Deep North,TrophyMole,Mole trophy
 Trophies: Deep North,TrophyElaking,Elaking trophy
 Trophies: Deep North,TrophyJotunWarrior,Jotun warrior trophy
@@ -167,9 +168,9 @@ Oath capes,OSRS_OathCapeAshlands,Embersworn cape
 Oath capes,OSRS_OathCapeDeepNorth,Frostsworn cape
 Elite oath capes,OSRS_OathCapeMeadowsHard,Meadowsworn cape (trimmed)
 Elite oath capes,OSRS_OathCapeBlackForestHard,Forestsworn cape (trimmed)
-Elite oath capes,OSRS_OathCapeSwampHard,Bogsworn cape (trimmed)
+Elite oath capes,OSRS_OathCapeSwampHard,Mirebound cape (trimmed)
 Elite oath capes,OSRS_OathCapeMountainHard,Peaksworn cape (trimmed)
-Elite oath capes,OSRS_OathCapePlainsHard,Plainsworn cape (trimmed)
+Elite oath capes,OSRS_OathCapePlainsHard,Heathsworn cape (trimmed)
 Elite oath capes,OSRS_OathCapeMistlandsHard,Mistsworn cape (trimmed)
 Elite oath capes,OSRS_OathCapeAshlandsHard,Embersworn cape (trimmed)
 Elite oath capes,OSRS_OathCapeDeepNorthHard,Frostsworn cape (trimmed)

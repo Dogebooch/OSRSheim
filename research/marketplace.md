@@ -48,7 +48,7 @@ other list empty, marketplace and mail off (open key unverified).
   Sworn store page N also needs the first N biome oaths (`HasPlayerKey`; next page hidden via `||` OR).
 
 **Bank** (`Bankers\`, profile `bank`): the bankable prefab list is the cfg;
-ores, metals, riddle-stones, riddle rewards and oath capes included.
+ores, metals and every `loot\collection-log.csv` item included (validator-enforced).
 
 **Gamblers** (`Gamblers\`): `dice_bag` 100c a roll (~30% house edge at Gullveig prices);
 `flower_poker` 1,000c (~25% edge, up to 3 queued rolls); `crystal_chest` 1
@@ -132,7 +132,7 @@ repeats every 6 game days for the biome tier's riddle-stone. Every unique also n
 Teleporter + Dialogue `waystone`): no gating and no cost in the file — format, the
 one-level `@from:` rule and placement rules are in its header. Gate and fee sit
 on the reply, 25c to 500c; a row needs its own key AND no higher key. Coordinates:
-`set-waystone.py`. Closing the map unused spends the fee.
+`set-waystone.py`. `gen-npcs.py` comments out a waystone line whose layout row is blank; `--town` blanks every far row. Closing the map unused spends the fee.
 **Territories**: template only.
 **Idle barks**: `Configs\RandomNpcSpeech.yml`, 5 sets (cosmetic). Set key = the NPC's Profile (DLL: lookup by `KGnpcProfile`).
 
@@ -181,6 +181,7 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 | Condition fields | several `Condition:` = AND; `||` inside one = OR; `AlwaysVisible: true` shows a failed reply red with its reason |
 | `CustomValueMore, key, n, text` | per-player value (`Player.m_customData`); `text` replaces the reason, `{current}`/`{value}` filled in |
 | `AddCustomValue: key, n` | also a quest reward type |
+| `Kill` quest credit | killing blow only (Quest_ProgressionHook.cs:266): a boss contract counts for one player |
 | `RandomItem: p, n, lvl, ...` | inline triples, uniform (duplicates = weight); `GetPrefab` unguarded, so a bad name throws |
 | `GiveItem` (dialogue) | needs item, amount, level; `split[3]` read unguarded |
 | Dialogue `HasItem` | unknown prefab = true (fails open); validator checks names |
