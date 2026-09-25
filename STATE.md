@@ -3,10 +3,10 @@
 Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124): Gale install on both PCs, then `sync-configs.ps1 -Pull`. Logs/dumps off
 (#66): `-Push` both PCs. Launched clean (0 exceptions);
-106 clones (22 new 09-24, unlaunched). Object drop targets come from `rate-model.py objects`;
+111 clones + 3 item edits (27 unlaunched). Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
-Herb run: crops -> `Potion_Meadbase` -> potion at `opalchemy` 2; 17 Alchemy gates (WIRSL 338), 5 Harvest
-contracts (#152); `check-alchemy-balance.py` 8/8.
+Herb run: herbwife seeds by Farming level, 11 contracts pay seed sacks; crops ->
+`Potion_Meadbase` -> potion; WIRSL 339; `check-alchemy-balance.py` 9/9.
 Oaths: 8 biomes x (4 tasks + seal) + an elite tier (skill-gated, trimmed cape, tithe);
 uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
@@ -27,7 +27,7 @@ All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
 ## Gielheim (Doug plays and reports)
 1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Claude places the KG NPCs (`gen-npcs.py --town` blanks every far row incl. biome waystones: `--set` each on site; open meadow by the sea; admin char only; `--builder off` after, §11).
-2. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 338`).
+2. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 339`).
 3. Doug vetoes renames.
 
 ## First Gielheim sessions

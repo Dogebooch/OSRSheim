@@ -60,3 +60,14 @@ OSRS_RiddleStoneT3:
 OSRS_RiddleStoneT4:
   weight: 0.1
   stack: 20
+
+# Seed sacks (farming pass 2026-09-25): herb-contract pay, opened in batches at the herbwife.
+OSRS_SeedSackGarden:
+  weight: 0.5
+  stack: 20
+OSRS_SeedSackField:
+  weight: 0.5
+  stack: 20
+OSRS_SeedSackFrontier:
+  weight: 0.5
+  stack: 20

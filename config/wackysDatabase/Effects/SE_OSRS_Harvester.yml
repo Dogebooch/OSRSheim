@@ -1,0 +1,14 @@
+# OSRSheim Harvester set effect (farming pass 2026-09-25): replaces SetEffect_HarvesterArmor on the
+# three vanilla pieces. Vanilla +25 Farming bent every Farming gate; now +5 (the ring precedent) plus
+# +10% Farming XP (SE_Stats.ModifyRaiseSkill, additive), the skilling-outfit mechanic.
+# Fields confirmed in assembly_valheim.dll: m_skillLevel(2), m_skillLevelModifier(2), m_raiseSkill(Modifier).
+Name: SE_OSRS_Harvester
+ClonedSE: SetEffect_HarvesterArmor
+Status_m_name: Harvester
+Tooltip: Farming +5. Farming experience +10%.
+SeData:
+  m_skillLevel: 106
+  m_skillLevelModifier: 5
+  m_skillLevelModifier2: 0
+  m_raiseSkill: 106
+  m_raiseSkillModifier: 0.1

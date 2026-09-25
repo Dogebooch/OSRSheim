@@ -68,8 +68,12 @@ if os.path.exists(prefabs):
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     t = read(f)
     m = re.search(r"^name:\s*(\S+)", t, re.M)
-    if m: clones.add(m.group(1))
     m2 = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)
+    if m and m2: clones.add(m.group(1))
+    elif m:
+        # No clonePrefabName = wackydb edits the vanilla item in place (Harvester set, farming pass).
+        if m.group(1).startswith("OSRS_") or m.group(1) not in game_items:
+            err(f"wackydb {os.path.basename(f)}: no clonePrefabName, and {m.group(1)} is not a vanilla item to edit")
     if m2 and m2.group(1) not in items:
         err(f"wackydb {os.path.basename(f)} clones unknown prefab {m2.group(1)}")
     # No top-level m_weight = WackysDatabase drops the file at load, silently, no log line.
@@ -416,6 +420,7 @@ with open(os.path.join(os.path.dirname(HERE), "loot", "creatures.csv"), encoding
     for row in f.read().splitlines()[1:]:
         cells = row.split(",")
         if len(cells) > 1: creature_biome.setdefault(cells[1], cells[0])
+pickables = set(json.load(open(os.path.join(REF, "game-data", "stations.json"), encoding="utf-8")).get("Pickable", {}))
 for q, lines in quests.items():
     if len(lines) < 6: err(f"KG quest [{q}] has {len(lines)} lines; needs Type/Title/Desc/Target/Rewards/Cooldown")
     else:
@@ -438,6 +443,11 @@ for q, lines in quests.items():
             for tgt in target.split("|"):
                 c = tgt.split(",")[0].strip()
                 if c not in known_items: err(f"KG quest [{q}] item '{c}' unknown")
+        elif qtype == "Harvest":
+            # Harvest counts Pickable.RPC_Pick by prefab name: a name with no Pickable never counts.
+            for tgt in target.split("|"):
+                c = tgt.split(",")[0].strip()
+                if c not in pickables: err(f"KG quest [{q}] harvest target '{c}' is not a Pickable (game-data stations.json)")
         for r in rewards.split("|"):
             r = r.strip()
             if r.startswith("Item:"):

@@ -1,0 +1,30 @@
+# OSRSheim seed-sack reward (farming pass 2026-09-25): sack-only cosmetic, never sold, never craftable.
+# Base HelmetMidsummerCrown, not HelmetStrawHat: a straw-hat clone keeps set "harvester" and would
+# complete the Harvester set. Stats stripped like the riddle crowns. No WIRSL gate.
+name: OSRS_HatHarvest
+clonePrefabName: HelmetMidsummerCrown
+m_name: Harvest crown
+m_description: Plaited from the last sheaf of the year. Worn by whoever brought it in.
+m_weight: 1
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+Armor:
+  armor: 0
+  armorPerLevel: 0
+SE_Equip:
+  EffectName: delete
+SE_SET_Equip:
+  EffectName: delete
+Moddifiers:
+  m_movementModifier: 0
+  m_EitrRegen: 0
+  m_homeItemsStaminaModifier: 0
+  m_heatResistanceModifier: 0
+  m_jumpStaminaModifier: 0
+  m_attackStaminaModifier: 0
+  m_blockStaminaModifier: 0
+  m_dodgeStaminaModifier: 0
+  m_swimStaminaModifier: 0
+  m_sneakStaminaModifier: 0
+  m_runStaminaModifier: 0

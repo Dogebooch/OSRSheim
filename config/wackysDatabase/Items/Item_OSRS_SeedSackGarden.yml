@@ -1,0 +1,10 @@
+# OSRSheim seed sacks (farming pass 2026-09-25): herb-contract pay, opened by the herbwife for a sack roll.
+# Clone base: CarrotSeeds (seed-pouch icon); a separate prefab, so the Cultivator never plants it.
+# Material only, no stat block. Stack also set in ItemConfig.yml.
+name: OSRS_SeedSackGarden
+clonePrefabName: CarrotSeeds
+m_name: Garden seed sack
+m_description: Tied off with twine, still smelling of turned earth. The herbwife knows what's inside.
+m_weight: 0.5
+m_maxStackSize: 20
+m_value: 0

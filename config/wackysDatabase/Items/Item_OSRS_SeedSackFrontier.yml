@@ -1,0 +1,10 @@
+# OSRSheim seed sacks (farming pass 2026-09-25): herb-contract pay, opened by the herbwife for a sack roll.
+# Clone base: VineberrySeeds (seed-pouch icon); a separate prefab, so the Cultivator never plants it.
+# Material only, no stat block. Stack also set in ItemConfig.yml.
+name: OSRS_SeedSackFrontier
+clonePrefabName: VineberrySeeds
+m_name: Frontier seed sack
+m_description: Ash on one corner, frost on the other. Seeds from lands that should not grow anything.
+m_weight: 0.5
+m_maxStackSize: 20
+m_value: 0

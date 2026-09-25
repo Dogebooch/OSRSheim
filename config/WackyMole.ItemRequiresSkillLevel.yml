@@ -662,6 +662,15 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+- PrefabName: OSRS_MagicSecateurs
+  Requirements:
+  - Skill: Farming
+    Level: 80
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
 - PrefabName: BattleaxeCrystal
   Requirements:
   - Skill: Axes

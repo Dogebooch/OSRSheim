@@ -1,0 +1,10 @@
+# OSRSheim seed sacks (farming pass 2026-09-25): herb-contract pay, opened by the herbwife for a sack roll.
+# Clone base: OnionSeeds (seed-pouch icon); a separate prefab, so the Cultivator never plants it.
+# Material only, no stat block. Stack also set in ItemConfig.yml.
+name: OSRS_SeedSackField
+clonePrefabName: OnionSeeds
+m_name: Field seed sack
+m_description: Heavier than it looks. Chaff sifts from the seams.
+m_weight: 0.5
+m_maxStackSize: 20
+m_value: 0

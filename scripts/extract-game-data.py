@@ -237,7 +237,7 @@ def main():
                     for k in ("m_damages", "m_damagesPerLevel"):
                         if isinstance(d.get(k), dict):
                             d[k] = {t: x for t, x in d[k].items() if x}
-                    armed = d.get("m_damages") or d.get("m_toolTier")
+                    armed = d.get("m_damages") or d.get("m_toolTier") or d.get("m_skillType") == 106  # Farming tools: Scythe
                     for a in ("m_attack", "m_secondaryAttack"):
                         if armed and isinstance(d.get(a), dict) and d[a].get("m_attackAnimation"):
                             d[a] = {k: d[a][k] for k in ATTACK if k in d[a]}

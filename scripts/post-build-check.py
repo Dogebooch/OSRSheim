@@ -35,6 +35,8 @@ LOOT = ROOT / 'loot'
 CFG = ROOT / 'config'
 KG = CFG / 'Marketplace/Configs'
 ITEMS = CFG / 'wackysDatabase/Items'
+# ObjectDB items (extract-game-data.py): vanilla prefab names, and the names an item-edit yml may carry.
+GAME_ITEMS = set(json.loads((ROOT / 'reference/game-data/items.json').read_text(encoding='utf-8')))
 PROFILE = Path(os.environ.get('APPDATA', '')) / 'com.kesomannen.gale/valheim/profiles/OSRSheim/BepInEx/config'
 TEXT = {'.cfg', '.csv', '.yml', '.yaml', '.json', '.txt'}
 SKIP = ('wackysDatabase/Cache', 'Marketplace_Cached', 'Marketplace_KGChat', 'Marketplace/SavedData', '.bak')
@@ -119,8 +121,8 @@ for f in sorted(ITEMS.glob('*.yml')):
     name = str(doc.get('name') or '').strip()
     if name != f.stem.replace('Item_', ''):
         err(f'{f.name}: name is {name!r}, expected {f.stem.replace("Item_", "")!r}'); bad += 1
-    if not str(doc.get('clonePrefabName') or '').strip():
-        err(f'{f.name}: no clonePrefabName'); bad += 1
+    if not str(doc.get('clonePrefabName') or '').strip() and name not in GAME_ITEMS:
+        err(f'{f.name}: no clonePrefabName, and {name!r} is no vanilla item to edit'); bad += 1
     if doc.get('m_weight') in (None, ''):
         err(f'{f.name}: no m_weight (wackydb drops the file at load, silently)'); bad += 1
     if name in clones:
@@ -197,7 +199,7 @@ try:
     known = set(json.loads((ROOT / 'reference/verified-prefab-names.json').read_text(encoding='utf-8'))['items'])
 except Exception as e:
     known = set(); warn(f'verified-prefab-names.json unreadable ({e}); skipping item name checks')
-known |= set(clones)
+known |= set(clones) | GAME_ITEMS
 
 gamblers = {}
 for header, lines in sections(KG / 'Gamblers/osrsheim_gamblers.cfg').items():
