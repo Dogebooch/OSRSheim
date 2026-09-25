@@ -165,7 +165,7 @@ for name, header in HEADERS.items():
             if cells[6] and not cells[6].isdigit():
                 err(f'drops.csv:{n}: id {cells[6]!r} is not a number')
             for f in cells[5].split():
-                if f != 'one-per-player' and not f.startswith(('key=', 'unique=')):
+                if f not in ('one-per-player', 'event') and not f.startswith(('key=', 'unique=')):
                     err(f'drops.csv:{n}: unknown flag {f!r}')
             if cells[5] == 'one-per-player' and cells[2:4] != ['1', '1']:
                 err(f'drops.csv:{n}: one-per-player needs amount 1')

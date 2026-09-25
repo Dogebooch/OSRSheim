@@ -51,7 +51,11 @@ each entry is `PrefabName` + a `Requirements` list of `Skill`, `Level`,
   50 on the armor split. Rings craft Blacksmithing 15 / 20 / 30 / 40 / 50, equip ungated.
 - Unarmed ladder 30-70.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
-- Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills.
+- Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills. Bought only at 100 (Verdandi).
+- Uniques also need their biome's oath: a second requirement element `GlobalKeyReq: oath_<biome>` (a key element
+  returns on the key alone, so it cannot share the skill element).
+- Gem-tipped bolts: Amber 30, Pearl 40, Ruby 50, Crystal 60 on Crossbows (craft + shoot).
+- Skill guide: `gen-handbook.py` lists every gate, Smoothbrain level perk and `SkillMore` quest per skill level.
 - Hellbroths (broth + charge, craft + use): Alchemy 10 Flames, 15 Eternal
   Life, 30 Frost, 40 Thors Fury. Names `Hellbroth_of_<X>` in the 2026-09-21 load log;
   `_Charge` from the DLL only.
@@ -95,14 +99,15 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 8 boss uniques (table above). Stat twists: Abyssal Whip = Mistwalker clone,
   frost stripped, slash 104, stamina 14, attack speed 1.2; Bandos Godsword
   attack speed 0.9; Scythe of Vitur 0.95.
-- 10 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
-  1/16,000 a tree, §7); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
+- 12 pets = trophy clones (8 boss, + Mining 1/300,000 a segment, Woodcutting
+  1/16,000 a tree, §7, + Fishing and Farming from skilling contracts, §11); 2 curios = Amber clones, 1/500, sold to the gem trader 35c.
+- 8 trimmed oath capes (CapeDeepNorth), 4 saga-rank cosmetics, 4 vanity cloaks (bought, not logged), 4 gem-tipped bolts.
 - 7 elite uniques + 3 crystal key parts (§7).
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
   no `SE_Equip` or modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
   the §4 table plus `Allfather's cape` (all 23 at 100); equip-gated at 100, no recipe,
-  sold by the skillcape shop. Skillcapes and 8 oath capes: stats stripped like the riddle rewards.
+  sold by Verdandi only at 100 (dialogue). Skillcapes and 8 oath capes: stats stripped like the riddle rewards.
 - 6 jewellery = ring/amulet clones, Trinket, gem recipes, Bsmith 15-50, `m_value: 0`.
 - Jewellery SEs clone `SetEffect_TrollArmor` (Sneak +15: `m_skillLevel: 101`, `m_skillLevelModifier: 15`); `m_skillLevelModifier: 0` strips it, Nightstep keeps it.
 - `m_stealthModifier` scales the crouched detection range (`range × stealthFactor`): negative = stealthier.

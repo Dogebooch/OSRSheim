@@ -17,16 +17,17 @@ Run length and balance issues: [#81](https://github.com/Dogebooch/OSRSheim/issue
 
 | Loop (OSRS analogue) | Valheim version | Ref |
 |---|---|---|
-| Skills (skills) | grind to 100 at half XP; mapping in [§4](RESEARCH.md#4-skill-mapping) | §4, §5 |
+| Skills (skills) | grind to 100; skill guide (handbook); [§4](RESEARCH.md#4-skill-mapping) | §4, §5 |
 | Gear gates (level requirements) | WIRSL skill levels on gear, tools, bait | §6 |
 | Drop tables (drop tables) | coins, gems, rares, uniques, pets, superiors | §7, §12 |
-| Slayer (Slayer) | KG Slayer tasks + EpicLoot bounties | §10, §11 |
+| Slayer (Slayer) | hunts, hunter rank, elite/boss hunts; bounties | §10, §11 |
 | Bone prayers (Prayer) | KG `chapel` buffs paid in bones | §11 |
 | Herb runs (Herblore) | crops -> meadbase -> potion, Alchemy-gated | §6, §11 |
-| Riddle-stones (clue scrolls) | four tiers, opened at a KG gambler | §7, §11 |
-| Biome oaths (achievement diaries) | 8 biomes of tasks, a cape and a key each | §11 |
-| Collection log (collection log) | one KG quest per collectible, lit when found | §11 |
-| KG Marketplace (bank, shops, quests, hiscores) | NPCs placed in town | §11 |
+| Riddle-stones (clue scrolls) | four tiers, opened at the gambler | §7, §11 |
+| Biome oaths (diaries) | 8 biomes + a skill-gated elite tier each | §11 |
+| Skilling contracts (Tempoross) | Verdandi: gather/craft for stones, pets | §11 |
+| Collection log (collection log) | a KG quest per find, lit when shown; ranks | §11 |
+| KG Marketplace (bank, shops, hiscores) | NPCs placed in town | §11 |
 | Earned waystones (teleports) | one KG waystone per sworn biome | §11 |
 
 §N = section of [`RESEARCH.md`](RESEARCH.md) or the [`research/`](research) file its map names.
@@ -60,8 +61,6 @@ Generators and enforced limits: [`CLAUDE.md` Rules](CLAUDE.md#rules).
 | `python scripts\count-world.py <world folder> --biomes` | objects per zone per biome from a save (needs `extract-game-data.py` once, Pillow) |
 | `scripts\perf-capture.bat`, F11 per run | frame times per run; test-only, PresentMon in `perf/` (§16) |
 
-Method and results: issue #67.
-
 ## How a change flows
 
 | Step | Where |
@@ -72,7 +71,6 @@ Method and results: issue #67.
 | 4. Test | ModTest (`-Push -Solo`) |
 | 5. Deploy | host ([§15](RESEARCH.md#15-server-setup)) |
 
-Profile and host are downstream; edits there get overwritten.
 
 ## For agent sessions
 
