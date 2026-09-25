@@ -349,6 +349,7 @@ def kg_sections(folder):
                 out[cur].append(line.strip())
     return out
 quests = kg_sections("Quests")
+hammer_pieces = {x[1:] for x in json.load(open(os.path.join(REF, "game-data", "pieces.json"), encoding="utf-8"))["PieceTable"]["_HammerPieceTable"]["m_pieces"] if x}
 # A Kill contract opens with its target's biome: it needs that biome's opening key or a later one.
 KEY_ORDER = ["defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_dragon",
              "defeated_goblinking", "defeated_queen", "defeated_fader"]
@@ -373,6 +374,10 @@ for q, lines in quests.items():
                             if k in KEY_ORDER]
                     if not have or max(have) < need:
                         err(f"KG quest [{q}] hunts {c} ({creature_biome[c]}) without {KEY_ORDER[need]} or a later key")
+        elif qtype == "Build":
+            for tgt in target.split("|"):
+                c = tgt.split(",")[0].strip()
+                if c not in hammer_pieces: err(f"KG quest [{q}] build piece '{c}' not on the vanilla hammer (game-data pieces.json)")
         elif qtype in ("Collect", "Craft"):
             for tgt in target.split("|"):
                 c = tgt.split(",")[0].strip()
