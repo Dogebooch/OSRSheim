@@ -1,0 +1,28 @@
+# OSRSheim elite biome-oath cape (2026-09-24): from the oath_meadows_hard_seal quest only.
+# Clone of CapeDeepNorth so it reads apart from the CapeLinen oath capes; stats stripped (armor 0, no effect,
+# no resistances). No recipe, no WIRSL gate.
+name: OSRS_OathCapeMeadowsHard
+clonePrefabName: CapeDeepNorth
+m_name: Meadowsworn cape (trimmed)
+m_description: Sworn twice to this land. The trim is earned and nothing else.
+m_weight: 1
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+Armor:
+  armor: 0
+  armorPerLevel: 0
+SE_Equip:
+Moddifiers:
+  m_movementModifier: 0
+  m_EitrRegen: 0
+  m_homeItemsStaminaModifier: 0
+  m_heatResistanceModifier: 0
+  m_jumpStaminaModifier: 0
+  m_attackStaminaModifier: 0
+  m_blockStaminaModifier: 0
+  m_dodgeStaminaModifier: 0
+  m_swimStaminaModifier: 0
+  m_sneakStaminaModifier: 0
+  m_runStaminaModifier: 0
+damageModifiers: []

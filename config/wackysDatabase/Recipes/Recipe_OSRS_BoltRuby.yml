@@ -1,0 +1,11 @@
+# OSRSheim gem-tipped bolts (2026-09-24): 20 base bolts + 2 Ruby -> 20 tipped. Crossbows 50 to craft and shoot (WIRSL).
+# reqs are Prefab:amount:amountPerLevel:recover.
+name: Recipe_OSRS_BoltRuby
+clonePrefabName: OSRS_BoltRuby
+craftingStation: blackforge
+minStationLevel: 1
+amount: 20
+disabledUpgrade: true
+reqs:
+  - BoltCarapace:20:0:true
+  - Ruby:2:0:true

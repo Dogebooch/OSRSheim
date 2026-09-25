@@ -42,6 +42,10 @@ def read(path):
 
 # ---------------------------------------------------------------- verified name universe
 items, objects, creatures, clones = set(), set(), set(), set()
+# reference\game-data\items.json is the ObjectDB item list extracted from the game bundles: every
+# name in it is a registered item (cooked foods and fish are in no drop dump).
+game_items = set(json.load(open(os.path.join(REF, "game-data", "items.json"), encoding="utf-8")))
+items |= game_items
 try:
     j = json.load(open(os.path.join(REF, "verified-prefab-names.json"), encoding="utf-8"))
     items |= set(j["items"]); objects |= set(j["objects"]); creatures |= set(j.get("creatures", []))
@@ -60,7 +64,6 @@ if os.path.exists(prefabs):
     objects |= set(re.findall(r"^\[([^\].]+)\]", t, re.M))
     # Object drop tables also spawn debris and creatures (IceShoreShard, SeekerBrood, #134):
     # only names that are real items in game-data count as items.
-    game_items = set(json.load(open(os.path.join(REF, "game-data", "items.json"), encoding="utf-8")))
     items |= set(re.findall(r"^PrefabName\s*=\s*(\S+)", t, re.M)) & game_items
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
     t = read(f)
@@ -97,10 +100,10 @@ for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
                     f"{m.group(1)}'s {atk[bk]} (absolute, not relative: write base x twist)")
 known_items = items | clones
 ok(f"name universe: {len(items)} items, {len(objects)} objects, {len(creatures)} creatures, {len(clones)} wackydb clones")
-if len(clones) != 84:
-    warn(f"expected 84 wackydb clones (24 capes + 10 pets + 8 uniques + 7 elite uniques "
+if len(clones) != 106:
+    warn(f"expected 106 wackydb clones (24 capes + 12 pets + 8 uniques + 7 elite uniques "
          f"+ 6 hull keels + 6 riddle rewards + 6 jewellery + 4 riddle-stones "
-         f"+ 3 crystal key parts + 8 oath capes + 2 curios), found {len(clones)}")
+         f"+ 3 crystal key parts + 8 oath capes + 2 curios + 4 vanity cloaks + 4 saga ranks + 8 elite oath capes + 4 tipped bolts), found {len(clones)}")
 
 # wackydb Recipes and status effects. Filename prefixes are load-bearing: ReadFiles.cs
 # globs "?ecipe_*.yml" and "SE_*.yml" over the whole config tree, so a misnamed file
@@ -322,11 +325,13 @@ try:
     unknown = [n for n in names if n not in known_items]
     if unknown: err(f"WIRSL unknown prefabs: {unknown}")
     ok(f"WIRSL parses: {len(names)} gates (log must say 'Loaded: {len(names)}')")
-    skills = {r.get("Skill") for e in w["Requirements"] for r in e.get("Requirements", [])}
+    skills = {r.get("Skill") for e in w["Requirements"] for r in e.get("Requirements", [])} - {None, ""}
+    wirsl_keys = {r.get("GlobalKeyReq") for e in w["Requirements"] for r in e.get("Requirements", [])} - {None, ""}
     ok(f"WIRSL skills referenced: {sorted(skills)}")
 except ImportError:
     warn("PyYAML not installed (pip install pyyaml) — skipped WIRSL/ItemConfig YAML checks")
     yaml = None
+    skills, wirsl_keys = set(), set()
 except Exception as e:
     err(f"WIRSL yml failed to parse: {e}")
 
@@ -405,6 +410,8 @@ for p, lines in kg_sections("Bankers").items():
     ok(f"KG banker [{p}]: {len(lines)} bankable items")
 for p, lines in kg_sections("Gamblers").items():
     toks = [x.strip() for x in lines[-1].split(",")]
+    # The Gambler UI holds 21 prize slots after the cost pair; KG truncates the rest silently.
+    if (len(toks) - 2) // 2 > 21: err(f"KG gambler [{p}] has {(len(toks) - 2) // 2} prizes; the UI shows 21")
     for i in range(0, len(toks) - 1, 2):
         if toks[i] not in known_items: err(f"KG gambler [{p}] unknown item '{toks[i]}'")
 # Buffers: re-implement the DLL's positional parser (Marketplace.Modules.Buffer.Buffer_Main_Server).
@@ -470,6 +477,50 @@ for q, lines in kg_sections("QuestEvents").items():
             m = re.match(r"\s*AddPlayerKey\s*,\s*(\S+)", cmd)
             if m: player_keys.add(m.group(1).strip())
 ok(f"KG quest events: {sorted(player_keys)} granted")
+# SkillMore/SkillLess: KG reads the vanilla enum name, else abs(GetStableHashCode(name)) (SkillManager's
+# key). An unknown name returns -1, so the gate never opens (kg.Marketplace.dll GetPlayerSkillLevelCustom).
+VANILLA_SKILLS = {"Swords", "Knives", "Clubs", "Polearms", "Spears", "Blocking", "Axes", "Bows", "ElementalMagic",
+                  "BloodMagic", "Unarmed", "Pickaxes", "WoodCutting", "Crossbows", "Jump", "Sneak", "Run", "Swim",
+                  "Fishing", "Cooking", "Farming", "Crafting", "Ride", "Dodge"}
+KNOWN_SKILLS = VANILLA_SKILLS | skills
+custom_written, custom_read = set(), set()
+def kg_conditions(where, text):
+    for m in re.finditer(r"(SkillMore|SkillLess)\s*,\s*([^,|]+?)\s*,\s*\d+", text):
+        if m.group(2) not in KNOWN_SKILLS: err(f"{where}: {m.group(1)} skill '{m.group(2)}' unknown (the gate never opens)")
+    for m in re.finditer(r"(?:Not)?HasPlayerKey\s*,\s*([^|\s]+)", text):
+        if m.group(1) not in player_keys: err(f"{where}: HasPlayerKey '{m.group(1)}' is granted by no AddPlayerKey quest event")
+    for m in re.finditer(r"CustomValue(?:More|Less)\s*,\s*([^,|\s]+)", text):
+        custom_read.add(m.group(1))
+# Quest skill gates must be skills sim-run.py levels (TRACKED), or the run cannot be sized.
+_sim = read(os.path.join(HERE, "sim-run.py"))
+SIM_TRACKED = set(re.findall(r"'(\w+)'", re.search(r"^TRACKED = \{(.*?)\}", _sim, re.M | re.S).group(1)))
+for q, lines in quests.items():
+    kg_conditions(f"KG quest [{q}]", " | ".join(lines[6:]))
+    for s in re.findall(r"SkillMore\s*,\s*(\w+)", " | ".join(lines[6:])):
+        if s not in SIM_TRACKED: err(f"KG quest [{q}] gates on {s}, which sim-run.py does not level (TRACKED)")
+    if len(lines) > 4:
+        for r in lines[4].split("|"):
+            k, _, v = r.strip().partition(":")
+            toks = [x.strip() for x in v.split(",")]
+            if k.strip() == "RandomItem":
+                # KG parses prefab, amount, level triples and calls GetPrefab(x).GetComponent unguarded
+                if len(toks) % 3: err(f"KG quest [{q}] RandomItem pool is not prefab, amount, level triples")
+                for i in range(0, len(toks) - 2, 3):
+                    if toks[i] not in known_items: err(f"KG quest [{q}] RandomItem prefab '{toks[i]}' unknown (throws in the reward loop)")
+            if k.strip() in ("AddCustomValue", "SetCustomValue"):
+                custom_written.add(toks[0])
+for q, lines in kg_sections("QuestEvents").items():
+    for line in lines:
+        custom_written |= set(re.findall(r"(?:Add|Set)CustomValue\s*,\s*([^,|\s]+)", line))
+# Hunt contract skip fee = a third of the coin pay (QuestEvents\osrsheim_slayer_skip.cfg).
+for q, lines in kg_sections("QuestEvents").items():
+    m = re.search(r"OnCancelQuest:\s*RemoveItem,\s*Coins,\s*(\d+)", " ".join(lines))
+    pay = re.search(r"Item:\s*Coins,\s*(\d+)", quests.get(q, ["", "", "", "", ""])[4]) if len(quests.get(q, [])) > 4 else None
+    if m and pay and int(m.group(1)) != max(1, round(int(pay.group(1)) / 3)):
+        err(f"KG quest event [{q}] skip fee {m.group(1)} is not a third of the {pay.group(1)}c pay")
+for k in sorted(wirsl_keys):
+    if k.startswith("oath_") and k not in player_keys:
+        err(f"WIRSL GlobalKeyReq '{k}' is granted by no AddPlayerKey quest event")
 dialogs = kg_sections("Dialogues")
 menu_profiles = {"trader": traders, "banker": kg_sections("Bankers"), "quests": profiles,
                  "gambler": kg_sections("Gamblers"), "buffer": kg_sections("BufferProfiles"),
@@ -494,9 +545,24 @@ for node, lines in dialogs.items():
                 args = [a.strip() for a in field.split(",")[1:]]
                 if len(args) == 2 and args[1].lower() not in menu_profiles.get(args[0].lower(), {}):
                     err(f"KG dialogue [{node}] OpenUI {args} -> no such profile")
+            if field.startswith("Condition:"):
+                kg_conditions(f"KG dialogue [{node}]", field)
+                m = re.match(r"Condition:\s*(?:Not)?HasItem\s*,\s*([^,]+)", field)
+                if m and m.group(1).strip() not in known_items:
+                    err(f"KG dialogue [{node}] HasItem prefab '{m.group(1).strip()}' unknown (dialogue HasItem fails OPEN)")
+            if field.startswith("Command:"):
+                args = [a.strip() for a in field.split(":", 1)[1].split(",")]
+                if args[0] == "GiveItem" and len(args) != 4:
+                    err(f"KG dialogue [{node}] GiveItem needs item, amount, level (KG reads split[3] unguarded): {field}")
+                if args[0] in ("GiveItem", "RemoveItem") and len(args) > 1 and args[1] not in known_items:
+                    err(f"KG dialogue [{node}] {args[0]} prefab '{args[1]}' unknown")
+                if args[0] in ("AddCustomValue", "SetCustomValue") and len(args) > 1:
+                    custom_written.add(args[1])
             if "," in field.split(":", 1)[-1] and field.startswith("Text:"):
                 warn(f"KG dialogue [{node}] reply text contains a comma (KG field separator): {field}")
 ok(f"KG dialogues: {len(dialogs)} nodes")
+for k in sorted(custom_read - custom_written):
+    err(f"KG custom value '{k}' is read by a CustomValueMore/Less condition but no reward or command writes it")
 # Saved NPCs (Marketplace Hammer templates): a mistyped Profile or Dialogue fails silently in game.
 saved = glob.glob(os.path.join(CFG, "Marketplace_SavedNPCs", "*.yml"))
 for f in saved:

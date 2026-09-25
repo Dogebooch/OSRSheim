@@ -1,0 +1,7 @@
+# OSRSheim skilling pet - Farming (1 in 40 per tier-3 Farming contract, Verdandi) - authored 2026-09-24
+# Trophy clone: cosmetic only, no stat block. Farming has no object drop hook, so the contract pool is the source.
+name: OSRS_PetFarming
+clonePrefabName: TrophyAbomination
+m_name: Rootling
+m_description: It came up with the barley and would not go back down.
+m_weight: 0.1

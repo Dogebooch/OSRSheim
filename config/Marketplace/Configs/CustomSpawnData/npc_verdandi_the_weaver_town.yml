@@ -12,5 +12,5 @@ Floats:
   KGtextSize: 3
 Strings:
   KGnpcNameOverride: "Verdandi the Weaver"
-  KGnpcProfile: "skillcape_shop"
+  KGnpcProfile: "vanity_tailor"
   KGnpcDialogue: "wise_old_man"

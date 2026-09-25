@@ -1,0 +1,11 @@
+# OSRSheim gem-tipped bolts (2026-09-24): 20 base bolts + 2 AmberPearl -> 20 tipped. Crossbows 40 to craft and shoot (WIRSL).
+# reqs are Prefab:amount:amountPerLevel:recover.
+name: Recipe_OSRS_BoltPearl
+clonePrefabName: OSRS_BoltPearl
+craftingStation: forge
+minStationLevel: 1
+amount: 20
+disabledUpgrade: true
+reqs:
+  - BoltBlackmetal:20:0:true
+  - AmberPearl:2:0:true

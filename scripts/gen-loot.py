@@ -16,7 +16,8 @@ Tables in loot\:
                  a creature of another class gets a copy at its own multiplier (GemTableTier3Roamer)
   drops.csv      owner, item, min, max, chance, flags, id owner = creature or list; rows in ID order
 chance "30" = flat percent. chance "1/256" = OSRS rate x the owner's class multiplier, capped at 100.
-flags: one-per-player (amount 1 items only), key=<global key>,
+flags: one-per-player (amount 1 items only), key=<global key>, event (raid creatures only:
+       ConditionCreatureStates = Event, Drop That DLL: MonsterAI.IsEventCreature),
        unique=<EpicLoot legendary ID>: rolled by EpicLoot, not Drop That, as that legendary (beam +
        inventory highlight). Creature rows only, amount 1, no one-per-player (EpicLoot rolls once per kill).
        Drop That item modifiers never apply to creature drops in this stack, so this is the only route.
@@ -128,7 +129,7 @@ def chance(text, mult, mode):
 
 
 def entries(owner, rows, base, overflow, mult, mode):
-    """Return (id, item, lo, hi, chance, one_per_player, key, unique) rows for one owner, sorted by ID."""
+    """Return (id, item, lo, hi, chance, one_per_player, key, unique, event) rows for one owner, sorted by ID."""
     ids, nxt = [], base
     for r in rows:
         idx = int(r['id']) if r.get('id') else nxt
@@ -145,7 +146,8 @@ def entries(owner, rows, base, overflow, mult, mode):
         one = 'one-per-player' in flags
         key = next((f[4:] for f in flags if f.startswith('key=')), None)
         unique = next((f[7:] for f in flags if f.startswith('unique=')), None)
-        bad = flags - {'one-per-player'} - {f for f in flags if f.startswith(('key=', 'unique='))}
+        event = 'event' in flags
+        bad = flags - {'one-per-player', 'event'} - {f for f in flags if f.startswith(('key=', 'unique='))}
         if bad:
             fail(f'{owner} {item}: unknown flags {sorted(bad)}')
         if not 1 <= lo <= hi:
@@ -158,15 +160,15 @@ def entries(owner, rows, base, overflow, mult, mode):
         if hi > CHUNK and item != 'Coins':
             fail(f'{owner} {item}: max {hi} above the {CHUNK} per-entry cap (only Coins split)')
         parts = chunks(lo, hi)
-        out.append((idx, item, parts[0][0], parts[0][1], p, one, key, unique))
+        out.append((idx, item, parts[0][0], parts[0][1], p, one, key, unique, event))
         for lo2, hi2 in parts[1:]:
-            out.append((overflow, item, lo2, hi2, p, one, key, unique))
+            out.append((overflow, item, lo2, hi2, p, one, key, unique, event))
             overflow += 1
     return sorted(out)
 
 
 def entry_text(owner, e):
-    idx, item, lo, hi, p, one, key, unique = e
+    idx, item, lo, hi, p, one, key, unique, event = e
     if unique:
         return ''
     lines = [f'[{owner}.{idx}]', f'PrefabName = {item}', f'AmountMin = {lo}', f'AmountMax = {hi}',
@@ -175,6 +177,8 @@ def entry_text(owner, e):
         lines.append('DropOnePerPlayer = true')
     if key:
         lines.append(f'ConditionGlobalKeys = {key}')
+    if event:
+        lines.append('ConditionCreatureStates = Event')
     return '\n'.join(lines) + '\n\n'
 
 

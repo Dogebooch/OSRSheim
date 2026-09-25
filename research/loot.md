@@ -20,6 +20,9 @@ shared table, `drops.csv` a creature drop, `objects.csv` an object drop.
 `--literal`, `--wiring` and `--marker` leave the cfgs in a test state; the
 validator warns until a plain run restores them.
 
+Raid spoils: `drops.csv` flag `event` -> `ConditionCreatureStates = Event` (Drop That DLL: `MonsterAI.IsEventCreature`);
+raid creatures drop the biome tier's riddle-stone at 8%. `ConditionInventory` reads the creature's inventory, not the killer's.
+
 Enforced (CLAUDE.md has the append-only list): lists 110+/120+ keep their
 index when merged; `DropOnePerPlayer` per-player roll on a server is
 unverified; object entries capped at 5% per destruction and refused on a
@@ -97,7 +100,8 @@ ModTest 2026-09-22, one 0-star `TrollFrost`: 36 GoldOre, 108 Stone (~4,300c a tr
 Coin/hr target, best camped source: Meadows 150 · BF 200 · Swamp 440 · Mountain
 520 · Plains 700 · Mistlands 900 · Ashlands 1300 · DeepNorth 1600. Roamer purse:
 coin EV x `rate-model.py hunt` kills/hr <= 1.15 x target (Wolf 1.06, Goblin 1.14, Seeker 1.12); camped purse = target / 321; elite purse >= 2x the biome's roamer mean, nest >= 1x.
-Animals and Dvergr keep flat purses. Bosses 200-400c (Eikthyr) to 1,000-2,000c (Kall), bounties 150-4800c. Riddle caskets add under 25% a tier.
+Animals and Dvergr keep flat purses. Bosses 200-400c (Eikthyr) to 1,000-2,000c (Kall), bounties 40-1,200c (x1.5, 2026-09-24). Riddle caskets add under 25% a tier.
+Coin rule (2026-09-24): repeatables pay items, one-time rewards keep coins; sim `coin_end` 246k (was 428k).
 
 Gem tiers: T1 Meadows/BlackForest · T2 Swamp/Mountain/Ocean · T3
 Plains/Mistlands · T4 Ashlands/DeepNorth. Rare: T2 Swamp elites (bonemass
@@ -156,6 +160,7 @@ tier's stone. Elaborate: 4/11 cloaks, 2/11 T4 stone; master: 4/6 cosmetic or key
 Gate lives in `wackysDatabase\Pieces\Piece_<hull>.yml` (full cost, keel included). OdinShip alone drops the keel (#31).
 Build menu shows the right keel on all 7 hulls (2026-09-22). OdinShip's `The required item 'OSRS_Keel*' does not exist` warnings stay; expected.
 Keel highlight: `ammoType: 'Ancient|MagicCraftingMaterial'` + `m_itemType: Material` -> gold name, Ancient tooltip line (EpicLoot `Ancient Rarity Color = #FFD700`, not server-synced).
+Same gold name on riddle-stones T3/T4 and both crystal key halves; not pets (Trophy type keeps item stands).
 Ancient only: EpicLoot sets `m_variant` to the tier's icon index; Ancient = 0, keels have 1 icon, vanilla `GetIcon()` has no bounds check.
 No loot beam: EpicLoot beams only items with a MagicItem (enchanted gear).
 
@@ -228,7 +233,7 @@ guaranteed effects skip slot rules, `LootRoller.cs`), `SelectionWeight = 1000000
 - Treasure maps: cost 100 (Meadows) to 800 (Deep North), chest pays `Coins`
   1.5x cost (150-1200) + one pick: gem 2/3, magic item 1/3 (#107).
   Runestone items removed. `RefreshInterval 7`.
-- Bounties (rare/hard/big): tokens 0, `RewardCoins` x6 (150 -> 4800); Iron
+- Bounties (rare/hard/big): tokens 0, `RewardCoins` x1.5 (40 -> 1200); Iron
   lvl 3 @3x HP, Gold @4.5x, adds lvl 2-3 @2x HP.
 - Bounty cfg: `Gated Bounty Mode = BossKillUnlocksCurrentBiomeBounties`,
   `Enable Bounty Limit = true`, `Max Bounties Per Player = 1`.
@@ -246,7 +251,7 @@ the menu and re-enter. `spawnthat wheredoesitspawn <id>` and `arearollheatmap
 
 | ID | Spawn | Biome / key |
 |---|---|---|
-| 500-507 | Superior Greydwarf, Skeleton, Draugr, Wolf, Goblin, Seeker, Charred_Melee, JotunWarrior: `LevelMin/Max = 3`, `UseDefaultLevels = true`, `SetExtraEffect` (e.g. Regenerating), 0.03% per 900 s check, `MaxSpawned = 10` (vanilla counts every loaded instance of the prefab; rolls `min(MaxSpawned, elapsed / interval)` on zone entry: 10 rolls, 0.3% a superior, in a zone unvisited for 2.5 h), ~0.12/hr (`rate-model.py roamers`) | each biome, gated by its own boss key (Greydwarf, Skeleton `defeated_gdking` ... JotunWarrior `defeated_frozenking_p3`) |
+| 500-507 | Superior Greydwarf, Skeleton, Draugr, Wolf, Goblin, Seeker, Charred_Melee, JotunWarrior (frontier: the key that opens their biome): `LevelMin/Max = 3`, `UseDefaultLevels = true`, `SetExtraEffect` (e.g. Regenerating), 0.03% per 900 s check, `MaxSpawned = 10` (vanilla counts every loaded instance of the prefab; rolls `min(MaxSpawned, elapsed / interval)` on zone entry: 10 rolls, 0.3% a superior, in a zone unvisited for 2.5 h), ~0.12/hr (`rate-model.py roamers`) | each biome, gated by the key that opens it (Greydwarf, Skeleton `defeated_eikthyr` ... JotunWarrior `defeated_fader`) |
 | 510 | Wandering Meadows night troll, 1.4% per 1200 s, 1 roll a stale zone (~0.6/hr of nights), >300 m from center, no HuntPlayer | Meadows, `defeated_eikthyr` |
 | 511 | Fuling scouts, 2-3, night only, 0.5% per 1200 s, 3 rolls a stale zone (~0.6 groups/hr of nights), >500 m from center | Black Forest, `defeated_dragon` (Plains loot, BlackMetalScrap) |
 

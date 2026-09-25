@@ -1,0 +1,11 @@
+# OSRSheim gem-tipped bolt (2026-09-24): the gem sink and a Crossbows ladder past 30 (OSRS enchanted bolt tips).
+# Clone of BoltIron: same total damage as the base, two thirds of it fire (vanilla elemental-arrow split): a sidegrade.
+name: OSRS_BoltAmber
+clonePrefabName: BoltIron
+m_name: Amber-tipped bolt
+m_description: An iron bolt set with a bead of amber. It lands hot.
+m_weight: 0.1
+m_maxStackSize: 100
+Damage:
+  Pierce: 14
+  Fire: 28

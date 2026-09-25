@@ -23,7 +23,7 @@ lumbridge_guide:
       OnlyIfLookingAtPlayer: true
   Interval: 30
   InvervalRandomOffset: 10
-skillcape_shop:
+vanity_tailor:
   RandomTexts:
     bark1:
       Text: "I have woven a thousand fates. Yours is still loose thread."

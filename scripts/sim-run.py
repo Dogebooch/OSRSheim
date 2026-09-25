@@ -20,7 +20,7 @@ Model, per player, Monte Carlo (one block = one activity inside one session):
   kills        Poisson(min(engaged, supply / players sharing it) x h); supply = loot\classes.csv; camp mix = the
                biome's SpawnArea weights (game-data), roam mix = vanilla world-spawn supply, elite = class elite
   loot         every shipped Drop That entry per kill: coins as a compound-binomial normal, the rest Poisson
-               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors on revisits
+               thinning; EpicLoot uniques per kill; vanilla trophies per kill; level-3 superiors from the biome's opening key
   xp           weapon: hits/kill (rate-model kill_sim) x 1.5 x step x Global; Mining / Lumberjacking: rate-model;
                Smoothbrain per action (mod sources): Cooking 5/cook, Farming 1/plant, Building 1/piece,
                Blacksmithing 15/craft + 75 first craft, Exploration 0.075/map pixel, Sailing 0.5/s at the helm,
@@ -82,7 +82,7 @@ KEY = dict(zip(BIOMES, ['defeated_eikthyr', 'defeated_gdking', 'defeated_bonemas
 BIOME_OF_KEY = {v: k for k, v in KEY.items()}
 # a summon's offering: item and vanilla count (the Seeress sells these per item)
 OFFERING = {'Eikthyr': ('TrophyDeer', 2), 'gd_king': ('AncientSeed', 3), 'Bonemass': ('WitheredBone', 10),
-          'GoblinKing': ('GoblinTotem', 5)}
+            'Dragon': ('DragonEgg', 3), 'GoblinKing': ('GoblinTotem', 5), 'Fader': ('Bell', 3)}
 BIT = {'Meadows': 1, 'Swamp': 2, 'Mountain': 4, 'BlackForest': 8, 'Plains': 16, 'AshLands': 32, 'DeepNorth': 64,
        'Mistlands': 512}
 ACTS = ['camp', 'roam', 'elite', 'boss', 'deaths', 'mine', 'chop', 'farm', 'craft', 'build', 'sail', 'fish',
@@ -120,7 +120,7 @@ SHIELD = {'Meadows': 'ShieldWood', 'BlackForest': 'ShieldBronzeBuckler', 'Swamp'
           'Mountain': 'ShieldSilver', 'Plains': 'ShieldBlackmetal', 'Mistlands': 'ShieldCarapace',
           'AshLands': 'ShieldFlametal', 'DeepNorth': 'ShieldFlametal'}
 GEMS = {'Amber', 'AmberPearl', 'Ruby', 'Crystal', 'Chain', 'SilverNecklace'}
-SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg'}
+SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg', 'Bell'}
 STEP = {'Swords': 1.0, 'Clubs': 1.0, 'Bows': 1.5, 'ElementalMagic': 1.0}   # m_increseStep (game-data player.json)
 TIER_NAME = {1: 'S1', 2: 'S2', 3: 'S3', 4: 'S4'}
 RARITY_TIER = [1, 2, 3, 4, 4, 4]           # EpicLoot Magic, Rare, Epic, Legendary, Mythic, Ancient -> salience
@@ -220,6 +220,8 @@ def load_drops():
     table = defaultdict(list)
     for name in (GL.MAIN, 'drop_that.character_drop.osrsheim_superiors.cfg'):
         for sec, kv in GL.parse(read(CFG / name)).items():
+            if str(kv.get('ConditionCreatureStates', '')) == 'Event':
+                continue                                  # raid-only loot: raids are not modelled
             if 'PrefabName' in kv:
                 table[sec.rsplit('.', 1)[0]].append(_entry(kv))
             elif 'UseDropList' in kv:
@@ -311,6 +313,10 @@ class World:
                     sell[a] = max(sell.get(a, 0), m / n)
                 elif a == 'Coins':
                     buy.setdefault(b, n / m)
+        # dialogue sales (skillcapes at Verdandi): `RemoveItem, Coins, N | GiveItem, <item>, 1, 1`
+        for f in sorted((KG / 'Dialogues').glob('*.cfg')):
+            for m in re.finditer(r'RemoveItem, Coins, (\d+) \| Command: GiveItem, (\w+), 1, 1', read(f)):
+                buy.setdefault(m.group(2), float(m.group(1)))
         return {'sell': sell, 'buy': buy}
 
     def load_gamblers(self):
@@ -517,7 +523,7 @@ class World:
 
 
 # ---------- KG quests (story, free, oaths, contracts) ----------
-Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys')
+Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys skills cvs')
 
 
 def load_quests():
@@ -559,12 +565,18 @@ def _quest(stem, b):
                 items.append((parts[0], int(float(parts[1]))))
         elif k.strip() == 'Skill_EXP' and len(parts) >= 2:
             sx.append((parts[0], float(parts[1])))
+        elif k.strip() == 'AddCustomValue' and len(parts) >= 2:
+            items.append(('__cv__' + parts[0], int(parts[1])))    # per-player KG custom value (hunter_rank)
+        elif k.strip() == 'RandomItem':
+            items.append(('__pool__', tuple(parts[0::3])))      # KG: uniform over prefab, amount, level triples
     cd = cooldown.strip()
     cd_h = float(cd[:-1]) / 3600 if cd.endswith('s') else float(cd or 0) * RM.CAL['day_s'] / 3600
     keys = tuple(re.findall(r'GlobalKey,\s*(\w+)', cond))
     prereq = tuple(re.findall(r'QuestFinished,\s*(\w+)', cond))
     pkeys = tuple(re.findall(r'HasPlayerKey,\s*(\w+)', cond))
-    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys)
+    skills = tuple((s, int(n)) for s, n in re.findall(r'SkillMore,\s*(\w+),\s*(\d+)', cond))
+    cvs = tuple((k, int(n)) for k, n in re.findall(r'CustomValueMore,\s*(\w+),\s*(\d+)', cond))
+    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys, skills, cvs)
 
 
 # ---------- one simulated run ----------
@@ -711,10 +723,10 @@ class Run:
             buy = self.p('rule.buy_supplies_share') * self.p('rule.supply_coins_per_fight_hour', biome) * h
             pl.coins -= buy
             pl.flow['out: supplies'] += buy
-        # superiors on revisits (level 3, key set)
-        if revisit:
+        # superiors (level 3) wherever their spawner's key is set: the key that opens their biome (the frontier)
+        if True:
             for s in W.sup_rows:
-                if s.get('Biomes') != biome:
+                if s.get('Biomes') != biome or s.get('RequiredGlobalKey', '') not in keys:
                     continue
                 lam = W.sup_hr[id(s)] * h
                 for _ in range(poisson(self.rng, lam)):
@@ -797,10 +809,12 @@ class Run:
         crops = plants * (1 + F / 100)
         stone = 3.0 if pl.level('Alchemy') >= 50 else 1.0                 # Philosopher's Stone, gated at Alchemy 50
         pl.add_xp('Alchemy', crops * 0.4286 * stone, t0, t0 + hours)      # 3649 XP / 8514 crop units (check-alchemy-balance)
-        # herb contracts (cooldown 1 day ~ 0.5 h real): one per ~50 crops of an open crop
+        # herb contracts (cooldown 2 days ~ 1 h real): one per ~50 crops of an open crop
         herbs = [q for q in self.W.quests if q.file.endswith('slayer') and q.type == 'Harvest'
                  and all(k in keys for k in q.keys)]
         n = int(cycles * min(len(herbs), self.p('rate.plants_per_cycle') // 50 + (self.rng.random() < 0.2)))
+        # each contract waits out its cooldown (in-game days of world clock, played hours here)
+        n = min(n, int(sum(hours / max(q.cooldown, 0.01) for q in herbs)))
         for _ in range(n):
             q = self.rng.choice(herbs)
             pl.coins += q.coins
@@ -877,6 +891,15 @@ class Run:
                         pl.coins -= price
                         pl.flow['out: skillcapes'] += price
                         pl.gain(cape, 1, t, W, tier=4)
+            # vanity tailor (Verdandi): one piece once the purse holds rule.vanity_margin x its price
+            m = self.p('rule.vanity_margin')
+            if m > 0:
+                for item, price in W.prices['buy'].items():
+                    if item.startswith('OSRS_Vanity') and not pl.has.get(item) and pl.coins >= price * m:
+                        pl.coins -= price
+                        pl.flow['out: vanity'] += price
+                        pl.has[item] += 1
+                        break
             # gambling above the reserve
             g = self.p('rule.gamble_share')
             if g > 0 and pl.coins > self.p('rule.coin_reserve'):
@@ -885,6 +908,7 @@ class Run:
                 pl.flow['out: gambling (EV loss)'] += stake * 0.28
         self.quests(idx_phase, t, pls)
         self.contracts(idx_phase, t, pls)
+        self.skilling(idx_phase, t, pls)
 
     def caskets(self, pl, t):
         """Forge key halves at Gullveig, open every riddle-stone and crystal key at the Gambler (uniform prize slots).
@@ -927,10 +951,14 @@ class Run:
         W, rng = self.W, self.rng
         for pl in pls:
             for q in W.quests:
-                if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.qid in pl.done:
+                if q.file.endswith('slayer') or q.file.endswith('collection_log') or q.file.endswith('skilling'):
+                    continue
+                # elite-oath tithes repeat on their cooldown; every other quest here is one-time
+                if q.qid in pl.done and not (q.qid.endswith('_tithe') and t - pl.done[q.qid] >= q.cooldown):
                     continue
                 if not all(k in self.keys for k in q.keys) or not all(x in pl.done for x in q.prereq) \
-                        or not all(k in pl.pkeys for k in q.pkeys):
+                        or not all(k in pl.pkeys for k in q.pkeys) \
+                        or not all(pl.level(s) >= n for s, n in q.skills):
                     continue
                 ok = True
                 for name, n, _ in q.targets:
@@ -978,6 +1006,31 @@ class Run:
         self.W._killable[idx_phase] = out | {BOSS[b] for b in BIOMES[:idx_phase]}
         return self.W._killable[idx_phase]
 
+    def opened(self, pl, t, what):
+        """A new contract tier or elite hunt becomes available: an unlock moment (player 0's view, like density)."""
+        seen = self.__dict__.setdefault('_opened', set())
+        if pl is self.players[0] and what not in seen:
+            seen.add(what)
+            self.unlocks.append((t, f'new contract: {what}'))
+
+    # ----- skilling contracts (Verdandi, repeatable on cooldown, pay riddle-stones / a pet pool) -----
+    def skilling(self, idx_phase, t, pls):
+        W = self.W
+        for pl in pls:
+            last = pl.__dict__.setdefault('skill_last', {})
+            for q in W.skilling:
+                if not all(k in self.keys for k in q.keys) or not all(pl.level(s) >= n for s, n in q.skills):
+                    continue
+                self.opened(pl, t, q.qid)
+                if t - last.get(q.qid, -INF) < q.cooldown or self.rng.random() >= self.p('rule.skilling_share'):
+                    continue
+                last[q.qid] = t
+                pl.events.append((t, 1, f'contract {q.qid}'))
+                for item, n in q.items:
+                    if item == '__pool__':
+                        item, n = self.rng.choice(n), 1
+                    pl.gain(item, n, t, W)
+
     # ----- hunt contracts (Huntmaster, autocomplete, repeatable) -----
     def contracts(self, idx_phase, t, pls):
         W = self.W
@@ -993,8 +1046,13 @@ class Run:
                     del pl.contracts[qid]
                     pl.coins += q.coins                        # each player holds their own instance
                     pl.flow['in: hunt contracts'] += q.coins
+                    pl.__dict__.setdefault('contract_last', {})[q.qid] = t
                     for item, k in q.items:
-                        pl.gain(item, k, t, W)
+                        if item.startswith('__cv__'):
+                            cv = pl.__dict__.setdefault('cv', Counter())
+                            cv[item[6:]] += k
+                        else:
+                            pl.gain(item, k, t, W)
                     pl.events.append((t, 1, f'contract {q.qid}'))
                 elif self.rng.random() < self.p('rule.skip_share'):
                     del pl.contracts[qid]
@@ -1005,20 +1063,31 @@ class Run:
             # round per session with probability rule.trips_per_session)
             if self.rng.random() >= self.p('rule.trips_per_session'):
                 continue
-            live = sum(1 for k in pl.contracts if k.startswith('slayer:'))
+            # elite hunts (rank-gated, long cooldown) ride alongside the board and take no slot
+            live = sum(1 for k in pl.contracts if k.startswith('slayer:') and not W.contract_by_id[k[7:]].cvs)
             killable = self._killable(idx_phase)
             for q in W.contracts:
                 if live >= 7:
                     break
                 if f'slayer:{q.qid}' in pl.contracts or not all(k in self.keys for k in q.keys):
                     continue
+                # hunter rank (CustomValueMore) and cooldowns longer than the board's 60 s (elite hunts)
+                cv = pl.__dict__.get('cv', Counter())
+                if not all(cv[k] >= n for k, n in q.cvs):
+                    continue
+                if q.cvs:
+                    self.opened(pl, t, q.qid)
+                if q.cooldown > 1 and t - pl.__dict__.get('contract_last', {}).get(q.qid, -INF) < q.cooldown:
+                    continue                                   # the board's 60 s cooldown passes within a visit
                 name, n, stars = q.targets[0]
+                if name in BOSS.values():
+                    continue                                  # boss hunts: boss kills are modelled in boss_kill()
                 if stars and name not in killable and name not in {s['PrefabName'] for s in W.sup_rows}:
                     continue
                 if not stars and name not in killable:
                     continue
                 pl.contracts[f'slayer:{q.qid}'] = pl.kills[('*' + name) if stars else name]
-                live += 1
+                live += not q.cvs
 
     # ----- the run -----
     def boss_kill(self, idx_phase, t):
@@ -1077,6 +1146,7 @@ def build_contract_index(W):
     W.jewellery = [g for g in W.gates if g[0] in jew]
     W.contracts = sorted((q for q in W.quests if q.file.endswith('slayer') and q.type == 'Kill'), key=lambda q: -q.coins)
     W.contract_by_id = {q.qid: q for q in W.contracts}
+    W.skilling = [q for q in W.quests if q.file.endswith('skilling')]
 
 
 # ---------- metrics ----------
@@ -1497,8 +1567,8 @@ def cmd_validate(P):
     diffs = 0
     for c in creatures:
         for rr in drops.get(c['creature'], []):
-            if 'unique=' in rr['flags'] or rr['item'] == 'Coins':
-                continue
+            if 'unique=' in rr['flags'] or 'event' in rr['flags'].split() or rr['item'] == 'Coins':
+                continue                                  # uniques: EpicLoot; event: raid-only, not loaded
             want = GL.chance(rr['chance'], classes[c['class']], 'time') / 100
             have = [e.p for e in W.drops.get(c['creature'], []) if e.item == rr['item']]
             if not any(abs(h - want) < 1e-6 for h in have):

@@ -5,3 +5,6 @@ clonePrefabName: Needle
 m_name: Tooth half of a crystal key
 m_description: The bit of a crystal key. Useless without its loop.
 m_weight: 0.1
+# Gold "Ancient" name (keel pattern, loot.md 7): a rare find looks special in the bag.
+m_itemType: Material
+ammoType: 'Ancient|MagicCraftingMaterial'

@@ -1,0 +1,27 @@
+# OSRSheim collection-log rank reward (2026-09-24): Halla gives it at 150 logged finds (custom value log_count).
+# Stats stripped like the riddle cloaks: armor 0, no SE_Equip, all modifiers 0, damageModifiers cleared. No WIRSL gate.
+name: OSRS_SagaLastVerse
+clonePrefabName: HelmetDNMediumHood
+m_name: Hood of the last verse
+m_description: Few ever fill this much of the saga. The last verse is yours.
+m_weight: 1
+m_maxStackSize: 1
+m_maxQuality: 1
+m_useDurability: false
+Armor:
+  armor: 0
+  armorPerLevel: 0
+SE_Equip:
+Moddifiers:
+  m_movementModifier: 0
+  m_EitrRegen: 0
+  m_homeItemsStaminaModifier: 0
+  m_heatResistanceModifier: 0
+  m_jumpStaminaModifier: 0
+  m_attackStaminaModifier: 0
+  m_blockStaminaModifier: 0
+  m_dodgeStaminaModifier: 0
+  m_swimStaminaModifier: 0
+  m_sneakStaminaModifier: 0
+  m_runStaminaModifier: 0
+damageModifiers: []
