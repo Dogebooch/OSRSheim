@@ -521,7 +521,7 @@ class World:
 
 
 # ---------- KG quests (story, free, oaths, contracts) ----------
-Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys skills')
+Quest = namedtuple('Quest', 'qid file tag type targets coins items skill_exp cooldown keys prereq pkeys skills cvs')
 
 
 def load_quests():
@@ -563,6 +563,8 @@ def _quest(stem, b):
                 items.append((parts[0], int(float(parts[1]))))
         elif k.strip() == 'Skill_EXP' and len(parts) >= 2:
             sx.append((parts[0], float(parts[1])))
+        elif k.strip() == 'AddCustomValue' and len(parts) >= 2:
+            items.append(('__cv__' + parts[0], int(parts[1])))    # per-player KG custom value (hunter_rank)
         elif k.strip() == 'RandomItem':
             items.append(('__pool__', tuple(parts[0::3])))      # KG: uniform over prefab, amount, level triples
     cd = cooldown.strip()
@@ -571,7 +573,8 @@ def _quest(stem, b):
     prereq = tuple(re.findall(r'QuestFinished,\s*(\w+)', cond))
     pkeys = tuple(re.findall(r'HasPlayerKey,\s*(\w+)', cond))
     skills = tuple((s, int(n)) for s, n in re.findall(r'SkillMore,\s*(\w+),\s*(\d+)', cond))
-    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys, skills)
+    cvs = tuple((k, int(n)) for k, n in re.findall(r'CustomValueMore,\s*(\w+),\s*(\d+)', cond))
+    return Quest(b['qid'], stem, b['tag'], typ, targets, coins, items, sx, cd_h, keys, prereq, pkeys, skills, cvs)
 
 
 # ---------- one simulated run ----------
@@ -1001,6 +1004,13 @@ class Run:
         self.W._killable[idx_phase] = out | {BOSS[b] for b in BIOMES[:idx_phase]}
         return self.W._killable[idx_phase]
 
+    def opened(self, pl, t, what):
+        """A new contract tier or elite hunt becomes available: an unlock moment (player 0's view, like density)."""
+        seen = self.__dict__.setdefault('_opened', set())
+        if pl is self.players[0] and what not in seen:
+            seen.add(what)
+            self.unlocks.append((t, f'new contract: {what}'))
+
     # ----- skilling contracts (Verdandi, repeatable on cooldown, pay riddle-stones / a pet pool) -----
     def skilling(self, idx_phase, t, pls):
         W = self.W
@@ -1009,6 +1019,7 @@ class Run:
             for q in W.skilling:
                 if not all(k in self.keys for k in q.keys) or not all(pl.level(s) >= n for s, n in q.skills):
                     continue
+                self.opened(pl, t, q.qid)
                 if t - last.get(q.qid, -INF) < q.cooldown or self.rng.random() >= self.p('rule.skilling_share'):
                     continue
                 last[q.qid] = t
@@ -1033,8 +1044,13 @@ class Run:
                     del pl.contracts[qid]
                     pl.coins += q.coins                        # each player holds their own instance
                     pl.flow['in: hunt contracts'] += q.coins
+                    pl.__dict__.setdefault('contract_last', {})[q.qid] = t
                     for item, k in q.items:
-                        pl.gain(item, k, t, W)
+                        if item.startswith('__cv__'):
+                            cv = pl.__dict__.setdefault('cv', Counter())
+                            cv[item[6:]] += k
+                        else:
+                            pl.gain(item, k, t, W)
                     pl.events.append((t, 1, f'contract {q.qid}'))
                 elif self.rng.random() < self.p('rule.skip_share'):
                     del pl.contracts[qid]
@@ -1045,20 +1061,29 @@ class Run:
             # round per session with probability rule.trips_per_session)
             if self.rng.random() >= self.p('rule.trips_per_session'):
                 continue
-            live = sum(1 for k in pl.contracts if k.startswith('slayer:'))
+            # elite hunts (rank-gated, long cooldown) ride alongside the board and take no slot
+            live = sum(1 for k in pl.contracts if k.startswith('slayer:') and not W.contract_by_id[k[7:]].cvs)
             killable = self._killable(idx_phase)
             for q in W.contracts:
                 if live >= 7:
                     break
                 if f'slayer:{q.qid}' in pl.contracts or not all(k in self.keys for k in q.keys):
                     continue
+                # hunter rank (CustomValueMore) and cooldowns longer than the board's 60 s (elite hunts)
+                cv = pl.__dict__.get('cv', Counter())
+                if not all(cv[k] >= n for k, n in q.cvs):
+                    continue
+                if q.cvs:
+                    self.opened(pl, t, q.qid)
+                if q.cooldown > 1 and t - pl.__dict__.get('contract_last', {}).get(q.qid, -INF) < q.cooldown:
+                    continue                                   # the board's 60 s cooldown passes within a visit
                 name, n, stars = q.targets[0]
                 if stars and name not in killable and name not in {s['PrefabName'] for s in W.sup_rows}:
                     continue
                 if not stars and name not in killable:
                     continue
                 pl.contracts[f'slayer:{q.qid}'] = pl.kills[('*' + name) if stars else name]
-                live += 1
+                live += not q.cvs
 
     # ----- the run -----
     def boss_kill(self, idx_phase, t):

@@ -437,6 +437,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_blackforest
+    ExhibitionName: the Black Forest oath
 - PrefabName: OSRS_DragonfireShield
   Requirements:
   - Skill: Blocking
@@ -446,6 +453,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_mountain
+    ExhibitionName: the Mountain oath
 - PrefabName: OSRS_BandosGodsword
   Requirements:
   - Skill: Swords
@@ -455,6 +469,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_plains
+    ExhibitionName: the Plains oath
 # ====================================================================
 # MID-TIER GAP FILL (2026-09-19) — siblings of already-gated tiers.
 # These were holes: Root/Fenring/Berserker armor and the alternate
@@ -1893,6 +1914,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_mistlands
+    ExhibitionName: the Mistlands oath
 - PrefabName: OSRS_ScytheOfVitur
   Requirements:
   - Skill: Polearms
@@ -1902,6 +1930,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_deepnorth
+    ExhibitionName: the Deep North oath
 # ====================================================================
 # p9-11 SKILLCAPES — equip-gated at 100, no craft gate (NPC-sold).
 # 'Unarmed' and the two magic skill names share the uncertainty noted
@@ -3244,6 +3279,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_blackforest
+    ExhibitionName: the Black Forest oath
 - PrefabName: OSRS_RuneScimitar
   Requirements:
   - Skill: Swords
@@ -3253,6 +3295,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_swamp
+    ExhibitionName: the Swamp oath
 - PrefabName: OSRS_GraniteMaul
   Requirements:
   - Skill: Clubs
@@ -3262,6 +3311,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_mountain
+    ExhibitionName: the Mountain oath
 - PrefabName: OSRS_DragonHalberd
   Requirements:
   - Skill: Polearms
@@ -3271,6 +3327,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_plains
+    ExhibitionName: the Plains oath
 - PrefabName: OSRS_CrystalBow
   Requirements:
   - Skill: Bows
@@ -3280,6 +3343,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_mistlands
+    ExhibitionName: the Mistlands oath
 - PrefabName: OSRS_AbyssalBludgeon
   Requirements:
   - Skill: Clubs
@@ -3289,6 +3359,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_ashlands
+    ExhibitionName: the Ashlands oath
 - PrefabName: OSRS_DragonBattleaxe
   Requirements:
   - Skill: Axes
@@ -3298,6 +3375,13 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_deepnorth
+    ExhibitionName: the Deep North oath
 # ===== JEWELLERY (craft gate only) =====
 # BlockEquip is deliberately false: WIRSL and AzuEPI both postfix
 # ItemData.IsEquipable with opposite results for custom-slot prefabs and
@@ -3357,3 +3441,30 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq:
     ExhibitionName:
+- PrefabName: OSRS_GracefulCape
+  Requirements:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_meadows
+    ExhibitionName: the Meadows oath
+- PrefabName: OSRS_DraugrVisage
+  Requirements:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_swamp
+    ExhibitionName: the Swamp oath
+- PrefabName: OSRS_InfernalCape
+  Requirements:
+  - Skill:
+    Level: 0
+    BlockCraft: false
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq: oath_ashlands
+    ExhibitionName: the Ashlands oath
