@@ -1,0 +1,11 @@
+# OSRSheim gem-tipped bolt (2026-09-24): the gem sink and a Crossbows ladder past 30 (OSRS enchanted bolt tips).
+# Clone of BoltCharred: same total damage as the base, two thirds of it lightning (vanilla elemental-arrow split): a sidegrade.
+name: OSRS_BoltCrystal
+clonePrefabName: BoltCharred
+m_name: Crystal-tipped bolt
+m_description: A charred bolt tipped with crystal. It carries the storm.
+m_weight: 0.1
+m_maxStackSize: 100
+Damage:
+  Pierce: 27
+  Lightning: 55

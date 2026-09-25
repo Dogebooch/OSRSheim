@@ -3468,3 +3468,40 @@ Requirements:
     EpicMMO: false
     GlobalKeyReq: oath_ashlands
     ExhibitionName: the Ashlands oath
+# Gem-tipped bolts (2026-09-24): Crossbows 30/40/50/60, craft and shoot.
+- PrefabName: OSRS_BoltAmber
+  Requirements:
+  - Skill: Crossbows
+    Level: 30
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_BoltPearl
+  Requirements:
+  - Skill: Crossbows
+    Level: 40
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_BoltRuby
+  Requirements:
+  - Skill: Crossbows
+    Level: 50
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:
+- PrefabName: OSRS_BoltCrystal
+  Requirements:
+  - Skill: Crossbows
+    Level: 60
+    BlockCraft: true
+    BlockEquip: true
+    EpicMMO: false
+    GlobalKeyReq:
+    ExhibitionName:

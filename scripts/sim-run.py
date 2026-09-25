@@ -82,7 +82,7 @@ KEY = dict(zip(BIOMES, ['defeated_eikthyr', 'defeated_gdking', 'defeated_bonemas
 BIOME_OF_KEY = {v: k for k, v in KEY.items()}
 # a summon's offering: item and vanilla count (the Seeress sells these per item)
 OFFERING = {'Eikthyr': ('TrophyDeer', 2), 'gd_king': ('AncientSeed', 3), 'Bonemass': ('WitheredBone', 10),
-          'GoblinKing': ('GoblinTotem', 5)}
+            'Dragon': ('DragonEgg', 3), 'GoblinKing': ('GoblinTotem', 5), 'Fader': ('Bell', 3)}
 BIT = {'Meadows': 1, 'Swamp': 2, 'Mountain': 4, 'BlackForest': 8, 'Plains': 16, 'AshLands': 32, 'DeepNorth': 64,
        'Mistlands': 512}
 ACTS = ['camp', 'roam', 'elite', 'boss', 'deaths', 'mine', 'chop', 'farm', 'craft', 'build', 'sail', 'fish',
@@ -120,7 +120,7 @@ SHIELD = {'Meadows': 'ShieldWood', 'BlackForest': 'ShieldBronzeBuckler', 'Swamp'
           'Mountain': 'ShieldSilver', 'Plains': 'ShieldBlackmetal', 'Mistlands': 'ShieldCarapace',
           'AshLands': 'ShieldFlametal', 'DeepNorth': 'ShieldFlametal'}
 GEMS = {'Amber', 'AmberPearl', 'Ruby', 'Crystal', 'Chain', 'SilverNecklace'}
-SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg'}
+SUMMON = {'AncientSeed', 'GoblinTotem', 'WitheredBone', 'DragonEgg', 'Bell'}
 STEP = {'Swords': 1.0, 'Clubs': 1.0, 'Bows': 1.5, 'ElementalMagic': 1.0}   # m_increseStep (game-data player.json)
 TIER_NAME = {1: 'S1', 2: 'S2', 3: 'S3', 4: 'S4'}
 RARITY_TIER = [1, 2, 3, 4, 4, 4]           # EpicLoot Magic, Rare, Epic, Legendary, Mythic, Ancient -> salience
@@ -1080,6 +1080,8 @@ class Run:
                 if q.cooldown > 1 and t - pl.__dict__.get('contract_last', {}).get(q.qid, -INF) < q.cooldown:
                     continue                                   # the board's 60 s cooldown passes within a visit
                 name, n, stars = q.targets[0]
+                if name in BOSS.values():
+                    continue                                  # boss hunts: boss kills are modelled in boss_kill()
                 if stars and name not in killable and name not in {s['PrefabName'] for s in W.sup_rows}:
                     continue
                 if not stars and name not in killable:
