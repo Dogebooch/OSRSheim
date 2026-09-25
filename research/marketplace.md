@@ -197,6 +197,8 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 | `CustomValueMore, key, n, text` | per-player value (`Player.m_customData`); `text` replaces the reason, `{current}`/`{value}` filled in |
 | `AddCustomValue: key, n` | also a quest reward type |
 | `Kill` quest credit | killing blow only (Quest_ProgressionHook.cs:266): a boss contract counts for one player |
+| `AllowKillQuestsInParty` | needs the Groups mod (`Groups.API.IsLoaded()`, :587): not installed, so a no-op; with it, group members within 100 m share each kill |
+| `Kill` star target | `creature, N, S` matches level >= S + 1: `1` = 1+ stars, `2` = 2+ stars |
 | `RandomItem: p, n, lvl, ...` | inline triples, uniform (duplicates = weight); `GetPrefab` unguarded, so a bad name throws |
 | `GiveItem` (dialogue) | needs item, amount, level; `split[3]` read unguarded |
 | Dialogue `HasItem` | unknown prefab = true (fails open); validator checks names |
