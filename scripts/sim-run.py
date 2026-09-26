@@ -166,6 +166,11 @@ def level_of(xp):
     return min(100, bisect.bisect_right(CUM, xp) - 1)
 
 
+def kill_key(name, stars):
+    """Kill-counter key a KG Kill target reads (DLL: level >= stars + 1): plain, 1+ star ('+'), 2+ star ('*')."""
+    return name if not stars else ('+' + name) if stars == 1 else ('*' + name)
+
+
 def poisson(rng, lam):
     if lam <= 0:
         return 0
@@ -855,10 +860,12 @@ class Run:
         # natural two-stars roll the EpicLoot level-3 table like superiors do
         for c, n in kills.items():
             k = poisson(self.rng, n * W.star2)
+            k1 = poisson(self.rng, n * W.star1)
             for _ in range(k):
                 self.magic_roll(c, 3, t0 + self.rng.random() * h, self.rng.choice(pls))
             for pl in pls:                             # two-star contracts accept these too (Kill level >= 3)
                 pl.kills['*' + c] += k
+                pl.kills['+' + c] += k + k1            # one-star-or-better targets (Kill level >= 2)
         # weapon, blocking, evasion XP (each player lands 1/len(pls) of the hits)
         for pl in pls:
             hits = sum(n * W.hits(biome, c, pl.level('Swords')) for c, n in kills.items()) * hp_mult / len(pls)
@@ -887,6 +894,7 @@ class Run:
                     for pl in pls:
                         pl.events.append((t, 2, f'superior {s["PrefabName"]}'))
                         pl.kills['*' + s['PrefabName']] += 1
+                        pl.kills['+' + s['PrefabName']] += 1
 
     # ----- a session -----
     def session(self, idx_phase, t0, hours, pls):
@@ -1154,14 +1162,15 @@ class Run:
                         or not all(pl.level(s) >= n for s, n in q.skills):
                     continue
                 ok = True
-                for name, n, _ in q.targets:
+                for name, n, stars in q.targets:
                     if q.type == 'Kill':
-                        base = q.qid + ':' + name
+                        key = kill_key(name, stars)
+                        base = q.qid + ':' + key
                         if base not in pl.contracts:
-                            pl.contracts[base] = pl.kills[name]
+                            pl.contracts[base] = pl.kills[key]
                             ok = False                                # opened now; counts from here
                         # targeted hunting: a quest target the mixes rarely supply is hunted on purpose
-                        ok &= (pl.kills[name] - pl.contracts[base] >= n) or rng.random() < 0.35
+                        ok &= (pl.kills[key] - pl.contracts[base] >= n) or rng.random() < 0.35
                     elif q.type == 'Collect':
                         if tithe:
                             ok &= pl.has[name] >= n                  # handed over from the bag (sell loop keeps them)
@@ -1256,9 +1265,8 @@ class Run:
                 if not qid.startswith('slayer:'):
                     continue
                 q = W.contract_by_id[qid[len('slayer:'):]]
-                name, n, stars = q.targets[0]
-                key = ('*' + name) if stars else name
-                if pl.kills[key] - base >= n:
+                # every target of a multi-target contract (elite hunts) must be met
+                if all(pl.kills[kill_key(nm, st)] - b >= n for (nm, n, st), b in zip(q.targets, base)):
                     del pl.contracts[qid]
                     self.pay(pl, q, t, 'hunt contracts')      # each player holds their own instance
                     pl.__dict__.setdefault('contract_last', {})[q.qid] = t
@@ -1276,8 +1284,8 @@ class Run:
             live = sum(1 for k in pl.contracts if k.startswith('slayer:') and not W.contract_by_id[k[7:]].cvs)
             killable = self._killable(idx_phase)
             for q in W.contracts:
-                if live >= 7:
-                    break
+                if live >= 7 and not q.cvs:
+                    continue                                   # elite hunts sort last (stone pay, no sale value)
                 if f'slayer:{q.qid}' in pl.contracts or not all(k in self.keys for k in q.keys):
                     continue
                 # hunter rank (CustomValueMore) and cooldowns longer than the board's 60 s (elite hunts)
@@ -1290,11 +1298,10 @@ class Run:
                 name, n, stars = q.targets[0]
                 if name in BOSS.values():
                     continue                                  # boss hunts: boss kills are modelled in boss_kill()
-                if stars and name not in killable and name not in {s['PrefabName'] for s in W.sup_rows}:
+                sup = {s['PrefabName'] for s in W.sup_rows}
+                if any(nm not in killable and not (st and nm in sup) for nm, _, st in q.targets):
                     continue
-                if not stars and name not in killable:
-                    continue
-                pl.contracts[f'slayer:{q.qid}'] = pl.kills[('*' + name) if stars else name]
+                pl.contracts[f'slayer:{q.qid}'] = tuple(pl.kills[kill_key(nm, st)] for nm, _, st in q.targets)
                 live += not q.cvs
 
     # ----- the run -----
@@ -1320,16 +1327,17 @@ class Run:
                 for pl in pls:
                     pl.coins -= cost / len(pls)
                     pl.flow['out: boss offerings'] += cost / len(pls)
-                # the repeat-kill contract (slayer_boss_<boss>): only the killing blow credits it (B2), and each
-                # repeat summon is its own trip, so the 6-day server-time cooldown lapses between them
+                # the repeat-kill contract (slayer_boss_<boss>): the killing blow is relayed to the killer's Groups
+                # party (every player here fights together), and each repeat summon is its own trip, so the 6-day
+                # server-time cooldown lapses between them
                 q = W.boss_contracts.get(b)
                 if q and all(x in self.keys for x in q.keys):
-                    pl = self.rng.choice(pls)
-                    self.pay(pl, q, tt, 'boss contracts')
-                    for bane in W.banes:
-                        if bane.qid not in pl.done and bane.cvs and all(pl.cv[c] >= m for c, m in bane.cvs):
-                            pl.done[bane.qid] = tt
-                            self.pay(pl, bane, tt, 'boss contracts')
+                    for pl in pls:
+                        self.pay(pl, q, tt, 'boss contracts')
+                        for bane in W.banes:
+                            if bane.qid not in pl.done and bane.cvs and all(pl.cv[c] >= m for c, m in bane.cvs):
+                                pl.done[bane.qid] = tt
+                                self.pay(pl, bane, tt, 'boss contracts')
             self.keys.add(KEY[biome])                        # set by the first kill
         self.unlocks.append((t, f'{biome} boss: {KEY[biome]} opens the next biome, quests, contracts, trader pages'))
 
