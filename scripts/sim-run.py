@@ -1327,16 +1327,17 @@ class Run:
                 for pl in pls:
                     pl.coins -= cost / len(pls)
                     pl.flow['out: boss offerings'] += cost / len(pls)
-                # the repeat-kill contract (slayer_boss_<boss>): only the killing blow credits it (B2), and each
-                # repeat summon is its own trip, so the 6-day server-time cooldown lapses between them
+                # the repeat-kill contract (slayer_boss_<boss>): the killing blow is relayed to the killer's Groups
+                # party (every player here fights together), and each repeat summon is its own trip, so the 6-day
+                # server-time cooldown lapses between them
                 q = W.boss_contracts.get(b)
                 if q and all(x in self.keys for x in q.keys):
-                    pl = self.rng.choice(pls)
-                    self.pay(pl, q, tt, 'boss contracts')
-                    for bane in W.banes:
-                        if bane.qid not in pl.done and bane.cvs and all(pl.cv[c] >= m for c, m in bane.cvs):
-                            pl.done[bane.qid] = tt
-                            self.pay(pl, bane, tt, 'boss contracts')
+                    for pl in pls:
+                        self.pay(pl, q, tt, 'boss contracts')
+                        for bane in W.banes:
+                            if bane.qid not in pl.done and bane.cvs and all(pl.cv[c] >= m for c, m in bane.cvs):
+                                pl.done[bane.qid] = tt
+                                self.pay(pl, bane, tt, 'boss contracts')
             self.keys.add(KEY[biome])                        # set by the first kill
         self.unlocks.append((t, f'{biome} boss: {KEY[biome]} opens the next biome, quests, contracts, trader pages'))
 

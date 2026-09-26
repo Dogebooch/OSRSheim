@@ -13,7 +13,7 @@ or the topic file listed here. Read the hub, then only the topic file you need.
 
 ## 1. The build
 
-Two players, rented dedicated server, 23 mods on Valheim 1.0.15. Skills grind to
+Two players, rented dedicated server, 24 mods on Valheim 1.0.15. Skills grind to
 100 at half speed; gear gated by skill level. Every creature pays coins and rolls
 Gem/Rare tables; bosses drop uniques and pets, elites drop uniques and crystal-key
 halves. EpicLoot: maps, bounties and the 15 unique Legendaries. KG Marketplace: shops, bank, gamblers,
@@ -83,6 +83,7 @@ reads both.
 | JereKuusela Server devcommands | TS | admin console (§16) |
 | JereKuusela World Edit Commands (WEC) | TS | `spawn_object` / `object`: place, list, remove objects (§16, #124) |
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
+| Smoothbrain Groups | TS | parties: KG kill quests credit every member within 100 m (§11); PotionsPlus group potions |
 
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
