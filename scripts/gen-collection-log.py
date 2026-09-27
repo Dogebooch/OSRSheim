@@ -110,7 +110,15 @@ def generate():
     for c in cats:
         n = sum(1 for r in data if r['category'] == c)
         d.append(f'Text: {c} ({n}) | Transition: {PROFILE}_{slug(c)}\n')
+    d.append(f'Text: How does the saga work? | Transition: {PROFILE}_help\n')
     d.append(f'Text: Farewell | Transition: {PROFILE}_bye\n\n')
+    # The walkthrough is in character and carries no numbers; the handbook page (gen-handbook.py) holds them.
+    d.append(f'[{PROFILE}_help]\nBring me a rare find and I write it into the saga. The thing stays yours. Every page I fill '
+             f'raises your standing and at each new standing I have a gift for you. Show me a trophy before you spend it at the hof '
+             f'or you wait for the next one.\n'
+             'Text: Where is each find? | Transition: handbook_items\n'
+             'Text: Show me the full page | Transition: handbook_t_collection\n'
+             f'Text: Back | Transition: {PROFILE}\n\n')
     for c in cats:
         n = sum(1 for r in data if r['category'] == c)
         d.append(f'[{PROFILE}_{slug(c)}]\n{c}: lit entries are in the saga. Grey ones are still out there.\n'
@@ -119,6 +127,7 @@ def generate():
         for r in data:
             if r['category'] == c:
                 d.append(f'Text: {r["display"]} | Condition: QuestFinished, {qid(r["prefab"])}\n')
+        d.append(f'Text: Where these come from | Transition: handbook_ic_{slug(c)}\n')
         d.append(f'Text: Back | Transition: {PROFILE}\n\n')
     d.append(f'[{PROFILE}_bye]\nThe saga is never finished.\n')
     return {'quests': ''.join(q), 'profile': ''.join(p), 'dialogue': ''.join(d)}

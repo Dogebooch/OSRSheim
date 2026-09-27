@@ -1,0 +1,229 @@
+# Handbook topic pages: the hand-written prose. scripts\gen-handbook.py adds every number and list from the tables.
+# text: one page, <= 600 chars, no commas or '|'. A blank line becomes a KG line break.
+# Numbers belong to the generated rows. Prose keeps only mod-config facts no table holds.
+# data: the generator section that follows the prose (see TOPIC_DATA in gen-handbook.py). see: related topic ids.
+topics:
+- id: skills
+  title: Skills and gear
+  npc: Verdandi the Weaver keeps the skill guide
+  text: |
+    Every skill climbs slowly toward 100. You never lose levels when you die.
+
+    Weapons need their weapon skill to wield. Shields need Blocking to wear. Armour and shields and jewellery need Blacksmithing to craft but anyone may wear them. Picks need Mining and hatchets need Lumberjacking. Brews need Alchemy.
+
+    A gate opens something new to do. It never hands you a bigger number. The skill guide lists every gate and lights the ones you have passed.
+  data: skills
+  see: [skilling, capes]
+
+- id: money
+  title: Coin and trade
+  npc: The Shopkeeper and Gullveig in Kaupang
+  text: |
+    Coins drop from almost every creature but never from a boss. Hunt and herb contracts pay in gems and seeds.
+
+    The Shopkeeper sells basics dear and buys trophies and junk cheap so there is no trading loop. Gullveig buys gems and curios. Gems also go into jewellery and bolts: think before you sell.
+
+    Coin buys supplies you have already found and offerings for bosses you have already summoned. It never buys raw power.
+  data: money
+  see: [shops, jewellery]
+
+- id: hunts
+  title: Hunts
+  npc: Huntmaster Hrafn
+  text: |
+    Take a contract and kill what it names. The contract completes where you stand and another is ready at once. Each biome's contracts open when the boss before it falls.
+
+    Contracts pay gems and raise your hunter rank. Higher ranks open elite and boss hunts. Dropping a contract costs its pay in coins.
+
+    Hunt with your party and every kill near you counts for each of you. Alone only your own kills count.
+  data: hunts
+  see: [bosses, money]
+
+- id: story
+  title: Story quests
+  npc: Ulfar the Guide
+  text: |
+    Ulfar hands out one-time quests for every biome. New ones appear as bosses fall. Some also wait for a skill level and stay hidden until you have it.
+
+    The first quests send you round Kaupang to meet the townsfolk. Do those first.
+
+    When a boss dies each of you reports to Ulfar once for the jarl's reward.
+  data: story
+  see: [oaths, hunts]
+
+- id: oaths
+  title: Biome oaths
+  npc: Sigrun the Oathkeeper
+  text: |
+    Each biome asks four deeds. Do all four in any order and seal the oath for coin and the biome's cape. The Meadows oath is open from the start. Each later oath opens when the boss before it falls.
+
+    An oath belongs to your character and not the world. Your first sealed oath opens the sworn stores and the sworn blessings. Sworn biomes wake their waystones.
+
+    A sealed biome offers an elite oath: four harder deeds that ask for skill. It pays a tithe every few days and a trimmed cape.
+  data: oaths
+  see: [waystones, capes]
+
+- id: waystones
+  title: Waystones
+  npc: The stone beside Kaupang and one in each sworn biome
+  text: |
+    A waystone carries you between the biomes you have sworn. The fee rises with your highest oath.
+
+    The fee is spent when the map opens even if you do not travel. Waystones will not carry ore.
+  data: waystones
+  see: [oaths]
+
+- id: skilling
+  title: Skilled work
+  npc: Verdandi the Weaver
+  text: |
+    Verdandi's board pays for gathering and making things. Each skill has a short ladder of tasks and the later rungs wait for a skill level.
+
+    Rewards are skill experience and riddle-stones. The last fishing and farming tasks can pay a pet.
+  data: skilling
+  see: [skills, riddles]
+
+- id: herbs
+  title: The herb run
+  npc: The Herbwife
+  text: |
+    The Herbwife sells seeds by boss and Farming level. Barley and flax and oats and mushrooms grow from their own crop.
+
+    Her contracts pay seed sacks. She opens them for you: seeds and herbs and riddle-stones and sometimes a bigger sack. The rarest prizes live only in the frontier sack.
+
+    The good brews come out of your own soil. No trader sells them.
+  data: herbs
+  see: [alchemy]
+
+- id: alchemy
+  title: Brewing
+  npc: Your own alchemy table
+  text: |
+    Carrot and turnip make a potion base at the alchemy table. Brew from the base at the same table.
+
+    Lesser vials are open to everyone. Stronger brews need Alchemy. The skill guide lists the level for each brew.
+
+    No trader sells Alchemy brews. Grow them yourself.
+  data: alchemy
+  see: [herbs, skills]
+
+- id: gathering
+  title: Gathering finds
+  npc: Every rock and tree
+  text: |
+    Every rock segment and every felled tree rolls for a rare find. The chance is per action and not per hour: more rocks means more rolls.
+
+    Geodes and burls sell to Gullveig. Each skill has a pet that follows whoever finds it.
+  data: gathering
+  see: [money]
+
+- id: riddles
+  title: Riddle-stones and hoards
+  npc: The Gambler
+  text: |
+    Carved stones drop from kills. Raid attackers and elites drop them more often. Each boss pays each of you one when you report its fall to Ulfar and Hrafn's boss hunts pay one each time.
+
+    Show a stone to the Gambler. Each stone pays one prize: coin or gems or a hoard key or the next stone up or a rare cloak or crown. Cloaks and crowns carry no stats. Wear them from the vanity panel.
+
+    Gullveig joins the two halves of a hoard key. The Gambler opens the hoard with the whole key.
+  data: riddles
+  see: [money]
+
+- id: magic
+  title: Magic gear and treasure
+  npc: Haldor and the wilds
+  text: |
+    Two-star creatures sometimes drop magic gear. A treasure-map chest holds coin and a gem or a magic item.
+
+    Boss and elite uniques are legendaries with a teal beam. Each does one thing no other item does.
+
+    The enchanting table is off. Magic gear is found and never made. Haldor sells treasure maps and bounties: dig up the chest at the mark.
+  data: none
+  see: [bosses]
+
+- id: hof
+  title: The hof
+  npc: Gothi Eirik
+  text: |
+    The gothi takes bones and trophies and never coin. Bone fragments buy the lesser blessings. Withered bone and charred bone and trophies buy the strong ones.
+
+    One blessing from each group at a time. Blessings from different groups stack.
+
+    Sworn hands kneel before Sigrun for the entry blessings at a lower bone cost.
+  data: hof
+  see: [oaths]
+
+- id: jewellery
+  title: Jewellery and bolts
+  npc: Your forge
+  text: |
+    Rings and torcs are forged from gems and metal. Wear one ring and one torc at a time. The ring slot is shared with the mages' rings. Each piece does one small thing.
+
+    Gem-tipped bolts are forged the same way and need Crossbows.
+
+    Each row names the level it needs. Its page shows the recipe and lights when you can forge it.
+  data: jewellery
+  see: [money, skills]
+
+- id: bosses
+  title: Bosses
+  npc: Huntmaster Hrafn keeps the kill counts
+  text: |
+    Every boss can drop a unique: a teal-beamed legendary rolled once per kill. A boss pet drops for every player online when it hits.
+
+    Bosses drop no coins. Each fall pays you through Ulfar's report and Hrafn's boss hunts.
+
+    The Seeress sells offerings for any boss you have summoned before. Coin buys another roll at the unique.
+  data: bosses
+  see: [hunts, story]
+
+- id: capes
+  title: Capes
+  npc: Verdandi and Sigrun
+  text: |
+    Reach 100 in a skill and Verdandi will weave its cape. All of them at 100 unlocks the Allfather's cape.
+
+    Seal a biome oath and Sigrun gives you that biome's cape. Seal its elite oath for the trimmed one.
+  data: capes
+  see: [skills, oaths]
+
+- id: collection
+  title: Collection log
+  npc: Halla the Skald
+  text: |
+    Halla keeps the saga of every rare thing found in Gielheim. Show her a find and she writes it down. Your rank with her rises with the number of finds.
+
+    Log a trophy before you spend it at the hof.
+
+    The item pages in this book say where each find comes from.
+  data: items
+  see: [bosses, riddles]
+
+- id: bank
+  title: The bank
+  npc: The Bankers
+  text: |
+    A banker keeps what you cannot carry. One stands in Kaupang and another out in the Meadows.
+  data: none
+  see: [money]
+
+- id: shops
+  title: Shops
+  npc: Kaupang traders
+  text: |
+    Each shop grows as bosses fall. The Shopkeeper's supplies and Sigrun's sworn stores only stock what the world has already given you.
+
+    Verdandi's finery is for looks alone.
+  data: shops
+  see: [money, oaths]
+
+# Where a collection item comes from when no table says: drop = a creature prefab (mod drop), text = one reply line.
+sources:
+  ShardElder_TW: {drop: GreydwarfMage_TW}
+  ShardBonemass_TW: {drop: SkeletonMage_TW}
+  ShardModer_TW: {drop: FenringMage_TW}
+  ShardYagluth_TW: {drop: GoblinMage_TW}
+  ShardQueen_TW: {drop: CorruptedDvergerMage_TW}
+  TrophyDeerWhite: {text: Dropped by the rare white deer in the Meadows (vanilla)}
+  TrophyKvastur: {text: Dropped by the Kvastur in the Swamp (vanilla)}
+  TrophyHare: {text: Dropped by hares in the Mistlands (vanilla)}
