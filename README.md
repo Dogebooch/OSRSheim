@@ -1,16 +1,18 @@
 # OSRSheim
 
+*Where every grind proves your worth, and every spoil is earned under Odin's eye.*
+
 Valheim 1.0 modded to play like Old School RuneScape: skills you grind to 100,
 gear you unlock by level, drop tables worth farming, Slayer, riddle-clues, a
 bank and a collection log. It still looks, sounds and reads like Valheim. Two
-players (Doug and Sven) on a rented dedicated server.
+players (Doug and Sven), rented dedicated server.
 
-**Design principle:** copy OSRS mechanics. Do not copy OSRS names, characters,
-items, quest text or audio ([`CLAUDE.md`](CLAUDE.md)).
+**Design principle:** copy OSRS mechanics, never OSRS names, items or text
+([`CLAUDE.md`](CLAUDE.md)).
 
 **Balance:** each biome fights, gears and pays like vanilla Valheim; the run is
-longer, not easier or richer. Vanilla's loop is "new biome, new gear, same
-fight". Here, skill gates make magic, abilities and rares something you unlock.
+longer, not easier or richer. Skill gates unlock magic, abilities and rares,
+not bigger numbers.
 Run length and balance issues: [#81](https://github.com/Dogebooch/OSRSheim/issues/81).
 
 ## The loops
