@@ -60,7 +60,7 @@ Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 
 ## Rules
 - Mod list frozen until Gielheim exists: no installs
-  (exceptions: #46 Quick Stack Store, #124 WEC, Groups, ConfigManager, our `plugin\x60). Pin versions in Gale;
+  (exceptions: #46 Quick Stack Store, #124 WEC, Groups, ConfigManager, `plugin\`). Pin versions in Gale;
   never mass-update or swap DLLs. After a Valheim patch: BepInEx, Jötunn, then
   mods one at a time, launching between each.
 - Generated, never hand-edited: `drop_that.character_drop*.cfg` from `loot\*.csv`
