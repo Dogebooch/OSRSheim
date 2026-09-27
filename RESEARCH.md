@@ -35,7 +35,9 @@ quests, Slayer, prayers, hiscores, biome oaths.
 | Vanilla prefab values (generated) | `reference\game-data\` (`scripts\extract-game-data.py`, needs UnityPy + TypeTreeGeneratorAPI); build pieces `pieces.json`, boss altars `bosses.json`, item equip/set effects `items.json` |
 | Rate model | `scripts\rate-model.py`; in-game results in `reference\measured.csv` |
 | Run simulator | `scripts\sim-run.py` (`run`, `validate`, `sensitivity`, `inputs`); inputs `reference\sim-profiles.csv` (kill supply per biome from `rate-model.py hunt`), `reference\vanilla-drops.csv`; output `sim-out\` (gitignored) |
-| Background watcher | `scripts\watch.py` (logon task, `watch-install.ps1`): session rows `<main checkout>\.cache\sessions\<char>.csv` (`session-log.py`), status `.cache\watch\status.json`; committed rows `reference\sessions\` |
+| Background watcher | `scripts\watch.py` (logon task, `watch-install.ps1`): session rows `<main checkout>\.cache\sessions\<char>.csv` + detail `<char>.jsonl` (`session-log.py`), status `.cache\watch\status.json`, findings `watch.py findings` / `ack`; committed rows `reference\sessions\<account>-<char>.csv` |
+| Server-side play data | `scripts\host-data.py` (run by the watcher; settings `<main checkout>\server.env`: `SERVER_DIR`, `PTERO_*`): server logs + KG `Logger.log`; GG mirror `.cache\host\`; shared rows host `osrsheim-data/sessions/` -> `.cache\host\sessions\` |
+| Screenshots | Steam F12 `<Steam>\userdata\<id>\760\remote\892970\screenshots\`; Game Bar Win+Alt+PrtScn `%USERPROFILE%\Videos\Captures\` |
 | World object counts | `scripts\count-world.py <world folder>` (1.0 chunked saves) |
 | Modded launch without Gale | `scripts\launch-modded.ps1` |
 | Server launch template | `scripts\server-start-template.bat` |
@@ -198,6 +200,9 @@ weight 0.1 stack 50.
   stopped; skips `Marketplace\SavedData`, `EpicLoot\BountySaves`, `KeyManager`,
   devcommands ymls). `tail-console.py`: console + power via `server.env`. The panel
   mod installer re-adds `plugins\*_ggs.dll` every start.
+- `host-data.py` (watcher, `server.env`): mirrors `BepInEx/LogOutput.log`, KG `Logger.log`,
+  `SavedData/DB.db` whole (no ranged reads); shares session rows in `osrsheim-data/sessions/`.
+  Subuser key: `file.read`, `file.read-content`, `file.create`. Host log past 50 MB: rename it at a stop.
 - MWL 5.1.1: if the root `_ggs` copy loads, the fallback `assetBundleManifest_Full` is
   missing on Linux: 259 errors. Fix: `_Full` copy beside `_full`.
 - Drop That + Spawn That `Write*` dumps load every location prefab at boot (MWL on:
