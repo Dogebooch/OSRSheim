@@ -91,7 +91,8 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
 WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
-`GetSkillLevel`, buffs included (Wizardry Skillful potion +8 all skills, 15 min).
+`Skills.GetSkillLevel`: status-effect buffs count (set bonuses, rings, Skillful potion); EpicLoot `Add*Skill` does not
+(it adds only inside `Character.GetSkillLevel`). Checked at equip and at ammo draw only (#178).
 `GlobalKeyReq` without WAP = `ZoneSystem.CheckKey(key, GameKeyType.Player)`: the player's own key (KG `AddPlayerKey`).
 Staff skill = game-data `m_skillType` (9 Elemental, 10 Blood): GreenRoots, ThunderBlood Elemental; FrostOrbs, OrbofAhri Blood.
 **Unverified:** skill name `Alchemy`.
