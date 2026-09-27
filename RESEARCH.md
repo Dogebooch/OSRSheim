@@ -172,6 +172,7 @@ weight 0.1 stack 50.
 - `..._LocationConfigs.yml` in repo `config\`: MWL defaults, `MWL_TreeTowers1: 0` (2026-09-23); ModTest predates it and keeps the location.
 - MWL 5.1.1 null loot, 2 of 355 MWL drop tables: `MWL_TreeTowers1` chest (all 10 entries, NRE on
   spawn; off) and one destructible; `MWL_MistTower2` YggaShoot drops only, chest fine (kept).
+- MWL: 16 Meadows locations spawn one BF `Skeleton` each; `spawn_that.local_spawners_advanced.cfg` swaps it to `Skeleton_Meadows` (vanilla Dolmen parity).
 - Throwaway world gen (dedicated server): MWL placed 2094 of 2493 asked, ~15% of 14.1k locations.
   Meadows 57%, Black Forest 85%, Swamp 77%, Plains 93%, rest 100%; shortfall = no valid spot.
 
