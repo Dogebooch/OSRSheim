@@ -104,6 +104,8 @@ def build():
     """The manifest the local Gale profile implies, as file text."""
     ids = from_plugins(str(BEP / 'plugins'))
     log = BEP / 'LogOutput.log'
+    if not log.exists():  # watch.py rotates it on game exit: read the newest session
+        log = max((BEP / 'Logs').glob('LogOutput-*.log'), key=os.path.getmtime, default=log)
     logged = from_log(str(log)) if log.exists() else {}
     if 'BepInEx' in logged:
         ids[BEPINEX_ID] = logged['BepInEx']
