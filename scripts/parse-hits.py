@@ -4,6 +4,10 @@ r"""In-game checks (#67) measured from the client LogOutput.log. Console first: 
     python scripts\parse-hits.py mark            note the log's current line (start of a check)
     python scripts\parse-hits.py [--from N] [--since HH:MM:SS] [--until HH:MM:SS] [--log path] [--json]
       default --from: the last mark
+    python scripts\parse-hits.py session [--since HH:MM:SS] [--until HH:MM:SS] [--log path] [--json]
+      whole log: deaths (cause, killer, last hits), damage taken by attacker, damage dealt, kills, pickups,
+      crafts, EpicLoot rolls (Log Level = Info), world spawns, errors by count. Doug's PC auto-runs
+      `test;test damage 1` on join (server_devcommands.cfg), so these lines log without the console.
 
 Log lines used (decompiled 1.0.15; ZLog timestamps are whole seconds):
   "<who> initiating an attack with weapon <w>"      one per player melee swing, at the hit frame   Attack
@@ -211,8 +215,101 @@ def table(title, rows):
     print()
 
 
+TAKEN = re.compile(r"^Damage: Character (.+?) took (no|[-\d.E]+) damage from Hit: (\w+)(.*?)(?:, Attacker: (.+))?$")
+KILL = re.compile(r"^Playerstat: Registered kill of (?:enemy|BOSS) '(.+?)'")
+EVENT = re.compile(r"^Playerstat (item pickup|item craft|pickable) '(.+?)' by ([-\d.E]+)")
+ROLL = re.compile(r"^Rolling on loot table: (.+?) \(lvl (\d+)\), spawned (\d+) items")
+MAGIC = re.compile(r"^\s*- (\S+) <.*?>: (.*)$")
+SPAWN = re.compile(r"^Spawned (\S+) x (\d+)$")
+LEVEL = re.compile(r"^\[(\w+)\s*:\s*([^\]]+?)\s*\] (.*)$")
+PLAYER = "Human"  # Player.m_name in Damage lines
+
+
+def session(path, since, until):
+    """Whole-log playtest report. Lines without a ZLog timestamp (mod loggers) take the last one seen."""
+    t, deaths, recent, taken, dealt, kills, events, rolls, magic, spawns, errors = None, [], [], {}, {}, {}, {}, {}, [], {}, {}
+    pending, respawn = None, None  # death seen, cause stat not yet; last "Starting respawn"
+    with open(path, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            lv = LEVEL.match(line.rstrip("\n"))
+            if not lv:
+                continue
+            level, src, msg = lv.groups()
+            if (m := TS.search(line)):
+                t = datetime.strptime(m.group(1), "%m/%d/%Y %H:%M:%S")
+                msg = m.group(2).strip()
+            hms = t.strftime("%H:%M:%S") if t else "--:--:--"
+            if (since and hms < since) or (until and hms > until):
+                continue
+            if level in ("Error", "Fatal") or "Exception" in msg:
+                sig = re.sub(r"\d+", "#", msg)[:120]
+                e = errors.setdefault(sig, {"error": sig, "count": 0, "first": hms, "source": src})
+                e["count"] += 1
+            elif (x := TAKEN.match(msg)):
+                who, d, kind, rest, att = x.groups()
+                d = 0.0 if d == "no" else float(d)
+                if who == PLAYER:
+                    key = att or kind
+                    r = taken.setdefault(key, {"from": key, "hits": 0, "damage": 0.0, "max hit": 0.0})
+                    r["hits"] += 1
+                    r["damage"] += d
+                    r["max hit"] = max(r["max hit"], round(d, 1))
+                    recent = (recent + [(t, f"{hms} {key} {d:.1f}")])[-5:]
+                elif kind == "PlayerHit":
+                    r = dealt.setdefault(who, {"target": who, "hits": 0, "damage": 0.0, "max hit": 0.0})
+                    r["hits"] += 1
+                    r["damage"] += d
+                    r["max hit"] = max(r["max hit"], round(d, 1))
+            elif msg.startswith("Starting respawn"):  # also on world join; a death adds "Local player destroyed"
+                respawn = t
+            elif (msg.startswith("Local player destroyed") and respawn and (t - respawn).total_seconds() <= 2) \
+                    or msg.startswith("Playerstat increment Deaths "):
+                if not (deaths and (t - deaths[-1]["_t"]).total_seconds() < 30):  # stat at death, respawn ~9 s later
+                    near = [s for ht, s in recent if (t - ht).total_seconds() <= 30]
+                    pending = {"_t": t, "time": hms, "cause": "?", "last hits": " | ".join(near)}
+                    deaths.append(pending)
+                    recent = []
+            elif (x := STAT.match(msg)) and x.group(1).startswith("DeathBy") and pending:
+                pending["cause"] = x.group(1)[7:]
+                pending = None
+            elif (x := KILL.match(msg)):
+                kills[x.group(1)] = kills.get(x.group(1), 0) + 1
+            elif (x := EVENT.match(msg)):
+                k = (x.group(1), x.group(2))
+                events[k] = events.get(k, 0) + float(x.group(3))
+            elif (x := ROLL.match(msg)):
+                r = rolls.setdefault(x.group(1), {"table": x.group(1), "rolls": 0, "items": 0, "levels": set()})
+                r["rolls"] += 1
+                r["items"] += int(x.group(3))
+                r["levels"].add(int(x.group(2)))
+            elif src == "Epic Loot" and (x := MAGIC.match(msg)):
+                magic.append({"time": hms, "item": x.group(1), "effects": x.group(2)})
+            elif (x := SPAWN.match(msg)):
+                spawns[x.group(1)] = spawns.get(x.group(1), 0) + int(x.group(2))
+    for d in deaths:
+        d.pop("_t")
+    fmt = lambda rows, key: sorted(({**r, "damage": round(r["damage"])} for r in rows.values()), key=lambda r: -r[key])
+    return {"deaths": deaths, "damage taken": fmt(taken, "damage"), "damage dealt": fmt(dealt, "damage"),
+            "kills": [{"enemy": k, "kills": v} for k, v in sorted(kills.items(), key=lambda kv: -kv[1])],
+            "pickups, crafts, pickables": [{"kind": k[0], "name": k[1], "n": round(v)} for k, v in sorted(events.items())],
+            "EpicLoot rolls": [{**r, "levels": " ".join(map(str, sorted(r["levels"])))} for r in rolls.values()],
+            "magic items": magic,
+            "world spawns": [{"prefab": k, "n": v} for k, v in sorted(spawns.items(), key=lambda kv: -kv[1])],
+            "errors": sorted(errors.values(), key=lambda e: -e["count"])}
+
+
 def main():
     path = Path(arg("--log", LOG))
+    if len(sys.argv) > 1 and sys.argv[1] == "session":
+        rep = session(path, arg("--since"), arg("--until"))
+        if "--json" in sys.argv:
+            print(json.dumps(rep, indent=1, default=str))
+        else:
+            for title, rows in rep.items():
+                table(title, rows)
+            if not rep["damage taken"] and not rep["kills"]:
+                print("no Damage/Playerstat lines: `test` and `test damage 1` were off (auto-exec runs them on join)")
+        return
     if len(sys.argv) > 1 and sys.argv[1] == "mark":
         n = sum(1 for _ in open(path, encoding="utf-8", errors="replace"))
         MARK.parent.mkdir(exist_ok=True)
