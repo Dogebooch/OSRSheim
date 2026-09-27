@@ -1,12 +1,12 @@
 # STATE — 2026-09-26
 
 Stack loads on 1.0.16; mod list frozen (§3) but Quick Stack Store
-(#46), WEC (#124), Groups (#170): Gale install on both PCs + host, then `sync-configs.ps1 -Pull`. Logs/dumps off
+(#46), WEC (#124), Groups (#170), Config Manager: Gale install on both PCs + host, then `sync-configs.ps1 -Pull`. Logs/dumps off
 (#66): `-Push` both PCs. Launched clean (0 exceptions);
 111 clones + 13 item edits (37 unlaunched). Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: herbwife seeds by Farming level, 11 contracts pay seed sacks; crops ->
-`Potion_Meadbase` -> potion; WIRSL 339; `check-alchemy-balance.py` 9/9.
+`Potion_Meadbase` -> potion -> Verdandi Alchemy contracts 20-80 (Frothling pet); capes need the unbuffed level (#169).
 Oaths: 8 biomes x (4 tasks + seal) + an elite tier (skill-gated, trimmed cape, tithe);
 uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
