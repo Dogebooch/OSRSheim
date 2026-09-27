@@ -135,25 +135,10 @@ QUESTS = ROOT / 'config/Marketplace/Configs/Quests'
 GAME_ITEMS = ROOT / 'reference/game-data/items.json'
 CAPE_PRICE, MAX_CAPE_PRICE = 5000, 25000
 # Capes need the true level (#169). KG SkillMore reads Skills.GetSkillLevel = base + SE_Stats skill bonuses (EpicLoot
-# adds only inside Character.GetSkillLevel, so its rolls never count), so each cape also asks NotHasBuff for every
-# status effect that raises one of its skills. SE names and values: vanilla SoftRef bundles + Wizardry's embedded
-# bundle, scanned 2026-09-26 (research/gating.md §6). '*' = All-skills effects, asked by every cape.
-SKILL_BUFFS = {
-    '*': ['Potion_Skillful_TW'],
-    'Farming': ['SE_OSRS_Harvester', 'SetEffect_HarvesterArmor', 'GP_Yagluth'],
-    'Fishing': ['SetEffect_FishingHat', 'Potion_Aquatic_TW'],
-    'Bows': ['SE_OSRS_RootArmor', 'SetEffect_RootArmor', 'SetEffect_LoxArmor', 'TrinketSilverDamage']
-            + [f'SE_Circlet{t}_Hunter' for t in ('Bronze', 'Iron', 'Silver', 'BM', 'Carapace')],
-    'Crossbows': [f'SE_Circlet{t}_Hunter' for t in ('Bronze', 'Iron', 'Silver', 'BM', 'Carapace')],
-    'ElementalMagic': ['TrinketFlametalEitr', 'SE_RingSwamp_TW']
-                      + [f'SE_Circlet{t}_Elemental' for t in ('Bronze', 'Iron', 'Silver', 'BM', 'Carapace')]
-                      + [f'SetEffect_Spellslinger_{b}' for b in ('BF', 'Swamp', 'Mountain', 'Plains', 'Mistlands')],
-    'BloodMagic': ['TrinketFlametalEitr', 'SE_RingMistlands_TW']
-                  + [f'SetEffect_Spellslinger_{b}' for b in ('BF', 'Swamp', 'Mountain', 'Plains', 'Mistlands')],
-    'Unarmed': ['SE_OSRS_FenringArmor', 'SetEffect_FenringArmor'],
-    'Clubs': ['TrinketBlackDamageHealth'],
-    'Spears': ['TrinketSilverDamage'],
-}
+# adds only inside Character.GetSkillLevel, so its rolls never count). Every gear, trinket and guardian-power bonus on
+# a gated skill is edited to 0 (research/gating.md §6, validate-configs.py SKILL_SES); what still raises a skill is
+# asked NotHasBuff per cape. '*' = All-skills effects, asked by every cape: the Skillful potion (crafting off).
+SKILL_BUFFS = {'*': ['Potion_Skillful_TW']}
 SKILL_ORDER = ['Swords', 'Clubs', 'Axes', 'Polearms', 'Spears', 'Knives', 'Unarmed', 'Blocking', 'Bows', 'Crossbows',
                'ElementalMagic', 'BloodMagic', 'Mining', 'Lumberjacking', 'Fishing', 'Cooking', 'Farming', 'Foraging',
                'Alchemy', 'Blacksmithing', 'Building', 'Sailing', 'Ranching', 'Exploration', 'Evasion']

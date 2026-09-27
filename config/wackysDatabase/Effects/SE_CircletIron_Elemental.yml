@@ -1,0 +1,11 @@
+# OSRSheim in-place edit of Wizardry SE SE_CircletIron_Elemental (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Elemental magic +6 is gone, returned as Elemental magic damage +5%.
+Name: SE_CircletIron_Elemental
+Status_m_name: $se_circlet_elemental_TW
+Tooltip: Elemental magic damage +5%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_modifyAttackSkill: 9
+  m_damageModifier: 1.05
+  m_mods: []

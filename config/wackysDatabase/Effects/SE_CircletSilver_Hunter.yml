@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of Wizardry SE SE_CircletSilver_Hunter (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Bows + Crossbows +7 is gone, returned as pierce damage +6%.
+Name: SE_CircletSilver_Hunter
+Status_m_name: $se_circlet_hunter_TW
+Tooltip: Pierce damage +6%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_percentDamageModifiers:
+    m_pierce: 0.06
+  m_mods: []

@@ -53,7 +53,7 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Unarmed ladder 30 / 40 / 60.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
 - Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills. Bought only at 100 (Verdandi), on the true level:
-  each cape also asks `NotHasBuff` for every status effect that raises its skills (`gen-handbook.py` `SKILL_BUFFS`).
+  each cape also asks `NotHasBuff` for every status effect still raising a skill (`gen-handbook.py` `SKILL_BUFFS`: Skillful potion).
 - Uniques also need their biome's oath: a second requirement element `GlobalKeyReq: oath_<biome>` (a key element
   returns on the key alone, so it cannot share the skill element).
 - Gem-tipped bolts: Amber 10, Pearl 20, Ruby 25, Crystal 30 on Crossbows (crossbow tier; craft + shoot).
@@ -68,13 +68,10 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
   Alchemy 70 / 80 = Verdandi contract tiers 4-5 (§11), no new brew: every SE field wackydb sets already has a source,
   the pheromone spawn fields are read by nothing in 1.0.16 and wackydb cannot set `m_pheromoneTarget` (flee ward).
 - Farming: Scythe 30 (craft + equip); `OSRS_MagicSecateurs` (Frey's sickle) equip 80 = sim Farming at first drop
-  (p50 79, P before gate 0.58). Seed pages and herb contracts gate on `SkillMore, Farming` (§11).
-- Harvester set (ArmorHarvester1/2 + HelmetStrawHat, Hildir after the brass chest): vanilla +25 Farming passed every
-  Farming gate (buffed level) and the cape at base 75; its set effect is now `SE_OSRS_Harvester`, Farming +5 and +10%
-  Farming XP (`m_raiseSkill` 106, additive). If the Skills panel still shows +25: WIRSL equip 100 on the three pieces.
-- Root set (Bows) and Fenris set (Unarmed, all 7 `fenring_armor` pieces incl. `FW_`/`SP_`): vanilla +15 passed their gates at
-  equip (#178); set effects now `SE_OSRS_RootArmor` / `SE_OSRS_FenringArmor`, +5, rest cloned. A mixed set applies both
-  effects: every piece of an edited set carries the swap (validator).
+  (p50 78, P before gate 0.60). Seed pages and herb contracts gate on `SkillMore, Farming` (§11).
+- Harvester (ArmorHarvester1/2 + HelmetStrawHat, Hildir), Root (Bows) and Fenris (Unarmed, all 7 `fenring_armor` pieces incl.
+  `FW_`/`SP_`) sets: set effect swapped for a clone (`SE_OSRS_Harvester` / `_RootArmor` / `_FenringArmor`, table below).
+  A mixed set applies both effects: every piece of an edited set carries the swap (validator).
 - Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 30,
   DragonfireShield Blocking 35, BandosGodsword Swords 50, AbyssalWhip Swords 55,
   ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
@@ -96,15 +93,34 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 **Ungated on purpose:** Shovel, HelmetLox, HelmetCrownofValheim, vanilla
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
-WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
-`Skills.GetSkillLevel`: status-effect buffs count (set bonuses, rings, Skillful potion); EpicLoot `Add*Skill` does not
-(it adds only inside `Character.GetSkillLevel`). Checked at equip and at ammo draw only (#178).
-Skill-level SEs (SE_Stats `m_skillLevel`/`2`; bundles scanned 2026-09-26): Troll set Sneak 15, Lox Sneak 30 + Bows 15,
-Root / Fenring 5 (above), FishingHat Fishing 20 + Swim 20, `GP_Yagluth` Farming 25, `Potion_hasty` Run 10; full-adrenaline trinkets:
-BlackDamageHealth Clubs 20, BlackStamina Dodge 20, FlametalEitr Elemental + Blood 20, SilverDamage Bows + Spears 20.
-Wizardry: rings BlackForest Sneak 5, Swamp Elemental 3, Mistlands Blood 7; circlets Elemental 4-14, Hunter Bows + Crossbows 3-13,
-Sneak 3-16; Spellslinger sets Elemental + Blood 3-12; potions Skillful All 10 (crafting off), Aquatic Swim 25 + Fishing 15,
-Sneak 20, Lumberjack WoodCutting 10, Miner Pickaxes 10.
+WIRSL 1.4.7 (`Patches.cs:277`): an unknown skill name is unmet (fails closed); the level read is
+`Player.m_localPlayer.GetSkills().GetSkillLevel` = base + SE_Stats `m_skillLevel`/`2` (`SEMan.ModifySkillLevel`); no
+base-level field. Checked at equip, ammo draw, consume and craft button only (#178). KG `SkillMore` reads the same.
+EpicLoot `Add*Skill` patches `Character.GetSkillLevel`, which neither calls: its rolls never count.
+
+**No status effect raises a gated skill.** Every skill-level SE on a gated skill (vanilla SoftRef + Wizardry bundles,
+scanned 2026-09-26) is edited to 0 there; the levels come back as damage (`Skills.GetRandomSkillFactor` = lerp(0.4, 1,
+L/100): 0.8% a level) or XP. Validator: `SKILL_SES`, no nonzero gated `m_skillLevel`.
+
+| SE (carrier) | Vanilla / Wizardry | OSRSheim |
+|---|---|---|
+| `SE_OSRS_RootArmor` (Root set) | Bows +15 | Bows damage +12% |
+| `SE_OSRS_FenringArmor` (Fenris set) | Unarmed +15, fire resistant | Unarmed damage +12%, fire resistant |
+| `SE_OSRS_Harvester` (Harvester set) | Farming +25 | Farming XP +10% |
+| `SetEffect_LoxArmor` (Lox set) | Sneak +30, Bows +15 | Sneak +30, Bows damage +12% |
+| `SetEffect_FishingHat` | Fishing +20, Swim +20 | Swim +20, Fishing XP +10% |
+| `TrinketSilverDamage` (30 s) | Bows + Spears +20, pierce +10% | pierce +26% |
+| `TrinketBlackDamageHealth` (60 s) | Clubs +20, blunt +10% | Clubs damage +16%, blunt +10% |
+| `TrinketFlametalEitr` (60 s) | Elemental + Blood +20 | all damage +16% |
+| `GP_Yagluth` (300 s) | Farming +25, damage +10%, lightning resistant | Farming XP +25%, damage +10%, lightning resistant |
+| `SE_Circlet<tier>_Hunter` | Bows + Crossbows +3/5/7/9/13 | pierce +2/4/6/7/10% |
+| `SE_Circlet<tier>_Elemental` | Elemental +4/6/8/10/14 | Elemental damage +3/5/6/8/11% |
+| `SetEffect_Spellslinger_<BF..Mistlands>` | Elemental + Blood +3/5/7/9/12 | all damage +2/4/6/7/10% |
+| `SE_RingSwamp_TW` / `SE_RingMistlands_TW` | Elemental +3 / Blood +7 | Elemental / Blood damage +2% / +6% |
+| `Potion_Aquatic_TW` | Swim +25, Fishing +15 | Swim +25 |
+
+Left alone: Sneak, Swim, Run, Dodge, WoodCutting, Pickaxes SEs (ungated skills); `Potion_Skillful_TW` All +10 (crafting
+off; skillcapes ask `NotHasBuff`, `gen-handbook.py` SKILL_BUFFS).
 `GlobalKeyReq` without WAP = `ZoneSystem.CheckKey(key, GameKeyType.Player)`: the player's own key (KG `AddPlayerKey`).
 Staff skill = game-data `m_skillType` (9 Elemental, 10 Blood): GreenRoots, ThunderBlood Elemental; FrostOrbs, OrbofAhri Blood.
 **Unverified:** skill name `Alchemy`.
@@ -127,6 +143,9 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
   a HelmetStrawHat clone would keep set `harvester` and complete the Harvester set).
 - Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester, Root, Fenris
   pieces: `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
+- SE edits: `SE_<name>.yml` whose `Name` is an existing SE edits it in place (`ClonedSE` ignored; guardian powers too).
+  wackydb loads only text containing `Status_m_name`; client sync types a file by `m_weight` / `piecehammer` / `reqs`
+  before `Status_m_name`; a `SeData` without `m_mods` sets an empty list and clears resistances (validator, all three).
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
   `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
@@ -140,10 +159,10 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 | Ring | Effect | Bsmith | Anvil | Shard |
 |---|---|---|---|---|
 | `RingBlackForest_TW` | Sneak +5 | 15 | 1 | Elder 4 |
-| `RingSwamp_TW` | ElementalMagic +3 | 20 | 2 | Bonemass 4 |
+| `RingSwamp_TW` | ElementalMagic damage +2% (§6) | 20 | 2 | Bonemass 4 |
 | `RingMountain_TW` | eitr regen +4% | 30 | 3 | Moder 4 |
 | `RingPlains_TW` | ElementalMagic damage +3% | 40 | 4 | Yagluth 4 |
-| `RingMistlands_TW` | BloodMagic +7 (English description: +5), health regen +2% | 50 | 4 | none |
+| `RingMistlands_TW` | BloodMagic damage +6% (§6), health regen +2% | 50 | 4 | none |
 - Vanilla traders (Haldor, Hildir, Bog Witch) buy any item with `m_value > 0` at `m_value x stack`; a clone without `m_value` keeps its source's. Crafted items stay `m_value: 0`.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.

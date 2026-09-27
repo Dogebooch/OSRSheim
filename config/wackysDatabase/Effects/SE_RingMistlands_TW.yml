@@ -1,0 +1,11 @@
+# OSRSheim in-place edit of Wizardry SE SE_RingMistlands_TW (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Blood magic +7 is gone, returned as Blood magic damage +6%.
+Name: SE_RingMistlands_TW
+Status_m_name: $se_ring_mistlands_TW
+Tooltip: Blood magic damage +6%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_modifyAttackSkill: 10
+  m_damageModifier: 1.06
+  m_mods: []

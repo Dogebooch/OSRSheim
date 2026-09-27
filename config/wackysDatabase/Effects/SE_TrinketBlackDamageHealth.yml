@@ -1,0 +1,11 @@
+# OSRSheim in-place edit of vanilla SE TrinketBlackDamageHealth (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Clubs +20 at full adrenaline is gone, returned as Clubs damage +16%.
+Name: TrinketBlackDamageHealth
+Status_m_name: $se_trinketblackdamagedealth
+Tooltip: Clubs damage +16%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_modifyAttackSkill: 3
+  m_damageModifier: 1.16
+  m_mods: []
