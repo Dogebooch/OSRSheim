@@ -1,0 +1,10 @@
+# OSRSheim Bows set effect (#178, 2026-09-26): replaces SetEffect_RootArmor on every root_armor piece.
+# Vanilla Bows +15 passed WIRSL gates at equip; now +5 (the Harvester and ring precedent). The rest of
+# the vanilla effect is cloned unchanged. Skill ids: vanilla SkillType (Bows = 8).
+Name: SE_OSRS_RootArmor
+ClonedSE: SetEffect_RootArmor
+Tooltip: Bows +5.
+SeData:
+  m_skillLevel: 8
+  m_skillLevelModifier: 5
+  m_skillLevelModifier2: 0

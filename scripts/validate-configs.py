@@ -196,10 +196,22 @@ if os.path.exists(odin):
     ok(f"hull pieces: {len(pieces)} wackydb overrides, {len(hull_cost)} OdinShip hulls")
 
 # An item pointing at a status effect that no SE_*.yml defines equips with no bonus at all.
+_set_se = {}
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "Items", "Item_*.yml")):
-    m = re.search(r"^SE_Equip:\s*\n\s*EffectName:\s*(\S+)", read(f), re.M)
-    if m and m.group(1).startswith("SE_OSRS_") and m.group(1) not in se_names:
-        err(f"wackydb {os.path.basename(f)}: SE_Equip {m.group(1)} has no SE_*.yml defining it")
+    t = read(f)
+    for blk in ("SE_Equip", "SE_SET_Equip"):
+        m = re.search(rf"^{blk}:\s*\n\s*EffectName:\s*(\S+)", t, re.M)
+        if m and m.group(1).startswith("SE_OSRS_") and m.group(1) not in se_names:
+            err(f"wackydb {os.path.basename(f)}: {blk} {m.group(1)} has no SE_*.yml defining it")
+        if blk == "SE_SET_Equip" and m and not re.search(r"^clonePrefabName:", t, re.M):
+            n = re.search(r"^name:\s*(\S+)", t, re.M)
+            if n: _set_se[n.group(1)] = m.group(1)
+# A vanilla set edit must cover every piece of the set: a mixed set applies both set effects (#178).
+for sn in sorted({_base[p].get("m_setName") for p in _set_se if p in _base} - {None, ""}):
+    pcs = sorted(p for p, v in _base.items() if v.get("m_setName") == sn)
+    if len({_set_se.get(p) for p in pcs}) != 1:
+        err(f"wackydb vanilla set {sn}: pieces disagree on SE_SET_Equip {({p: _set_se.get(p) for p in pcs})}")
+if _set_se: ok(f"vanilla set edits: {len(_set_se)} pieces, each set swapped on every piece")
 
 # gen-loot.py owns the SkillType list ConditionKilledBySkillType accepts.
 import importlib.util as _ilu

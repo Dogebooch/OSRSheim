@@ -3,7 +3,7 @@
 Stack loads on 1.0.16; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124), Groups (#170): Gale install on both PCs + host, then `sync-configs.ps1 -Pull`. Logs/dumps off
 (#66): `-Push` both PCs. Launched clean (0 exceptions);
-111 clones + 3 item edits (27 unlaunched). Object drop targets come from `rate-model.py objects`;
+111 clones + 13 item edits (37 unlaunched). Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: herbwife seeds by Farming level, 11 contracts pay seed sacks; crops ->
 `Potion_Meadbase` -> potion; WIRSL 339; `check-alchemy-balance.py` 9/9.

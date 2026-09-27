@@ -69,6 +69,9 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Harvester set (ArmorHarvester1/2 + HelmetStrawHat, Hildir after the brass chest): vanilla +25 Farming passed every
   Farming gate (buffed level) and the cape at base 75; its set effect is now `SE_OSRS_Harvester`, Farming +5 and +10%
   Farming XP (`m_raiseSkill` 106, additive). If the Skills panel still shows +25: WIRSL equip 100 on the three pieces.
+- Root set (Bows) and Fenris set (Unarmed, all 7 `fenring_armor` pieces incl. `FW_`/`SP_`): vanilla +15 passed their gates at
+  equip (#178); set effects now `SE_OSRS_RootArmor` / `SE_OSRS_FenringArmor`, +5, rest cloned. A mixed set applies both
+  effects: every piece of an edited set carries the swap (validator).
 - Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 30,
   DragonfireShield Blocking 35, BandosGodsword Swords 50, AbyssalWhip Swords 55,
   ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
@@ -113,8 +116,8 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 3 seed sacks (CarrotSeeds / OnionSeeds / VineberrySeeds clones, separate prefabs the Cultivator never plants) + Frey's sickle
   (Scythe clone: no durability, stamina 5 -> 2.5, speed 1.25) + Harvest crown (HelmetMidsummerCrown clone, stripped:
   a HelmetStrawHat clone would keep set `harvester` and complete the Harvester set).
-- Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester pieces:
-  `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
+- Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester, Root, Fenris
+  pieces: `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
   `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
