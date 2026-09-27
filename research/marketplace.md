@@ -192,7 +192,7 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 ### KG behaviour (kg.Marketplace.dll, read 2026-09-24)
 | Fact | Detail |
 |---|---|
-| `SkillMore, <skill>, <n>` / `SkillLess` | vanilla enum name, else `abs(GetStableHashCode(name))` (SkillManager's key): Smoothbrain skills and Alchemy by name; `>=` on the buffed level; unknown name = -1 |
+| `SkillMore, <skill>, <n>` / `SkillLess` | vanilla enum name, else `abs(GetStableHashCode(name))` (SkillManager's key): Smoothbrain skills and Alchemy by name; `>=` on `Skills.GetSkillLevel` (SE buffs count, EpicLoot skill effects do not); unknown name = -1 |
 | Condition fields | several `Condition:` = AND; `||` inside one = OR; `AlwaysVisible: true` shows a failed reply red with its reason |
 | `CustomValueMore, key, n, text` | per-player value, saved in the character's custom data as `kgMarketplaceValue@<key>` (integer string); `text` replaces the reason, `{current}`/`{value}` filled in |
 | `AddCustomValue: key, n` | also a quest reward type |
