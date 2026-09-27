@@ -14,8 +14,8 @@ loops and gates, drops, content) must pass both halves:
 
 **Design principle:** copy OSRS mechanics (skills, gating, drop tables, Slayer,
 clues, bank) with Valheim lore and feel. Never copy OSRS names, characters,
-items, quest text or audio. The AI makes design calls and tells Doug why;
-flag any that bends the motto.
+items, quest text or audio. Claude makes every design call; Codex builds to
+them.
 
 **Balance:** each biome fights, gears and pays like vanilla; only total
 playtime grows. Skill gates unlock new
