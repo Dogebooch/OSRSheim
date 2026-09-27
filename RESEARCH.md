@@ -87,6 +87,8 @@ reads both.
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 | Smoothbrain Groups | TS | parties: KG kill quests credit every member within 100 m (§11); PotionsPlus group potions |
 
+Held updates: CLLC 5.0.5 (new `Apply logarithmic power scaling` default 2: pin 0 first), Azu 2.6.0, Wizardry 1.2.2, MWL 5.1.4, Cooking 1.2.4; PotionPlus 4.3.7 Hexium-only.
+
 Update checks without Gale: `https://thunderstore.io/api/experimental/package/<owner>/<name>/`,
 `https://valheim.hexium.gg/api/v1/package-listing-chunk/` (gzipped, owner `KG`).
 Install: `ror2mm://v1/install/thunderstore.io/<owner>/<name>/<version>/`.

@@ -1,6 +1,6 @@
 # STATE — 2026-09-26
 
-Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
+Stack loads on 1.0.16; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124), Groups (#170): Gale install on both PCs + host, then `sync-configs.ps1 -Pull`. Logs/dumps off
 (#66): `-Push` both PCs. Launched clean (0 exceptions);
 111 clones + 3 item edits (27 unlaunched). Object drop targets come from `rate-model.py objects`;
@@ -21,7 +21,7 @@ Pets: boss 1/100 a kill (a grind); skilling 0.1 a player-run each.
 Content plan (relics, dungeon sets, saga belt, riddle journeys): `docs\PLAN.md`; next S1-S3 in game.
 
 ## Needs a live world
-Ship: Doug launches once, `gen-mods.py` (B13), `-Push`.
+Ship: `-Push`; Sven installs `mods.tsv` versions on host + his PC.
 All in-game checks: #156 (pinned).
 
 ## Gielheim (Doug plays and reports)
@@ -40,8 +40,6 @@ All in-game checks: #156 (pinned).
 - Actions/hr and segments per ore node, the same way, into `loot\objects.csv`.
 - Watch: kills per boss (sim 3; under 6: re-check coins, unique odds); casket
   dupe cloaks (feel bad: change prizes); oath/casket coins (feel empty: cut)
-
-Waiting on upstream: KG Marketplace stable 10.x.
 
 ## Server
 Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = 55fa2cd via
