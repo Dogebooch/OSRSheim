@@ -9,15 +9,16 @@ Herb run: herbwife seeds by Farming level, 11 contracts pay seed sacks; crops ->
 `Potion_Meadbase` -> potion -> Verdandi Alchemy contracts 20-80 (Frothling pet).
 Oaths: 8 biomes x (4 tasks + seal) + an elite tier (skill-gated, trimmed cape, tithe);
 uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
-15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
+15 boss/elite uniques are EpicLoot Legendaries (beam + highlight, 1 signature
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108), forge rings off. Uniques lose one-per-player.
 Quests: 79 story (13 skill-gated; locked ones hidden), 45 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
-Kill quests credit the killer's Groups party (100 m); story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
+Kill quests credit the Groups party within 100 m; boss pay is a Talk quest on the boss key. Tamed kills drop no OSRS loot.
+Handbook = wiki (topics, journey, item sources); NPCs teach and link to it (§11). Unseen in game.
 Design pass #159 live (§6-11). Sim: run-end coins 196k.
-Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins, tithes collect trophies.
+Economy: contracts pay gems/seeds, bosses drop no coins, tithes collect trophies.
 Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h, Blocking x2; no SE buffs a gated skill (unlaunched).
-Pets: boss 1/100 a kill (a grind); skilling 0.1 a player-run each.
+Pets: boss 1/100 a kill; skilling 0.1 a player-run each.
 Content plan (relics, dungeon sets, saga belt, riddle journeys): `docs\PLAN.md`; next S1-S3 in game.
 
 ## Needs a live world
@@ -25,13 +26,13 @@ Ship: `-Push`; Sven installs `mods.tsv` versions on host + his PC.
 All in-game checks: #156 (pinned).
 
 ## Gielheim (Doug plays and reports)
-1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
+1. Create Gielheim on the host (Sven deploys first): new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Claude places the KG NPCs (`gen-npcs.py --town` blanks every far row incl. biome waystones: `--set` each on site; open meadow by the sea; admin char only; `--builder off` after, §11).
 2. After session one: WIRSL `Loaded: 339` in `LogOutput.log`.
 3. Doug vetoes renames.
 
 ## First Gielheim sessions
-- Data records itself (`watch.py`; Sven: his Claude asks); in game, F12 on anything odd.
+- Data records itself (`watch.py`); in game, F12 on anything odd.
   First: Doug's panel subuser key in `server.env` (§15); Sven deploys `EnableTraderLog`.
 - Day one: craft, block and helm once each at skill 0. Bars near 50% expected;
   far higher means the §6 ladder is cheap.

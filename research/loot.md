@@ -10,7 +10,8 @@
 write to the repo's `config\`; `sync-configs.ps1 -Push` after a run.
 `gen-handbook.py` writes `Dialogues\osrsheim_handbook.cfg` to the repo:
 bestiary biome -> creature -> every drop at its real chance, superior
-sub-pages, rarity tints per `TIERS`, `COLOUR = False` removes them.
+sub-pages, rarity tints per `TIERS`, `COLOUR = False` removes them; item
+pages list every source of each collection-log row (§11 Handbook).
 Never hand-edit a generated cfg; all four `--check` in the validator.
 
 Columns are in each generator's docstring. Edit `classes.csv` to rebalance

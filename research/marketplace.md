@@ -114,7 +114,13 @@ validator-enforced.
 kill milestones per biome, boss kill counts, a craft, explored 25/50/75%,
 first and 100th death. IDs are case-sensitive.
 
-**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): the rulebook.
+**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): "Start here", orientation only, no numbers.
+
+**Handbook** (`gen-handbook.py`, prose `reference\handbook-topics.yml`): root -> Start here, a topic page per system (rows built
+from the KG cfgs, lit by the gate that opens them), journey (oath keys, boss keys), bestiary, skill guide, item sources.
+NPC walkthroughs (hand-written, `osrsheim_dialogues.cfg` / `osrsheim_oaths.cfg`, Halla in `gen-collection-log.py`):
+in character, no digits or commas in an NPC line (validator), each ends "Show me the full page" -> `handbook_t_<topic>`.
+Ulfar's `lumbridge_guide_town` introduces every townsperson. Below the root no handbook page carries `OpenUI` (DistancedUI has no NPC).
 
 **Collection log** (`loot\collection-log.csv` -> `scripts\gen-collection-log.py`
 -> `*\osrsheim_collection_log.cfg` in Quests, QuestProfiles, Dialogues;

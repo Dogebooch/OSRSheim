@@ -5,7 +5,15 @@ r"""Generate the in-game handbook (a KG Marketplace dialogue tree) from loot\*.c
     python scripts\gen-handbook.py --check    exit 0 = cfg matches the tables, 1 = stale
 
 Pages: [handbook] root (Gielheim Guide NPC, also DistancedUI) -> bestiary -> biome -> creature,
-and -> skills -> skill -> level (the skill guide).
+-> skills -> skill -> level (the skill guide), -> topics (one wiki page per system), -> journey, -> items.
+Topics: prose from reference\handbook-topics.yml (no commas, <= TEXT_CAP), then rows each TOPIC_DATA section builds
+from the KG cfgs: quests by giver profile and boss gate (a detail page per story and oath quest), trader pages
+(an item at the first profile that stocks it, lit by the gate of the dialogue reply that opens it), gambler odds
+(one slot picked uniformly), Buffer blessings, waystone fees, objects.csv finds, recipes. Pages past ROW_CAP rows
+continue on 'More'. NPC walkthroughs in osrsheim_dialogues.cfg link here with "Show me the full page".
+Items: every collection-log row, lore from its wackydb Item yml, worn effect from its SE yml (SE_WORDS), and every
+source: drops (per biome past 12), vanilla-drops.csv, objects, gambler prizes, trades, quest rewards, recipes,
+capes, else the yml `sources:` note; an item with no source fails the run.
 A creature page lists every modded drop with the chance the player actually gets: csv chance x the
 owner's class multiplier, the same maths as gen-loot.py. Shared gem / rare tables are merged in, superior
 bonus loot (update-superiors.py ROWS) gets a sub-page. Vanilla drops are untouched and not listed.
@@ -108,17 +116,20 @@ KILL_WITH = {'Knives': 'knife', 'Spears': 'spear', 'Crossbows': 'crossbow', 'Una
              'WoodCutting': 'woodcutting axe', 'Blocking': 'shield bash'}
 
 
-def row(names, item, lo, hi, p, one=False, key=None, event=False, skill=None):
+def row(names, item, lo, hi, p, one=False, key=None, event=False, skill=None, src=None, who=None, biome=None):
+    """A drop line; with src it also files the drop under the item's sources as '<who>: ...'."""
     name = names.get(item) or fail(f'no display name for item {item} (VANILLA or collection-log.csv)')
     amt = '' if lo == hi == 1 else f' x{lo}' if lo == hi else f' {lo}-{hi}'
     tail = f' (after {BOSS.get(key, key)})' if key else ''
     tail += ' (one each)' if one else ''
     tail += ' (raids only)' if event else ''
     tail += f' ({KILL_WITH[skill]} killing blow only)' if skill else ''
+    if src is not None:
+        src.setdefault(item, []).append((p, f'Text: {colour(text(f"{who}:{amt} {odds(p)}{tail}"), p)}\n', biome))
     return f'Text: {colour(text(name + amt + " " + odds(p) + tail), p)}\n'
 
 
-def drop_rows(names, rows, mult, loot):
+def drop_rows(names, rows, mult, loot, src=None, who=None, biome=None):
     out = []
     for r in rows:
         flags = set(r['flags'].split())
@@ -126,7 +137,7 @@ def drop_rows(names, rows, mult, loot):
         p = loot.chance(r['chance'], mult, 'time')
         skill = next((f[6:] for f in flags if f.startswith('skill=')), None)
         out.append(row(names, r['item'], int(r['min']), int(r['max']), p, 'one-per-player' in flags, key,
-                       'event' in flags, skill))
+                       'event' in flags, skill, src, who, biome))
     return out
 
 
@@ -258,6 +269,682 @@ def skill_guide(names):
     return g
 
 
+# ---------------------------------------------------------------- the wiki: topics, item sources, journey
+KG = ROOT / 'config/Marketplace/Configs'
+WDB = ROOT / 'config/wackysDatabase'
+TOPICS = ROOT / 'reference/handbook-topics.yml'
+TEXT_CAP, ROW_CAP = 600, 24
+# (oath key suffix, biome, the boss that ends it)
+BIOMES = [('meadows', 'Meadows', 'defeated_eikthyr'), ('blackforest', 'Black Forest', 'defeated_gdking'),
+          ('swamp', 'Swamp', 'defeated_bonemass'), ('mountain', 'Mountain', 'defeated_dragon'),
+          ('plains', 'Plains', 'defeated_goblinking'), ('mistlands', 'Mistlands', 'defeated_queen'),
+          ('ashlands', 'Ashlands', 'defeated_fader'), ('deepnorth', 'Deep North', 'defeated_frozenking_p3')]
+OATH = {f'oath_{b}': f'{name} oath' for b, name, _ in BIOMES} | {f'oath_{b}_hard': f'{name} elite oath' for b, name, _ in BIOMES}
+POSITIVE = ('GlobalKey', 'SkillMore', 'HasPlayerKey', 'CustomValueMore', 'QuestFinished')
+BUFF = {'DamageReduction': lambda x: f'{x * 100:g}% less damage taken', 'ModifyAttack': lambda x: f'+{(x - 1) * 100:g}% damage',
+        'ModifyHealthRegen': lambda x: f'+{(x - 1) * 100:g}% health regen', 'ModifyStaminaRegen': lambda x: f'+{(x - 1) * 100:g}% stamina regen',
+        'ModifyMaxCarryWeight': lambda x: f'+{x:g} carry weight', 'ModifyRaiseSkills': lambda x: f'+{(x - 1) * 100:g}% skill experience'}
+KC = {'kc_eikthyr': 'Eikthyr', 'kc_elder': 'Elder', 'kc_bonemass': 'Bonemass', 'kc_moder': 'Moder', 'kc_yagluth': 'Yagluth',
+      'kc_queen': 'Queen', 'kc_fader': 'Fader', 'kc_frostking': 'Frost King'}
+KC_KEY = dict(zip(KC, BOSS))  # kc_eikthyr -> defeated_eikthyr (same order)
+# Friendlier names than the reply that opens the UI ('Let us dice'); unlisted profiles use that reply.
+GAMBLE = {'dice_bag': 'Dice', 'flower_poker': 'Flower poker', 'crystal_chest': 'The hoard'}
+SHOP = {'general_store': 'general store', 'gem_trader': 'gems and curios', 'vanity_tailor': 'finery', 'offerings': 'offerings',
+        'supplies': 'supplies', 'oath_supplies': 'sworn stores', 'herbwife': 'seeds'}
+VERB = {'Kill': 'kill', 'Collect': 'bring', 'Harvest': 'harvest', 'Craft': 'craft', 'Build': 'build'}
+
+
+def coins(n):
+    return f'{n} coin' if str(n) == '1' else f'{n} coins'
+
+
+def say(s):
+    """An NPC line: no commas or pipes (KG field separators); a blank line becomes a KG line break."""
+    s = s.strip()
+    if ',' in s or '|' in s:
+        fail(f'NPC text may not contain , or | : {s[:80]!r}')
+    s = re.sub(r'\n\s*\n', r'\\n', s).replace('\n', ' ')
+    if len(s) > TEXT_CAP:
+        fail(f'NPC text over {TEXT_CAP} chars ({len(s)}): {s[:80]!r}')
+    return s
+
+
+def link(label, target):
+    return f'Text: {text(label)} | Transition: {target}\n'
+
+
+def info(label, conds=(), err=None):
+    """A row that does nothing; with conditions it lights when met and shows red when not."""
+    s = f'Text: {text(label)}' + ''.join(f' | Condition: {c}' for c in conds)
+    if conds:
+        s += ' | AlwaysVisible: true' + (f' | OverrideError: {text(err)}' if err else '')
+    return s + '\n'
+
+
+def page(nid, line, rows, back):
+    """One node, split into 'More' pages past ROW_CAP rows."""
+    chunks = [rows[i:i + ROW_CAP] for i in range(0, len(rows), ROW_CAP)] or [[]]
+    out = []
+    for i, chunk in enumerate(chunks):
+        me = nid if i == 0 else f'{nid}_{i + 1}'
+        out.append(f'[{me}]\n{say(line if i == 0 else line.split(".")[0] + " (continued).")}\n{"".join(chunk)}')
+        if i + 1 < len(chunks):
+            out.append(link('More', f'{nid}_{i + 2}'))
+        out.append(link('Back', back if i == 0 else (nid if i == 1 else f'{nid}_{i}')) + '\n')
+    return out
+
+
+def kg_blocks(path):
+    """[(header, lines)] of a KG cfg, comments and blank lines dropped."""
+    out = []
+    for raw in path.read_text(encoding='utf-8-sig').replace('\r\n', '\n').split('\n'):
+        l = raw.strip()
+        if not l or l.startswith('#'):
+            continue
+        if l.startswith('[') and l.endswith(']'):
+            out.append((l[1:-1], []))
+        elif out:
+            out[-1][1].append(l)
+    return out
+
+
+def head(h):
+    return h.split('=')[0].strip()
+
+
+def fields(line):
+    """Split on a single '|' ('||' is an OR inside one field)."""
+    return [f.strip() for f in re.split(r'(?<!\|)\|(?!\|)', line)]
+
+
+def args(s):
+    return [a.strip() for a in s.split(',')]
+
+
+def positive(groups):
+    """The AND groups whose every OR branch is a positive check (a Not/Less branch only hides a row)."""
+    return [g for g in groups if all(args(b)[0] in POSITIVE for b in g.split('||'))]
+
+
+class World:
+    def __init__(self, names, creatures):
+        self.names = names
+        self.tokens = {k: v['m_name'] for k, v in json.load(open(GAME_ITEMS, encoding='utf-8')).items()
+                       if str(v.get('m_name', '')).startswith('$')}
+        pieces = json.load(open(ROOT / 'reference/game-data/pieces.json', encoding='utf-8'))['Piece']
+        self.tokens |= {k: v['m_name'] for k, v in pieces.items() if k not in self.tokens and str(v.get('m_name', '')).startswith('$')}
+        self.creature ={c['creature']: c['display'] for c in creatures}
+        self.dialogues = {}
+        for f in sorted((KG / 'Dialogues').glob('*.cfg')):
+            if f.name != OUT.name:
+                for h, lines in kg_blocks(f):
+                    self.dialogues[head(h)] = [l for l in lines[1:] if l.startswith('Text:')]
+        self.npc = {}  # dialogue root -> NPC name; profile -> NPC name
+        for f in sorted((ROOT / 'config/Marketplace_SavedNPCs').glob('*.yml')):
+            m = (yaml.safe_load(f.read_text(encoding='utf-8-sig')) or {}).get('main', {})
+            for k in ('Dialogue', 'Profile'):
+                if m.get(k):
+                    self.npc.setdefault(m[k], m.get('NameOverride') or f.stem)
+        self.quests = {}
+        for f in sorted((KG / 'Quests').glob('*.cfg')):
+            for h, L in kg_blocks(f):
+                if len(L) >= 6:
+                    self.quests[head(h)] = dict(id=head(h), type=L[0], title=L[1], desc=L[2], target=L[3],
+                                                rewards=L[4], conds=L[6] if len(L) > 6 else '')
+        self.qprofiles = {head(h): args(L[0]) for f in sorted((KG / 'QuestProfiles').glob('*.cfg'))
+                          for h, L in kg_blocks(f) if L}
+        self.traders = {head(h): L for h, L in kg_blocks(KG / 'Traders/osrsheim_traders.cfg')}
+        self.gamblers = {head(h): args(L[0]) for h, L in kg_blocks(KG / 'Gamblers/osrsheim_gamblers.cfg') if L}
+        self.buffers, self.buffer_profiles = {}, {}
+        for f in sorted((KG / 'Buffers').glob('*.cfg')):
+            for h, L in kg_blocks(f):
+                self.buffers[head(h)] = dict(name=L[0], secs=int(L[1]), cost=args(L[3]), mods=L[4], group=L[6])
+        for f in sorted((KG / 'BufferProfiles').glob('*.cfg')):
+            for h, L in kg_blocks(f):
+                self.buffer_profiles[head(h)] = args(L[0])
+
+    def name(self, prefab):
+        return game_name(prefab, self.names, self.tokens)
+
+    def cname(self, prefab):
+        return self.creature.get(prefab) or game_name(prefab, {}, {})
+
+    def qty(self, prefab, n):
+        return self.name(prefab) + ('' if str(n) == '1' else f' x{n}')
+
+    def npc_of(self, node):
+        roots = [r for r in self.npc if node == r or node.startswith(r + '_')]
+        return self.npc[max(roots, key=len)] if roots else None
+
+    def opened_by(self, kind, profile):
+        """(npc, reply label, positive conditions) of the first dialogue reply that opens this UI profile."""
+        pat = re.compile(rf'Command:\s*OpenUI\s*,\s*{kind}\s*,\s*{re.escape(profile)}\s*$')
+        for node, replies in self.dialogues.items():
+            for r in replies:
+                fs = fields(r)
+                if any(pat.match(f) for f in fs):
+                    conds = [f[len('Condition:'):].strip() for f in fs if f.startswith('Condition:')]
+                    conds = [c for c in positive(conds) if not c.startswith('HasItem')]
+                    return self.npc_of(node), fs[0][len('Text:'):].strip(), conds
+        return self.npc.get(profile), None, []
+
+    def cond_text(self, c):
+        a = args(c)
+        k = a[0]
+        if k == 'GlobalKey':
+            return f'{BOSS.get(a[1], a[1])} defeated'
+        if k == 'SkillMore':
+            return f'{skill_label(a[1])} {a[2]}'
+        if k == 'HasPlayerKey':
+            return OATH.get(a[1], a[1]).replace(' oath', ' oath sealed')
+        if k == 'CustomValueMore':
+            return f'hunter rank {a[2]}' if a[1] == 'hunter_rank' else f'{a[2]} {KC[a[1]]} kills' if a[1] in KC else f'{a[1]} {a[2]}'
+        if k == 'QuestFinished':
+            return f'after {self.quests[a[1]]["title"]}' if a[1] in self.quests else f'after {a[1]}'
+        return c
+
+    def gate(self, conds):
+        return ' and '.join(' or '.join(self.cond_text(b.strip()) for b in g.split('||')) for g in conds)
+
+    def quest_conds(self, q):
+        return positive(fields(q['conds'])) if q['conds'] else []
+
+    def target(self, q):
+        out = []
+        for t in fields(q['target']):
+            a = args(t)
+            if q['type'] == 'Talk':
+                out.append(f'speak to {t}')  # capitalised below
+                continue
+            n = a[1] if len(a) > 1 else '1'
+            if q['type'] == 'Kill':
+                star = f' ({a[2]}-star or better)' if len(a) > 2 and int(a[2]) >= 1 else ''
+                out.append(f'kill {n} {self.cname(a[0])}{star}')
+            else:
+                out.append(f'{VERB[q["type"]]} {n} {self.name(re.sub(r"^Pickable_", "", a[0]))}')
+        s = ' and '.join(out)
+        return s[:1].upper() + s[1:]
+
+    def pool(self, a):
+        """RandomItem: item, min, max triplets, one picked uniformly -> {item: chance %}."""
+        items = a[0::3]
+        return {i: 100 * items.count(i) / len(items) for i in dict.fromkeys(items)}
+
+    def reward(self, s):
+        out = []
+        for r in fields(s):
+            k, _, v = r.partition(':')
+            a, k = args(v), k.strip()
+            if k == 'Item':
+                out.append(f'{a[1]} {self.name(a[0])}')
+            elif k == 'Skill_EXP':
+                out.append(f'{a[1]} {skill_label(a[0])} xp')
+            elif k == 'AddCustomValue':
+                out.append(f'{a[1]} hunter rank' if a[0] == 'hunter_rank' else f'{a[1]} {KC[a[0]]} kill counted'
+                           if a[0] in KC else f'{a[1]} {a[0]}')
+            elif k == 'RandomItem':
+                out.append('one of ' + ' / '.join(f'{self.name(i)} {odds(p)}' for i, p in self.pool(a).items()))
+            elif k == 'Pet':
+                out.append(f'a tame {self.cname(a[0])}')
+            else:
+                fail(f'quest reward type {k!r} has no handbook wording')
+        return ' + '.join(out)
+
+    def trade(self, line):
+        if '=' in line:
+            left, right = line.split('=')
+            cost, res = args(left), args(right)
+        else:
+            a = args(line)
+            cost, res = a[:2], a[2:4]
+        cost, res = list(zip(cost[0::2], cost[1::2])), list(zip(res[0::2], res[1::2]))
+        c = ' + '.join(self.qty(i, n) for i, n in cost)
+        r = ' + '.join(self.qty(i, n) for i, n in res)
+        if len(cost) == 1 and cost[0][0] == 'Coins':
+            return res, f'{r} - {coins(cost[0][1])}'
+        if len(res) == 1 and res[0][0] == 'Coins':
+            return res, f'{c} - pays {coins(res[0][1])}'
+        return res, f'{r} for {c}'
+
+    def prizes(self, profile):
+        """Gambler prizes: {item: (chance %, amounts)}; one slot picked uniformly."""
+        a = self.gamblers[profile]
+        slots = list(zip(a[2::2], a[3::2]))
+        out = {}
+        for item, amt in slots:
+            p, amts = out.get(item, (0, []))
+            out[item] = (p + 100 / len(slots), amts + ([amt] if amt not in amts else []))
+        return out
+
+    def gambler_label(self, profile):
+        npc, label, _ = self.opened_by('Gambler', profile)
+        return f'{GAMBLE.get(profile, label or profile)} ({npc or self.npc.get(profile)})'
+
+
+def quest_node(w, q, back):
+    rows = [info(f'Task: {w.target(q)}'), info(f'Reward: {w.reward(q["rewards"])}')]
+    conds = w.quest_conds(q)
+    if conds:
+        rows.append(info(f'Needs: {w.gate(conds)}', conds))
+    return page(f'{P}_q_{q["id"]}', f'{q["title"]}. {q["desc"]}', rows, back)
+
+
+def by_gate(w, ids):
+    """Quest ids grouped by the last boss they wait for, in boss order."""
+    order = ['Open from the start'] + [f'After {b}' for b in BOSS.values()]
+    groups = {}
+    for qid in ids:
+        cs = [args(c) for c in w.quest_conds(w.quests[qid])]
+        keys = [a[1] for a in cs if a[0] == 'GlobalKey'] + [KC_KEY[a[1]] for a in cs if a[0] == 'CustomValueMore' and a[1] in KC_KEY]
+        last = max((list(BOSS).index(k) for k in keys if k in BOSS), default=-1)
+        groups.setdefault(order[last + 1], []).append(qid)
+    return [(g, groups[g]) for g in order if g in groups]
+
+
+def quest_row(w, q):
+    conds = w.quest_conds(q)
+    extra = [c for c in conds if args(c)[0] != 'GlobalKey']
+    return info(f'{w.target(q)} - {w.reward(q["rewards"])}' + (f' (needs {w.gate(extra)})' if extra else ''), conds)
+
+
+def tiered(w, kind, profiles):
+    """Trade rows from cumulative profiles, each item at the first page that stocks it, lit by that page's gate."""
+    seen, rows = set(), []
+    for prof in profiles:
+        _, _, conds = w.opened_by(kind, prof)
+        for line in w.traders[prof]:
+            res, s = w.trade(line)
+            if s in seen:
+                continue
+            seen.add(s)
+            rows.append(info(s + (f' ({w.gate(conds)})' if conds else ''), conds))
+    return rows
+
+
+def gamble_rows(w, profile):
+    a = w.gamblers[profile]
+    rows = [info(f'Costs: {w.qty(a[0], a[1])}')]
+    for item, (p, amts) in sorted(w.prizes(profile).items(), key=lambda kv: -kv[1][0]):
+        amt = '' if amts == ['1'] else ' ' + ' / '.join(amts)
+        rows.append(f'Text: {colour(text(w.name(item) + amt + " " + odds(p)), p)}\n')
+    return rows
+
+
+def data_skills(w, t, nid, ctx):
+    return [link('Open the skill guide', f'{P}_skills')], []
+
+
+def data_money(w, t, nid, ctx):
+    buys = [w.trade(l)[1] for l in w.traders['general_store'] if args(l)[2:3] == ['Coins']]
+    gull = [w.trade(l)[1] for l in w.traders['gem_trader']]
+    nodes = page(f'{nid}_gullveig', "Gullveig's prices. She pays coin for gems and curios.", [info(s) for s in gull], nid)
+    nodes += page(f'{nid}_buys', 'What the Shopkeeper buys. Junk sells for almost nothing on purpose.', [info(s) for s in buys], nid)
+    return [link("Gullveig's prices", f'{nid}_gullveig'), link('What the Shopkeeper buys', f'{nid}_buys'),
+            link('Where gems come from', f'{P}_ic_gems_and_metals')], nodes
+
+
+def data_hunts(w, t, nid, ctx):
+    rows = [l + '\n' for l in w.dialogues['slayer_master'] if 'hunter_rank' in l]
+    nodes = []
+    for g, ids in by_gate(w, w.qprofiles['slayer_master']):
+        sub = f'{nid}_{slug(g)}'
+        g2 = g[:1].lower() + g[1:]
+        rows.append(link(f'Contracts {g2} ({len(ids)})', sub))
+        nodes += page(sub, f'Contracts {g2}. A lit row is one you can take.', [quest_row(w, w.quests[q]) for q in ids], nid)
+    kc = [l + '\n' for l in w.dialogues['slayer_master_kc'] if l.startswith('Text:') and 'Transition' not in l]
+    nodes += page(f'{nid}_kc', 'Your boss kills on Hrafn\'s boss hunts. A group kill counts for each of you.', kc, nid)
+    rows.append(link('Your boss kill counts', f'{nid}_kc'))
+    return rows, nodes
+
+
+def data_story(w, t, nid, ctx):
+    rows, nodes = [], []
+    for g, ids in by_gate(w, w.qprofiles['lumbridge_guide']):
+        sub = f'{nid}_{slug(g)}'
+        rows.append(link(f'{g} ({len(ids)})', sub))
+        nodes += page(sub, f'Story quests {g[:1].lower() + g[1:]}. Choose one.', [link(w.quests[q]['title'], f'{P}_q_{q}') for q in ids], nid)
+        for q in ids:
+            nodes += quest_node(w, w.quests[q], sub)
+    return rows, nodes
+
+
+def data_oaths(w, t, nid, ctx):
+    rows, nodes = [], []
+    ids = w.qprofiles['oath_keeper']
+    for b, name, _ in BIOMES:
+        sub = f'{nid}_{b}'
+        mine = [q for q in ids if q.startswith(f'oath_{b}_')]
+        if not mine:
+            continue
+        rows.append(link(name, sub))
+        first = w.quests[mine[0]]
+        conds = w.quest_conds(first)
+        r = [info('Oath sealed', [f'HasPlayerKey, oath_{b}'], 'Not sealed yet')]
+        if conds:
+            r.append(info(f'Opens: {w.gate(conds)}', conds))
+        hard = [q for q in mine if re.search(r'_(h\d|hard|tithe)', q)]
+        for q in [q for q in mine if q not in hard]:
+            r.append(link(w.quests[q]['title'] + (' (the seal)' if q.endswith('_seal') else ''), f'{P}_q_{q}'))
+        if hard:
+            r.append(info('Elite oath sealed', [f'HasPlayerKey, oath_{b}_hard'], 'Not sealed yet'))
+            for q in hard:
+                r.append(link(w.quests[q]['title'] + (' (elite seal)' if q.endswith('_seal') else ' (elite)'), f'{P}_q_{q}'))
+        nodes += page(sub, f'The {name} oath. Four deeds then the seal. The elite oath follows.', r, nid)
+        for q in mine:
+            nodes += quest_node(w, w.quests[q], sub)
+    return rows, nodes
+
+
+def data_waystones(w, t, nid, ctx):
+    rows, seen = [], set()
+    for r in w.dialogues['waystone']:
+        fs = fields(r)
+        key = next((args(f[len('Condition:'):])[1] for f in fs if f.startswith('Condition: HasPlayerKey')), None)
+        fee = re.search(r'for (\d+) coins', fs[0])
+        if key and fee and key not in seen:
+            seen.add(key)
+            rows.append(info(f'Highest oath {OATH[key].replace(" oath", "")}: {fee.group(1)} coins', [f'HasPlayerKey, {key}']))
+    return rows, []
+
+
+def data_skilling(w, t, nid, ctx):
+    rows, nodes, groups = [], [], {}
+    for q in w.qprofiles['skilling_board']:
+        groups.setdefault(q.split('_')[1], []).append(q)
+    for s, ids in groups.items():
+        sub = f'{nid}_{s}'
+        label = skill_label(next((k for k in SKILL_ORDER if k.lower() == s), s.capitalize()))
+        rows.append(link(f'{label} ({len(ids)})', sub))
+        nodes += page(sub, f'{label} work. A lit row is one you can take.',
+                      [info(f'{w.quests[q]["title"]}: {w.target(w.quests[q])} - {w.reward(w.quests[q]["rewards"])}',
+                            w.quest_conds(w.quests[q])) for q in ids], nid)
+    return rows, nodes
+
+
+def data_herbs(w, t, nid, ctx):
+    seeds = [p for p in w.traders if p.startswith('herbwife')]
+    nodes = page(f'{nid}_seeds', 'Seeds from the Herbwife. A lit row is one she will sell you.', tiered(w, 'Trader', seeds), nid)
+    nodes += page(f'{nid}_contracts', 'Herb contracts. A lit row is one you can take.',
+                  [quest_row(w, w.quests[q]) for q in w.qprofiles['herb_contracts']], nid)
+    rows = [link('Seeds', f'{nid}_seeds'), link('Contracts', f'{nid}_contracts')]
+    for prof in [p for p in w.gamblers if p.startswith('sack_')]:
+        _, label, _ = w.opened_by('Gambler', prof)
+        nodes += page(f'{nid}_{prof}', f'{label}. One sack pays one prize.', gamble_rows(w, prof), nid)
+        rows.append(link(f'{label}: prizes', f'{nid}_{prof}'))
+    return rows, nodes
+
+
+def data_alchemy(w, t, nid, ctx):
+    return [link('Alchemy levels in the skill guide', f'{P}_s_alchemy')], []
+
+
+def data_gathering(w, t, nid, ctx):
+    rows, found = [], {}
+    with open(LOOT / 'objects.csv', newline='', encoding='utf-8') as f:
+        for r in csv.DictReader(f):
+            num, den = r['target'].split('/')
+            found.setdefault((r['group'], r['item']), []).append(100 * float(num) / float(den))
+    for (g, item), ps in found.items():
+        lo, hi = min(ps), max(ps)
+        span = odds(hi) if lo == hi else f'{odds(hi)} to {odds(lo)}'
+        rows.append(f'Text: {colour(text(f"{g.capitalize()}: {w.name(item)} {span} an action"), hi)}\n')
+    return rows, []
+
+
+def data_riddles(w, t, nid, ctx):
+    rows, nodes = [], []
+    for prof in [p for p in w.gamblers if not p.startswith('sack_')]:
+        label = w.gambler_label(prof)
+        cost = w.gamblers[prof][0]
+        r = gamble_rows(w, prof)
+        if cost in w.names and cost != 'Coins':
+            r.insert(1, link(f'Where the {w.name(cost).lower()} comes from', f'{P}_i_{slug(cost)}'))
+        nodes += page(f'{nid}_{prof}', f'{label}. One roll pays one prize.', r, nid)
+        rows.append(link(label, f'{nid}_{prof}'))
+    return rows, nodes
+
+
+def data_hof(w, t, nid, ctx):
+    rows, nodes = [], []
+    for prof, label in (('chapel', 'The hof (Gothi Eirik)'), ('chapel_oath', 'Sworn blessings (Sigrun)')):
+        groups = {}
+        for b in w.buffer_profiles[prof]:
+            groups.setdefault(w.buffers[b]['group'], []).append(b)
+        r = []
+        for g, ids in groups.items():
+            for b in ids:
+                x = w.buffers[b]
+                eff = ' / '.join(BUFF[k.strip()](float(v)) for k, v in (m.split('=') for m in args(x['mods'])))
+                r.append(info(f'{g}: {x["name"]} - {eff} - {x["secs"] // 60} min - {w.qty(*x["cost"])}'))
+        nodes += page(f'{nid}_{prof}', f'{label}. One blessing per group at a time.', r, nid)
+        rows.append(link(label, f'{nid}_{prof}'))
+    return rows, nodes
+
+
+def data_jewellery(w, t, nid, ctx):
+    rows = []
+    for prefab, (station, reqs, conds) in ctx['recipes'].items():
+        lvl = f' ({w.gate(conds)})' if conds else ''
+        rows.append(link(f'{w.name(prefab)}{lvl}', f'{P}_i_{slug(prefab)}'))
+    return rows, []
+
+
+def data_bosses(w, t, nid, ctx):
+    rows = [link(d, ctx['node'][('Bosses', d)]) for b, d in ctx['order'] if b == 'Bosses']
+    nodes = page(f'{nid}_offerings', 'The Seeress sells offerings for bosses already summoned. A lit row is one she stocks.',
+                 tiered(w, 'Trader', [p for p in w.traders if p.startswith('offerings')]), nid)
+    rows += [link("The Seeress's offerings", f'{nid}_offerings'), link('Your boss kill counts', f'{P}_t_hunts_kc')]
+    return rows, nodes
+
+
+def data_capes(w, t, nid, ctx):
+    rows = []
+    for prefab, reqs in ctx['capes']:
+        label = 'every skill' if len(reqs) > 2 else ' and '.join(skill_label(s) for s in reqs)
+        rows.append(info(f'{w.name(prefab)}: 100 in {label}', [f'SkillMore, {s}, 100' for s in reqs]))
+    return rows + [link('Oath capes', f'{P}_ic_oath_capes'), link('Elite oath capes', f'{P}_ic_elite_oath_capes')], []
+
+
+def data_items(w, t, nid, ctx):
+    return [link('Where things come from', f'{P}_items')], []
+
+
+def data_shops(w, t, nid, ctx):
+    fam = {}
+    for p in w.traders:
+        base = 'herbwife' if p.startswith('herbwife') else re.sub(r'_\d+$', '', p)
+        fam.setdefault(base, []).append(p)
+    rows, nodes = [], []
+    for base, profs in fam.items():
+        npc, _, _ = w.opened_by('Trader', profs[0])
+        label = f'{npc}: {SHOP.get(base, base.replace("_", " "))}'
+        nodes += page(f'{nid}_{base}', f'{label}. A lit row is stocked for you now.', tiered(w, 'Trader', profs), nid)
+        rows.append(link(label, f'{nid}_{base}'))
+    return rows, nodes
+
+
+TOPIC_DATA = {'skills': data_skills, 'money': data_money, 'hunts': data_hunts, 'story': data_story, 'oaths': data_oaths,
+              'waystones': data_waystones, 'skilling': data_skilling, 'herbs': data_herbs, 'alchemy': data_alchemy,
+              'gathering': data_gathering, 'riddles': data_riddles, 'hof': data_hof, 'jewellery': data_jewellery,
+              'bosses': data_bosses, 'capes': data_capes, 'items': data_items, 'shops': data_shops,
+              'none': lambda w, t, nid, ctx: ([], [])}
+
+
+def recipes(w):
+    """{prefab: (station, requirement text, skill conditions)} from wackydb Recipe_*.yml + WIRSL."""
+    gates = {e['PrefabName']: [f'SkillMore, {r["Skill"]}, {r["Level"]}' for r in e.get('Requirements', [])
+                               if r.get('Skill') and r.get('BlockCraft')] for e in wirsl()}
+    out = {}
+    for f in sorted((WDB / 'Recipes').glob('Recipe_*.yml')):
+        y = yaml.safe_load(f.read_text(encoding='utf-8-sig'))
+        reqs = ' + '.join(w.qty(r.split(':')[0], r.split(':')[1]) for r in y.get('reqs', []))
+        out[y['clonePrefabName']] = (y.get('craftingStation', ''), reqs, gates.get(y['clonePrefabName'], []))
+    return out
+
+
+def lore(prefab):
+    f = WDB / f'Items/Item_{prefab}.yml'
+    if not f.exists():
+        return ''
+    d = (yaml.safe_load(f.read_text(encoding='utf-8-sig')) or {}).get('m_description') or ''
+    return re.sub(r'\s*,\s*', ' - ', str(d)).replace('|', '/').strip()
+
+
+# wackydb SeData fields in player words; an unlisted non-default field fails the run so no effect goes unsaid.
+SKILL_ID = {1: 'Swords', 2: 'Knives', 3: 'Clubs', 4: 'Polearms', 5: 'Spears', 6: 'Blocking', 7: 'Axes', 8: 'Bows',
+            9: 'Elemental magic', 10: 'Blood magic', 11: 'Unarmed', 12: 'Mining', 13: 'Lumberjacking', 14: 'Crossbows',
+            101: 'Sneak', 102: 'Run', 103: 'Swim', 104: 'Fishing', 105: 'Cooking', 106: 'Farming'}
+SE_WORDS = {'m_addMaxCarryWeight': lambda v, d: f'+{v:g} carry weight',
+            'm_fallDamageModifier': lambda v, d: f'{-v * 100:g}% less fall damage',
+            'm_eitrRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% eitr regen',
+            'm_staminaRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% stamina regen',
+            'm_healthRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% health regen',
+            'm_stealthModifier': lambda v, d: f'{-v * 100:g}% harder to see',
+            'm_noiseModifier': lambda v, d: f'{-v * 100:g}% quieter',
+            'm_skillLevelModifier': lambda v, d: f'{SKILL_ID[d["m_skillLevel"]]} +{v:g}',
+            'm_raiseSkillModifier': lambda v, d: f'+{v * 100:g}% {SKILL_ID[d["m_raiseSkill"]]} experience',
+            'm_skillLevel': None, 'm_raiseSkill': None}
+# What a clone inherits when its SeData leaves a field out (research/gating.md §6: Troll set = Sneak +15).
+CLONE_SE = {'SetEffect_TrollArmor': {'m_skillLevel': 101, 'm_skillLevelModifier': 15}}
+
+
+def effect(prefab):
+    """The worn effect of a wackydb item, from its SE_Equip status effect."""
+    f = WDB / f'Items/Item_{prefab}.yml'
+    se = ((yaml.safe_load(f.read_text(encoding='utf-8-sig')) or {}).get('SE_Equip') or {}).get('EffectName') if f.exists() else None
+    g = WDB / f'Effects/{se}.yml'
+    if not se or not g.exists():
+        return ''
+    y = yaml.safe_load(g.read_text(encoding='utf-8-sig')) or {}
+    d = CLONE_SE.get(y.get('ClonedSE'), {}) | (y.get('SeData') or {})
+    d = {k: v for k, v in d.items() if v not in (0, 1, [], '', None, False)}
+    for k in d:
+        if k not in SE_WORDS:
+            fail(f'{se}: SeData {k} has no handbook wording (SE_WORDS)')
+    return ' / '.join(SE_WORDS[k](v, d) for k, v in d.items() if SE_WORDS[k])
+
+
+def item_pages(w, sources, ctx):
+    cats = {}
+    with open(LOOT / 'collection-log.csv', newline='', encoding='utf-8') as f:
+        for r in csv.DictReader(f):
+            if r['prefab'] and not r['category'].startswith('#'):
+                cats.setdefault(r['category'], []).append(r['prefab'].strip())
+    d = [f'[{P}_items]\n{say("Where things come from. Every find in Halla the Skald's saga and every place it comes from.")}\n']
+    d += [link(f'{c} ({len(v)})', f'{P}_ic_{slug(c)}') for c, v in cats.items()]
+    d.append(link('Back', P) + '\n')
+    unsourced = []
+    for c, prefabs in cats.items():
+        d += page(f'{P}_ic_{slug(c)}', f'{c}. Choose a find.', [link(w.name(p), f'{P}_i_{slug(p)}') for p in prefabs], f'{P}_items')
+        for p in prefabs:
+            rows = sources.get(p, [])
+            if not rows:
+                unsourced.append(p)
+            drops = [r for r in rows if r[0] is not None]
+            if len(drops) > 12:  # a shared table: summarise per biome
+                by = {}
+                for pr, _, biome in drops:
+                    by.setdefault(biome, []).append(pr)
+                drops = [(max(ps), f'Text: {colour(text(f"Dropped in the {b}: {len(ps)} creature{'s' * (len(ps) > 1)} - " + (odds(max(ps)) if min(ps) == max(ps) else f"{odds(max(ps))} to {odds(min(ps))}")), max(ps))}\n', b)
+                         for b, ps in by.items()]
+            body = [r[1] for r in sorted(drops, key=lambda r: -r[0])] + [r[1] for r in rows if r[0] is None]
+            if effect(p):
+                body.insert(0, info(f'Worn: {effect(p)}'))
+            text_ = lore(p) or f'{w.name(p)}.'
+            d += page(f'{P}_i_{slug(p)}', f'{w.name(p)}. {text_}' if lore(p) else text_, body, f'{P}_ic_{slug(c)}')
+    if unsourced:
+        fail('no source found for collection items: ' + ' '.join(unsourced))
+    return d
+
+
+def gather_sources(w, sources, ctx):
+    """Every non-drop way to get an item. Drops are added by the bestiary loop."""
+    def add(item, row):
+        sources.setdefault(item, []).append((None, row, None))
+    with open(ROOT / 'reference/vanilla-drops.csv', newline='', encoding='utf-8') as f:
+        for r in csv.DictReader(f):
+            p, who = 100 * float(r['chance']), w.cname(r['creature'])
+            sources.setdefault(r['item'], []).append(
+                (p, f'Text: {colour(text(f"Dropped by {who}: {odds(p)} (vanilla)"), p)}\n', 'wild'))
+    with open(LOOT / 'objects.csv', newline='', encoding='utf-8') as f:
+        seen = {}
+        for r in csv.DictReader(f):
+            num, den = r['target'].split('/')
+            seen.setdefault((r['item'], r['group']), []).append(100 * float(num) / float(den))
+        for (item, g), ps in seen.items():
+            span = odds(max(ps)) if min(ps) == max(ps) else f'{odds(max(ps))} to {odds(min(ps))}'
+            add(item, f'Text: {colour(text(f"{g.capitalize()}: {span} an action"), max(ps))}\n')
+    for prof in w.gamblers:
+        label = w.gambler_label(prof)
+        for item, (p, _) in w.prizes(prof).items():
+            add(item, f'Text: {colour(text(f"{label} prize: {odds(p)}"), p)}\n')
+    firsts = {}
+    for prof, lines in w.traders.items():
+        for line in lines:
+            res, s = w.trade(line)
+            for item, _ in res:
+                if item != 'Coins' and item not in firsts:
+                    npc, _, conds = w.opened_by('Trader', prof)
+                    firsts[item] = (npc, s, conds)
+    for item, (npc, s, conds) in firsts.items():
+        add(item, info(f'{npc or "Trader"}: {s}' + (f' ({w.gate(conds)})' if conds else ''), conds))
+    for prof, ids in w.qprofiles.items():
+        npc = w.opened_by('Quests', prof)[0] or w.npc.get(prof)
+        paid = {}
+        for qid in ids:
+            q = w.quests.get(qid)
+            for r in fields(q['rewards']) if q else []:
+                k, _, v = r.partition(':')
+                a = args(v)
+                if k.strip() == 'Item':
+                    paid.setdefault(a[0], []).append(info(f'Reward: {q["title"]} ({npc})'))
+                elif k.strip() == 'RandomItem':
+                    title = q['title']
+                    for i, p in w.pool(a).items():
+                        paid.setdefault(i, []).append(f'Text: {colour(text(f"Reward: {title} ({npc}) {odds(p)}"), p)}\n')
+        for item, rows in paid.items():
+            for row in rows if len(rows) <= 3 else [info(f'Reward from {len(rows)} of {npc}\'s quests')]:
+                add(item, row)
+    for prefab, (station, reqs, conds) in ctx['recipes'].items():
+        add(prefab, info(f'Forged at the {station}: {reqs}' + (f' ({w.gate(conds)})' if conds else ''), conds))
+    for prefab, src in ctx['notes'].items():
+        add(prefab, info(f"Dropped by {w.cname(src['drop'])} (a mod drop outside the tables)" if 'drop' in src else src['text']))
+    for prefab, reqs in ctx['capes']:
+        price = MAX_CAPE_PRICE if len(reqs) > 2 else CAPE_PRICE
+        add(prefab, info(f'Verdandi the Weaver: {price} coins at 100 in ' + ('every skill' if len(reqs) > 2 else ' and '.join(skill_label(s) for s in reqs)),
+                         [f'SkillMore, {s}, 100' for s in reqs]))
+
+
+def journey(w):
+    d = [f'[{P}_journey]\n{say("Your journey. A lit row is done. Oaths are yours alone and bosses belong to the world.")}\n']
+    for b, name, key in BIOMES:
+        d.append(info(f'{name}: oath sealed', [f'HasPlayerKey, oath_{b}'], 'not yet'))
+        d.append(info(f'{name}: elite oath sealed', [f'HasPlayerKey, oath_{b}_hard'], 'not yet'))
+        d.append(info(f'{name}: {BOSS[key]} defeated', [f'GlobalKey, {key}'], 'not yet'))
+    d += [link('Story quests', f'{P}_t_story'), link('Biome oaths', f'{P}_t_oaths'), link('Back', P) + '\n']
+    return d
+
+
+def topics(w, ctx):
+    ts = yaml.safe_load(TOPICS.read_text(encoding='utf-8'))['topics']
+    ids = {t['id'] for t in ts}
+    d = [f'[{P}_topics]\n{say("How Gielheim works. One page for each part of the game.")}\n']
+    d += [link(t['title'], f'{P}_t_{t["id"]}') for t in ts]
+    d.append(link('Back', P) + '\n')
+    for t in ts:
+        nid = f'{P}_t_{t["id"]}'
+        fn = TOPIC_DATA.get(t.get('data', 'none')) or fail(f'handbook topic {t["id"]}: unknown data {t.get("data")!r}')
+        rows, nodes = fn(w, t, nid, ctx)
+        rows = [info(f'Who: {t["npc"]}')] + rows
+        for s in t.get('see', []):
+            if s not in ids:
+                fail(f'handbook topic {t["id"]}: see {s!r} is not a topic')
+            rows.append(link(f'See also: {next(x["title"] for x in ts if x["id"] == s)}', f'{P}_t_{s}'))
+        d += page(nid, f'{t["title"]}. {t["text"]}', rows, f'{P}_topics')
+        d += nodes
+    return d
+
+
 def generate():
     loot = module('gen-loot')
     sup = {r[0]: r for r in module('update-superiors').ROWS}
@@ -281,14 +968,24 @@ def generate():
         if c['biome'] not in biomes:
             biomes.append(c['biome'])
     node = {k: f'{P}_c_{slug(k[0])}_{slug(k[1])}' for k in order}
+    w = World(names, creatures)
+    capes = [(e['PrefabName'], [r['Skill'] for r in e.get('Requirements', []) if r.get('Skill')])
+             for e in wirsl() if e['PrefabName'].startswith('OSRS_Cape')]
+    notes = yaml.safe_load(TOPICS.read_text(encoding='utf-8')).get('sources') or {}
+    ctx = {'recipes': recipes(w), 'capes': capes, 'node': node, 'order': order, 'notes': notes}
+    sources = {}
 
-    d = [HEAD, f'# NPC: Type = Info, Profile = gielheim_guide, Dialogue = {P}, Name Override = Gielheim Guide. Also in DistancedUI.\n\n',
+    d = [HEAD, f'# NPC: Type = Info, Profile = gielheim_guide, Dialogue = {P}, Name Override = Gielheim Guide. Also in DistancedUI.\n',
+         '# Prose: reference\\handbook-topics.yml. No OpenUI below the root: DistancedUI opens these pages with no NPC.\n\n',
          f'[{P}]\nI am the Gielheim Guide. Ask and I will tell you how this world works.\n',
-         'Text: The rules of Gielheim | Command: OpenUI, Info, gielheim_guide\n',
-         f'Text: The bestiary | Transition: {P}_bestiary\n',
-         f'Text: Skills and what they open | Transition: {P}_skills\n',
-         f'Text: Farewell | Transition: {P}_bye\n\n',
-         f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see. Uniques roll once per kill, pets once per player.\n']
+         'Text: Start here | Command: OpenUI, Info, gielheim_guide\n',
+         link('How Gielheim works', f'{P}_topics'),
+         link('Your journey', f'{P}_journey'),
+         link('The bestiary', f'{P}_bestiary'),
+         link('Skills and what they open', f'{P}_skills'),
+         link('Where things come from', f'{P}_items'),
+         link('Farewell', f'{P}_bye') + '\n',
+         f'[{P}_bestiary]\nEvery creature and what it drops beyond the usual spoils. Chances are what you will see. Uniques roll once per kill and pets once per player.\n']
     for t in TIERS if COLOUR else []:
         d.append(f'Text: {colour(t[2], t[0])}\n')
     for b in biomes:
@@ -305,9 +1002,10 @@ def generate():
         pg = pages[k]
         c = pg['c']
         d.append(f'[{node[k]}]\n{k[1]} ({k[0]}). Extra drops on top of the usual spoils.\n')
-        d += drop_rows(names, drops.get(c['creature'], []), classes[c['class']], loot)
+        who = k[1] if k[0] == 'Bosses' else f'{k[1]} ({k[0]})'
+        d += drop_rows(names, drops.get(c['creature'], []), classes[c['class']], loot, sources, who, k[0])
         if c['list']:
-            d += drop_rows(names, drops.get(c['list'], []), classes[c['class']], loot)
+            d += drop_rows(names, drops.get(c['list'], []), classes[c['class']], loot, sources, who, k[0])
         s = next((sup[p] for p in pg['prefabs'] if p in sup), None)
         if s:
             d.append(f'Text: Superior loot | Transition: {node[k]}_superior\n')
@@ -319,9 +1017,13 @@ def generate():
             d.append(row(names, gem, gl, gh, 30))
             d.append(row(names, material, 2, 4, 40))
             d.append(row(names, extra, 1, 2, 20))
-            d.append(row(names, rare, 1, 1, rate))
+            d.append(row(names, rare, 1, 1, rate, src=sources, who=f'Superior {who}', biome=k[0]))
             d.append(f'Text: Back | Transition: {node[k]}\n\n')
     d += skill_guide(names)
+    gather_sources(w, sources, ctx)
+    d += topics(w, ctx)
+    d += journey(w)
+    d += item_pages(w, sources, ctx)
     d.append(f'[{P}_bye]\nThe book is always open.\n')
     return ''.join(d)
 
