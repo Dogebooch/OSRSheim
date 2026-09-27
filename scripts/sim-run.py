@@ -1238,6 +1238,8 @@ class Run:
                     continue
                 last[q.qid] = t
                 pl.events.append((t, 1, f'contract {q.qid}'))
+                for s, v in q.skill_exp:                   # raw Skill_EXP (Alchemy tiers, #169)
+                    pl.add_xp(s, v * self.p('xp.quest_skill_exp_factor'), t, t + 0.01, events=False)
                 for item, n in q.items:
                     if item == '__pool__':
                         item, n = self.rng.choice(n), 1
@@ -1741,14 +1743,14 @@ def report(S, out=None):
     table('collection log at run end (per player)', S['log'])
     print(f"collection log lit at run end: {S['log_total']:.0%}\n")
     table('notable drops per player-run (S2+)', S['items'][:30])
-    # pets (2026-09-25): the 4 skilling pets ~0.1 a player-run each (0.4); boss pets 1 in 100 a kill, a grind
-    skill_pets = ('OSRS_PetMining', 'OSRS_PetWoodcutting', 'OSRS_PetFishing', 'OSRS_PetFarming')
+    # pets (2026-09-25, Herblore #169): the 5 skilling pets ~0.1 a player-run each (0.5); boss pets 1 in 100 a kill, a grind
+    skill_pets = ('OSRS_PetMining', 'OSRS_PetWoodcutting', 'OSRS_PetFishing', 'OSRS_PetFarming', 'OSRS_PetHerblore')
     per = {r['item']: r['per_run'] for r in S['items'] if r['item'].startswith('OSRS_Pet') or r['item'] == 'OSRS_JalNibRek'}
     sk = sum(v for k, v in per.items() if k in skill_pets)
     pets = sum(per.values())
-    print(f"pets per player-run: {pets:.2f} (skilling {sk:.2f}, rule 0.4; boss {pets - sk:.2f}), "
+    print(f"pets per player-run: {pets:.2f} (skilling {sk:.2f}, rule 0.5; boss {pets - sk:.2f}), "
           f"P(>=1) {1 - math.exp(-pets):.0%}"
-          + ('' if abs(sk / 0.4 - 1) <= 0.25 else '  DRIFT > 25%: re-solve the skilling pet rates (research/loot.md §7)') + '\n')
+          + ('' if abs(sk / 0.5 - 1) <= 0.25 else '  DRIFT > 25%: re-solve the skilling pet rates (research/loot.md §7)') + '\n')
     table('unlock density by biome', S['density'])
     print('magic items per player-run by rarity:', {k: round(v, 2) for k, v in S['magic'].items()})
     print('boss kills per run:', S['boss_kills'], '\n', S['meta'])

@@ -86,6 +86,7 @@ reads both.
 | JereKuusela World Edit Commands (WEC) | TS | `spawn_object` / `object`: place, list, remove objects (§16, #124) |
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 | Smoothbrain Groups | TS | parties: KG kill quests credit every member within 100 m (§11); PotionsPlus group potions |
+| Azumatt Official BepInEx ConfigurationManager | TS | F1 in-game config editor, client-only; edits land in the profile: `-Pull` after |
 
 Held updates: CLLC 5.0.5 (new `Apply logarithmic power scaling` default 2: pin 0 first), Azu 2.6.0, Wizardry 1.2.2, MWL 5.1.4, Cooking 1.2.4; PotionPlus 4.3.7 Hexium-only.
 
@@ -171,6 +172,7 @@ weight 0.1 stack 50.
 - `..._LocationConfigs.yml` in repo `config\`: MWL defaults, `MWL_TreeTowers1: 0` (2026-09-23); ModTest predates it and keeps the location.
 - MWL 5.1.1 null loot, 2 of 355 MWL drop tables: `MWL_TreeTowers1` chest (all 10 entries, NRE on
   spawn; off) and one destructible; `MWL_MistTower2` YggaShoot drops only, chest fine (kept).
+- MWL: 16 Meadows locations spawn one BF `Skeleton` each; `spawn_that.local_spawners_advanced.cfg` swaps it to `Skeleton_Meadows` (vanilla Dolmen parity).
 - Throwaway world gen (dedicated server): MWL placed 2094 of 2493 asked, ~15% of 14.1k locations.
   Meadows 57%, Black Forest 85%, Swamp 77%, Plains 93%, rest 100%; shortfall = no valid spot.
 
