@@ -8,3 +8,4 @@ Tooltip: Gold wound round a red stone. The mind refills faster.
 SeData:
   m_eitrRegenMultiplier: 1.05
   m_skillLevelModifier: 0
+  m_mods: []

@@ -1,0 +1,11 @@
+# OSRSheim in-place edit of Wizardry SE Potion_Aquatic_TW (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Fishing +15 is gone, returned as nothing (Swim +25 stays).
+Name: Potion_Aquatic_TW
+Status_m_name: $potion_aquatic_TW
+Tooltip: Swim +25.
+SeData:
+  m_skillLevel: 103
+  m_skillLevelModifier: 25
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_mods: []

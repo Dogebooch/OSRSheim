@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of vanilla SE TrinketFlametalEitr (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Elemental + Blood magic +20 at full adrenaline is gone, returned as damage +16% (All: both magic schools).
+Name: TrinketFlametalEitr
+Status_m_name: $se_trinketflametaleitr
+Tooltip: Damage +16%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_modifyAttackSkill: 999
+  m_damageModifier: 1.16
+  m_mods: []

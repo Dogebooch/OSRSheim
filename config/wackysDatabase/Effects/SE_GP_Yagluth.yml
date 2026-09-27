@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of vanilla SE GP_Yagluth (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Farming +25 (passed every Farming gate) is gone, returned as Farming experience +25%; its +10% damage and lightning resistance stay.
+Name: GP_Yagluth
+Status_m_name: $se_yagluth_name
+Tooltip: Farming experience +25%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_raiseSkill: 106
+  m_raiseSkillModifier: 0.25
+  m_mods:
+  - m_type: Lightning
+    m_modifier: Resistant

@@ -1,0 +1,11 @@
+# OSRSheim in-place edit of Wizardry SE SE_RingSwamp_TW (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Elemental magic +3 is gone, returned as Elemental magic damage +2%.
+Name: SE_RingSwamp_TW
+Status_m_name: $se_ring_swamp_TW
+Tooltip: Elemental magic damage +2%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_modifyAttackSkill: 9
+  m_damageModifier: 1.02
+  m_mods: []
