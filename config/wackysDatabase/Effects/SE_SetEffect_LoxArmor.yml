@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of vanilla SE SetEffect_LoxArmor (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Bows +15 is gone, returned as Bows damage +12%.
+Name: SetEffect_LoxArmor
+Status_m_name: $se_loxseteffect_name
+Tooltip: Sneak +30. Bows damage +12%.
+SeData:
+  m_skillLevel: 101
+  m_skillLevelModifier: 30
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_modifyAttackSkill: 8
+  m_damageModifier: 1.12
+  m_mods: []

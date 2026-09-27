@@ -266,6 +266,19 @@ for script, what in (('gen-loot.py', 'loot cfgs'), ('gen-collection-log.py', 'co
                        capture_output=True, text=True)
     (ok if r.returncode == 0 else err)(f'{what}: {r.stdout.strip() or r.stderr.strip()}')
 
+def bepinex_values(text):
+    """{(section, key): value} of a BepInEx plugin cfg; comments and blank lines dropped."""
+    out, sec = {}, ''
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith('[') and line.endswith(']'):
+            sec = line
+        elif line and not line.startswith('#') and '=' in line:
+            k, v = line.split('=', 1)
+            out[(sec, k.strip())] = v.strip()
+    return out
+
+
 if PROFILE.is_dir():
     drift = []
     for f in CFG.rglob('*'):
@@ -273,13 +286,25 @@ if PROFILE.is_dir():
         if not f.is_file() or f.suffix not in TEXT or any(s in rel for s in SKIP):
             continue
         twin = PROFILE / rel
-        if not twin.is_file() or twin.read_bytes() != f.read_bytes():
+        if not twin.is_file():
             drift.append(rel)
+            continue
+        a, b = f.read_bytes(), twin.read_bytes()
+        if a == b:
+            continue
+        # BepInEx rewrites plugin cfgs on launch (comments, version header, defaults for keys the repo
+        # leaves out): those count as drift only when a repo value is missing or different.
+        if f.suffix == '.cfg' and b.startswith(b'## Settings file was created by plugin'):
+            ours = bepinex_values(a.decode('utf-8-sig', 'replace'))
+            theirs = bepinex_values(b.decode('utf-8-sig', 'replace'))
+            if all(theirs.get(k) == v for k, v in ours.items()):
+                continue
+        drift.append(rel)
     if drift:
         (warn if REPO else err)(f'repo config\\ differs from the profile ({len(drift)}): {drift[:6]}'
                                 f'{"..." if len(drift) > 6 else ""} - run scripts\\sync-configs.ps1 -Push')
     else:
-        ok('repo config\\ matches the Gale profile byte for byte')
+        ok('repo config\\ matches the Gale profile (plugin cfgs by value)')
 else:
     warn(f'no Gale profile at {PROFILE}; skipped the parity check')
 

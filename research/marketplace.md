@@ -98,10 +98,10 @@ must be a `stations.json` Pickable (validator, A7). Sim (400 runs): about 220 co
 125 garden / 100 field / 11 frontier; Frey's sickle 0.52 and Harvest crown 0.57 a player-run.
 
 **Skilling contracts** (`Quests\osrsheim_quests_skilling.cfg`, profile `skilling_board`, Verdandi): Mining,
-Lumberjacking, Fishing, Cooking, Blacksmithing (bars), Building, Farming at `SkillMore` 20/40/60 (Lumberjacking 3: 50) + a boss key; Cooking 65, Building 75, Farming 80 on `defeated_fader`, Building 70, Farming 75 on `defeated_queen`; Collect removes the
+Lumberjacking, Fishing, Cooking, Blacksmithing (bars), Building, Farming, Alchemy (finished potions) at `SkillMore` 20/40/60 (Lumberjacking 3: 50) + a boss key; Alchemy 70 `defeated_queen`, 80 `defeated_fader`; Cooking 65, Building 75, Farming 80 on `defeated_fader`, Building 70, Farming 75 on `defeated_queen`; Collect removes the
 goods; Build (`piece, n`) counts pieces placed while accepted (`Player.PlacePiece` hook); a counted piece is flagged `MPASNquestBuild` and never refunds its materials (`Piece.DropResources` skipped, DLL): `woodwall`/`wood_roof`, `stone_wall_2x1`/`stone_floor_2x2` (`defeated_bonemass`),
 `blackmarble_2x1x1`/`blackmarble_floor` (`defeated_goblinking`), `ashwood_wall_2x2`/`ashwood_floor_2x2` (`defeated_queen`), `Piece_grausten_wall_2x2`/`Piece_grausten_floor_2x2` (`defeated_fader`); Harvest `VineAsh` 60, `Pickable_Mushroom_Magecap` 60; Collect `MashedMeat` 10; pay riddle-stone T1/T1/T2, T2 above; Fishing and Farming tier 3 pay a `RandomItem` pool with the only source of
-`OSRS_PetFishing` (1 in 24) and `OSRS_PetFarming` (1 in 205): 0.1 a player-run each at the sim's contract count. Cooldown 20 game days on server time: lapses between sessions (sim: once a session at `rule.skilling_share`).
+`OSRS_PetFishing` (1 in 24), `OSRS_PetFarming` (1 in 205) and `OSRS_PetHerblore` (Alchemy tiers 4-5: field seed sacks, pet 1 in 107; Alchemy pays raw XP = half the goods' brewing XP, no stones): 0.1 a player-run each at the sim's contract count. Cooldown 20 game days on server time: lapses between sessions (sim: once a session at `rule.skilling_share`).
 
 **Prayers** (`Buffers\osrsheim_prayers.cfg`, profile `chapel`): 12 buffs,
 groups Wards / Might / Vigour / Wisdom / Wayfaring (same group: second buy blocked while one is active).
@@ -114,7 +114,13 @@ validator-enforced.
 kill milestones per biome, boss kill counts, a craft, explored 25/50/75%,
 first and 100th death. IDs are case-sensitive.
 
-**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): the rulebook.
+**Info page** (`ServerInfos\osrsheim_guide.cfg`, `gielheim_guide`): "Start here", orientation only, no numbers.
+
+**Handbook** (`gen-handbook.py`, prose `reference\handbook-topics.yml`): root -> Start here, a topic page per system (rows built
+from the KG cfgs, lit by the gate that opens them), journey (oath keys, boss keys), bestiary, skill guide, item sources.
+NPC walkthroughs (hand-written, `osrsheim_dialogues.cfg` / `osrsheim_oaths.cfg`, Halla in `gen-collection-log.py`):
+in character, no digits or commas in an NPC line (validator), each ends "Show me the full page" -> `handbook_t_<topic>`.
+Ulfar's `lumbridge_guide_town` introduces every townsperson. Below the root no handbook page carries `OpenUI` (DistancedUI has no NPC).
 
 **Collection log** (`loot\collection-log.csv` -> `scripts\gen-collection-log.py`
 -> `*\osrsheim_collection_log.cfg` in Quests, QuestProfiles, Dialogues;
@@ -193,6 +199,7 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 | Fact | Detail |
 |---|---|
 | `SkillMore, <skill>, <n>` / `SkillLess` | vanilla enum name, else `abs(GetStableHashCode(name))` (SkillManager's key): Smoothbrain skills and Alchemy by name; `>=` on `Skills.GetSkillLevel` (SE buffs count, EpicLoot skill effects do not); unknown name = -1 |
+| `NotHasBuff, <SE>` / `HasBuff` | `SEMan.HaveStatusEffect(<SE object name>.GetStableHashCode())`: set, equip, consume and guardian SEs all count |
 | Condition fields | several `Condition:` = AND; `||` inside one = OR; `AlwaysVisible: true` shows a failed reply red with its reason |
 | `CustomValueMore, key, n, text` | per-player value, saved in the character's custom data as `kgMarketplaceValue@<key>` (integer string); `text` replaces the reason, `{current}`/`{value}` filled in |
 | `AddCustomValue: key, n` | also a quest reward type |

@@ -8,3 +8,4 @@ Tooltip: Sap-bright beads strung on a thong. The load rides easier.
 SeData:
   m_addMaxCarryWeight: 25
   m_skillLevelModifier: 0
+  m_mods: []

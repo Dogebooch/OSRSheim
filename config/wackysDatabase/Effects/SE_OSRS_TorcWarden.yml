@@ -8,3 +8,4 @@ Tooltip: Pearl and silver, worn by those who carried the dead home.
 SeData:
   m_healthRegenMultiplier: 1.15
   m_skillLevelModifier: 0
+  m_mods: []

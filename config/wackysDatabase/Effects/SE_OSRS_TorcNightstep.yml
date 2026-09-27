@@ -8,3 +8,4 @@ Tooltip: Blackened links that drink the light. Footfalls go unheard.
 SeData:
   m_stealthModifier: -0.2
   m_noiseModifier: -0.2
+  m_mods: []

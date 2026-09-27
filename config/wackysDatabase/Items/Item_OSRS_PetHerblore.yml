@@ -1,0 +1,7 @@
+# OSRSheim skilling pet - Herblore (1 in 107 per tier-4/5 Alchemy contract, Verdandi) - authored 2026-09-26 (#169)
+# Trophy clone: cosmetic only, no stat block. Alchemy has no drop hook, so the contract pool is the source.
+name: OSRS_PetHerblore
+clonePrefabName: TrophyBlob
+m_name: Frothling
+m_description: It climbed out of the cauldron and would not go back in.
+m_weight: 0.1

@@ -1,10 +1,15 @@
 # OSRSheim Unarmed set effect (#178, 2026-09-26): replaces SetEffect_FenringArmor on every fenring_armor piece.
-# Vanilla Unarmed +15 passed WIRSL gates at equip; now +5 (the Harvester and ring precedent). The rest of
-# the vanilla effect is cloned unchanged. Skill ids: vanilla SkillType (Unarmed = 11).
+# WIRSL and KG read the buffed level, so no status effect raises a gated skill: vanilla Unarmed +15 is
+# returned as Unarmed damage +12%. m_mods restated: wackydb writes the list, and an omitted one clears the fire resistance.
 Name: SE_OSRS_FenringArmor
 ClonedSE: SetEffect_FenringArmor
-Tooltip: Unarmed +5.
+Status_m_name: $se_fenringseteffect_name
+Tooltip: Unarmed damage +12%.
 SeData:
-  m_skillLevel: 11
-  m_skillLevelModifier: 5
-  m_skillLevelModifier2: 0
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_modifyAttackSkill: 11
+  m_damageModifier: 1.12
+  m_mods:
+  - m_type: Fire
+    m_modifier: Resistant
