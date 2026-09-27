@@ -142,7 +142,7 @@ SKILL_BUFFS = {
     '*': ['Potion_Skillful_TW'],
     'Farming': ['SE_OSRS_Harvester', 'SetEffect_HarvesterArmor', 'GP_Yagluth'],
     'Fishing': ['SetEffect_FishingHat', 'Potion_Aquatic_TW'],
-    'Bows': ['SetEffect_RootArmor', 'SetEffect_LoxArmor', 'TrinketSilverDamage']
+    'Bows': ['SE_OSRS_RootArmor', 'SetEffect_RootArmor', 'SetEffect_LoxArmor', 'TrinketSilverDamage']
             + [f'SE_Circlet{t}_Hunter' for t in ('Bronze', 'Iron', 'Silver', 'BM', 'Carapace')],
     'Crossbows': [f'SE_Circlet{t}_Hunter' for t in ('Bronze', 'Iron', 'Silver', 'BM', 'Carapace')],
     'ElementalMagic': ['TrinketFlametalEitr', 'SE_RingSwamp_TW']
@@ -150,7 +150,7 @@ SKILL_BUFFS = {
                       + [f'SetEffect_Spellslinger_{b}' for b in ('BF', 'Swamp', 'Mountain', 'Plains', 'Mistlands')],
     'BloodMagic': ['TrinketFlametalEitr', 'SE_RingMistlands_TW']
                   + [f'SetEffect_Spellslinger_{b}' for b in ('BF', 'Swamp', 'Mountain', 'Plains', 'Mistlands')],
-    'Unarmed': ['SetEffect_FenringArmor'],
+    'Unarmed': ['SE_OSRS_FenringArmor', 'SetEffect_FenringArmor'],
     'Clubs': ['TrinketBlackDamageHealth'],
     'Spears': ['TrinketSilverDamage'],
 }

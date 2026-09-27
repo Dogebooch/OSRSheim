@@ -1,0 +1,6 @@
+# OSRSheim vanilla item edit (#178, 2026-09-26): not a clone. The Fenris set's +15 Unarmed passed Unarmed gates at equip (WIRSL reads the buffed level, #178): the 30/40/60 fist ladder 15 early.
+# Set effect swapped for SE_OSRS_FenringArmor: Unarmed +5. Every fenring_armor piece carries it, or a mixed set stacks both.
+name: HelmetFenring
+m_weight: 1
+SE_SET_Equip:
+  EffectName: SE_OSRS_FenringArmor

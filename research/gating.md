@@ -72,6 +72,9 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 - Harvester set (ArmorHarvester1/2 + HelmetStrawHat, Hildir after the brass chest): vanilla +25 Farming passed every
   Farming gate (buffed level) and the cape at base 75; its set effect is now `SE_OSRS_Harvester`, Farming +5 and +10%
   Farming XP (`m_raiseSkill` 106, additive). If the Skills panel still shows +25: WIRSL equip 100 on the three pieces.
+- Root set (Bows) and Fenris set (Unarmed, all 7 `fenring_armor` pieces incl. `FW_`/`SP_`): vanilla +15 passed their gates at
+  equip (#178); set effects now `SE_OSRS_RootArmor` / `SE_OSRS_FenringArmor`, +5, rest cloned. A mixed set applies both
+  effects: every piece of an edited set carries the swap (validator).
 - Uniques (gate = sim family-main level at the first drop, rounded up to 5; `sim-run.py` uniques): DragonAxe Lumberjacking 30,
   DragonfireShield Blocking 35, BandosGodsword Swords 50, AbyssalWhip Swords 55,
   ScytheOfVitur Polearms 70; DraugrVisage ungated (armor). Elite: HillGiantClub Clubs 30,
@@ -94,13 +97,14 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
 WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
-`GetSkillLevel`, buffs included.
-Skill-level SEs (SE_Stats `m_skillLevel`/`2`; bundles scanned 2026-09-26): Troll set Sneak 15, Root Bows 15, Lox Sneak 30 + Bows 15,
-Fenring Unarmed 15, FishingHat Fishing 20 + Swim 20, `GP_Yagluth` Farming 25, `Potion_hasty` Run 10; full-adrenaline trinkets:
+`Skills.GetSkillLevel`: status-effect buffs count (set bonuses, rings, Skillful potion); EpicLoot `Add*Skill` does not
+(it adds only inside `Character.GetSkillLevel`). Checked at equip and at ammo draw only (#178).
+Skill-level SEs (SE_Stats `m_skillLevel`/`2`; bundles scanned 2026-09-26): Troll set Sneak 15, Lox Sneak 30 + Bows 15,
+Root / Fenring 5 (above), FishingHat Fishing 20 + Swim 20, `GP_Yagluth` Farming 25, `Potion_hasty` Run 10; full-adrenaline trinkets:
 BlackDamageHealth Clubs 20, BlackStamina Dodge 20, FlametalEitr Elemental + Blood 20, SilverDamage Bows + Spears 20.
 Wizardry: rings BlackForest Sneak 5, Swamp Elemental 3, Mistlands Blood 7; circlets Elemental 4-14, Hunter Bows + Crossbows 3-13,
 Sneak 3-16; Spellslinger sets Elemental + Blood 3-12; potions Skillful All 10 (crafting off), Aquatic Swim 25 + Fishing 15,
-Sneak 20, Lumberjack WoodCutting 10, Miner Pickaxes 10. EpicLoot `Add*Skill` adds only inside `Character.GetSkillLevel`, never to KG.
+Sneak 20, Lumberjack WoodCutting 10, Miner Pickaxes 10.
 `GlobalKeyReq` without WAP = `ZoneSystem.CheckKey(key, GameKeyType.Player)`: the player's own key (KG `AddPlayerKey`).
 Staff skill = game-data `m_skillType` (9 Elemental, 10 Blood): GreenRoots, ThunderBlood Elemental; FrostOrbs, OrbofAhri Blood.
 **Unverified:** skill name `Alchemy`.
@@ -121,8 +125,8 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 - 3 seed sacks (CarrotSeeds / OnionSeeds / VineberrySeeds clones, separate prefabs the Cultivator never plants) + Frey's sickle
   (Scythe clone: no durability, stamina 5 -> 2.5, speed 1.25) + Harvest crown (HelmetMidsummerCrown clone, stripped:
   a HelmetStrawHat clone would keep set `harvester` and complete the Harvester set).
-- Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester pieces:
-  `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
+- Vanilla item edits: an `Item_<vanilla>.yml` with no `clonePrefabName` edits the item in place (Harvester, Root, Fenris
+  pieces: `SE_SET_Equip` only). Not a clone: no log row, validator checks the name is a game-data item.
 - 4 riddle-stones (AncientGemstone clones) + 6 rewards (4 capes, 2 helmets): armor 0,
   `SE_Equip` and `SE_SET_Equip` `EffectName: delete` (also saga cosmetics), no modifiers, no WIRSL gate, AzuEPI vanity-wearable.
 - 24 skillcapes = CapeLinen clones, display `<Valheim skill> cape`, one per skill in
