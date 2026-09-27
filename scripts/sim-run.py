@@ -1238,6 +1238,8 @@ class Run:
                     continue
                 last[q.qid] = t
                 pl.events.append((t, 1, f'contract {q.qid}'))
+                for s, v in q.skill_exp:                   # raw Skill_EXP (Alchemy tiers, #169)
+                    pl.add_xp(s, v * self.p('xp.quest_skill_exp_factor'), t, t + 0.01, events=False)
                 for item, n in q.items:
                     if item == '__pool__':
                         item, n = self.rng.choice(n), 1

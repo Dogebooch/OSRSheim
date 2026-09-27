@@ -159,10 +159,10 @@ Every yml needs a top-level `m_weight` or wackydb drops it (validator checks).
 | Ring | Effect | Bsmith | Anvil | Shard |
 |---|---|---|---|---|
 | `RingBlackForest_TW` | Sneak +5 | 15 | 1 | Elder 4 |
-| `RingSwamp_TW` | ElementalMagic +3 | 20 | 2 | Bonemass 4 |
+| `RingSwamp_TW` | ElementalMagic damage +2% (§6) | 20 | 2 | Bonemass 4 |
 | `RingMountain_TW` | eitr regen +4% | 30 | 3 | Moder 4 |
 | `RingPlains_TW` | ElementalMagic damage +3% | 40 | 4 | Yagluth 4 |
-| `RingMistlands_TW` | BloodMagic +7 (English description: +5), health regen +2% | 50 | 4 | none |
+| `RingMistlands_TW` | BloodMagic damage +6% (§6), health regen +2% | 50 | 4 | none |
 - Vanilla traders (Haldor, Hildir, Bog Witch) buy any item with `m_value > 0` at `m_value x stack`; a clone without `m_value` keeps its source's. Crafted items stay `m_value: 0`.
 
 Clones register and load from cache before world load and drop off kills. Both server and every client need the yml files.
