@@ -91,7 +91,7 @@ topics:
 
     Her contracts pay seed sacks. She opens them for you: seeds and herbs and riddle-stones and sometimes a bigger sack. The rarest prizes live only in the frontier sack.
 
-    The good brews come out of your own soil. No trader sells them.
+    Harvest clothes from Hildir raise Farming and speed its experience. The good brews come out of your own soil. No trader sells them.
   data: herbs
   see: [alchemy]
 
@@ -99,7 +99,7 @@ topics:
   title: Brewing
   npc: Your own alchemy table
   text: |
-    Carrot and turnip make a potion base at the alchemy table. Brew from the base at the same table.
+    Carrot and turnip make a potion base at the alchemy table once it is upgraded once. Brew from the base at the same table.
 
     Lesser vials are open to everyone. Stronger brews need Alchemy. The skill guide lists the level for each brew.
 

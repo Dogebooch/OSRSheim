@@ -5,7 +5,15 @@ r"""Generate the in-game handbook (a KG Marketplace dialogue tree) from loot\*.c
     python scripts\gen-handbook.py --check    exit 0 = cfg matches the tables, 1 = stale
 
 Pages: [handbook] root (Gielheim Guide NPC, also DistancedUI) -> bestiary -> biome -> creature,
-and -> skills -> skill -> level (the skill guide).
+-> skills -> skill -> level (the skill guide), -> topics (one wiki page per system), -> journey, -> items.
+Topics: prose from reference\handbook-topics.yml (no commas, <= TEXT_CAP), then rows each TOPIC_DATA section builds
+from the KG cfgs: quests by giver profile and boss gate (a detail page per story and oath quest), trader pages
+(an item at the first profile that stocks it, lit by the gate of the dialogue reply that opens it), gambler odds
+(one slot picked uniformly), Buffer blessings, waystone fees, objects.csv finds, recipes. Pages past ROW_CAP rows
+continue on 'More'. NPC walkthroughs in osrsheim_dialogues.cfg link here with "Show me the full page".
+Items: every collection-log row, lore from its wackydb Item yml, worn effect from its SE yml (SE_WORDS), and every
+source: drops (per biome past 12), vanilla-drops.csv, objects, gambler prizes, trades, quest rewards, recipes,
+capes, else the yml `sources:` note; an item with no source fails the run.
 A creature page lists every modded drop with the chance the player actually gets: csv chance x the
 owner's class multiplier, the same maths as gen-loot.py. Shared gem / rare tables are merged in, superior
 bonus loot (update-superiors.py ROWS) gets a sub-page. Vanilla drops are untouched and not listed.
@@ -378,7 +386,9 @@ class World:
         self.names = names
         self.tokens = {k: v['m_name'] for k, v in json.load(open(GAME_ITEMS, encoding='utf-8')).items()
                        if str(v.get('m_name', '')).startswith('$')}
-        self.creature = {c['creature']: c['display'] for c in creatures}
+        pieces = json.load(open(ROOT / 'reference/game-data/pieces.json', encoding='utf-8'))['Piece']
+        self.tokens |= {k: v['m_name'] for k, v in pieces.items() if k not in self.tokens and str(v.get('m_name', '')).startswith('$')}
+        self.creature ={c['creature']: c['display'] for c in creatures}
         self.dialogues = {}
         for f in sorted((KG / 'Dialogues').glob('*.cfg')):
             if f.name != OUT.name:
@@ -795,6 +805,40 @@ def lore(prefab):
     return re.sub(r'\s*,\s*', ' - ', str(d)).replace('|', '/').strip()
 
 
+# wackydb SeData fields in player words; an unlisted non-default field fails the run so no effect goes unsaid.
+SKILL_ID = {1: 'Swords', 2: 'Knives', 3: 'Clubs', 4: 'Polearms', 5: 'Spears', 6: 'Blocking', 7: 'Axes', 8: 'Bows',
+            9: 'Elemental magic', 10: 'Blood magic', 11: 'Unarmed', 12: 'Mining', 13: 'Lumberjacking', 14: 'Crossbows',
+            101: 'Sneak', 102: 'Run', 103: 'Swim', 104: 'Fishing', 105: 'Cooking', 106: 'Farming'}
+SE_WORDS = {'m_addMaxCarryWeight': lambda v, d: f'+{v:g} carry weight',
+            'm_fallDamageModifier': lambda v, d: f'{-v * 100:g}% less fall damage',
+            'm_eitrRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% eitr regen',
+            'm_staminaRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% stamina regen',
+            'm_healthRegenMultiplier': lambda v, d: f'+{(v - 1) * 100:g}% health regen',
+            'm_stealthModifier': lambda v, d: f'{-v * 100:g}% harder to see',
+            'm_noiseModifier': lambda v, d: f'{-v * 100:g}% quieter',
+            'm_skillLevelModifier': lambda v, d: f'{SKILL_ID[d["m_skillLevel"]]} +{v:g}',
+            'm_raiseSkillModifier': lambda v, d: f'+{v * 100:g}% {SKILL_ID[d["m_raiseSkill"]]} experience',
+            'm_skillLevel': None, 'm_raiseSkill': None}
+# What a clone inherits when its SeData leaves a field out (research/gating.md §6: Troll set = Sneak +15).
+CLONE_SE = {'SetEffect_TrollArmor': {'m_skillLevel': 101, 'm_skillLevelModifier': 15}}
+
+
+def effect(prefab):
+    """The worn effect of a wackydb item, from its SE_Equip status effect."""
+    f = WDB / f'Items/Item_{prefab}.yml'
+    se = ((yaml.safe_load(f.read_text(encoding='utf-8-sig')) or {}).get('SE_Equip') or {}).get('EffectName') if f.exists() else None
+    g = WDB / f'Effects/{se}.yml'
+    if not se or not g.exists():
+        return ''
+    y = yaml.safe_load(g.read_text(encoding='utf-8-sig')) or {}
+    d = CLONE_SE.get(y.get('ClonedSE'), {}) | (y.get('SeData') or {})
+    d = {k: v for k, v in d.items() if v not in (0, 1, [], '', None, False)}
+    for k in d:
+        if k not in SE_WORDS:
+            fail(f'{se}: SeData {k} has no handbook wording (SE_WORDS)')
+    return ' / '.join(SE_WORDS[k](v, d) for k, v in d.items() if SE_WORDS[k])
+
+
 def item_pages(w, sources, ctx):
     cats = {}
     with open(LOOT / 'collection-log.csv', newline='', encoding='utf-8') as f:
@@ -819,6 +863,8 @@ def item_pages(w, sources, ctx):
                 drops = [(max(ps), f'Text: {colour(text(f"Dropped in the {b}: {len(ps)} creature{'s' * (len(ps) > 1)} - " + (odds(max(ps)) if min(ps) == max(ps) else f"{odds(max(ps))} to {odds(min(ps))}")), max(ps))}\n', b)
                          for b, ps in by.items()]
             body = [r[1] for r in sorted(drops, key=lambda r: -r[0])] + [r[1] for r in rows if r[0] is None]
+            if effect(p):
+                body.insert(0, info(f'Worn: {effect(p)}'))
             text_ = lore(p) or f'{w.name(p)}.'
             d += page(f'{P}_i_{slug(p)}', f'{w.name(p)}. {text_}' if lore(p) else text_, body, f'{P}_ic_{slug(c)}')
     if unsourced:

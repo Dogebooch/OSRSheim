@@ -671,6 +671,12 @@ for node, lines in dialogs.items():
             if "," in field.split(":", 1)[-1] and field.startswith("Text:"):
                 warn(f"KG dialogue [{node}] reply text contains a comma (KG field separator): {field}")
 ok(f"KG dialogues: {len(dialogs)} nodes")
+# Hand-written NPC lines teach in character; numbers live in the generated handbook pages, so an NPC line never goes stale.
+for _f in ("osrsheim_dialogues.cfg", "osrsheim_oaths.cfg"):
+    _lines = [l for l in read(os.path.join(KG, "Dialogues", _f)).splitlines() if l.strip() and not l.startswith("#")]
+    for _i, _l in enumerate(_lines[:-1]):
+        if _l.startswith("[") and re.search(r"[\d,|]", _lines[_i + 1]):
+            err(f"KG dialogue {_l} ({_f}): NPC line holds a digit, comma or '|' (numbers belong in the handbook)")
 for k in sorted(custom_read - custom_written):
     err(f"KG custom value '{k}' is read by a CustomValueMore/Less condition but no reward or command writes it")
 # Saved NPCs (Marketplace Hammer templates): a mistyped Profile or Dialogue fails silently in game.
