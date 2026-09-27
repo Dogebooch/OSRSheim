@@ -168,7 +168,7 @@ weight 0.1 stack 50.
   emptied; ores, Plains materials and BF foods gated on their biome boss) and
 `..._LocationConfigs.yml` (192 location types). Locations bake at
   world-gen: tune before Gielheim exists.
-- `..._LocationConfigs.yml` in repo `config\`: MWL defaults, `MWL_TreeTowers1: 0`.
+- `..._LocationConfigs.yml` in repo `config\`: MWL defaults, `MWL_TreeTowers1: 0` (2026-09-23); ModTest predates it and keeps the location.
 - MWL 5.1.1 null loot, 2 of 355 MWL drop tables: `MWL_TreeTowers1` chest (all 10 entries, NRE on
   spawn; off) and one destructible; `MWL_MistTower2` YggaShoot drops only, chest fine (kept).
 - Throwaway world gen (dedicated server): MWL placed 2094 of 2493 asked, ~15% of 14.1k locations.
@@ -245,7 +245,8 @@ WEC data entries: `BepInEx\config\data\*.yaml`, `- name:` + `ints`/`floats`/`boo
 WEC `object id=<prefab> center=x,z radius=<m> info|remove`: loaded objects only; no count limit (two NPCs on one spot: remove both, respawn one).
 `server spawn_object` into an unloaded zone prints Spawned but is never saved; spawn on site.
 Aliases: `BepInEx\config\alias*.yaml` (`name: 'cmd; wait 2000; cmd'`), hot-reloaded. Join `Auto exec` fires before admin: remote commands say Unauthorized.
-Dedicated `save` throws (`ZNet.HardSaveBlock` NRE); the world autosaves every 20 min.
+Dedicated `save` within 60 s of the last save throws (`ZNet.HardSaveBlock` NRE, vanilla, nothing lost); later it saves.
+Autosave: `-saveinterval`, 1800 s in `server-start-template.bat`.
 
 **Seen at shipping rates (server, 2026-09-22)**: 7 elite uniques, Rare T2-T4
 key halves + riddle-stones, Gem T1 riddle-stone; `defeated_bonemass` necklace
