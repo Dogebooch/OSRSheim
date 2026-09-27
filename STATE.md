@@ -1,4 +1,4 @@
-# STATE — 2026-09-25
+# STATE — 2026-09-26
 
 Stack loads on 1.0.15; mod list frozen (§3) but Quick Stack Store
 (#46), WEC (#124), Groups (#170): Gale install on both PCs + host, then `sync-configs.ps1 -Pull`. Logs/dumps off
@@ -22,16 +22,17 @@ Content plan (relics, dungeon sets, saga belt, riddle journeys): `docs\PLAN.md`;
 
 ## Needs a live world
 Ship: Doug launches once, `gen-mods.py` (B13), `-Push`.
-All in-game checks: #156 (pinned; ModTest, two players, Gielheim).
+All in-game checks: #156 (pinned).
 
 ## Gielheim (Doug plays and reports)
 1. Create Gielheim on the host (panel world name, Sven deploys first): new character, death penalty Casual (§15), launch
    via `scripts\launch-modded.ps1`. Claude places the KG NPCs (`gen-npcs.py --town` blanks every far row incl. biome waystones: `--set` each on site; open meadow by the sea; admin char only; `--builder off` after, §11).
-2. After session one the AI reads `LogOutput.log` (WIRSL `Loaded: 339`).
+2. After session one: WIRSL `Loaded: 339` in `LogOutput.log`.
 3. Doug vetoes renames.
 
 ## First Gielheim sessions
-- Sessions record themselves (`watch.py`; Sven: his Claude asks).
+- Data records itself (`watch.py`; Sven: his Claude asks); in game, F12 on anything odd.
+  First: Doug's panel subuser key in `server.env` (§15); Sven deploys `EnableTraderLog`.
 - Day one: craft, block and helm once each at skill 0. Bars near 50% expected;
   far higher means the §6 ladder is cheap.
 - Kills/hr, one 30 min farm per class, via `gen-loot.py --marker` (its
@@ -44,7 +45,6 @@ Waiting on upstream: KG Marketplace stable 10.x.
 
 ## Server
 Live 2026-09-22: GGServers 8 GiB, fresh `Dedicated`, configs = 55fa2cd via
-`sync-server.ps1` (behind main), mods = `mods.tsv`. MWL live (ports off from Gielheim), host dumps off;
-2.5 GiB boot, 4.0 GiB after a 30 min solo fly (§15). First join can time out:
-rejoin (§15). Open: Doug in `adminlist.txt`,
+`sync-server.ps1` (behind main), mods = `mods.tsv`. MWL live (ports off from Gielheim), host dumps off.
+Open: Doug in `adminlist.txt`,
 clone-drop and `DropOnePerPlayer` checks with both players present.

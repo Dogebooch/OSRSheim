@@ -5,15 +5,23 @@ Install (or remove) the OSRSheim background watcher on this PC: a logon task tha
 .DESCRIPTION
 What it is (read this to the player before installing; each PC decides for itself):
   - Records every play session from the character save (.fch) after the game closes: hours, kills,
-    deaths, crafts, skill XP per hour. Feeds the balance sim (scripts\sim-run.py validate).
+    deaths, crafts, skill XP per hour, KG quests finished and custom values. Feeds the balance sim
+    (scripts\sim-run.py validate).
+  - Notes, for Claude: screenshots taken during the game (F12 / Win+Alt+PrtScn) and error types the
+    game or server logs never showed before (scripts\host-data.py).
   - Checks every 30 min, with the game closed: main checkout behind origin/main, post-build-check.py
     errors, session rows not yet committed. Claude sees the result at the start of every session
     (SessionStart hook in .claude\settings.json) and offers each fix; a toast shows at game start
-    when something needs action.
-  - Never syncs configs, commits, pushes, or touches the Gale profile or the host.
+    when something breaks a session.
+  - Never syncs configs, commits, pushes, or touches the Gale profile. On the host it writes only
+    osrsheim-data/sessions/ (this PC's session rows), and only with a panel key in server.env.
   - Cost: one pythonw process (~20 MB RAM), one tasklist call every 15 s, below-normal priority.
-  - Stays on this PC: snaps and the session log live in <repo>\.cache\ (gitignored). Rows reach
-    the repo only when the player's Claude runs `session-log.py publish` in a branch and opens a PR.
+  - Snaps and the session log live in <repo>\.cache\ (gitignored). With a panel key they are shared
+    through the host; rows reach the repo when a Claude runs `session-log.py publish` in a branch.
+
+Optional <repo>\server.env (gitignored; the player pastes the key; no script prints it):
+  PTERO_URL=https://panel.ggservers.com, PTERO_SERVER=<server id>, PTERO_API_KEY=<panel key>
+  (a subuser key needs file.read, file.read-content, file.create). Without it nothing reaches the host.
 
 Requirements:
   - Windows 10/11, Valheim through Steam, the OSRSheim Gale profile at
@@ -26,7 +34,8 @@ Setup (the player's Claude does these steps):
   2. powershell -ExecutionPolicy Bypass -File scripts\watch-install.ps1
   3. python scripts\watch.py status             expect "watcher: running"
   4. After the next play session: `python scripts\watch.py status` shows "last session: ...".
-     To share rows: in a branch, `python scripts\session-log.py publish`, commit reference\sessions\, PR.
+     To commit rows: in a branch, `python scripts\session-log.py publish`, commit reference\sessions\, PR.
+  5. After a git pull that changes watch.py: step 2 again (the hook says when).
 Not wanted on this PC: python scripts\watch.py decline (the hook stops asking).
 Remove: powershell -ExecutionPolicy Bypass -File scripts\watch-install.ps1 -Uninstall
 Logs: <repo>\.cache\watch\watch.log. Status: <repo>\.cache\watch\status.json.

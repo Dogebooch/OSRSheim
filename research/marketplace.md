@@ -10,7 +10,7 @@ filename, `[profile]` headers, comma-separated fields, hot-reloaded on save.
 Bad lines are logged per entry with file and line; the rest still loads.
 Only the physical NPC needs the in-game Marketplace Hammer (admin).
 
-`Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`,
+`Marketplace\MarketPlace.cfg` changes: `UseLeaderboard = true`, `EnableTraderLog = true` (Logger.log `[Trader]` lines),
 `AlwaysProgressServerTime = true`, `MarketTaxes = 1`, `CanTeleportWithOre =
 false` (the waystones must not carry metal either, §15), `Use Marketplace Locally
 = false` (clients of the host; `sync-configs.ps1 -Push -Solo` writes true for ModTest). Banker interest off.
@@ -194,7 +194,7 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 |---|---|
 | `SkillMore, <skill>, <n>` / `SkillLess` | vanilla enum name, else `abs(GetStableHashCode(name))` (SkillManager's key): Smoothbrain skills and Alchemy by name; `>=` on the buffed level; unknown name = -1 |
 | Condition fields | several `Condition:` = AND; `||` inside one = OR; `AlwaysVisible: true` shows a failed reply red with its reason |
-| `CustomValueMore, key, n, text` | per-player value (`Player.m_customData`); `text` replaces the reason, `{current}`/`{value}` filled in |
+| `CustomValueMore, key, n, text` | per-player value, saved in the character's custom data as `kgMarketplaceValue@<key>` (integer string); `text` replaces the reason, `{current}`/`{value}` filled in |
 | `AddCustomValue: key, n` | also a quest reward type |
 | `Kill` quest credit | killing blow (Quest_ProgressionHook.cs:266), relayed to the killer's Groups party within 100 m |
 | `AllowKillQuestsInParty` | `true`; acts only with the Groups mod loaded (`Groups.API.IsLoaded()`, :587) |
@@ -206,4 +206,7 @@ BetterUI tooltips true: EpicLoot requires false. Cooldown: bare days, `s` second
 | Reply text | localised (`$item_*` tokens resolve) |
 | Quest webhook | fires on every quest completion (contracts, log rows): not a drop broadcast |
 | Gambler | 21 prize slots after the cost pair; extras dropped |
+| Quest save keys (10.0.1) | character custom data: `[MPASN]quest=<uid>` = accepted (`score,score;acceptedTime`, removed on finish or fail); `[MPASN]questCD=<uid>` = finished (world day; a repeatable overwrites it, cleared at login once its cooldown ends); uid = stable hash of the `[id]`, spaces removed, lowercased |
+| `Logger.log` | `<BepInEx>\config\Marketplace\Logger.log`, written only by a KG server half: a dedicated server (the host), or the profile in `-Solo` |
+| Logger lines | `[<server time>] [Banker] Player User ID: <SteamID64> Deposit an item <item> with quantity: <n>.` (always on; bulk deposits as ItemHash); `[Trader] <char> (<SteamID64>) TraderNPC: x<n> <cost>, ... for => x<n> <result>` (needs that server's `EnableTraderLog`; English display names, NPC not named) |
 Everything needing a live world to confirm: the GitHub issue list.
