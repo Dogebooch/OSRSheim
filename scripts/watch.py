@@ -9,6 +9,8 @@ r"""Background watcher: records play sessions and keeps a status file Claude rea
     python scripts\watch.py ack        mark those findings handled
 
 Every 15 s: is valheim.exe running (tasklist). Nothing heavy runs while the game is up.
+  in a world     away stretches (game not the foreground window, or no input for 2 min) -> .cache\watch\away.csv;
+                 session-log.py subtracts them from a row's hours (pause-menu breaks, alt-tab to notes or Claude)
   game exit      (two empty polls in a row) session-log.py auto (snap each changed save, one row per character into
                  .cache\sessions\<char>.csv + a detail line in <char>.jsonl); the game report: screenshots taken since
                  game start (Steam F12, Game Bar Win+Alt+PrtScn) and error types the client log never showed before;
@@ -31,7 +33,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parent
@@ -62,6 +64,7 @@ DIR = MAIN / '.cache' / 'watch'
 STATUS, LOG, LOCK, DECLINED, ACKED = (DIR / 'status.json', DIR / 'watch.log', DIR / 'watch.lock', DIR / 'declined',
                                       DIR / 'acked')
 KEEP_FINDINGS_DAYS, MAX_FINDINGS = 30, 60
+AWAY, IDLE_S = DIR / 'away.csv', 120                                     # Presence
 
 
 def log(msg):
@@ -89,6 +92,84 @@ def save_status(st):
 def game_running():
     rc, out = sh('tasklist', '/FI', 'IMAGENAME eq valheim.exe', '/NH', '/FO', 'CSV', timeout=20)
     return rc == 0 and 'valheim.exe' in out.lower()
+
+
+class Presence:
+    """Away stretches while in a world -> AWAY (start,end,seconds,reason); session-log.py subtracts them from hours.
+    Away: valheim.exe does not own the foreground window, or no keyboard/mouse input for IDLE_S (the pause menu
+    itself logs nothing). In a world: client log 'Starting respawn' until 'Sending disconnect msg' or game exit."""
+
+    def __init__(self):
+        self.pos, self.in_world, self.since, self.reason = 0, False, None, ''
+
+    def read_log(self):
+        path = PROFILE / 'LogOutput.log'
+        size = path.stat().st_size if path.exists() else 0
+        if size < self.pos:                                               # a new launch rewrote the log
+            self.pos, self.in_world = 0, False
+        if size == self.pos:
+            return
+        with path.open('rb') as f:
+            f.seek(self.pos)
+            text = f.read(size - self.pos).decode('utf-8', 'replace')
+        self.pos = size
+        for line in text.splitlines():
+            if 'Starting respawn' in line:
+                self.in_world = True
+            elif 'Sending disconnect msg' in line or 'OnApplicationQuit' in line:
+                self.in_world = False
+
+    def poll(self, running):
+        now = datetime.now()
+        if running:
+            self.read_log()
+        else:
+            self.in_world = False
+        reason, start = '', now
+        if running and self.in_world:
+            idle = idle_s()
+            if not foreground_is_game():
+                reason = 'not focused'
+            elif idle >= IDLE_S:
+                reason, start = 'idle', now - timedelta(seconds=idle)
+        if reason and self.since is None:
+            self.since, self.reason = start, reason
+        elif not reason and self.since is not None:
+            new = not AWAY.exists()
+            with AWAY.open('a', encoding='utf-8', newline='\n') as f:
+                if new:
+                    f.write('start,end,seconds,reason\n')
+                f.write(f"{self.since.isoformat(timespec='seconds')},{now.isoformat(timespec='seconds')},"
+                        f"{round((now - self.since).total_seconds())},{self.reason}\n")
+            self.since = None
+
+
+def foreground_is_game():
+    import ctypes
+    from ctypes import wintypes
+    u, k = ctypes.windll.user32, ctypes.windll.kernel32
+    pid = wintypes.DWORD()
+    u.GetWindowThreadProcessId(u.GetForegroundWindow(), ctypes.byref(pid))
+    h = k.OpenProcess(0x1000, False, pid.value)                           # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return False
+    try:
+        buf, n = ctypes.create_unicode_buffer(1024), wintypes.DWORD(1024)
+        return bool(k.QueryFullProcessImageNameW(h, 0, buf, ctypes.byref(n))) and buf.value.lower().endswith('valheim.exe')
+    finally:
+        k.CloseHandle(h)
+
+
+def idle_s():
+    """Seconds since the last keyboard/mouse input, system-wide."""
+    import ctypes
+
+    class LastInput(ctypes.Structure):
+        _fields_ = [('cbSize', ctypes.c_uint), ('dwTime', ctypes.c_uint)]
+    li = LastInput(ctypes.sizeof(LastInput), 0)
+    ctypes.windll.user32.GetLastInputInfo(ctypes.byref(li))
+    ctypes.windll.kernel32.GetTickCount.restype = ctypes.c_uint32
+    return ((ctypes.windll.kernel32.GetTickCount() - li.dwTime) & 0xFFFFFFFF) / 1000
 
 
 def script(name):
@@ -320,11 +401,16 @@ def cmd_run(_):
     last_refresh = last_sync = time.time()
     last_beat = 0.0
     empty = 0                                                             # polls in a row without valheim.exe
+    presence = Presence()
     while True:
         try:
             seen = game_running()
             empty = 0 if seen else empty + 1
             now = seen or (running and empty < 2)                         # exit only after two empty polls
+            try:
+                presence.poll(seen)
+            except Exception as e:
+                log(f'presence error: {e!r}')
             if now and not running:
                 log('game start')
                 st['game_started'] = now_iso()
