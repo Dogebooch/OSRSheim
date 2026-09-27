@@ -17,7 +17,8 @@ Kill quests credit the killer's Groups party within 100 m; story boss pay is a T
 Design pass #159 live (§6-11). Sim: run-end coins 185k.
 Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins, tithes collect trophies.
 Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h, Blocking x2.
-Pets: boss 1/100 a kill (a grind); skilling 0.1 a player-run each.
+Pets: boss 1/100 a kill; skilling 0.1 a player-run each.
+TestStatFix plugin (Doug PC): `test` safe on; in-game check open.
 Content plan (relics, dungeon sets, saga belt, riddle journeys): `docs\PLAN.md`; next S1-S3 in game.
 
 ## Needs a live world

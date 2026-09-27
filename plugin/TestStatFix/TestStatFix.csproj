@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- dotnet build -c Release; references the local game and Gale profile. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>OSRSheimTestStatFix</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>MSB3277</NoWarn>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Managed>C:\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed</Managed>
+    <BepCore>$(APPDATA)\com.kesomannen.gale\valheim\profiles\OSRSheim\BepInEx\core</BepCore>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="assembly_valheim" HintPath="$(Managed)\assembly_valheim.dll" Private="false" />
+    <Reference Include="assembly_utils" HintPath="$(Managed)\assembly_utils.dll" Private="false" />
+    <Reference Include="UnityEngine" HintPath="$(Managed)\UnityEngine.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(Managed)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="BepInEx" HintPath="$(BepCore)\BepInEx.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(BepCore)\0Harmony.dll" Private="false" />
+  </ItemGroup>
+</Project>

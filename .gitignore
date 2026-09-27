@@ -46,3 +46,7 @@ perf/
 
 # scripts/sim-run.py output
 sim-out/
+
+# plugin build output
+plugin/*/bin/
+plugin/*/obj/

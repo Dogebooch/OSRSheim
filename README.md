@@ -47,7 +47,8 @@ Run length and balance issues: [#81](https://github.com/Dogebooch/OSRSheim/issue
 | [`reference/`](reference) | mod manifest, verified prefab names, wackydb dumps, `game-data/`, measured rates, audits |
 | [`research/`](research) | reference topic files (loot, marketplace, gating, ...); map in `RESEARCH.md` |
 | [`scripts/`](scripts) | generators, validators, sync, doc hooks |
-| [`staging/`](staging) | changes built but not yet applied to `config/` |
+| [`staging/`](staging) | built, not yet in `config/` |
+| [`plugin/`](plugin) | our BepInEx fixes |
 | [`archive/`](archive) | first build's docs and config snapshot; read-only |
 
 Generated, never hand-edited: `config/drop_that.character_drop*.cfg`,
