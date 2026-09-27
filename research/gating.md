@@ -52,7 +52,8 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
   50 on the armor split. Rings craft Blacksmithing 15 / 20 / 30 / 40 / 50, equip ungated.
 - Unarmed ladder 30 / 40 / 60.
 - Crossbows: Arbalest ungated, Ripper 20, Gold 30.
-- Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills. Bought only at 100 (Verdandi).
+- Skillcapes: skill 100; Herblore cape Alchemy + Foraging; max cape ANDs all 24 skills. Bought only at 100 (Verdandi), on the true level:
+  each cape also asks `NotHasBuff` for every status effect that raises its skills (`gen-handbook.py` `SKILL_BUFFS`).
 - Uniques also need their biome's oath: a second requirement element `GlobalKeyReq: oath_<biome>` (a key element
   returns on the key alone, so it cannot share the skill element).
 - Gem-tipped bolts: Amber 10, Pearl 20, Ruby 25, Crystal 30 on Crossbows (crossbow tier; craft + shoot).
@@ -64,6 +65,8 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
   Magelight + Weapon Oil 30, Fortification + Second Wind 35, Elements 40,
   Gods 50, the 4 Philosopher's Stones 60 (cfg factor 1 = x2 XP). Lesser vials ungated.
   Late crops: Gods costs MushroomMagecap 2 (Mistlands), each stone + Vineberry 5 (Ashlands); Deep North crops are food only.
+  Alchemy 70 / 80 = Verdandi contract tiers 4-5 (§11), no new brew: every SE field wackydb sets already has a source,
+  the pheromone spawn fields are read by nothing in 1.0.16 and wackydb cannot set `m_pheromoneTarget` (flee ward).
 - Farming: Scythe 30 (craft + equip); `OSRS_MagicSecateurs` (Frey's sickle) equip 80 = sim Farming at first drop
   (p50 79, P before gate 0.58). Seed pages and herb contracts gate on `SkillMore, Farming` (§11).
 - Harvester set (ArmorHarvester1/2 + HelmetStrawHat, Hildir after the brass chest): vanilla +25 Farming passed every
@@ -91,7 +94,13 @@ Combat index vs vanilla at entry 0.92-1.04 (`sim-run.py`). Skill roll spread ±1
 capes, SledgeStagbreaker, BowFineWood, ArrowFlint, FishingRod, FishingBait.
 
 WIRSL 1.4.7 (`Patches.cs`): an unknown skill name is unmet (fails closed); the level read is
-`GetSkillLevel`, buffs included (Wizardry Skillful potion +8 all skills, 15 min).
+`GetSkillLevel`, buffs included.
+Skill-level SEs (SE_Stats `m_skillLevel`/`2`; bundles scanned 2026-09-26): Troll set Sneak 15, Root Bows 15, Lox Sneak 30 + Bows 15,
+Fenring Unarmed 15, FishingHat Fishing 20 + Swim 20, `GP_Yagluth` Farming 25, `Potion_hasty` Run 10; full-adrenaline trinkets:
+BlackDamageHealth Clubs 20, BlackStamina Dodge 20, FlametalEitr Elemental + Blood 20, SilverDamage Bows + Spears 20.
+Wizardry: rings BlackForest Sneak 5, Swamp Elemental 3, Mistlands Blood 7; circlets Elemental 4-14, Hunter Bows + Crossbows 3-13,
+Sneak 3-16; Spellslinger sets Elemental + Blood 3-12; potions Skillful All 10 (crafting off), Aquatic Swim 25 + Fishing 15,
+Sneak 20, Lumberjack WoodCutting 10, Miner Pickaxes 10. EpicLoot `Add*Skill` adds only inside `Character.GetSkillLevel`, never to KG.
 `GlobalKeyReq` without WAP = `ZoneSystem.CheckKey(key, GameKeyType.Player)`: the player's own key (KG `AddPlayerKey`).
 Staff skill = game-data `m_skillType` (9 Elemental, 10 Blood): GreenRoots, ThunderBlood Elemental; FrostOrbs, OrbofAhri Blood.
 **Unverified:** skill name `Alchemy`.
