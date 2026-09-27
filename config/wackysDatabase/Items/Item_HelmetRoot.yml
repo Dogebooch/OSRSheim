@@ -1,5 +1,5 @@
 # OSRSheim vanilla item edit (#178, 2026-09-26): not a clone. The Root set's +15 Bows passed Bows gates at equip (WIRSL reads the buffed level, #178): the Gjall-gut bow (Bows 65) equipped at 50.
-# Set effect swapped for SE_OSRS_RootArmor: Bows +5. Every root_armor piece carries it, or a mixed set stacks both.
+# Set effect swapped for SE_OSRS_RootArmor: Bows damage +12%, no skill level. Every root_armor piece carries it, or a mixed set stacks both.
 name: HelmetRoot
 m_weight: 3
 SE_SET_Equip:

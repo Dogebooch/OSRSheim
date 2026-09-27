@@ -135,10 +135,34 @@ if _expected != clones:
 # is skipped with no log line. A recipe's clonePrefabName is the item it produces.
 STATIONS = {"forge", "piece_workbench", "piece_artisanstation", "piece_stonecutter",
             "piece_magetable", "blackforge", "piece_preptable", "opalchemy", "opcauldron", ""}
+# SE files: wackydb loads only text containing Status_m_name, and its client sync files text containing
+# m_weight / piecehammer / reqs as items / pieces / recipes first (Reload.cs). An omitted m_mods deserializes
+# to an empty list and clears the effect's resistances. WIRSL and KG read the buffed level (#178), so no
+# effect raises a gated skill (vanilla SkillType ids; 999 = All); every scanned skill-level effect is edited.
+GATED_SKILL_IDS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 104, 106, 999}
+SKILL_SES = {"SetEffect_LoxArmor", "SetEffect_FishingHat", "TrinketSilverDamage", "TrinketBlackDamageHealth",
+             "TrinketFlametalEitr", "GP_Yagluth", "Potion_Aquatic_TW", "SE_RingSwamp_TW", "SE_RingMistlands_TW",
+             "SE_OSRS_RootArmor", "SE_OSRS_FenringArmor", "SE_OSRS_Harvester"} \
+    | {f"SE_Circlet{t}_{k}" for t in ("Bronze", "Iron", "Silver", "BM", "Carapace") for k in ("Hunter", "Elemental")} \
+    | {f"SetEffect_Spellslinger_{b}" for b in ("BF", "Swamp", "Mountain", "Plains", "Mistlands")}
 se_names = set()
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "SE_*.yml"), recursive=True):
-    m = re.search(r"^Name:\s*(\S+)", read(f), re.M)
+    t, base = read(f), os.path.basename(f)
+    m = re.search(r"^Name:\s*(\S+)", t, re.M)
     if m: se_names.add(m.group(1))
+    if "Status_m_name" not in t:
+        err(f"wackydb {base}: no Status_m_name; wackydb skips the file")
+    for bad in ("m_weight", "piecehammer", "reqs"):
+        if bad in t: err(f"wackydb {base}: contains '{bad}'; client sync loads it as the wrong type")
+    if re.search(r"^SeData:", t, re.M) and not re.search(r"^[ \t]+m_mods:", t, re.M):
+        err(f"wackydb {base}: SeData without m_mods clears the effect's resistances (write m_mods: [] or the list)")
+    for i in ("", "2"):
+        sk = re.search(rf"^[ \t]+m_skillLevel{i}:\s*(\d+)", t, re.M)
+        mod = re.search(rf"^[ \t]+m_skillLevelModifier{i}:\s*([\d.]+)", t, re.M)
+        if sk and int(sk.group(1)) in GATED_SKILL_IDS and (not mod or float(mod.group(1)) > 0):
+            err(f"wackydb {base}: raises gated skill id {sk.group(1)}; WIRSL and KG would read it (#178)")
+if SKILL_SES - se_names:
+    err(f"skill-level status effects not edited (research/gating.md §6): {sorted(SKILL_SES - se_names)}")
 for f in glob.glob(os.path.join(CFG, "wackysDatabase", "**", "Recipe_*.yml"), recursive=True):
     t, base = read(f), os.path.basename(f)
     m = re.search(r"^clonePrefabName:\s*(\S+)", t, re.M)

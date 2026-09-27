@@ -6,17 +6,17 @@ Stack loads on 1.0.16; mod list frozen (§3) but Quick Stack Store
 111 clones + 13 item edits (37 unlaunched). Object drop targets come from `rate-model.py objects`;
 camped 321 kills/hr (§7). Deploy needs `validate-configs.py` on the PC.
 Herb run: herbwife seeds by Farming level, 11 contracts pay seed sacks; crops ->
-`Potion_Meadbase` -> potion -> Verdandi Alchemy contracts 20-80 (Frothling pet); capes need the unbuffed level (#169).
+`Potion_Meadbase` -> potion -> Verdandi Alchemy contracts 20-80 (Frothling pet).
 Oaths: 8 biomes x (4 tasks + seal) + an elite tier (skill-gated, trimmed cape, tithe);
 uniques need their biome's oath. `chapel_oath` is back and rebuilt on bone cost.
 15 boss/elite uniques drop as EpicLoot Legendaries (beam + highlight, 1 signature
 effect, §10); Troll verified, bosses unseen. Magic: 2-stars 4%,
 map chests: coins + gem 2/3 or magic item 1/3, shard rarity by biome (#107), enchanting table off (#108), forge rings off. Uniques lose one-per-player.
 Quests: 79 story (13 skill-gated; locked ones hidden), 45 hunts + 15 elite/boss (hunter rank), 21 skilling (Verdandi, Building via `Build`), skip fees (§11).
-Kill quests credit the killer's Groups party within 100 m; story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
-Design pass #159 live (§6-11). Sim: run-end coins 185k.
+Kill quests credit the killer's Groups party (100 m); story boss pay is a Talk quest on the boss key (both players). Tamed kills drop no OSRS loot.
+Design pass #159 live (§6-11). Sim: run-end coins 196k.
 Economy (phase 2): hunt/herb contracts pay gems/seeds, bosses drop no coins, tithes collect trophies.
-Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h, Blocking x2.
+Gating (phase 3): weapons Ashlands 55 / DN 60, uniques at sim drop level, skills 70-86 at 375 h, Blocking x2; no SE buffs a gated skill (unlaunched).
 Pets: boss 1/100 a kill (a grind); skilling 0.1 a player-run each.
 Content plan (relics, dungeon sets, saga belt, riddle journeys): `docs\PLAN.md`; next S1-S3 in game.
 

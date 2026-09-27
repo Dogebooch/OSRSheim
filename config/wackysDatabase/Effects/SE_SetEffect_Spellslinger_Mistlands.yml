@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of Wizardry SE SetEffect_Spellslinger_Mistlands (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Elemental + Blood magic +12 is gone, returned as damage +10% (All: both magic schools).
+Name: SetEffect_Spellslinger_Mistlands
+Status_m_name: $set_spellslinger_Mistlands_TW
+Tooltip: Damage +10%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_modifyAttackSkill: 999
+  m_damageModifier: 1.1
+  m_mods: []

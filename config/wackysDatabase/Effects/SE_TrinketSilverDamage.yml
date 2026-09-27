@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of vanilla SE TrinketSilverDamage (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Bows + Spears +20 at full adrenaline is gone, returned as pierce damage +16% (on top of its +10%).
+Name: TrinketSilverDamage
+Status_m_name: $se_trinketsilverdamage
+Tooltip: Pierce damage +26%.
+SeData:
+  m_skillLevel: 0
+  m_skillLevelModifier: 0
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_percentDamageModifiers:
+    m_pierce: 0.26
+  m_mods: []

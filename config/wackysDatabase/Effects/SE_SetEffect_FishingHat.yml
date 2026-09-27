@@ -1,0 +1,13 @@
+# OSRSheim in-place edit of vanilla SE SetEffect_FishingHat (#178, 2026-09-26). WIRSL and KG read the buffed level,
+# so no status effect raises a gated skill: Fishing +20 is gone, returned as Fishing experience +10% (the Harvester mechanic).
+Name: SetEffect_FishingHat
+Status_m_name: $item_helmet_fishinghat
+Tooltip: Swim +20. Fishing experience +10%.
+SeData:
+  m_skillLevel: 103
+  m_skillLevelModifier: 20
+  m_skillLevel2: 0
+  m_skillLevelModifier2: 0
+  m_raiseSkill: 104
+  m_raiseSkillModifier: 0.1
+  m_mods: []
