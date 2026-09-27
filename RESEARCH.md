@@ -86,6 +86,7 @@ reads both.
 | JereKuusela World Edit Commands (WEC) | TS | `spawn_object` / `object`: place, list, remove objects (§16, #124) |
 | Goldenrevolver Quick Stack Store Sort Trash Restock | TS | sort, trash, quick stack, restock (§13, #46) |
 | Smoothbrain Groups | TS | parties: KG kill quests credit every member within 100 m (§11); PotionsPlus group potions |
+| Azumatt Official BepInEx ConfigurationManager | TS | F1 in-game config editor, client-only; edits land in the profile: `-Pull` after |
 
 Held updates: CLLC 5.0.5 (new `Apply logarithmic power scaling` default 2: pin 0 first), Azu 2.6.0, Wizardry 1.2.2, MWL 5.1.4, Cooking 1.2.4; PotionPlus 4.3.7 Hexium-only.
 
