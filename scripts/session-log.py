@@ -9,7 +9,8 @@ r"""Real-play telemetry from the character save (.fch). `watch.py` runs `auto` a
 
 Snaps, and the complete local session log <char>.csv, live in the MAIN checkout's .cache\sessions\ (shared by
 worktrees). One row = the play between two snaps (TimeInBase + TimeOutOfBase), so a session the watcher missed is
-folded into the next row, never lost. `console` lists commands used between the snaps: those rows are not real play.
+folded into the next row, never lost. `hours` is active play: watch.py's away time (game not focused, or no input
+for 2 min: pause menu, notes, Claude) between the two saves is cut and shown as `away_h`. `console` lists commands used between the snaps: those rows are not real play.
 <char>.jsonl holds one detail line per row: kills per enemy, pickups per item, new player keys, KG quests finished
 (`[MPASN]questCD=<uid>`, named from the quest cfgs) and KG custom values (`kgMarketplaceValue@<name>`) moved.
 Published and shared rows are named <steam account id>-<char> (local for characters_local).
@@ -58,6 +59,7 @@ def steam_dir():
 
 MAIN = main_root()
 SNAPS = MAIN / '.cache' / 'sessions'                   # snaps + <char>.csv/.jsonl, the complete local session log
+AWAY = MAIN / '.cache' / 'watch' / 'away.csv'           # watch.py: pause menu, alt-tab, no input; not played
 HOST_ROWS = MAIN / '.cache' / 'host' / 'sessions'      # other PCs' rows, pulled by host-data.py
 PUB = ROOT / 'reference' / 'sessions'                  # committed copy (publish)
 STEAM = steam_dir()
@@ -390,6 +392,15 @@ def snap(src, note=''):
     return d
 
 
+def away_s(t0, t1):
+    """Seconds away (watch.py Presence: game not focused, or no input) between two save times."""
+    if not (t0 and t1 and AWAY.exists()):
+        return 0.0
+    a, b = datetime.fromisoformat(t0), datetime.fromisoformat(t1)
+    return sum(max(0.0, (min(datetime.fromisoformat(r['end']), b) - max(datetime.fromisoformat(r['start']), a))
+                   .total_seconds()) for r in csv.DictReader(AWAY.open(encoding='utf-8')))
+
+
 def diff(char, note=''):
     """Last two snaps of a character -> one row appended to .cache/sessions/<char>.csv and one detail line to
     <char>.jsonl. None if no play between."""
@@ -397,9 +408,11 @@ def diff(char, note=''):
     if len(snaps) < 2:
         return None
     s0, s1 = (json.loads(f.read_text(encoding='utf-8')) for f in snaps[-2:])
-    h = (played_s(s1) - played_s(s0)) / 3600
-    if h <= 0:
+    played = (played_s(s1) - played_s(s0)) / 3600
+    if played <= 0:
         return None
+    away = min(away_s(s0.get('save_mtime'), s1.get('save_mtime')) / 3600, played)
+    h = max(played - away, 1 / 60)                          # active hours: every per-hour rate uses them
     both = [k for k in ('pickups', 'custom') if s0.get(k) is not None and s1.get(k) is not None]   # older snaps lack them
     picks = gains(s0['pickups'], s1['pickups']) if 'pickups' in both else {}
     c0, c1 = (s0['custom'], s1['custom']) if 'custom' in both else ({}, {})
@@ -408,7 +421,8 @@ def diff(char, note=''):
                     if k.startswith(QUEST_DONE) and (k not in c0 or num(v) > num(c0[k])))   # new, or a repeat
     values = {k[len(KG_VALUE):]: num(c1.get(k)) - num(c0.get(k)) for k in {*c0, *c1}
               if k.startswith(KG_VALUE) and num(c1.get(k)) != num(c0.get(k))}
-    row = {'date': s1['snapped'][:10], 'char': s1['name'], 'hours': round(h, 2), 'note': note or s1['note']}
+    row = {'date': s1['snapped'][:10], 'char': s1['name'], 'hours': round(h, 2), 'away_h': round(away, 2),
+           'note': note or s1['note']}
     for col, keys in RATES:
         dv = sum(s1['stats'].get(k, 0) - s0['stats'].get(k, 0) for k in keys)
         row[f'{col}_per_h'] = round(dv / h / (1000 if col.endswith('_km') else 1), 2)
