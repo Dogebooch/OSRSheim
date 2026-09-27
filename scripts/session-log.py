@@ -417,7 +417,8 @@ def diff(char, note=''):
     row['quests_done'] = len(quests)
     row['new_recipes'] = len(set(s1['recipes']) - set(s0['recipes']))
     row['bosses'] = ' '.join(bosses(s1))
-    cmds = sorted(k for k, v in s1['commands'].items() if v > s0['commands'].get(k, 0))
+    cmds = sorted(k for k, v in s1['commands'].items()        # `test` only turns on logging: still real play
+                  if v > s0['commands'].get(k, 0) and k != 'test')
     row['console'] = ' '.join(cmds) if cmds else ('cheats' if s1['used_cheats'] and not s0['used_cheats'] else '')
     for sk, v in sorted(s1['skills'].items()):
         dxp = v['xp'] - s0['skills'].get(sk, {'xp': 0})['xp']
