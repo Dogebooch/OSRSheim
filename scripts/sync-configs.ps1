@@ -13,8 +13,9 @@ are downstream copies that get overwritten.
             (ModTest); a plain -Push puts the repo's false back, which joining the host needs
   -Pull     profile BepInEx\config\  ->  repo config\   (stage local edits)
 
-Backups (*.bak*), mod-shipped examples and the KG binary asset folders are
-never copied in either direction; they match .gitignore.
+Backups (*.bak*), mod-shipped examples, the KG binary asset folders and live
+state (KG bank DB, bounty ledgers, devcommands files) are never copied in
+either direction; they match .gitignore.
 
 Neither direction deletes files. Extras on the destination are listed, not
 removed, so a stray file in the profile can never silently delete authored
@@ -64,10 +65,13 @@ $RepoConfig = Join-Path $RepoRoot 'config'
 $ProfConfig = Join-Path $ProfilePath 'BepInEx\config'
 
 # Mirrors .gitignore. Keep the two in step.
-$ExcludeFiles = @('*.bak', '*.bak-*', '*.bak.*', '*.cllc-example', '*.log', '*.log.*', '.gitkeep')
+# Live state (last line of each) is per-machine: a -Pull then -Push would roll back the profile's bank.
+$ExcludeFiles = @('*.bak', '*.bak-*', '*.bak.*', '*.cllc-example', '*.log', '*.log.*', '.gitkeep',
+                  'permissions.yaml', 'alias.yaml', 'binds.yaml', 'server_devcommands.cfg')
 $ExcludeDirs  = @('Marketplace_CachedImages', 'Marketplace_KGChat_Emojis',
                   'Marketplace_Models', 'Marketplace_Sounds', 'Marketplace_VideoClips',
-                  'Cache', 'wackyDatabase-BulkYML')
+                  'Cache', 'wackyDatabase-BulkYML',
+                  'SavedData', 'BountySaves', 'KeyManager')
 
 foreach ($p in @($RepoConfig, $ProfConfig)) {
     if (-not (Test-Path $p)) { throw "Not found: $p" }
