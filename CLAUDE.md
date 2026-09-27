@@ -1,8 +1,8 @@
 # OSRSheim — Valheim 1.0 modded to play like Old School RuneScape
 
-Two-player run. Doug maintains it with Claude and Codex. The AI's job is doc
-upkeep and guided walkthroughs; live-profile changes are proposed as an exact
-file list and walked through with Doug, not applied unprompted.
+Two-player run. Doug maintains it with Claude and Codex. Live-profile changes
+are proposed as an exact file list and walked through with Doug, not applied
+unprompted.
 
 **Motto:** *Where every grind proves your worth, and every spoil is earned
 under Odin's eye.* Every design call (balance, progression, economy, skill
@@ -14,7 +14,8 @@ loops and gates, drops, content) must pass both halves:
 
 **Design principle:** copy OSRS mechanics (skills, gating, drop tables, Slayer,
 clues, bank) with Valheim lore and feel. Never copy OSRS names, characters,
-items, quest text or audio. When in doubt, ask Doug.
+items, quest text or audio. The AI makes design calls and tells Doug why;
+flag any that bends the motto.
 
 **Balance:** each biome fights, gears and pays like vanilla; only total
 playtime grows. Skill gates unlock new
