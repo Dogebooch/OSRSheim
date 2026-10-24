@@ -43,17 +43,16 @@ Gate ship it? Run: ~375 h to 70 (back-loaded); 70-100 optional (#81).
 - Game: `C:\Program Files (x86)\Steam\steamapps\common\Valheim`. Local saves:
   `%USERPROFILE%\AppData\LocalLow\IronGate\Valheim` (test worlds only).
 - Pre-flight: `post-build-check.py` (`watch.py` runs it).
-- Full path table, doc URLs and console commands: `RESEARCH.md` §2, §16, §20.
+- Paths, doc URLs, console commands: `RESEARCH.md` §2, §16, §20.
 
 ## Documentation rules (strict)
 - Less is more. Doug guides; the AI records.
 - Edit in line. Fix the wrong line, delete the done line. Never append a status
   paragraph, changelog, history, or "why" section.
-- Facts only: value, path, name. No narrative.
-- One fact per line. Prefer tables.
+- Facts only (value, path, name), one per line. Prefer tables.
 - Five root docs only: `CLAUDE.md`, `STATE.md`, `RESEARCH.md`, `AGENTS.md`,
-  `README.md`. `research\` holds only the files in
-  the hub map.
+  `README.md`, plus `docs\PLAN.md` while it is live. `research\` holds only
+  hub-map files.
 - Size caps (`scripts\doc-guard.py`): STATE 3.5, CLAUDE 4.5, README 5, AGENTS
   0.8 KB; RESEARCH uncapped. Prune in place when a cap trips.
 - Memory files follow the same rules. Cleanup pass only when Doug asks.
